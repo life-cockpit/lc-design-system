@@ -1,0 +1,36 @@
+<label [attr.for]="id()" [class]="labelClasses()">
+  <input
+    type="radio"
+    [id]="id()"
+    [name]="name()"
+    [value]="value()"
+    [checked]="computedChecked()"
+    [disabled]="computedDisabled()"
+    [required]="required()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.aria-required]="required() ? 'true' : null"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-disabled]="computedDisabled() ? 'true' : null"
+    [attr.tabindex]="computedDisabled() ? -1 : 0"
+    role="radio"
+    class="radio-input"
+    (change)="handleChange($event)"
+    (blur)="handleBlur()"
+  />
+  <span class="radio-circle">
+    <span class="radio-dot"></span>
+  </span>
+  @if (label()) {
+    <span class="radio-label-text">{{ label() }}</span>
+  }
+</label>
+
+@if (helpText() && !error()) {
+  <div class="radio-help-text">{{ helpText() }}</div>
+}
+
+@if (error() && errorMessage()) {
+  <div class="radio-error-message">{{ errorMessage() }}</div>
+}

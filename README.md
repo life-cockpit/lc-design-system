@@ -1,32 +1,52 @@
-# LcDesignSystem
+# Life Cockpit Design System
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A standalone Angular component library (`@life-cockpit/ui-kit`) with 47+ accessible, themeable components built with Angular 21, TailwindCSS, and design tokens.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+## Structure
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+| Project | Path | Description |
+|---------|------|-------------|
+| `ui-kit` | `libs/ui-kit/` | Publishable Angular component library |
+| `demo` | `apps/demo/` | Interactive demo & documentation site |
 
-## Run tasks
-
-To run the dev server for your app, use:
+## Quick Start
 
 ```sh
+npm install
+
+# Serve the demo app
 npx nx serve demo
+
+# Build the library for publishing
+npx nx build ui-kit
 ```
 
-To create a production bundle:
+## Components
+
+accordion, alert, avatar, badge, breadcrumbs, button, card, checkbox, chip, container, datepicker, drawer, email-input, empty-state, error-display, field-group, filter-bar, header, icon, input, list, logo, menu, metric-card, modal, pagination, password-input, radio, section, select, sidenav, skeleton, spacer, spinner, stack, stepper, switch, table, tabs, textarea, theme, toast, toggle-group, tokens, tooltip, typography, verification-code-input
+
+## Design Tokens
+
+Design tokens are managed via [Style Dictionary](https://amzn.github.io/style-dictionary/) and generate both TypeScript constants and SCSS variables from `libs/ui-kit/tokens.json`.
 
 ```sh
-npx nx build demo
+cd libs/ui-kit && npx style-dictionary build
 ```
 
-To see all available targets to run for a project, run:
+## Publishing
 
 ```sh
-npx nx show project demo
+npx nx build ui-kit
+cd dist/libs/ui-kit
+npm publish --access public
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Tech Stack
+
+- **Angular** 21 (standalone components, signals, OnPush)
+- **TailwindCSS** 3.4 with custom theme
+- **Nx** 22 monorepo tooling
+- **ng-packagr** for library builds
 
 [More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
 

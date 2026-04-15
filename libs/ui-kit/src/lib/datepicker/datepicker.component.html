@@ -1,0 +1,155 @@
+<div class="lc-datepicker-wrapper">
+  <div class="lc-datepicker-input-wrapper">
+    <input
+      #datepickerInput
+      type="text"
+      [class]="datepickerClasses"
+      [attr.role]="'combobox'"
+      [attr.aria-expanded]="isOpen() ? 'true' : 'false'"
+      [attr.aria-label]="ariaLabel || null"
+      [attr.aria-required]="required ? 'true' : null"
+      [attr.aria-disabled]="disabled ? 'true' : null"
+      [attr.aria-invalid]="error ? 'true' : null"
+      [attr.readonly]="readonly"
+      [attr.disabled]="disabled ? true : null"
+      [attr.placeholder]="placeholder"
+      [value]="formattedDate()"
+      (input)="onInputChange($any($event.target).value)"
+      (click)="toggle()"
+      (keydown)="onKeyDown($event)"
+      (blur)="onBlur()"
+    />
+    <div class="lc-datepicker-icons">
+      @if (selectedDate() && !disabled && !readonly) {
+        <button
+          type="button"
+          class="lc-datepicker-clear"
+          (click)="clear(); $event.stopPropagation()"
+          aria-label="Clear date"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"
+            />
+          </svg>
+        </button>
+      }
+      <svg
+        class="lc-datepicker-calendar-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          d="M5.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H6a.75.75 0 01-.75-.75V12zM6 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H6zM7.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H8a.75.75 0 01-.75-.75V12zM8 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H8zM9.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V10zM10 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H10zM9.25 14a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H10a.75.75 0 01-.75-.75V14zM12 9.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V10a.75.75 0 00-.75-.75H12zM11.25 12a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H12a.75.75 0 01-.75-.75V12zM12 13.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V14a.75.75 0 00-.75-.75H12zM13.25 10a.75.75 0 01.75-.75h.01a.75.75 0 01.75.75v.01a.75.75 0 01-.75.75H14a.75.75 0 01-.75-.75V10zM14 11.25a.75.75 0 00-.75.75v.01c0 .414.336.75.75.75h.01a.75.75 0 00.75-.75V12a.75.75 0 00-.75-.75H14z"
+        />
+        <path
+          fill-rule="evenodd"
+          d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Calendar Panel -->
+  <ng-template
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="datepickerInput"
+    [cdkConnectedOverlayOpen]="isOpen()"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayBackdropClass]="'cdk-overlay-transparent-backdrop'"
+    (backdropClick)="onClickOutside()"
+    (detach)="close()"
+  >
+    <div class="lc-datepicker-calendar" [class.lc-datepicker-calendar--open]="isOpen()">
+      <!-- Calendar Header -->
+      <div class="lc-datepicker-header">
+        <button
+          type="button"
+          class="lc-datepicker-nav-button"
+          (click)="previousMonth()"
+          aria-label="Previous month"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+        
+        <div class="lc-datepicker-month-year">
+          {{ currentMonthName() }} {{ currentYear() }}
+        </div>
+        
+        <button
+          type="button"
+          class="lc-datepicker-nav-button"
+          (click)="nextMonth()"
+          aria-label="Next month"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path
+              fill-rule="evenodd"
+              d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="lc-datepicker-quick-actions">
+        <button
+          type="button"
+          class="lc-datepicker-today-button"
+          (click)="goToToday()"
+        >
+          Today
+        </button>
+      </div>
+
+      <!-- Weekday Headers -->
+      <div class="lc-datepicker-weekdays">
+        @for (day of weekDays; track day) {
+          <div class="lc-datepicker-weekday">{{ day }}</div>
+        }
+      </div>
+
+      <!-- Calendar Days -->
+      <div class="lc-datepicker-days">
+        @for (date of generateCalendarDays(); track date.getTime()) {
+          <button
+            type="button"
+            class="lc-datepicker-day"
+            [class.lc-datepicker-day--other-month]="!isCurrentMonth(date)"
+            [class.lc-datepicker-day--today]="isToday(date)"
+            [class.lc-datepicker-day--selected]="isSelectedDate(date)"
+            [class.lc-datepicker-day--disabled]="isDateDisabled(date)"
+            [disabled]="isDateDisabled(date)"
+            (click)="selectDate(date)"
+          >
+            {{ date.getDate() }}
+          </button>
+        }
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Helper/Error Text -->
+  @if (error && errorMessage) {
+    <div class="lc-datepicker__error" role="alert">
+      {{ errorMessage }}
+    </div>
+  } @else if (helperText) {
+    <div class="lc-datepicker__helper">
+      {{ helperText }}
+    </div>
+  }
+</div>

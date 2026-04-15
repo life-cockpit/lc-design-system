@@ -1,0 +1,150 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Animation Tokens</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Minimal, purposeful animations with 150ms duration and ease-in-out easing. All animations
+      respect prefers-reduced-motion for accessibility.
+    </p>
+  </div>
+
+  <!-- Duration Tokens -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Duration</h2>
+    <lc-card>
+      <div class="space-y-4">
+        @for (duration of durations; track duration.name) {
+          <div class="border-b border-neutral-200 dark:border-neutral-700 pb-4 last:border-b-0">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="font-mono text-sm font-medium text-neutral-900 dark:text-white">
+                  {{ duration.name }}
+                </p>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                  {{ duration.description }}
+                </p>
+              </div>
+              <code
+                class="text-sm px-3 py-1 bg-neutral-100 dark:bg-neutral-900 rounded text-neutral-900 dark:text-white"
+              >
+                {{ duration.value }}
+              </code>
+          </div>
+
+          <lc-button
+            (clicked)="animate(duration.value)"
+            variant="primary"
+            size="sm"
+          >
+            Trigger Animation
+          </lc-button>
+
+          @if (isAnimating()) {
+            <div
+              class="mt-3 h-12 bg-primary-500 rounded-md"
+              [style.animation-duration]="duration.value"
+              style="animation-name: slideRight; animation-timing-function: ease-in-out;"
+            ></div>
+          }
+          </div>
+        }
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Easing Functions -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Easing Functions</h2>
+    <lc-card>
+      <div class="space-y-4">
+        @for (easing of easingFunctions; track easing.name) {
+          <div class="border-b border-neutral-200 dark:border-neutral-700 pb-4 last:border-b-0">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="font-mono text-sm font-medium text-neutral-900 dark:text-white">
+                  {{ easing.name }}
+                </p>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                  {{ easing.description }}
+                </p>
+              </div>
+              <code
+                class="text-sm px-3 py-1 bg-neutral-100 dark:bg-neutral-900 rounded text-neutral-900 dark:text-white"
+              >
+                {{ easing.value }}
+              </code>
+          </div>
+
+          <lc-button
+            (clicked)="animateWithEasing(easing.value)"
+            variant="primary"
+            size="sm"
+          >
+            Trigger Animation
+          </lc-button>
+
+          @if (currentEasing() === easing.value) {
+            <div
+              class="mt-3 h-12 bg-primary-500 rounded-md"
+              [style.animation-timing-function]="easing.value"
+              style="animation-name: slideRight; animation-duration: 500ms;"
+            ></div>
+          }
+          </div>
+        }
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Usage Guidelines -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Usage Guidelines</h2>
+    <lc-card>
+      <div class="space-y-4">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-primary-500"></div>
+          <div>
+            <p class="font-semibold text-neutral-900 dark:text-white mb-1">Keep It Minimal</p>
+            <p class="text-neutral-600 dark:text-neutral-400">
+              Use animations sparingly and purposefully. Every animation should serve a functional
+              purpose.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-primary-500"></div>
+          <div>
+            <p class="font-semibold text-neutral-900 dark:text-white mb-1">Respect Accessibility</p>
+            <p class="text-neutral-600 dark:text-neutral-400">
+              Always honor prefers-reduced-motion preference to avoid triggering motion
+              sensitivity.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-2 h-2 mt-2 rounded-full bg-primary-500"></div>
+          <div>
+            <p class="font-semibold text-neutral-900 dark:text-white mb-1">Performance First</p>
+            <p class="text-neutral-600 dark:text-neutral-400">
+              Animate transform and opacity properties for best performance. Avoid animating
+              layout properties.
+            </p>
+          </div>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Usage Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Usage Example</h2>
+    <lc-card>
+      <div class="bg-neutral-900 dark:bg-neutral-950 rounded-md p-4">
+        <pre
+          class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"
+        ><code>{{ usageExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+</div>

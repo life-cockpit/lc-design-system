@@ -1,0 +1,74 @@
+.spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  gap: 0.75rem;
+
+  &__circle {
+    border-radius: 9999px;
+    border: 2px solid var(--color-primary-200, #bfdbfe);
+    border-top-color: var(--color-primary-600, #2563eb);
+    animation: lc-spin 0.75s linear infinite;
+  }
+
+  &__message {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-neutral-500, #6b7280);
+  }
+
+  // ── Sizes ─────────────────────────────────────────────────────
+  &--sm {
+    padding: 1rem 0;
+
+    .spinner__circle {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .spinner__message {
+      font-size: 0.75rem;
+    }
+  }
+
+  &--md {
+    .spinner__circle {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  &--lg {
+    padding: 4rem 0;
+
+    .spinner__circle {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-width: 3px;
+    }
+
+    .spinner__message {
+      font-size: 1rem;
+    }
+  }
+}
+
+// ── Dark mode ─────────────────────────────────────────────────────
+:host-context([data-theme='dark']) {
+  .spinner__circle {
+    border-color: var(--color-primary-800, #1e3a5f);
+    border-top-color: var(--color-primary-400, #60a5fa);
+  }
+
+  .spinner__message {
+    color: var(--color-neutral-400, #9ca3af);
+  }
+}
+
+@keyframes lc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

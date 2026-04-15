@@ -1,0 +1,295 @@
+<div class="p-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Input Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Text input component for form data entry with validation, icons, and accessibility features.
+    </p>
+  </div>
+
+  <!-- Basic Examples -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Input</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <lc-input
+            label="First Name"
+            placeholder="Enter your first name"
+            [(ngModel)]="textValue"
+            helperText="Your given name"
+            (valueChange)="onValueChange($event)"
+            (focused)="onInputFocus()"
+            (blurred)="onInputBlur()"
+          ></lc-input>
+
+          <lc-input
+            label="Email Address"
+            type="email"
+            placeholder="you@example.com"
+            [(ngModel)]="emailValue"
+            helperText="We'll never share your email"
+          ></lc-input>
+
+          <lc-input
+            label="Password"
+            type="password"
+            placeholder="Enter password"
+            [(ngModel)]="passwordValue"
+            [required]="true"
+          ></lc-input>
+
+          <lc-input
+            label="Age"
+            type="number"
+            placeholder="25"
+            [(ngModel)]="numberValue"
+            helperText="Must be 18 or older"
+          ></lc-input>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="space-y-4">
+          <lc-input size="xs" label="Extra Small (xs)" placeholder="xs input"></lc-input>
+          <lc-input size="sm" label="Small (sm)" placeholder="sm input"></lc-input>
+          <lc-input size="md" label="Medium (md) - Default" placeholder="md input"></lc-input>
+          <lc-input size="lg" label="Large (lg)" placeholder="lg input"></lc-input>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ sizesExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- States -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">States</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Normal -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Normal</h3>
+            <lc-input label="Normal State" placeholder="Enter text"></lc-input>
+          </div>
+
+          <!-- Disabled -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Disabled</h3>
+            <lc-input
+              label="Disabled State"
+              placeholder="Can't edit"
+              [(ngModel)]="disabledValue"
+              [disabled]="true"
+            ></lc-input>
+          </div>
+
+          <!-- Readonly -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Readonly</h3>
+            <lc-input
+              label="Readonly State"
+              [(ngModel)]="readonlyValue"
+              [readonly]="true"
+            ></lc-input>
+          </div>
+
+          <!-- Error -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Error</h3>
+            <lc-input
+              label="Email"
+              placeholder="Enter email"
+              [(ngModel)]="errorValue"
+              error="Invalid email format. Please check your input."
+            ></lc-input>
+          </div>
+
+          <!-- Required -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Required</h3>
+            <lc-input
+              label="Required Field"
+              placeholder="Must fill this out"
+              [required]="true"
+            ></lc-input>
+          </div>
+
+          <!-- With Helper Text -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              With Helper Text
+            </h3>
+            <lc-input
+              label="Username"
+              placeholder="Choose username"
+              helperText="This will be your public display name"
+            ></lc-input>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ statesExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Input Types -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Input Types</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <lc-input type="text" label="Text" placeholder="Enter your name"></lc-input>
+          <lc-input type="email" label="Email" placeholder="you@example.com"></lc-input>
+          <lc-input type="password" label="Password" placeholder="••••••••"></lc-input>
+          <lc-input type="number" label="Number" placeholder="25"></lc-input>
+          <lc-input type="tel" label="Phone" placeholder="(555) 123-4567"></lc-input>
+          <lc-input type="url" label="Website" placeholder="https://example.com"></lc-input>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ typesExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Advanced Features -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Advanced Features</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="space-y-6">
+          <!-- Character Count -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              Character Count
+            </h3>
+            <lc-input
+              label="Bio"
+              placeholder="Tell us about yourself"
+              [(ngModel)]="charCountValue"
+              [maxLength]="200"
+              [showCharCount]="true"
+              helperText="Maximum 200 characters"
+            ></lc-input>
+          </div>
+
+          <!-- Icons (Placeholder) -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              With Icons (TODO: Icon Component)
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <lc-input
+                label="Email"
+                placeholder="you@example.com"
+                iconBefore="envelope"
+              ></lc-input>
+              <lc-input
+                label="Password"
+                type="password"
+                placeholder="Enter password"
+                iconAfter="eye"
+              ></lc-input>
+            </div>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ featuresExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <!-- Controls -->
+        <div class="p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg space-y-4">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
+                Size
+              </label>
+              <lc-select
+                [(ngModel)]="selectedSize"
+                [options]="sizeOptions"
+                placeholder="Select size"
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-4">
+            <lc-checkbox [(ngModel)]="isDisabled" label="Disabled" />
+            <lc-checkbox [(ngModel)]="isReadonly" label="Readonly" />
+            <lc-checkbox [(ngModel)]="isRequired" label="Required" />
+            <lc-checkbox [(ngModel)]="showHelperText" label="Helper Text" />
+            <lc-checkbox [(ngModel)]="showError" label="Show Error" />
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="p-6 border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg">
+          <lc-input
+            label="Playground Input"
+            placeholder="Try me out!"
+            [size]="selectedSize()"
+            [disabled]="isDisabled()"
+            [readonly]="isReadonly()"
+            [required]="isRequired()"
+            [helperText]="showHelperText() ? 'This is helper text to guide the user' : undefined"
+            [error]="showError() ? 'This is an error message' : undefined"
+            (enterPressed)="onEnterPressed()"
+          ></lc-input>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <lc-table [columns]="apiColumns()" [data]="apiData()" variant="bordered" size="sm"></lc-table>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Events</h3>
+          <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-400">
+            <li>
+              <code class="text-primary-600 dark:text-primary-400">valueChange</code> - Emitted when
+              value changes
+            </li>
+            <li>
+              <code class="text-primary-600 dark:text-primary-400">focused</code> - Emitted on focus
+            </li>
+            <li>
+              <code class="text-primary-600 dark:text-primary-400">blurred</code> - Emitted on blur
+            </li>
+            <li>
+              <code class="text-primary-600 dark:text-primary-400">enterPressed</code> - Emitted when
+              Enter is pressed
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Methods</h3>
+          <ul class="list-disc list-inside space-y-2 text-neutral-600 dark:text-neutral-400">
+            <li><code class="text-primary-600 dark:text-primary-400">focus()</code> - Focus the input</li>
+            <li>
+              <code class="text-primary-600 dark:text-primary-400">select()</code> - Select input text
+            </li>
+            <li>
+              <code class="text-primary-600 dark:text-primary-400">clear()</code> - Clear the value
+            </li>
+          </ul>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+</div>

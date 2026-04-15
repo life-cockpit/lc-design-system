@@ -1,0 +1,32 @@
+<div 
+  class="lc-switch-wrapper" 
+  [class.lc-switch-wrapper--label-left]="labelPosition === 'left'"
+  [class.lc-switch-wrapper--label-right]="labelPosition === 'right'"
+>
+  @if (label && labelPosition === 'left') {
+    <label class="lc-switch-label">{{ label }}</label>
+  }
+
+  <div
+    [class]="switchClasses"
+    role="switch"
+    [attr.aria-checked]="checked"
+    [attr.aria-label]="ariaLabel || label"
+    [attr.aria-required]="required"
+    [attr.tabindex]="disabled || loading ? -1 : 0"
+    (click)="onClick()"
+    (keydown)="onKeyDown($event)"
+  >
+    <div class="lc-switch-track">
+      <div class="lc-switch-thumb">
+        @if (loading) {
+          <div class="lc-switch-loading-spinner"></div>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (label && labelPosition === 'right') {
+    <label class="lc-switch-label">{{ label }}</label>
+  }
+</div>

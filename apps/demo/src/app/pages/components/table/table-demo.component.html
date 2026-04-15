@@ -1,0 +1,322 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-2">Table</h1>
+    <p class="text-lg text-gray-600 dark:text-gray-400">
+      Display structured data with sortable columns, variants, and responsive
+      behavior
+    </p>
+  </div>
+
+  <!-- Basic Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Table</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table [columns]="columns()" [data]="sortedUsers()" (sort)="onSort($event)">
+      </lc-table>
+    </div>
+  </section>
+
+  <!-- Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+
+    <div class="space-y-6">
+      <!-- Default -->
+      <div>
+        <h3 class="text-lg font-medium mb-2">Default</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <lc-table
+            [columns]="columns()"
+            [data]="sortedUsers().slice(0, 3)"
+            variant="default">
+          </lc-table>
+        </div>
+      </div>
+
+      <!-- Striped -->
+      <div>
+        <h3 class="text-lg font-medium mb-2">Striped</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <lc-table
+            [columns]="columns()"
+            [data]="sortedUsers().slice(0, 3)"
+            variant="striped">
+          </lc-table>
+        </div>
+      </div>
+
+      <!-- Bordered -->
+      <div>
+        <h3 class="text-lg font-medium mb-2">Bordered</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <lc-table
+            [columns]="columns()"
+            [data]="sortedUsers().slice(0, 3)"
+            variant="bordered">
+          </lc-table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+
+    <div class="space-y-6">
+      <!-- Small -->
+      <div>
+        <h3 class="text-lg font-medium mb-2">Small</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <lc-table
+            [columns]="columns()"
+            [data]="sortedUsers().slice(0, 3)"
+            size="sm">
+          </lc-table>
+        </div>
+      </div>
+
+      <!-- Medium -->
+      <div>
+        <h3 class="text-lg font-medium mb-2">Medium (Default)</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <lc-table
+            [columns]="columns()"
+            [data]="sortedUsers().slice(0, 3)"
+            size="md">
+          </lc-table>
+        </div>
+      </div>
+
+      <!-- Large -->
+      <div>
+        <h3 class="text-lg font-medium mb-2">Large</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+          <lc-table
+            [columns]="columns()"
+            [data]="sortedUsers().slice(0, 3)"
+            size="lg">
+          </lc-table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hoverable Rows -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Hoverable Rows</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table
+        [columns]="columns()"
+        [data]="sortedUsers().slice(0, 3)"
+        [hoverable]="true">
+      </lc-table>
+    </div>
+  </section>
+
+  <!-- With Custom Cell Content -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Custom Cell Content</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Use the <code class="px-1 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-xs">lcTableCell</code> directive to define custom templates for specific columns.
+    </p>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table
+        [columns]="columns()"
+        [data]="sortedUsers().slice(0, 3)"
+        [hoverable]="true">
+        <ng-template lcTableCell="status" let-row>
+          <lc-badge [variant]="getStatusVariant(row['status'])">
+            {{ row['status'] }}
+          </lc-badge>
+        </ng-template>
+        <ng-template lcTableCell="lastActive" let-row>
+          <span class="text-gray-600 dark:text-gray-400">{{ row['lastActive'] }}</span>
+        </ng-template>
+      </lc-table>
+    </div>
+  </section>
+
+  <!-- With Actions Column -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Actions Column</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+      Add interactive elements like buttons to table cells using custom templates.
+    </p>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table
+        [columns]="[
+          { key: 'name', label: 'Name', sortable: true },
+          { key: 'email', label: 'Email', sortable: false },
+          { key: 'role', label: 'Role', sortable: false },
+          { key: 'actions', label: 'Actions', sortable: false }
+        ]"
+        [data]="sortedUsers().slice(0, 3)"
+        [hoverable]="true">
+        <ng-template lcTableCell="actions" let-row>
+          <div class="space-x-2">
+            <lc-button variant="secondary" size="sm">Edit</lc-button>
+            <lc-button variant="danger" size="sm">Delete</lc-button>
+          </div>
+        </ng-template>
+      </lc-table>
+    </div>
+  </section>
+
+  <!-- Empty State -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Empty State</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table [columns]="columns()" [data]="[]"></lc-table>
+    </div>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <!-- Controls -->
+      <div class="mb-6 space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">Variant</label>
+          <div class="flex flex-wrap gap-2">
+            <lc-button
+              [variant]="selectedVariant() === 'default' ? 'primary' : 'secondary'"
+              size="sm"
+              (click)="setVariant('default')">
+              Default
+            </lc-button>
+            <lc-button
+              [variant]="selectedVariant() === 'striped' ? 'primary' : 'secondary'"
+              size="sm"
+              (click)="setVariant('striped')">
+              Striped
+            </lc-button>
+            <lc-button
+              [variant]="selectedVariant() === 'bordered' ? 'primary' : 'secondary'"
+              size="sm"
+              (click)="setVariant('bordered')">
+              Bordered
+            </lc-button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">Size</label>
+          <div class="flex flex-wrap gap-2">
+            <lc-button
+              [variant]="selectedSize() === 'sm' ? 'primary' : 'secondary'"
+              size="sm"
+              (click)="setSize('sm')">
+              Small
+            </lc-button>
+            <lc-button
+              [variant]="selectedSize() === 'md' ? 'primary' : 'secondary'"
+              size="sm"
+              (click)="setSize('md')">
+              Medium
+            </lc-button>
+            <lc-button
+              [variant]="selectedSize() === 'lg' ? 'primary' : 'secondary'"
+              size="sm"
+              (click)="setSize('lg')">
+              Large
+            </lc-button>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <label class="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              [checked]="isHoverable()"
+              (change)="toggleHoverable()"
+              class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+            <span class="text-sm">Hoverable</span>
+          </label>
+          <label class="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              [checked]="isResponsive()"
+              (change)="toggleResponsive()"
+              class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+            <span class="text-sm">Responsive</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+        <lc-table
+          [columns]="columns()"
+          [data]="sortedUsers()"
+          [variant]="selectedVariant()"
+          [size]="selectedSize()"
+          [hoverable]="isHoverable()"
+          [responsive]="isResponsive()"
+          (sort)="onSort($event)">
+        </lc-table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Props API -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Props API</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table
+        [columns]="apiColumns()"
+        [data]="apiData()"
+        variant="bordered"
+        size="sm">
+      </lc-table>
+    </div>
+  </section>
+
+  <!-- Events API -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Events API</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <lc-table
+        [columns]="apiColumns()"
+        [data]="eventsData()"
+        variant="bordered"
+        size="sm">
+      </lc-table>
+    </div>
+  </section>
+
+  <!-- Usage Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Usage Example</h2>
+    <div class="bg-gray-900 rounded-lg p-6 overflow-x-auto">
+      <pre class="text-sm text-gray-100"><code>&lt;lc-table
+  [columns]="columns"
+  [data]="data"
+  variant="striped"
+  size="md"
+  [hoverable]="true"
+  [responsive]="true"
+  (sort)="onSort($event)"&gt;
+&lt;/lc-table&gt;
+
+// Component
+columns = [
+  &#123; key: 'id', label: 'ID', sortable: true &#125;,
+  &#123; key: 'name', label: 'Name', sortable: true &#125;,
+  &#123; key: 'email', label: 'Email', sortable: false &#125;
+];
+
+data = [
+  &#123; id: 1, name: 'Alice', email: 'alice@example.com' &#125;,
+  &#123; id: 2, name: 'Bob', email: 'bob@example.com' &#125;
+];
+
+onSort(event: SortEvent): void &#123;
+  const &#123; column, direction &#125; = event;
+  // Sort your data here
+&#125;</code></pre>
+    </div>
+  </section>
+</div>

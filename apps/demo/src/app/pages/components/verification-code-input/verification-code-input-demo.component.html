@@ -1,0 +1,320 @@
+<div class="p-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Verification Code Input Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Specialized 6-digit verification code input with auto-focus, paste support, and auto-submission.
+    </p>
+  </div>
+
+  <!-- Basic Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Verification Input</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="max-w-md">
+          <lc-verification-code-input
+            label="Verification Code"
+            [formControl]="codeControl"
+            (complete)="onCodeComplete($event)"
+          ></lc-verification-code-input>
+          
+          <div class="mt-4 p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              Current value: <code class="text-primary-600 dark:text-primary-400">{{ codeControl.value || '(empty)' }}</code>
+            </p>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- With Auto-Submit -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Auto-Submit</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="max-w-md">
+          <lc-verification-code-input
+            label="Enter Verification Code"
+            [formControl]="autoSubmitControl"
+            [autoSubmit]="true"
+            (complete)="onCodeComplete($event)"
+            helperText="Enter the 6-digit code sent to your email"
+          ></lc-verification-code-input>
+          
+          @if (lastCompletedCode()) {
+            <div class="mt-4 p-4 bg-success-50 dark:bg-success-950 rounded-lg border border-success-200 dark:border-success-800">
+              <p class="text-sm font-medium text-success-900 dark:text-success-100">
+                ✓ Code Submitted: {{ lastCompletedCode() }}
+              </p>
+              <p class="text-xs text-success-700 dark:text-success-300 mt-1">
+                Total submissions: {{ submissionCount() }}
+              </p>
+            </div>
+          }
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ autoSubmitExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- States -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">States</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Normal -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Normal</h3>
+            <lc-verification-code-input
+              label="Verification Code"
+              [formControl]="codeControl"
+            ></lc-verification-code-input>
+          </div>
+
+          <!-- Disabled -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Disabled</h3>
+            <lc-verification-code-input
+              label="Verification Code"
+              [formControl]="disabledControl"
+            ></lc-verification-code-input>
+          </div>
+
+          <!-- Error -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Error</h3>
+            <lc-verification-code-input
+              label="Verification Code"
+              [formControl]="errorControl"
+              error="Invalid verification code. Please try again."
+            ></lc-verification-code-input>
+          </div>
+
+          <!-- With Helper Text -->
+          <div>
+            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+              With Helper Text
+            </h3>
+            <lc-verification-code-input
+              label="Verification Code"
+              [formControl]="codeControl"
+              helperText="Check your email for the 6-digit code"
+            ></lc-verification-code-input>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ statesExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <!-- Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+          <lc-checkbox
+            label="Auto Submit"
+            [(ngModel)]="enableAutoSubmit"
+          ></lc-checkbox>
+          
+          <lc-checkbox
+            label="Disabled"
+            [(ngModel)]="isDisabled"
+            (checkedChange)="toggleDisabled()"
+          ></lc-checkbox>
+          
+          <lc-checkbox
+            label="Show Error"
+            [(ngModel)]="showError"
+          ></lc-checkbox>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="flex gap-3 flex-wrap">
+          <lc-button variant="outline" size="sm" (click)="resetCode()">
+            Reset Code
+          </lc-button>
+          <lc-button variant="outline" size="sm" (click)="fillCode('123456')">
+            Fill with 123456
+          </lc-button>
+          <lc-button variant="outline" size="sm" (click)="fillCode('999999')">
+            Fill with 999999
+          </lc-button>
+        </div>
+
+        <!-- Live Demo -->
+        <div class="max-w-md">
+          <lc-verification-code-input
+            label="Interactive Verification Code"
+            [formControl]="codeControl"
+            [autoSubmit]="enableAutoSubmit"
+            [error]="showError ? 'This is an error message' : ''"
+            (complete)="onCodeComplete($event)"
+            helperText="Try typing, pasting, or using the buttons above"
+          ></lc-verification-code-input>
+          
+          @if (lastCompletedCode() && enableAutoSubmit) {
+            <div class="mt-4 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+              <p class="text-sm font-medium text-blue-900 dark:text-blue-100">
+                Last completed code: <code>{{ lastCompletedCode() }}</code>
+              </p>
+            </div>
+          }
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Paste Functionality -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Paste Functionality</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          The component automatically detects when you paste a 6-digit code and distributes the digits across all inputs:
+        </p>
+        
+        <div class="max-w-md">
+          <lc-verification-code-input
+            label="Try Pasting a Code"
+            [formControl]="codeControl"
+            helperText="Copy this code and paste it: 987654"
+          ></lc-verification-code-input>
+          
+          <div class="mt-4 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+            <p class="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">
+              How it works:
+            </p>
+            <ul class="text-sm text-blue-700 dark:text-blue-300 list-disc list-inside space-y-1">
+              <li>Click on any input field</li>
+              <li>Paste a 6-digit code (e.g., 987654)</li>
+              <li>All inputs are automatically filled</li>
+              <li>Non-numeric characters are filtered out</li>
+            </ul>
+          </div>
+        </div>
+        
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ pasteExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Form Integration -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Form Integration</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          The verification code input implements ControlValueAccessor and works seamlessly with Angular Reactive Forms:
+        </p>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 overflow-x-auto text-sm"><code>{{ formIntegrationExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+    
+    <lc-table [columns]="apiColumns()" [data]="apiData()" variant="bordered" size="sm"></lc-table>
+  </section>
+
+  <!-- Features -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Features</h2>
+    <lc-card>
+      <ul class="space-y-3 text-neutral-700 dark:text-neutral-300">
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Auto-Focus:</strong> Automatically moves to the next input after entering a digit</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Backspace Navigation:</strong> Pressing backspace on an empty input moves to the previous one</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Paste Support:</strong> Detects pasted 6-digit codes and automatically fills all inputs</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Auto-Submit:</strong> Optional automatic submission when all digits are entered</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Numeric Only:</strong> Automatically filters out non-numeric characters</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Reactive Forms Integration:</strong> Full ControlValueAccessor implementation</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Accessibility:</strong> Proper ARIA labels and keyboard navigation</span>
+        </li>
+        <li class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-success-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span><strong>Error States:</strong> Visual error feedback with error messages</span>
+        </li>
+      </ul>
+    </lc-card>
+  </section>
+
+  <!-- Use Cases -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Common Use Cases</h2>
+    <lc-card>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg">
+          <h3 class="font-semibold mb-2">Email Verification</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            Verify user email addresses during registration or login by sending a 6-digit code.
+          </p>
+        </div>
+        
+        <div class="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg">
+          <h3 class="font-semibold mb-2">Two-Factor Authentication</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            Add an extra layer of security with time-based verification codes.
+          </p>
+        </div>
+        
+        <div class="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg">
+          <h3 class="font-semibold mb-2">Password Reset</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            Verify identity before allowing users to reset their passwords.
+          </p>
+        </div>
+        
+        <div class="p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg">
+          <h3 class="font-semibold mb-2">Phone Verification</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            Confirm phone numbers by sending verification codes via SMS.
+          </p>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+</div>

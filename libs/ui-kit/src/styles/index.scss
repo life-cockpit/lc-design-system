@@ -1,0 +1,17 @@
+/**
+ * Global Styles Entry Point
+ * Import this file in your Angular application's styles.scss to use the design system
+ */
+
+// 1. Themes (must be first to define CSS custom properties)
+@use './theme-light';
+@use './theme-dark';
+
+// 2. Reset and normalize
+@use './reset';
+
+// 3. Typography
+@use './typography';
+
+// 4. Utilities
+@use './utilities';

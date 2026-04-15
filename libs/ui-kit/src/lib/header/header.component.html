@@ -1,0 +1,86 @@
+<header class="lc-header">
+  <!-- Hamburger menu icon (mobile only) -->
+  @if (showHamburger) {
+    <lc-button
+      variant="ghost"
+      size="sm"
+      [iconOnly]="true"
+      [ariaLabel]="'Toggle sidebar menu'"
+      (clicked)="onHamburgerClick()"
+      class="lc-header__hamburger"
+    >
+      <lc-icon name="bars-3" size="sm" />
+    </lc-button>
+  }
+
+  <!-- Logo (clickable, navigates to home) -->
+  <div class="lc-header__brand">
+    @if (logo || title) {
+      <a routerLink="/" class="lc-header__logo" aria-label="Go to home">
+        <lc-logo [variant]="logo ? 'full' : 'emblem'" size="md" [clickable]="false" />
+      </a>
+    }
+    
+    @if (title) {
+      <div class="lc-header__title-group">
+        <h1 class="lc-header__title">{{ title }}</h1>
+        @if (subtitle) {
+          <span class="lc-header__subtitle">{{ subtitle }}</span>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="lc-header__spacer"></div>
+
+  <!-- Theme toggle button -->
+  @if (showThemeButton) {
+    <lc-button
+      variant="ghost"
+      size="sm"
+      [iconOnly]="true"
+      [ariaLabel]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+      (clicked)="onThemeButtonClick()"
+      class="lc-header__theme-toggle"
+    >
+      <lc-icon [name]="themeService.isDark() ? 'sun' : 'moon'" size="sm" />
+    </lc-button>
+  }
+
+  <!-- User profile menu -->
+  <lc-menu
+    [items]="menuItems()"
+    [isOpen]="isDropdownOpen()"
+    position="bottom-right"
+    minWidth="220px"
+    (itemClick)="onMenuItemClick($event)"
+    (closed)="closeDropdown()"
+  >
+    <!-- Menu header with avatar, name and email -->
+    @if (userName || userEmail) {
+      <div header class="lc-header__menu-header">
+        <lc-avatar [name]="userName" size="md" />
+        <div class="lc-header__menu-user-info">
+          @if (userName) {
+            <div class="lc-header__menu-user-name">{{ userName }}</div>
+          }
+          @if (userEmail) {
+            <div class="lc-header__menu-user-email">{{ userEmail }}</div>
+          }
+        </div>
+      </div>
+    }
+
+    <button
+      trigger
+      class="lc-header__profile-trigger"
+      type="button"
+      aria-label="Open user menu"
+      [attr.aria-expanded]="isDropdownOpen()"
+      (click)="toggleDropdown()"
+    >
+      <lc-icon name="user" size="sm" />
+      <lc-icon name="chevron-down" size="xs" />
+    </button>
+  </lc-menu>
+</header>

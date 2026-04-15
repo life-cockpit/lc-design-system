@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Import design system styles (includes themes with CSS custom properties)
+@use '../../../libs/ui-kit/src/styles/index.scss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Base styles that respond to theme
+body {
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-900);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

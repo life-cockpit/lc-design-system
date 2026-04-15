@@ -1,0 +1,163 @@
+// List Component Styles
+.lc-list {
+  display: flex;
+  width: 100%;
+  background-color: var(--color-surface, #ffffff);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+
+  // Vertical layout (default)
+  &--vertical {
+    flex-direction: column;
+
+    .lc-list__item {
+      border-bottom: 1px solid transparent;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    &.lc-list--with-dividers {
+      .lc-list__item {
+        border-bottom-color: var(--color-neutral-200, #e5e7eb);
+      }
+    }
+  }
+
+  // Horizontal layout
+  &--horizontal {
+    flex-direction: row;
+
+    .lc-list__item {
+      border-right: 1px solid transparent;
+      flex: 1;
+
+      &:last-child {
+        border-right: none;
+      }
+    }
+
+    &.lc-list--with-dividers {
+      .lc-list__item {
+        border-right-color: var(--color-neutral-200, #e5e7eb);
+      }
+    }
+  }
+}
+
+// List item
+.lc-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) var(--spacing-4);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover:not(&--disabled) {
+    background-color: var(--color-neutral-100, #f3f4f6);
+  }
+
+  &:active:not(&--disabled) {
+    background-color: var(--color-neutral-200, #e5e7eb);
+  }
+
+  // Disabled state
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// Icon
+.lc-list__icon {
+  flex-shrink: 0;
+  color: var(--color-neutral-500, #6b7280);
+}
+
+// Label
+.lc-list__label {
+  flex: 1;
+  color: var(--color-text-primary, #111827);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+}
+
+// Action button
+.lc-list__action {
+  flex-shrink: 0;
+}
+
+// ── Card variant ────────────────────────────────
+.lc-list--card {
+  background: transparent;
+  gap: 0.5rem;
+  overflow: visible;
+
+  .lc-list__item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.375rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-md, 0.5rem);
+    background: var(--color-neutral-50, #f9fafb);
+    border: 1px solid var(--color-neutral-200, #e5e7eb);
+    transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover:not(.lc-list__item--disabled) {
+      background: var(--color-neutral-100, #f3f4f6);
+      border-color: var(--color-neutral-300, #d1d5db);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    &:active:not(.lc-list__item--disabled) {
+      background: var(--color-neutral-200, #e5e7eb);
+    }
+  }
+
+  // Card variant removes dividers (gap handles spacing)
+  &.lc-list--with-dividers .lc-list__item {
+    border-bottom-color: transparent;
+  }
+}
+
+// ── Dark mode (data-theme) ─────────────────────
+:host-context([data-theme='dark']) {
+  .lc-list {
+    background-color: var(--color-neutral-900, #111827);
+  }
+
+  .lc-list--with-dividers .lc-list__item {
+    border-bottom-color: var(--color-neutral-700, #374151);
+  }
+
+  .lc-list__item {
+    &:hover:not(.lc-list__item--disabled) {
+      background-color: var(--color-neutral-800, #1f2937);
+    }
+
+    &:active:not(.lc-list__item--disabled) {
+      background-color: var(--color-neutral-700, #374151);
+    }
+  }
+
+  .lc-list__icon {
+    color: var(--color-neutral-400, #9ca3af);
+  }
+
+  .lc-list__label {
+    color: var(--color-neutral-100, #f3f4f6);
+  }
+
+  .lc-list--card .lc-list__item {
+    background: var(--color-neutral-800, #1f2937);
+    border-color: var(--color-neutral-700, #374151);
+
+    &:hover:not(.lc-list__item--disabled) {
+      background: var(--color-neutral-700, #374151);
+      border-color: var(--color-neutral-600, #4b5563);
+    }
+  }
+}

@@ -1,0 +1,37 @@
+.lc-logo {
+  display: block;
+  
+  &.size-xs {
+    height: 24px;
+    width: auto;
+  }
+  
+  &.size-sm {
+    height: 32px;
+    width: auto;
+  }
+  
+  &.size-md {
+    height: 48px;
+    width: auto;
+  }
+  
+  &.size-lg {
+    height: 64px;
+    width: auto;
+  }
+  
+  &.size-xl {
+    height: 96px;
+    width: auto;
+  }
+  
+  &.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

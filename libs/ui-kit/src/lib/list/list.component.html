@@ -1,0 +1,29 @@
+<div [class]="listClasses()" role="list">
+  @for (item of items(); track item.id || $index) {
+    <div
+      [class]="getItemClasses(item)"
+      role="listitem"
+      [attr.aria-disabled]="item.disabled ? 'true' : null"
+      (click)="onItemClick(item)"
+    >
+      @if (itemTemplate) {
+        <ng-container *ngTemplateOutlet="itemTemplate.template; context: { $implicit: item }"></ng-container>
+      } @else {
+        @if (item.icon) {
+          <lc-icon [name]="item.icon" class="lc-list__icon" size="sm" />
+        }
+        <span class="lc-list__label">{{ item.label }}</span>
+        @if (item.action) {
+          <lc-button
+            variant="ghost"
+            size="xs"
+            class="lc-list__action"
+            (clicked)="onActionClick(item)"
+          >
+            {{ item.action }}
+          </lc-button>
+        }
+      }
+    </div>
+  }
+</div>

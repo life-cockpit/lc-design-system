@@ -1,0 +1,51 @@
+<div [class]="wrapperClasses()">
+  <table [class]="tableClasses()" role="table">
+    <thead>
+      <tr>
+        @for (column of columns(); track column.key) {
+          <th
+            scope="col"
+            [class]="getHeaderClasses(column) + (column.cssClass ? ' ' + column.cssClass : '')"
+            [attr.aria-sort]="getAriaSort(column.key)"
+            [style.width]="column.width"
+            [title]="column.tooltip || ''"
+            (click)="handleSort(column.key)">
+            {{ column.label }}
+            @if (column.sortable && getSortState(column.key)) {
+              <span class="sort-indicator" [attr.aria-label]="getSortState(column.key) === 'asc' ? 'sorted ascending' : 'sorted descending'">
+                @if (getSortState(column.key) === 'asc') {
+                  ↑
+                } @else {
+                  ↓
+                }
+              </span>
+            }
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if (data().length === 0) {
+        <tr>
+          <td [attr.colspan]="columns().length" class="lc-table__empty">
+            {{ emptyText() }}
+          </td>
+        </tr>
+      } @else {
+        @for (row of data(); track $index) {
+          <tr (click)="onRowClick(row)">
+            @for (column of columns(); track column.key) {
+              <td [class]="column.cssClass || ''">
+                @if (hasCustomTemplate(column.key)) {
+                  <ng-container *ngTemplateOutlet="getCellTemplate(column.key)!.template; context: { $implicit: row }"></ng-container>
+                } @else {
+                  {{ getCellValue(row, column.key) }}
+                }
+              </td>
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

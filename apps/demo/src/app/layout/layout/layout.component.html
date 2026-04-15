@@ -1,0 +1,83 @@
+<div class="h-screen flex flex-col bg-neutral-50 dark:bg-neutral-900">
+  <!-- Header from ui-kit -->
+  <lc-header
+    logo="/assets/life-cockpit-logo.svg"
+    userName="Demo User"
+    userEmail="demo@life-cockpit.de"
+    [showHamburger]="true"
+    [showThemeButton]="false"
+    (hamburgerClick)="sidebarOpen.set(!sidebarOpen())"
+    (profileClick)="handleProfileClick()"
+    class="fixed top-0 left-0 right-0 z-50"
+  />
+
+  <div class="flex flex-1 pt-16 overflow-hidden">
+    <!-- Docked Sidenav from ui-kit -->
+    <lc-sidenav
+      [isOpenInput]="sidebarOpen()"
+      [modeInput]="'docked'"
+      [widthInput]="'16rem'"
+      [itemsInput]="navItems"
+      [hasOverlayInput]="false"
+      ariaLabelInput="Design System Navigation"
+      (itemClicked)="onNavItemClick()"
+      (closed)="sidebarOpen.set(false)"
+    />
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto">
+      <div class="max-w-7xl mx-auto">
+        <router-outlet />
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast Containers -->
+  <div class="fixed top-20 left-4 z-50 flex flex-col gap-2">
+    @for (toast of toastService.toasts(); track toast.id) {
+      @if (toast.position === 'top-left') {
+        <lc-toast [toast]="toast" (closed)="toastService.close($event)" />
+      }
+    }
+  </div>
+  
+  <div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2">
+    @for (toast of toastService.toasts(); track toast.id) {
+      @if (toast.position === 'top-center') {
+        <lc-toast [toast]="toast" (closed)="toastService.close($event)" />
+      }
+    }
+  </div>
+  
+  <div class="fixed top-20 right-4 z-50 flex flex-col gap-2">
+    @for (toast of toastService.toasts(); track toast.id) {
+      @if (toast.position === 'top-right') {
+        <lc-toast [toast]="toast" (closed)="toastService.close($event)" />
+      }
+    }
+  </div>
+  
+  <div class="fixed bottom-4 left-4 z-50 flex flex-col-reverse gap-2">
+    @for (toast of toastService.toasts(); track toast.id) {
+      @if (toast.position === 'bottom-left') {
+        <lc-toast [toast]="toast" (closed)="toastService.close($event)" />
+      }
+    }
+  </div>
+  
+  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex flex-col-reverse gap-2">
+    @for (toast of toastService.toasts(); track toast.id) {
+      @if (toast.position === 'bottom-center') {
+        <lc-toast [toast]="toast" (closed)="toastService.close($event)" />
+      }
+    }
+  </div>
+  
+  <div class="fixed bottom-4 right-4 z-50 flex flex-col-reverse gap-2">
+    @for (toast of toastService.toasts(); track toast.id) {
+      @if (toast.position === 'bottom-right') {
+        <lc-toast [toast]="toast" (closed)="toastService.close($event)" />
+      }
+    }
+  </div>
+</div>

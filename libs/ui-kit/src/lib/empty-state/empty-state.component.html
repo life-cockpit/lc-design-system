@@ -1,0 +1,12 @@
+<div [class]="hostClasses()" role="status">
+  @if (icon()) {
+    <lc-icon [name]="icon()!" size="xl" color="var(--color-neutral-400)" />
+  }
+  @if (heading()) {
+    <h3 class="empty-state__heading">{{ heading() }}</h3>
+  }
+  @if (message()) {
+    <p class="empty-state__message">{{ message() }}</p>
+  }
+  <ng-content />
+</div>

@@ -1,0 +1,45 @@
+<div
+  class="lc-stepper"
+  [class.lc-stepper--horizontal]="orientation() === 'horizontal'"
+  [class.lc-stepper--vertical]="orientation() === 'vertical'"
+>
+  <!-- Step indicators -->
+  <div class="lc-stepper__header">
+    @for (step of steps(); track $index; let last = $last) {
+      <div [class]="getStepClasses($index)" (click)="goToStep($index)">
+        <div class="lc-stepper__indicator">
+          @if (getStepState($index) === 'completed') {
+            <!-- Checkmark for completed -->
+            <svg class="lc-stepper__check" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          } @else {
+            <span class="lc-stepper__number">{{ $index + 1 }}</span>
+          }
+        </div>
+        <div class="lc-stepper__label">
+          <span class="lc-stepper__title">{{ step.label }}</span>
+          @if (step.description) {
+            <span class="lc-stepper__description">{{ step.description }}</span>
+          }
+          @if (step.optional) {
+            <span class="lc-stepper__optional">Optional</span>
+          }
+        </div>
+      </div>
+
+      @if (!last) {
+        <div [class]="getConnectorClasses($index)"></div>
+      }
+    }
+  </div>
+
+  <!-- Step content area (projected) -->
+  <div class="lc-stepper__content">
+    <ng-content></ng-content>
+  </div>
+</div>

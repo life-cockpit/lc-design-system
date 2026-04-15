@@ -1,0 +1,39 @@
+<button
+  #buttonElement
+  [type]="type"
+  [disabled]="isDisabled"
+  [attr.aria-label]="ariaLabel || null"
+  [attr.aria-disabled]="isDisabled ? 'true' : 'false'"
+  [attr.aria-busy]="loading ? 'true' : 'false'"
+  [ngClass]="{
+    'btn': true,
+    'btn-primary': variant === 'primary',
+    'btn-secondary': variant === 'secondary',
+    'btn-outline': variant === 'outline',
+    'btn-ghost': variant === 'ghost',
+    'btn-link': variant === 'link',
+    'btn-danger': variant === 'danger',
+    'btn-warning': variant === 'warning',
+    'btn-info': variant === 'info',
+    'btn-xs': size === 'xs',
+    'btn-sm': size === 'sm',
+    'btn-md': size === 'md',
+    'btn-lg': size === 'lg',
+    'btn-icon-only': iconOnly,
+    'btn-full-width': fullWidth
+  }"
+  (click)="handleClick()"
+  (focus)="handleFocus()"
+  (blur)="handleBlur()"
+>
+  @if (loading) {
+    <span class="loading-spinner"></span>
+  }
+  @if (!loading) {
+    <ng-content select="[slot='icon-before']" />
+  }
+  <ng-content></ng-content>
+  @if (!loading) {
+    <ng-content select="[slot='icon-after']" />
+  }
+</button>

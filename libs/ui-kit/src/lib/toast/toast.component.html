@@ -1,0 +1,30 @@
+<div [class]="containerClasses()">
+  <div class="lc-toast__icon">
+    <lc-icon [name]="defaultIcon()" size="md" />
+  </div>
+  
+  <div class="lc-toast__message">
+    {{ toast().message }}
+  </div>
+  
+  @if (toast().action) {
+    <button
+      type="button"
+      class="lc-toast__action"
+      (click)="onActionClick($event)"
+    >
+      {{ toast().action?.label }}
+    </button>
+  }
+  
+  @if (toast().showCloseButton) {
+    <button
+      type="button"
+      class="lc-toast__close"
+      aria-label="Close notification"
+      (click)="onCloseClick($event)"
+    >
+      <lc-icon name="x-mark" size="sm" />
+    </button>
+  }
+</div>

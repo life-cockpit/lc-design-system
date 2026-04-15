@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { LayoutComponent } from './layout/layout/layout.component';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
-  selector: 'lc-root',
-  templateUrl: './app.html',
+  imports: [LayoutComponent],
+  selector: 'app-root',
+  template: '<app-layout />',
   styleUrl: './app.scss',
 })
 export class App {
-  protected title = 'demo';
+  protected title = 'design-system-demo';
 }

@@ -1,0 +1,74 @@
+.demo-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.demo-header {
+  margin-bottom: 2rem;
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .demo-description {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+  }
+}
+
+.demo-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.demo-example {
+  padding: 2rem;
+  background: var(--color-background-subtle);
+  border-radius: 8px;
+  margin: 1rem 0;
+  
+  > * + * {
+    margin-top: 1rem;
+  }
+}
+
+.demo-states {
+  display: grid;
+  gap: 1rem;
+}
+
+.demo-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  &.cognito-errors {
+    gap: 0.5rem;
+  }
+}
+
+.demo-code {
+  margin-top: 1rem;
+  
+  pre {
+    background: var(--color-background-code);
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    
+    code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: var(--color-text-code);
+    }
+  }
+}
+
+lc-card {
+  margin-bottom: 2rem;
+}

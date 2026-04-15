@@ -1,0 +1,277 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Menu Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Dropdown menus for navigation, actions, and user profiles. Built with content projection and keyboard navigation.
+    </p>
+  </div>
+
+  <!-- Basic Menu -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Menu</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          A simple dropdown menu with text items and a danger variant.
+        </p>
+        <div class="flex gap-4">
+          <lc-menu
+            [items]="basicMenuItems"
+            [isOpen]="basicMenuOpen()"
+            position="bottom-left"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="basicMenuOpen.set(false)"
+          >
+            <lc-button trigger variant="primary" (clicked)="basicMenuOpen.set(!basicMenuOpen())">
+              Open Menu
+            </lc-button>
+          </lc-menu>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-menu
+  [items]="menuItems"
+  [isOpen]="menuOpen"
+  (itemClick)="handleItemClick($event)"
+  (closed)="menuOpen = false"
+&gt;
+  &lt;lc-button trigger (clicked)="menuOpen = !menuOpen"&gt;
+    Open Menu
+  &lt;/lc-button&gt;
+&lt;/lc-menu&gt;
+
+// Component
+menuItems: MenuItem[] = [
+  {{ '{' }} id: 'item1', label: 'Menu Item 1' {{ '}' }},
+  {{ '{' }} id: 'item2', label: 'Menu Item 2' {{ '}' }},
+  {{ '{' }} id: 'item3', label: 'Menu Item 3', dividerAfter: true {{ '}' }},
+  {{ '{' }} id: 'delete', label: 'Delete', variant: 'danger' {{ '}' }},
+];</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Menu with Icons -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Menu with Icons</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          Add icons to menu items for better visual recognition.
+        </p>
+        <div class="flex gap-4">
+          <lc-menu
+            [items]="iconMenuItems"
+            [isOpen]="iconMenuOpen()"
+            position="bottom-left"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="iconMenuOpen.set(false)"
+          >
+            <lc-button trigger variant="outline" (clicked)="iconMenuOpen.set(!iconMenuOpen())">
+              <lc-icon name="ellipsis-horizontal" size="sm" slot="icon-before" />
+              Actions
+            </lc-button>
+          </lc-menu>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>menuItems: MenuItem[] = [
+  {{ '{' }} id: 'new', label: 'New File', icon: 'document-plus' {{ '}' }},
+  {{ '{' }} id: 'open', label: 'Open', icon: 'folder-open' {{ '}' }},
+  {{ '{' }} id: 'save', label: 'Save', icon: 'arrow-down-tray', dividerAfter: true {{ '}' }},
+  {{ '{' }} id: 'settings', label: 'Settings', icon: 'cog-6-tooth' {{ '}' }},
+];</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Profile Menu -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Profile Menu with Metadata</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          Use metadata to display additional information like subtitles or badges. Perfect for user profile menus.
+        </p>
+        <div class="flex gap-4">
+          <lc-menu
+            [items]="profileMenuItems"
+            [isOpen]="profileMenuOpen()"
+            position="bottom-right"
+            minWidth="260px"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="profileMenuOpen.set(false)"
+          >
+            <button
+              trigger
+              class="flex items-center gap-2 px-3 py-2 rounded-full border border-neutral-200 hover:bg-neutral-100 transition-colors"
+              (click)="profileMenuOpen.set(!profileMenuOpen())"
+            >
+              <lc-icon name="user" size="sm" />
+              <lc-icon name="chevron-down" size="xs" />
+            </button>
+          </lc-menu>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>menuItems: MenuItem[] = [
+  {{ '{' }}
+    id: 'profile',
+    label: 'John Doe',
+    icon: 'user',
+    metadata: {{ '{' }} subtitle: 'john.doe@example.com' {{ '}' }},
+    dividerAfter: true
+  {{ '}' }},
+  {{ '{' }} id: 'account', label: 'Account Settings', icon: 'cog-6-tooth' {{ '}' }},
+  {{ '{' }} id: 'billing', label: 'Billing', icon: 'credit-card' {{ '}' }},
+  {{ '{' }} id: 'logout', label: 'Logout', icon: 'arrow-right-start-on-rectangle', variant: 'danger' {{ '}' }},
+];</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Position Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Position Variants</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          Control menu position relative to the trigger: bottom-left, bottom-right, top-left, or top-right.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <lc-menu
+            [items]="iconMenuItems"
+            [isOpen]="positionMenuOpen() === 'bottom-left'"
+            position="bottom-left"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="positionMenuOpen.set('')"
+          >
+            <lc-button trigger variant="outline" (clicked)="positionMenuOpen.set('bottom-left')">
+              Bottom Left
+            </lc-button>
+          </lc-menu>
+
+          <lc-menu
+            [items]="iconMenuItems"
+            [isOpen]="positionMenuOpen() === 'bottom-right'"
+            position="bottom-right"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="positionMenuOpen.set('')"
+          >
+            <lc-button trigger variant="outline" (clicked)="positionMenuOpen.set('bottom-right')">
+              Bottom Right
+            </lc-button>
+          </lc-menu>
+
+          <lc-menu
+            [items]="iconMenuItems"
+            [isOpen]="positionMenuOpen() === 'top-left'"
+            position="top-left"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="positionMenuOpen.set('')"
+          >
+            <lc-button trigger variant="outline" (clicked)="positionMenuOpen.set('top-left')">
+              Top Left
+            </lc-button>
+          </lc-menu>
+
+          <lc-menu
+            [items]="iconMenuItems"
+            [isOpen]="positionMenuOpen() === 'top-right'"
+            position="top-right"
+            (itemClick)="handleMenuItemClick($event)"
+            (closed)="positionMenuOpen.set('')"
+          >
+            <lc-button trigger variant="outline" (clicked)="positionMenuOpen.set('top-right')">
+              Top Right
+            </lc-button>
+          </lc-menu>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-menu position="bottom-left"&gt;...&lt;/lc-menu&gt;
+&lt;lc-menu position="bottom-right"&gt;...&lt;/lc-menu&gt;
+&lt;lc-menu position="top-left"&gt;...&lt;/lc-menu&gt;
+&lt;lc-menu position="top-right"&gt;...&lt;/lc-menu&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Component Inputs</h3>
+          <lc-table [columns]="inputsColumns()" [data]="inputsData()" variant="bordered" size="sm"></lc-table>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Component Outputs</h3>
+          <lc-table [columns]="outputsColumns()" [data]="outputsData()" variant="bordered" size="sm"></lc-table>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-3">MenuItem Interface</h3>
+          <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>interface MenuItem {{ '{' }}
+  id: string;                    // Unique identifier
+  label: string;                 // Display text
+  icon?: string;                 // Heroicon name
+  iconSize?: 'xs' | 'sm' | ...  // Icon size
+  href?: string;                 // Link URL
+  target?: '_blank' | ...        // Link target
+  variant?: 'default' | 'danger'; // Style variant
+  dividerAfter?: boolean;        // Show divider after item
+  disabled?: boolean;            // Disable item
+  metadata?: {{ '{' }}
+    subtitle?: string;           // Secondary text
+    badge?: string;              // Badge text
+  {{ '}' }};
+{{ '}' }}</code></pre>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Features -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Features</h2>
+    <lc-card>
+      <ul class="space-y-2">
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Content projection slots for trigger, header, and footer</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Support for both link (href) and button menu items</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Icons with configurable size</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Danger variant for destructive actions</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Dividers between menu sections</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Metadata support (subtitle, badge)</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Click outside to close</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Escape key to close</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Smooth slide-down animation</span>
+        </li>
+        <li class="flex items-start">
+          <span class="text-primary-600 mr-2">✓</span>
+          <span>Dark mode support</span>
+        </li>
+      </ul>
+    </lc-card>
+  </section>
+</div>

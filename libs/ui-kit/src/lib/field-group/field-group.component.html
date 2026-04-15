@@ -1,0 +1,14 @@
+@if (icon()) {
+  <lc-icon [name]="icon()!" [size]="iconSize()" class="lc-field-group__icon"></lc-icon>
+}
+
+<div class="lc-field-group__content">
+  <span class="lc-field-group__label">{{ label() }}</span>
+  @if (value()) {
+    <p class="lc-field-group__value">{{ value() }}</p>
+  } @else {
+    <div class="lc-field-group__value">
+      <ng-content></ng-content>
+    </div>
+  }
+</div>

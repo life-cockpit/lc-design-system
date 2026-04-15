@@ -1,0 +1,118 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Checkbox Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Checkbox component for boolean selections with validation and accessibility features.
+    </p>
+  </div>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+
+    <div class="space-y-4">
+      <lc-checkbox
+        label="Accept terms and conditions"
+        [(ngModel)]="termsAccepted"
+        [required]="true"
+        helpText="You must accept to continue"
+      ></lc-checkbox>
+
+      <lc-checkbox
+        label="Subscribe to newsletter"
+        [(ngModel)]="newsletter"
+        helpText="Receive updates about new features"
+      ></lc-checkbox>
+
+      <lc-checkbox
+        label="Enable notifications"
+        [(ngModel)]="notifications"
+      ></lc-checkbox>
+    </div>
+
+      <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    
+    <lc-card>
+      <div class="space-y-4">
+      <lc-checkbox size="xs" label="Extra Small (xs)" [(ngModel)]="checkedXs"></lc-checkbox>
+      <lc-checkbox size="sm" label="Small (sm)" [(ngModel)]="checkedSm"></lc-checkbox>
+      <lc-checkbox size="md" label="Medium (md) - Default" [(ngModel)]="checkedMd"></lc-checkbox>
+      <lc-checkbox size="lg" label="Large (lg)" [(ngModel)]="checkedLg"></lc-checkbox>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">States</h2>
+    
+    <lc-card>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <lc-checkbox label="Normal" [(ngModel)]="stateUnchecked"></lc-checkbox>
+      <lc-checkbox label="Checked" [(ngModel)]="stateChecked"></lc-checkbox>
+      <lc-checkbox label="Disabled" [(ngModel)]="stateDisabled" [disabled]="true"></lc-checkbox>
+      <lc-checkbox label="Error" [(ngModel)]="stateError" [error]="true" errorMessage="Required field"></lc-checkbox>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Reactive Forms</h2>
+    
+    <lc-card>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <form [formGroup]="settingsForm" class="space-y-3">
+        <lc-checkbox formControlName="emailNotifications" label="Email Notifications"></lc-checkbox>
+        <lc-checkbox formControlName="pushNotifications" label="Push Notifications"></lc-checkbox>
+        <lc-checkbox formControlName="smsNotifications" label="SMS Notifications"></lc-checkbox>
+      </form>
+
+      <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>{{ formValues }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+      <div class="mb-6 p-4 bg-neutral-50 dark:bg-neutral-800 rounded-lg space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-2">Size</label>
+        <lc-select 
+          [(ngModel)]="selectedSize" 
+          [options]="sizeOptions"
+          placeholder="Select size"
+        />
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        <lc-checkbox [(ngModel)]="isDisabled" label="Disabled" />
+        <lc-checkbox [(ngModel)]="showHelperText" label="Helper Text" />
+        <lc-checkbox [(ngModel)]="showError" label="Show Error" />
+      </div>
+    </div>
+
+    <div class="p-6 border-2 border-dashed rounded-lg">
+      <lc-checkbox
+        label="Playground Checkbox"
+        [size]="selectedSize()"
+        [(ngModel)]="playgroundValue"
+        [disabled]="isDisabled()"
+        [helpText]="showHelperText() ? 'Helper text' : ''"
+        [error]="showError()"
+        [errorMessage]="showError() ? 'Error message' : ''"
+      ></lc-checkbox>
+      </div>
+      </div>
+    </lc-card>
+  </section>
+</div>

@@ -1,0 +1,328 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Chip Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Pill-shaped removable tags for displaying selections, filters, or categories.
+    </p>
+  </div>
+
+  <!-- Basic Usage -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          <lc-chip>Tag</lc-chip>
+          <lc-chip>Label</lc-chip>
+          <lc-chip>Category</lc-chip>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          <lc-chip variant="default">Default</lc-chip>
+          <lc-chip variant="primary">Primary</lc-chip>
+          <lc-chip variant="success">Success</lc-chip>
+          <lc-chip variant="warning">Warning</lc-chip>
+          <lc-chip variant="error">Error</lc-chip>
+          <lc-chip variant="info">Info</lc-chip>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ variantExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <lc-chip size="sm">Small</lc-chip>
+          <lc-chip size="md">Medium</lc-chip>
+          <lc-chip size="lg">Large</lc-chip>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ sizeExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Removable -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Removable</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          <lc-chip [removable]="true" (remove)="handleRemove()">Removable Tag</lc-chip>
+          <lc-chip variant="primary" [removable]="true" (remove)="handleRemove()">Primary</lc-chip>
+          <lc-chip variant="success" [removable]="true" (remove)="handleRemove()">Success</lc-chip>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ removableExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- With Icon -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Icon</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          <lc-chip variant="primary" icon="tag">
+            Tag
+          </lc-chip>
+          <lc-chip variant="success" icon="check">
+            Approved
+          </lc-chip>
+          <lc-chip variant="warning" icon="exclamation-triangle">
+            Warning
+          </lc-chip>
+          <lc-chip variant="info" icon="information-circle" [removable]="true" (remove)="handleRemove()">
+            Info
+          </lc-chip>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ iconExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Disabled State -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Disabled State</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          <lc-chip [disabled]="true">Disabled</lc-chip>
+          <lc-chip variant="primary" [disabled]="true">Primary Disabled</lc-chip>
+          <lc-chip [removable]="true" [disabled]="true">Disabled Removable</lc-chip>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ disabledExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Tag Management Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Tag Management</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          @for (tag of tags(); track tag) {
+            <lc-chip 
+              variant="primary" 
+              [removable]="true" 
+              (remove)="removeTag(tag)"
+            >
+              {{ tag }}
+            </lc-chip>
+          }
+          @if (tags().length === 0) {
+            <p class="text-neutral-600 dark:text-neutral-400">All tags removed. Click reset to restore.</p>
+          }
+        </div>
+
+        <div>
+          <lc-button (click)="resetTags()">Reset Tags</lc-button>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ tagsExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <!-- Preview -->
+        <div class="p-6 border border-neutral-200 dark:border-neutral-700 rounded-lg flex items-center justify-center">
+          <lc-chip 
+            [variant]="variant()" 
+            [size]="size()" 
+            [icon]="withIcon() ? 'tag' : undefined"
+            [removable]="removable()"
+            [disabled]="disabled()"
+            (remove)="handleRemove()"
+          >
+            {{ content() }}
+          </lc-chip>
+        </div>
+
+        <!-- Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Variant -->
+          <div>
+            <label class="block text-sm font-medium mb-2">Variant</label>
+            <div class="flex flex-wrap gap-2">
+              <lc-button 
+                [variant]="variant() === 'default' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setVariant('default')"
+              >
+                Default
+              </lc-button>
+              <lc-button 
+                [variant]="variant() === 'primary' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setVariant('primary')"
+              >
+                Primary
+              </lc-button>
+              <lc-button 
+                [variant]="variant() === 'success' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setVariant('success')"
+              >
+                Success
+              </lc-button>
+              <lc-button 
+                [variant]="variant() === 'warning' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setVariant('warning')"
+              >
+                Warning
+              </lc-button>
+              <lc-button 
+                [variant]="variant() === 'error' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setVariant('error')"
+              >
+                Error
+              </lc-button>
+              <lc-button 
+                [variant]="variant() === 'info' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setVariant('info')"
+              >
+                Info
+              </lc-button>
+            </div>
+          </div>
+
+          <!-- Size -->
+          <div>
+            <label class="block text-sm font-medium mb-2">Size</label>
+            <div class="flex flex-wrap gap-2">
+              <lc-button 
+                [variant]="size() === 'sm' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('sm')"
+              >
+                Small
+              </lc-button>
+              <lc-button 
+                [variant]="size() === 'md' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('md')"
+              >
+                Medium
+              </lc-button>
+              <lc-button 
+                [variant]="size() === 'lg' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('lg')"
+              >
+                Large
+              </lc-button>
+            </div>
+          </div>
+
+          <!-- Toggle Options -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium mb-2">Options</label>
+            <div class="flex flex-wrap gap-2">
+              <lc-button 
+                [variant]="removable() ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="toggleRemovable()"
+              >
+                Removable
+              </lc-button>
+              <lc-button 
+                [variant]="disabled() ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="toggleDisabled()"
+              >
+                Disabled
+              </lc-button>
+              <lc-button 
+                [variant]="withIcon() ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="toggleIcon()"
+              >
+                With Icon
+              </lc-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Documentation -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Component API</h2>
+
+    <!-- Props -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-3">Properties</h3>
+      <lc-card>
+        <lc-table 
+          [columns]="propsColumns()" 
+          [data]="propsData"
+        />
+      </lc-card>
+    </div>
+
+    <!-- Events -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-3">Events</h3>
+      <lc-card>
+        <lc-table 
+          [columns]="eventsColumns()" 
+          [data]="eventsData"
+        />
+      </lc-card>
+    </div>
+  </section>
+
+  <!-- Best Practices -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Best Practices</h2>
+    
+    <lc-card>
+      <div class="prose dark:prose-invert max-w-none">
+        <ul>
+          <li>Use chips for displaying removable selections, filters, or tags</li>
+          <li>Keep chip labels concise (1-3 words)</li>
+          <li>Use icons sparingly to add meaning or visual distinction</li>
+          <li>Choose variant colors that match the semantic meaning (e.g., error for validation issues)</li>
+          <li>For fixed tags that shouldn't be removed, set <code>removable="false"</code></li>
+          <li>Provide visual feedback when chips are removed (e.g., animations or messages)</li>
+        </ul>
+      </div>
+    </lc-card>
+  </section>
+</div>

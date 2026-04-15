@@ -1,0 +1,8 @@
+// Email input specific styles
+// Inherits all styles from base input component
+// Add any email-specific overrides here if needed
+
+:host {
+  display: block;
+  width: 100%;
+}

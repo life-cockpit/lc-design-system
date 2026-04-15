@@ -1,0 +1,7 @@
+<div class="spinner" [class]="hostClasses()" role="status" aria-live="polite">
+  <div class="spinner__circle"></div>
+  @if (message()) {
+    <p class="spinner__message">{{ message() }}</p>
+  }
+  <span class="sr-only">Loading</span>
+</div>

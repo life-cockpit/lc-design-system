@@ -1,0 +1,443 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Typography Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      The Typography component provides consistent text styling with semantic HTML elements (h1-h6, p, span),
+      multiple variants, color options, alignment, font weights, text transforms, and line clamping.
+      Based on the Life-Cockpit design system using Open Sans font family.
+    </p>
+  </div>
+
+  <!-- Heading Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Heading Variants</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Typography variants h1-h6 render semantic HTML heading elements with sizes based on lc-design.md specification.
+    </p>
+    <div class="space-y-4 mb-6">
+      <lc-typography variant="h1">H1 Heading - 72px / 80px / Bold</lc-typography>
+      <lc-typography variant="h2">H2 Heading - 48px / 72px / Bold</lc-typography>
+      <lc-typography variant="h3">H3 Heading - 40px / 64px / Semibold</lc-typography>
+      <lc-typography variant="h4">H4 Heading - 32px / 56px / Semibold</lc-typography>
+      <lc-typography variant="h5">H5 Heading - 24px / 48px / Semibold</lc-typography>
+      <lc-typography variant="h6">H6 Heading - 16px / 32px / Semibold</lc-typography>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography variant="h1"&gt;Heading Text&lt;/lc-typography&gt;
+&lt;lc-typography variant="h2"&gt;Heading Text&lt;/lc-typography&gt;
+&lt;lc-typography variant="h3"&gt;Heading Text&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Body & Subtitle Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Body & Subtitle Variants</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Body variants for paragraph text, subtitles for section headings, and caption/overline for helper text.
+    </p>
+    <div class="space-y-4 mb-6 max-w-3xl">
+      <div>
+        <lc-typography variant="body1" [gutterBottom]="true">
+          Body1 (default) - 16px / 24px / Regular - The standard paragraph text size for main content.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </lc-typography>
+      </div>
+      
+      <div>
+        <lc-typography variant="body2" [gutterBottom]="true">
+          Body2 - 14px / 16px / Regular - Smaller body text for secondary content or dense layouts.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </lc-typography>
+      </div>
+
+      <div>
+        <lc-typography variant="subtitle1" [gutterBottom]="true">
+          Subtitle1 - 18px / 28px / Semibold - Larger subtitle for emphasizing section content
+        </lc-typography>
+      </div>
+
+      <div>
+        <lc-typography variant="subtitle2" [gutterBottom]="true">
+          Subtitle2 - 14px / 20px / Semibold - Smaller subtitle for list items or cards
+        </lc-typography>
+      </div>
+
+      <div>
+        <lc-typography variant="caption">
+          Caption - 12px / 16px / Regular - Small helper text for metadata or footnotes
+        </lc-typography>
+      </div>
+
+      <div>
+        <lc-typography variant="overline">
+          Overline - 10px / 16px / Semibold - Small uppercase accent text for labels
+        </lc-typography>
+      </div>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography variant="body1"&gt;Body text&lt;/lc-typography&gt;
+&lt;lc-typography variant="subtitle1"&gt;Subtitle&lt;/lc-typography&gt;
+&lt;lc-typography variant="caption"&gt;Caption&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Text Alignment -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Text Alignment</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Control text alignment with left (default), center, right, or justify options.
+    </p>
+    <div class="space-y-4 mb-6 border border-neutral-200 dark:border-neutral-700 p-4 rounded">
+      <lc-typography variant="body1" align="left">
+        Left aligned text (default) - This text is aligned to the left edge of its container.
+      </lc-typography>
+      <lc-typography variant="body1" align="center">
+        Center aligned text - This text is centered within its container.
+      </lc-typography>
+      <lc-typography variant="body1" align="right">
+        Right aligned text - This text is aligned to the right edge of its container.
+      </lc-typography>
+      <lc-typography variant="body1" align="justify">
+        Justify aligned text - This text is justified to both left and right edges of the container, creating even spacing between words. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </lc-typography>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography align="left"&gt;Left&lt;/lc-typography&gt;
+&lt;lc-typography align="center"&gt;Center&lt;/lc-typography&gt;
+&lt;lc-typography align="right"&gt;Right&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Color Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Color Variants</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Apply semantic colors using design system color tokens that adapt to light/dark themes.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <lc-typography variant="body1" color="primary">
+        Primary color - Default text color for main content
+      </lc-typography>
+      <lc-typography variant="body1" color="secondary">
+        Secondary color - Muted text for less important content
+      </lc-typography>
+      <lc-typography variant="body1" color="disabled">
+        Disabled color - Indicates disabled or inactive state
+      </lc-typography>
+      <lc-typography variant="body1" color="error">
+        Error color - For error messages and validation
+      </lc-typography>
+      <lc-typography variant="body1" color="success">
+        Success color - For success messages and confirmations
+      </lc-typography>
+      <lc-typography variant="body1" color="warning">
+        Warning color - For warnings and cautions
+      </lc-typography>
+      <lc-typography variant="body1" color="info">
+        Info color - For informational messages
+      </lc-typography>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography color="primary"&gt;Primary&lt;/lc-typography&gt;
+&lt;lc-typography color="error"&gt;Error&lt;/lc-typography&gt;
+&lt;lc-typography color="success"&gt;Success&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Font Weights -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Font Weights</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Open Sans supports multiple weights: Regular (400), Medium (500), Semibold (600), and Bold (700).
+    </p>
+    <div class="space-y-3 mb-6">
+      <lc-typography variant="body1" weight="regular">
+        Regular weight (400) - The default weight for body text
+      </lc-typography>
+      <lc-typography variant="body1" weight="medium">
+        Medium weight (500) - Slightly bolder than regular
+      </lc-typography>
+      <lc-typography variant="body1" weight="semibold">
+        Semibold weight (600) - Used for headings and emphasis
+      </lc-typography>
+      <lc-typography variant="body1" weight="bold">
+        Bold weight (700) - Strongest emphasis and large headings
+      </lc-typography>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography weight="regular"&gt;Regular&lt;/lc-typography&gt;
+&lt;lc-typography weight="semibold"&gt;Semibold&lt;/lc-typography&gt;
+&lt;lc-typography weight="bold"&gt;Bold&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Text Transform -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Text Transform</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Transform text case with uppercase, lowercase, or capitalize options.
+    </p>
+    <div class="space-y-3 mb-6">
+      <lc-typography variant="body1" transform="none">
+        No transform (default) - Text appears as written
+      </lc-typography>
+      <lc-typography variant="body1" transform="uppercase">
+        Uppercase transform - ALL LETTERS ARE CAPITALIZED
+      </lc-typography>
+      <lc-typography variant="body1" transform="lowercase">
+        Lowercase transform - all letters are lowercase
+      </lc-typography>
+      <lc-typography variant="body1" transform="capitalize">
+        Capitalize transform - First Letter Of Each Word Is Capitalized
+      </lc-typography>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography transform="uppercase"&gt;Text&lt;/lc-typography&gt;
+&lt;lc-typography transform="capitalize"&gt;Text&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Text Wrapping & Ellipsis -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Text Wrapping & Ellipsis</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Control text wrapping with <code class="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">noWrap</code> 
+      to prevent wrapping and show ellipsis on overflow.
+    </p>
+    <div class="space-y-4 mb-6">
+      <div class="max-w-md border border-neutral-200 dark:border-neutral-700 p-3 rounded">
+        <lc-typography variant="body1">
+          Normal wrapping - This text will wrap to multiple lines when it reaches the container edge. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </lc-typography>
+      </div>
+      <div class="max-w-md border border-neutral-200 dark:border-neutral-700 p-3 rounded">
+        <lc-typography variant="body1" [noWrap]="true">
+          No wrapping - This text will not wrap and will show ellipsis when it overflows the container. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </lc-typography>
+      </div>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography [noWrap]="true"&gt;Long text...&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Line Clamping -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Line Clamping</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Limit text to a specific number of lines (1-6) with ellipsis on overflow using CSS line-clamp.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <div class="border border-neutral-200 dark:border-neutral-700 p-3 rounded">
+        <lc-typography variant="caption" color="secondary" [gutterBottom]="true">1 Line:</lc-typography>
+        <lc-typography variant="body2" [lineClamp]="1">
+          This is a long paragraph that will be clamped to one line with an ellipsis at the end. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </lc-typography>
+      </div>
+      <div class="border border-neutral-200 dark:border-neutral-700 p-3 rounded">
+        <lc-typography variant="caption" color="secondary" [gutterBottom]="true">2 Lines:</lc-typography>
+        <lc-typography variant="body2" [lineClamp]="2">
+          This is a long paragraph that will be clamped to two lines with an ellipsis at the end. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.
+        </lc-typography>
+      </div>
+      <div class="border border-neutral-200 dark:border-neutral-700 p-3 rounded">
+        <lc-typography variant="caption" color="secondary" [gutterBottom]="true">3 Lines:</lc-typography>
+        <lc-typography variant="body2" [lineClamp]="3">
+          This is a long paragraph that will be clamped to three lines with an ellipsis at the end. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+        </lc-typography>
+      </div>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography [lineClamp]="2"&gt;Long text...&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Gutter Bottom -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Gutter Bottom</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Add consistent bottom margin (1rem / 16px) between typography elements using 
+      <code class="bg-neutral-200 dark:bg-neutral-700 px-1 rounded">gutterBottom</code>.
+    </p>
+    <div class="border border-neutral-200 dark:border-neutral-700 p-6 rounded mb-6">
+      <lc-typography variant="h4" [gutterBottom]="true">
+        Section Heading with Gutter
+      </lc-typography>
+      <lc-typography variant="body1" [gutterBottom]="true">
+        First paragraph with bottom spacing. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </lc-typography>
+      <lc-typography variant="body1">
+        Second paragraph without gutter. This one sits closer to the next element.
+      </lc-typography>
+    </div>
+    <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-typography variant="h3" gutterBottom&gt;Heading&lt;/lc-typography&gt;
+&lt;lc-typography variant="body1" gutterBottom&gt;Paragraph&lt;/lc-typography&gt;</code></pre>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Experiment with different Typography configurations using the controls below.
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Controls -->
+      <div class="space-y-6">
+        <!-- Variant -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Variant</label>
+          <div class="grid grid-cols-3 gap-2">
+            @for (variant of variantOptions; track variant) {
+              <button
+                (click)="setVariant(variant)"
+                [class.bg-primary-600]="selectedVariant() === variant"
+                [class.text-white]="selectedVariant() === variant"
+                [class.bg-neutral-200]="selectedVariant() !== variant"
+                [class.dark:bg-neutral-700]="selectedVariant() !== variant"
+                class="px-2 py-1.5 rounded text-xs transition-colors"
+              >
+                {{ variant }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Alignment -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Alignment</label>
+          <div class="flex gap-2">
+            @for (align of alignOptions; track align) {
+              <button
+                (click)="setAlign(align)"
+                [class.bg-primary-600]="selectedAlign() === align"
+                [class.text-white]="selectedAlign() === align"
+                [class.bg-neutral-200]="selectedAlign() !== align"
+                [class.dark:bg-neutral-700]="selectedAlign() !== align"
+                class="px-3 py-2 rounded text-sm transition-colors"
+              >
+                {{ align }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Color -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Color</label>
+          <div class="grid grid-cols-4 gap-2">
+            @for (color of colorOptions; track color) {
+              <button
+                (click)="setColor(color)"
+                [class.bg-primary-600]="selectedColor() === color"
+                [class.text-white]="selectedColor() === color"
+                [class.bg-neutral-200]="selectedColor() !== color"
+                [class.dark:bg-neutral-700]="selectedColor() !== color"
+                class="px-2 py-1.5 rounded text-xs transition-colors"
+              >
+                {{ color }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Weight -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Weight</label>
+          <div class="flex gap-2">
+            @for (weight of weightOptions; track weight) {
+              <button
+                (click)="setWeight(weight)"
+                [class.bg-primary-600]="selectedWeight() === weight"
+                [class.text-white]="selectedWeight() === weight"
+                [class.bg-neutral-200]="selectedWeight() !== weight"
+                [class.dark:bg-neutral-700]="selectedWeight() !== weight"
+                class="px-3 py-2 rounded text-sm transition-colors"
+              >
+                {{ weight }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Transform -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Transform</label>
+          <div class="grid grid-cols-2 gap-2">
+            @for (transform of transformOptions; track transform) {
+              <button
+                (click)="setTransform(transform)"
+                [class.bg-primary-600]="selectedTransform() === transform"
+                [class.text-white]="selectedTransform() === transform"
+                [class.bg-neutral-200]="selectedTransform() !== transform"
+                [class.dark:bg-neutral-700]="selectedTransform() !== transform"
+                class="px-3 py-2 rounded text-sm transition-colors"
+              >
+                {{ transform }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Line Clamp -->
+        <div>
+          <label class="block text-sm font-medium mb-2">Line Clamp</label>
+          <div class="flex gap-2">
+            @for (clamp of lineClampOptions; track clamp) {
+              <button
+                (click)="setLineClamp(clamp)"
+                [class.bg-primary-600]="selectedLineClamp() === clamp"
+                [class.text-white]="selectedLineClamp() === clamp"
+                [class.bg-neutral-200]="selectedLineClamp() !== clamp"
+                [class.dark:bg-neutral-700]="selectedLineClamp() !== clamp"
+                class="px-3 py-2 rounded text-sm transition-colors"
+              >
+                {{ clamp === undefined ? 'none' : clamp }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Toggles -->
+        <div class="space-y-3">
+          <lc-checkbox
+            [ngModel]="isNoWrap()"
+            (ngModelChange)="toggleNoWrap()"
+            label="No Wrap (Ellipsis)"
+          />
+
+          <lc-checkbox
+            [ngModel]="isGutterBottom()"
+            (ngModelChange)="toggleGutterBottom()"
+            label="Gutter Bottom"
+          />
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div>
+        <label class="block text-sm font-medium mb-2">Preview</label>
+        <div class="p-8 bg-white dark:bg-neutral-800 rounded-lg border-2 border-neutral-300 dark:border-neutral-600 min-h-[400px] flex items-center">
+          <lc-typography
+            [variant]="selectedVariant()"
+            [align]="selectedAlign()"
+            [color]="selectedColor()"
+            [weight]="selectedWeight()"
+            [transform]="selectedTransform()"
+            [noWrap]="isNoWrap()"
+            [lineClamp]="selectedLineClamp()"
+            [gutterBottom]="isGutterBottom()"
+          >
+            {{ playgroundText() }}
+          </lc-typography>
+        </div>
+        
+        <!-- Code Preview -->
+        <div class="mt-4 bg-neutral-900 text-neutral-100 p-4 rounded-lg text-xs font-mono overflow-x-auto">
+          <div>&lt;lc-typography</div>
+          <div>&nbsp;&nbsp;variant="{{ selectedVariant() }}"</div>
+          <div>&nbsp;&nbsp;align="{{ selectedAlign() }}"</div>
+          <div>&nbsp;&nbsp;color="{{ selectedColor() }}"</div>
+          <div>&nbsp;&nbsp;weight="{{ selectedWeight() }}"</div>
+          <div>&nbsp;&nbsp;transform="{{ selectedTransform() }}"</div>
+          @if (isNoWrap()) {
+            <div>&nbsp;&nbsp;[noWrap]="true"</div>
+          }
+          @if (selectedLineClamp() !== undefined) {
+            <div>&nbsp;&nbsp;[lineClamp]="{{ selectedLineClamp() }}"</div>
+          }
+          @if (isGutterBottom()) {
+            <div>&nbsp;&nbsp;gutterBottom</div>
+          }
+          <div>&gt;</div>
+          <div>&nbsp;&nbsp;{{ playgroundText() }}</div>
+          <div>&lt;/lc-typography&gt;</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

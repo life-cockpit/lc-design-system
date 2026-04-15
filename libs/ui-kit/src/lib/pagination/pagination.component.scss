@@ -1,0 +1,224 @@
+.lc-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+
+  // Size variants
+  &--sm {
+    font-size: var(--font-size-xs);
+
+    .lc-pagination__button {
+      min-width: 1.75rem;
+      height: 1.75rem;
+      padding: 0 var(--spacing-1);
+    }
+
+    .lc-pagination__icon {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .lc-pagination__button-text {
+      font-size: var(--font-size-xs);
+    }
+  }
+
+  &--md {
+    font-size: var(--font-size-sm);
+
+    .lc-pagination__button {
+      min-width: 2.25rem;
+      height: 2.25rem;
+      padding: 0 var(--spacing-2);
+    }
+
+    .lc-pagination__icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .lc-pagination__button-text {
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  &--lg {
+    font-size: var(--font-size-base);
+
+    .lc-pagination__button {
+      min-width: 2.75rem;
+      height: 2.75rem;
+      padding: 0 var(--spacing-3);
+    }
+
+    .lc-pagination__icon {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    .lc-pagination__button-text {
+      font-size: var(--font-size-base);
+    }
+  }
+}
+
+.lc-pagination__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-1);
+  border: 1px solid var(--color-neutral-300);
+  background-color: var(--color-neutral-0);
+  color: var(--color-neutral-700);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  user-select: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-50);
+    border-color: var(--color-neutral-400);
+    color: var(--color-neutral-900);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-neutral-100);
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Active page button
+  &--active {
+    background-color: var(--color-primary-600);
+    border-color: var(--color-primary-600);
+    color: var(--color-neutral-0);
+    font-weight: 600;
+
+    &:hover {
+      background-color: var(--color-primary-700);
+      border-color: var(--color-primary-700);
+      color: var(--color-neutral-0);
+    }
+  }
+}
+
+.lc-pagination__button-text {
+  // Hidden on mobile for prev/next buttons
+  @media (max-width: 640px) {
+    &:not(.lc-pagination__button--active &) {
+      display: none;
+    }
+  }
+}
+
+.lc-pagination__icon {
+  flex-shrink: 0;
+}
+
+.lc-pagination__pages {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.lc-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  color: var(--color-neutral-500);
+  user-select: none;
+}
+
+.lc-pagination__info {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  margin-top: var(--spacing-3);
+
+  @media (prefers-color-scheme: dark) {
+    color: var(--color-neutral-400);
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .lc-pagination__button {
+    border-color: var(--color-neutral-700);
+    background-color: var(--color-neutral-900);
+    color: var(--color-neutral-300);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-neutral-800);
+      border-color: var(--color-neutral-600);
+      color: var(--color-neutral-100);
+    }
+
+    &:active:not(:disabled) {
+      background-color: var(--color-neutral-700);
+    }
+
+    &--active {
+      background-color: var(--color-primary-600);
+      border-color: var(--color-primary-600);
+      color: var(--color-neutral-0);
+
+      &:hover {
+        background-color: var(--color-primary-700);
+        border-color: var(--color-primary-700);
+      }
+    }
+  }
+
+  .lc-pagination__ellipsis {
+    color: var(--color-neutral-500);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 640px) {
+  .lc-pagination {
+    gap: var(--spacing-1);
+  }
+
+  .lc-pagination__pages {
+    gap: var(--spacing-0-5);
+  }
+
+  // Hide some page numbers on mobile to save space
+  .lc-pagination__button--page {
+    &:not(.lc-pagination__button--active) {
+      display: none;
+
+      // Show first and last page
+      &:first-child,
+      &:last-child {
+        display: inline-flex;
+      }
+
+      // Show pages adjacent to active page
+      &:nth-child(n-1):nth-child(-n+1) {
+        display: inline-flex;
+      }
+    }
+  }
+}
+
+// Accessibility: prefers-reduced-motion
+@media (prefers-reduced-motion: reduce) {
+  .lc-pagination__button {
+    transition: none;
+  }
+}

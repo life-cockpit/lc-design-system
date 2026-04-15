@@ -1,0 +1,116 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Switch Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Toggle control for binary on/off states with multiple variants and sizes.
+    </p>
+  </div>
+
+  <!-- Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-6">
+          <lc-switch variant="primary" label="Primary" [(checked)]="primaryChecked" />
+          <lc-switch variant="secondary" label="Secondary" [(checked)]="secondaryChecked" />
+          <lc-switch variant="success" label="Success" [(checked)]="successChecked" />
+          <lc-switch variant="warning" label="Warning" [(checked)]="warningChecked" />
+          <lc-switch variant="danger" label="Danger" [(checked)]="dangerChecked" />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-switch variant="primary" label="Primary" [(checked)]="checked" /&gt;
+&lt;lc-switch variant="secondary" label="Secondary" [(checked)]="checked" /&gt;
+&lt;lc-switch variant="success" label="Success" [(checked)]="checked" /&gt;
+&lt;lc-switch variant="warning" label="Warning" [(checked)]="checked" /&gt;
+&lt;lc-switch variant="danger" label="Danger" [(checked)]="checked" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap items-center gap-6">
+          <lc-switch size="sm" label="Small" [(checked)]="smChecked" />
+          <lc-switch size="md" label="Medium" [(checked)]="mdChecked" />
+          <lc-switch size="lg" label="Large" [(checked)]="lgChecked" />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-switch size="sm" label="Small" [(checked)]="checked" /&gt;
+&lt;lc-switch size="md" label="Medium" [(checked)]="checked" /&gt;
+&lt;lc-switch size="lg" label="Large" [(checked)]="checked" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- States -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">States</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-6">
+          <lc-switch [disabled]="true" label="Disabled (Off)" [(checked)]="disabledUnchecked" />
+          <lc-switch [disabled]="true" label="Disabled (On)" [(checked)]="disabledChecked" />
+          <lc-switch [loading]="true" label="Loading" [(checked)]="loadingChecked" />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-switch [disabled]="true" label="Disabled" [(checked)]="checked" /&gt;
+&lt;lc-switch [loading]="true" label="Loading" [(checked)]="checked" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Label Position -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Label Position</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-6">
+          <lc-switch labelPosition="left" label="Label on Left" [(checked)]="leftLabelChecked" />
+          <lc-switch labelPosition="right" label="Label on Right" [(checked)]="rightLabelChecked" />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-switch labelPosition="left" label="Label on Left" [(checked)]="checked" /&gt;
+&lt;lc-switch labelPosition="right" label="Label on Right" [(checked)]="checked" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Reactive Forms -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Reactive Forms Integration</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <form [formGroup]="switchForm" (ngSubmit)="onSubmit()">
+          <div class="space-y-6 mb-6 flex flex-col items-start">
+            <lc-switch label="Enable Notifications" formControlName="notifications" />
+            <lc-switch variant="secondary" label="Dark Mode" formControlName="darkMode" />
+            <lc-switch variant="success" label="Auto-Save" formControlName="autoSave" />
+          </div>
+          <lc-button type="submit" variant="primary">Submit Form</lc-button>
+        </form>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;form [formGroup]="form"&gt;
+  &lt;lc-switch formControlName="notifications" /&gt;
+  &lt;lc-switch formControlName="darkMode" /&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Inputs</h3>
+          <lc-table [columns]="apiInputsColumns()" [data]="apiInputsData()" variant="bordered" size="sm"></lc-table>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-3">Outputs</h3>
+          <lc-table [columns]="apiOutputsColumns()" [data]="apiOutputsData()" variant="bordered" size="sm"></lc-table>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+</div>

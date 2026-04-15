@@ -18,6 +18,16 @@
           {
             "glob": "**/*",
             "input": "apps/demo/public"
+          },
+          {
+            "glob": "**/*.svg",
+            "input": "node_modules/heroicons",
+            "output": "/heroicons"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/ui-kit/src/assets",
+            "output": "/assets"
           }
         ],
         "styles": ["apps/demo/src/styles.scss"]

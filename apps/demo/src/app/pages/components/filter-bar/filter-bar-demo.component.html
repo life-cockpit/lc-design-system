@@ -1,0 +1,129 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">FilterBar Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      A composable filter bar combining toggle groups, selects, and search inputs in a responsive
+      horizontal layout. Ideal for filtering lists, tables, and data views.
+    </p>
+  </div>
+
+  <!-- Full Filter Bar -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Full Filter Bar</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Combines toggle, select, and search filter types in one bar.
+    </p>
+
+    <lc-card>
+      <div class="space-y-6">
+        <lc-filter-bar
+          [filters]="strategyFilters"
+          [values]="strategyValues()"
+          (valuesChange)="strategyValues.set($event)"
+        />
+
+        <div class="p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+          <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1 font-medium">Current Values:</p>
+          <pre class="text-sm text-neutral-700 dark:text-neutral-300">{{ strategyValues() | json }}</pre>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Small Size -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Small Size</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Use <code class="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm">size="sm"</code> for
+      compact filter bars in tight layouts.
+    </p>
+
+    <lc-card>
+      <div class="space-y-6">
+        <lc-filter-bar
+          [filters]="simpleFilters"
+          [values]="simpleValues()"
+          size="sm"
+          (valuesChange)="simpleValues.set($event)"
+        />
+
+        <div class="p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+          <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1 font-medium">Current Values:</p>
+          <pre class="text-sm text-neutral-700 dark:text-neutral-300">{{ simpleValues() | json }}</pre>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ smallExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Size Comparison -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Size Comparison</h2>
+
+    <div class="grid grid-cols-1 gap-6">
+      <lc-card title="Default Size (md)">
+        <lc-filter-bar
+          [filters]="simpleFilters"
+          [values]="simpleValues()"
+          (valuesChange)="simpleValues.set($event)"
+        />
+      </lc-card>
+
+      <lc-card title="Small Size (sm)">
+        <lc-filter-bar
+          [filters]="simpleFilters"
+          [values]="simpleValues()"
+          size="sm"
+          (valuesChange)="simpleValues.set($event)"
+        />
+      </lc-card>
+    </div>
+  </section>
+
+  <!-- Search Only -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Search Only</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      A filter bar with just a search input.
+    </p>
+
+    <lc-card>
+      <lc-filter-bar
+        [filters]="searchOnlyFilters"
+        [values]="searchOnlyValues()"
+        (valuesChange)="searchOnlyValues.set($event)"
+      />
+    </lc-card>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+
+    <lc-card title="Component Inputs & Outputs">
+      <lc-table
+        [columns]="apiTable"
+        [data]="apiData"
+        variant="default"
+        size="sm"
+      />
+    </lc-card>
+  </section>
+
+  <!-- FilterConfig Interface -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">FilterConfig Interface</h2>
+
+    <lc-card>
+      <lc-table
+        [columns]="apiTable"
+        [data]="filterConfigInterface"
+        variant="default"
+        size="sm"
+      />
+    </lc-card>
+  </section>
+</div>

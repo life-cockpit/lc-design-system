@@ -1,0 +1,51 @@
+@if (_visible()) {
+  <div class="lc-drawer">
+    <!-- Overlay -->
+    @if (hasOverlay()) {
+      <div
+        class="lc-drawer__overlay"
+        [class.lc-drawer__overlay--visible]="open()"
+        (click)="onOverlayClick()"
+        aria-hidden="true"
+      ></div>
+    }
+
+    <!-- Panel -->
+    <aside
+      [class]="panelClasses"
+      [style.width]="widthValue"
+      role="dialog"
+      [attr.aria-label]="ariaLabel() || heading() || 'Drawer'"
+      [attr.aria-modal]="true"
+    >
+      <!-- Header -->
+      @if (heading()) {
+        <header class="lc-drawer__header">
+          <h2 class="lc-drawer__heading">{{ heading() }}</h2>
+          <button
+            type="button"
+            class="lc-drawer__close"
+            (click)="close()"
+            aria-label="Close drawer"
+          >
+            <lc-icon name="x-mark" size="sm" />
+          </button>
+        </header>
+      } @else {
+        <button
+          type="button"
+          class="lc-drawer__close lc-drawer__close--floating"
+          (click)="close()"
+          aria-label="Close drawer"
+        >
+          <lc-icon name="x-mark" size="sm" />
+        </button>
+      }
+
+      <!-- Projected content -->
+      <div class="lc-drawer__body">
+        <ng-content />
+      </div>
+    </aside>
+  </div>
+}

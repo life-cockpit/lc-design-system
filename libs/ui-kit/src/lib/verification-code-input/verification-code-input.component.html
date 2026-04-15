@@ -1,0 +1,39 @@
+<div class="lc-verification-code-input">
+  <label class="lc-label">
+    {{ label }}
+    @if (required) {
+      <span class="lc-required">*</span>
+    }
+  </label>
+
+  <div class="lc-digit-inputs" (paste)="onPaste($event)">
+    @for (digit of digits; track $index; let i = $index) {
+      <input
+        #digitInput
+        type="text"
+        inputmode="numeric"
+        maxlength="1"
+        [value]="digit"
+        [disabled]="disabled"
+        [required]="required"
+        [attr.aria-label]="'Digit ' + (i + 1)"
+        [attr.aria-invalid]="error ? 'true' : 'false'"
+        (input)="onDigitInput($event, i)"
+        (keydown)="onKeyDown($event, i)"
+        class="lc-digit-input"
+        [class.lc-digit-input-error]="error"
+        [class.lc-digit-input-filled]="digit"
+      />
+    }
+  </div>
+
+  @if (error) {
+    <div class="lc-error" role="alert">
+      {{ error }}
+    </div>
+  }
+
+  <div class="lc-hint">
+    Enter the 6-digit code sent to your email
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<!-- Drawer mode: render with overlay and conditional visibility -->
+@if (mode() === 'drawer') {
+  @if (isOpen()) {
+    <!-- Overlay backdrop -->
+    @if (hasOverlay()) {
+      <div
+        class="lc-sidenav__overlay"
+        (click)="handleClose()"
+        aria-hidden="true">
+      </div>
+    }
+
+    <ng-container *ngTemplateOutlet="sidenavPanel" />
+  }
+}
+
+<!-- Docked mode: always render, visibility controlled by CSS -->
+@if (mode() === 'docked') {
+  <ng-container *ngTemplateOutlet="sidenavPanel" />
+}
+
+<!-- Shared sidenav panel template -->
+<ng-template #sidenavPanel>
+  <aside
+    [class]="sidenavClasses()"
+    [ngStyle]="sidenavStyles()"
+    role="navigation"
+    [attr.aria-label]="ariaLabel()">
+
+    <!-- Close button (drawer mode only) -->
+    @if (mode() === 'drawer') {
+      <button
+        type="button"
+        class="lc-sidenav__close"
+        (click)="handleClose()"
+        aria-label="Close navigation">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    }
+
+    <!-- Navigation items (if provided) -->
+    @if (items().length > 0) {
+      <nav class="lc-sidenav__nav" [class.lc-sidenav__nav--docked]="mode() === 'docked'">
+        @for (item of sortedItems(); track item.id) {
+          <!-- Section headline -->
+          @if (item.isSection) {
+            <div class="lc-sidenav__section">
+              <h2 class="lc-sidenav__section-title">{{ item.label }}</h2>
+              @if (item.children?.length) {
+                <ul class="lc-sidenav__section-items">
+                  @for (child of item.children; track child.id) {
+                    <li>
+                      <a
+                        [routerLink]="child.route"
+                        routerLinkActive="lc-sidenav__nav-item--active"
+                        [routerLinkActiveOptions]="{ exact: child.route === '/' }"
+                        class="lc-sidenav__nav-item lc-sidenav__nav-item--child"
+                        (click)="handleItemClick(child)"
+                        [attr.aria-current]="isItemActive(child) ? 'page' : null">
+                        @if (child.icon) {
+                          <lc-icon [name]="child.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                        }
+                        <span class="lc-sidenav__nav-label">{{ child.label }}</span>
+                      </a>
+                    </li>
+                  }
+                </ul>
+              }
+            </div>
+          } @else if (item.children?.length) {
+            <!-- Parent item with children (collapsible group) -->
+            <button
+              type="button"
+              class="lc-sidenav__nav-item lc-sidenav__nav-item--parent"
+              [class.lc-sidenav__nav-item--expanded]="isExpanded(item)"
+              [class.lc-sidenav__nav-item--active]="hasActiveChild(item)"
+              (click)="toggleExpanded(item)"
+              [attr.aria-expanded]="isExpanded(item)">
+              <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+              <span class="lc-sidenav__nav-label">{{ item.label }}</span>
+              <lc-icon name="chevron-down" size="xs" [decorative]="true" class="lc-sidenav__nav-chevron" />
+            </button>
+            @if (isExpanded(item)) {
+              <div class="lc-sidenav__nav-children">
+                @for (child of item.children; track child.id) {
+                  <a
+                    [routerLink]="child.route"
+                    routerLinkActive="lc-sidenav__nav-item--active"
+                    class="lc-sidenav__nav-item lc-sidenav__nav-item--child"
+                    (click)="handleItemClick(child)"
+                    [attr.aria-current]="isItemActive(child) ? 'page' : null">
+                    <lc-icon [name]="child.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                    <span class="lc-sidenav__nav-label">{{ child.label }}</span>
+                  </a>
+                }
+              </div>
+            }
+          } @else {
+            <!-- Simple item without children -->
+            <a
+              [routerLink]="item.route"
+              routerLinkActive="lc-sidenav__nav-item--active"
+              [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+              class="lc-sidenav__nav-item"
+              (click)="handleItemClick(item)"
+              [attr.aria-current]="isItemActive(item) ? 'page' : null">
+              <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+              <span class="lc-sidenav__nav-label">{{ item.label }}</span>
+            </a>
+          }
+        }
+      </nav>
+    }
+
+    <!-- Content projection (for custom content) -->
+    <div class="lc-sidenav__content" [class.lc-sidenav__content--docked]="mode() === 'docked'">
+      <ng-content></ng-content>
+    </div>
+  </aside>
+</ng-template>

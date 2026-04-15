@@ -1,0 +1,197 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Error Display</h1>
+    <p class="text-lg text-neutral-600 dark:text-neutral-400">
+      Error display component for authentication error messages. Automatically maps Cognito error
+      codes to user-friendly messages and displays them with appropriate severity styling.
+    </p>
+  </div>
+
+  <!-- Basic Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Display error messages by passing an error object or custom message.</p>
+        
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg space-y-4">
+          <lc-error-display
+            [error]="currentError()"
+          ></lc-error-display>
+
+          <div class="flex gap-2">
+            <lc-button (click)="showCustomError()">Show Error</lc-button>
+            <lc-button variant="secondary" (click)="clearError()">Clear Error</lc-button>
+          </div>
+        </div>
+
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Cognito Error Mapping -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Cognito Error Mapping</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">
+          Common Cognito error codes are automatically mapped to user-friendly messages.
+          Try different error types:
+        </p>
+        
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg space-y-4">
+          <lc-error-display
+            [error]="currentError()"
+          ></lc-error-display>
+
+          <div class="flex flex-wrap gap-2">
+            @for (error of cognitoErrors; track error.code) {
+              <lc-button 
+                size="sm" 
+                variant="secondary"
+                (click)="showCognitoError(error.code)"
+              >
+                {{ error.label }}
+              </lc-button>
+            }
+            <lc-button 
+              size="sm" 
+              variant="outline"
+              (click)="clearError()"
+            >
+              Clear
+            </lc-button>
+          </div>
+        </div>
+
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ cognitoExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Custom Message -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Custom Message</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Display custom error messages without an error object.</p>
+        
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg">
+          <lc-error-display
+            message="Invalid credentials. Please try again."
+            severity="error"
+            [dismissible]="true"
+          ></lc-error-display>
+        </div>
+
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ customMessageExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Severity Levels -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Severity Levels</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Display errors, warnings, or informational messages with appropriate styling.</p>
+        
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg space-y-4">
+          <lc-error-display
+            message="Operation failed. Please try again."
+            severity="error"
+          ></lc-error-display>
+
+          <lc-error-display
+            message="Password will expire in 3 days."
+            severity="warning"
+          ></lc-error-display>
+
+          <lc-error-display
+            message="Email verification sent to your inbox."
+            severity="info"
+          ></lc-error-display>
+        </div>
+
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ severityExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Auto Dismiss -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Auto Dismiss</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Automatically hide error messages after a specified delay.</p>
+        
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg">
+          <lc-error-display
+            message="This error will disappear after 5 seconds."
+            severity="info"
+            [autoDismiss]="true"
+            [autoDismissDelay]="5000"
+          ></lc-error-display>
+        </div>
+
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ autoDismissExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Demo -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Try different configurations and see how the component responds.</p>
+        
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg">
+          <div class="space-y-4 mb-6">
+            <lc-select
+              label="Severity"
+              [options]="severityOptions()"
+              [(ngModel)]="currentSeverity"
+            ></lc-select>
+            
+            <lc-checkbox [(ngModel)]="isDismissible">Dismissible</lc-checkbox>
+            <lc-checkbox [(ngModel)]="autoHide">Auto Dismiss (5s)</lc-checkbox>
+          </div>
+
+          <lc-error-display
+            message="This is an interactive error message. Change the settings above."
+            [severity]="currentSeverity()"
+            [dismissible]="isDismissible()"
+            [autoDismiss]="autoHide()"
+            [autoDismissDelay]="5000"
+          ></lc-error-display>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Error Mapping Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Error Code Mappings</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Complete list of automatic Cognito error code to message mappings.</p>
+        
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm overflow-x-auto"><code>{{ errorMappingExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Documentation -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+    <lc-card>
+      <lc-table
+        [columns]="apiColumns()"
+        [data]="apiData()"
+        [hoverable]="true"
+      ></lc-table>
+    </lc-card>
+  </section>
+</div>

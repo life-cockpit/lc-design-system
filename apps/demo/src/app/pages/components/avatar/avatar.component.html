@@ -1,0 +1,303 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Avatar Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Circular user representation displaying images or initials with optional status indicators.
+    </p>
+  </div>
+
+  <!-- Basic Usage -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <lc-avatar name="John Doe" />
+          <lc-avatar name="Jane Smith" />
+          <lc-avatar name="Bob Wilson" />
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- With Image -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Image</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <lc-avatar 
+            src="https://ui-avatars.com/api/?name=John+Doe&size=200&background=4F46E5&color=fff" 
+            alt="John Doe" 
+          />
+          <lc-avatar 
+            src="https://ui-avatars.com/api/?name=Jane+Smith&size=200&background=EF4444&color=fff" 
+            alt="Jane Smith" 
+          />
+          <lc-avatar 
+            src="https://ui-avatars.com/api/?name=Bob+Wilson&size=200&background=10B981&color=fff" 
+            alt="Bob Wilson" 
+          />
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ imageExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Initials Fallback -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Initials Fallback</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <lc-avatar name="Jane Smith" />
+          <lc-avatar name="Bob Wilson" />
+          <lc-avatar name="Alice" />
+          <lc-avatar name="Michael Jackson Brown" />
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ initialsExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <lc-avatar name="John Doe" size="xs" />
+          <lc-avatar name="John Doe" size="sm" />
+          <lc-avatar name="John Doe" size="md" />
+          <lc-avatar name="John Doe" size="lg" />
+          <lc-avatar name="John Doe" size="xl" />
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ sizeExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Status Indicators -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Status Indicators</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <div class="text-center">
+            <lc-avatar name="John Doe" status="online" size="lg" />
+            <p class="text-sm mt-2 text-neutral-600 dark:text-neutral-400">Online</p>
+          </div>
+          <div class="text-center">
+            <lc-avatar name="Jane Smith" status="away" size="lg" />
+            <p class="text-sm mt-2 text-neutral-600 dark:text-neutral-400">Away</p>
+          </div>
+          <div class="text-center">
+            <lc-avatar name="Bob Wilson" status="busy" size="lg" />
+            <p class="text-sm mt-2 text-neutral-600 dark:text-neutral-400">Busy</p>
+          </div>
+          <div class="text-center">
+            <lc-avatar name="Alice Brown" status="offline" size="lg" />
+            <p class="text-sm mt-2 text-neutral-600 dark:text-neutral-400">Offline</p>
+          </div>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ statusExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Image with Status -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Image with Status</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-4 items-center">
+          <lc-avatar 
+            src="https://ui-avatars.com/api/?name=John+Doe&size=200&background=4F46E5&color=fff" 
+            alt="John Doe" 
+            status="online"
+            size="lg"
+          />
+          <lc-avatar 
+            src="https://ui-avatars.com/api/?name=Jane+Smith&size=200&background=EF4444&color=fff" 
+            alt="Jane Smith" 
+            status="away"
+            size="lg"
+          />
+          <lc-avatar 
+            src="https://ui-avatars.com/api/?name=Bob+Wilson&size=200&background=10B981&color=fff" 
+            alt="Bob Wilson" 
+            status="busy"
+            size="lg"
+          />
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <!-- Preview -->
+        <div class="p-6 border border-neutral-200 dark:border-neutral-700 rounded-lg flex items-center justify-center">
+          <lc-avatar 
+            [name]="name()"
+            [src]="withImage() ? imageUrl : undefined"
+            [alt]="name()"
+            [size]="size()" 
+            [status]="status()"
+          />
+        </div>
+
+        <!-- Controls -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Size -->
+          <div>
+            <label class="block text-sm font-medium mb-2">Size</label>
+            <div class="flex flex-wrap gap-2">
+              <lc-button 
+                [variant]="size() === 'xs' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('xs')"
+              >
+                XS
+              </lc-button>
+              <lc-button 
+                [variant]="size() === 'sm' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('sm')"
+              >
+                SM
+              </lc-button>
+              <lc-button 
+                [variant]="size() === 'md' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('md')"
+              >
+                MD
+              </lc-button>
+              <lc-button 
+                [variant]="size() === 'lg' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('lg')"
+              >
+                LG
+              </lc-button>
+              <lc-button 
+                [variant]="size() === 'xl' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setSize('xl')"
+              >
+                XL
+              </lc-button>
+            </div>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label class="block text-sm font-medium mb-2">Status</label>
+            <div class="flex flex-wrap gap-2">
+              <lc-button 
+                [variant]="status() === undefined ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setStatus(undefined)"
+              >
+                None
+              </lc-button>
+              <lc-button 
+                [variant]="status() === 'online' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setStatus('online')"
+              >
+                Online
+              </lc-button>
+              <lc-button 
+                [variant]="status() === 'away' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setStatus('away')"
+              >
+                Away
+              </lc-button>
+              <lc-button 
+                [variant]="status() === 'busy' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setStatus('busy')"
+              >
+                Busy
+              </lc-button>
+              <lc-button 
+                [variant]="status() === 'offline' ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="setStatus('offline')"
+              >
+                Offline
+              </lc-button>
+            </div>
+          </div>
+
+          <!-- Toggle Options -->
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium mb-2">Options</label>
+            <div class="flex flex-wrap gap-2">
+              <lc-button 
+                [variant]="withImage() ? 'primary' : 'secondary'"
+                size="sm"
+                (click)="toggleImage()"
+              >
+                Show Image
+              </lc-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Documentation -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Component API</h2>
+
+    <!-- Props -->
+    <div class="mb-6">
+      <h3 class="text-xl font-semibold mb-3">Properties</h3>
+      <lc-card>
+        <lc-table 
+          [columns]="propsColumns()" 
+          [data]="propsData"
+        />
+      </lc-card>
+    </div>
+  </section>
+
+  <!-- Best Practices -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Best Practices</h2>
+    
+    <lc-card>
+      <div class="prose dark:prose-invert max-w-none">
+        <ul>
+          <li>Always provide a name for accessibility and initials fallback</li>
+          <li>Use appropriate size for the context (xs/sm for lists, lg/xl for profiles)</li>
+          <li>Include alt text when using images for better accessibility</li>
+          <li>Use status indicators sparingly to show real-time user presence</li>
+          <li>Ensure images are optimized and appropriate size (200x200px recommended)</li>
+          <li>Handle image load errors gracefully - component auto-falls back to initials</li>
+        </ul>
+      </div>
+    </lc-card>
+  </section>
+</div>

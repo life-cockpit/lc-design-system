@@ -1,0 +1,35 @@
+@if (items().length > 0) {
+  <nav [attr.aria-label]="ariaLabel()">
+    <ol [ngClass]="breadcrumbClasses()">
+      @for (item of visibleItems(); track item; let i = $index) {
+        <li class="lc-breadcrumbs__item">
+          @if (isLastItem(i)) {
+            <span class="lc-breadcrumbs__current" aria-current="page">
+              {{ item.label }}
+            </span>
+          } @else if (isEllipsis(item)) {
+            <span class="lc-breadcrumbs__ellipsis" aria-hidden="true">
+              {{ item.label }}
+            </span>
+          } @else {
+            <a
+              [routerLink]="item.url"
+              class="lc-breadcrumbs__link"
+            >
+              {{ item.label }}
+            </a>
+          }
+          
+          @if (!isLastItem(i)) {
+            <span class="lc-breadcrumbs__separator" aria-hidden="true">
+              {{ separator() }}
+            </span>
+          }
+        </li>
+      }
+    </ol>
+    
+    <!-- Support for additional content projection -->
+    <ng-content></ng-content>
+  </nav>
+}

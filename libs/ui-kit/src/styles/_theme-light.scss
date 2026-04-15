@@ -1,0 +1,241 @@
+/**
+ * Light Theme CSS Custom Properties
+ * 
+ * Maps design tokens to CSS custom properties for the light theme.
+ * These custom properties enable runtime theme switching and provide
+ * semantic color mappings for components.
+ */
+
+@use './tokens/colors' as *;
+@use './tokens/spacing' as *;
+@use './tokens/typography' as *;
+@use './tokens/elevation' as *;
+@use './tokens/border-radius' as *;
+@use './tokens/animation' as *;
+@use './tokens/size' as *;
+
+// Default theme (light) on :root
+:root,
+:root.light {
+  // ============================================================================
+  // Colors - Primary
+  // ============================================================================
+  --color-primary-50: #{$color-primary-50};
+  --color-primary-100: #{$color-primary-100};
+  --color-primary-200: #{$color-primary-200};
+  --color-primary-300: #{$color-primary-300};
+  --color-primary-400: #{$color-primary-400};
+  --color-primary-500: #{$color-primary-500};
+  --color-primary-600: #{$color-primary-600};
+  --color-primary-700: #{$color-primary-700};
+  --color-primary-800: #{$color-primary-800};
+  --color-primary-900: #{$color-primary-900};
+
+  // ============================================================================
+  // Colors - Secondary
+  // ============================================================================
+  --color-secondary-50: #{$color-secondary-50};
+  --color-secondary-100: #{$color-secondary-100};
+  --color-secondary-200: #{$color-secondary-200};
+  --color-secondary-300: #{$color-secondary-300};
+  --color-secondary-400: #{$color-secondary-400};
+  --color-secondary-500: #{$color-secondary-500};
+  --color-secondary-600: #{$color-secondary-600};
+  --color-secondary-700: #{$color-secondary-700};
+  --color-secondary-800: #{$color-secondary-800};
+  --color-secondary-900: #{$color-secondary-900};
+
+  // ============================================================================
+  // Colors - Neutral (Grays)
+  // ============================================================================
+  --color-neutral-50: #{$color-neutral-50};
+  --color-neutral-100: #{$color-neutral-100};
+  --color-neutral-200: #{$color-neutral-200};
+  --color-neutral-300: #{$color-neutral-300};
+  --color-neutral-400: #{$color-neutral-400};
+  --color-neutral-500: #{$color-neutral-500};
+  --color-neutral-600: #{$color-neutral-600};
+  --color-neutral-700: #{$color-neutral-700};
+  --color-neutral-800: #{$color-neutral-800};
+  --color-neutral-900: #{$color-neutral-900};
+
+  // ============================================================================
+  // Colors - Semantic
+  // ============================================================================
+  --color-success-default: #{$color-success-default};
+  --color-success-light: #{$color-success-light};
+  --color-success-dark: #{$color-success-dark};
+  
+  --color-error-default: #{$color-error-default};
+  --color-error-light: #{$color-error-light};
+  --color-error-dark: #{$color-error-dark};
+  
+  --color-warning-default: #{$color-warning-default};
+  --color-warning-light: #{$color-warning-light};
+  --color-warning-dark: #{$color-warning-dark};
+  
+  --color-info-default: #{$color-info-default};
+  --color-info-light: #{$color-info-light};
+  --color-info-dark: #{$color-info-dark};
+
+  // ============================================================================
+  // Colors - Accent
+  // ============================================================================
+  --color-accent-orange: #{$color-accent-orange};
+  --color-accent-purple: #{$color-accent-purple};
+  --color-accent-red: #{$color-accent-red};
+  --color-accent-rust: #{$color-accent-rust};
+  --color-accent-violet: #{$color-accent-violet};
+
+  // ============================================================================
+  // Spacing
+  // ============================================================================
+  --spacing-0: #{$spacing-0};
+  --spacing-0-5: #{$spacing-0-5};
+  --spacing-1: #{$spacing-1};
+  --spacing-1-5: #{$spacing-1-5};
+  --spacing-2: #{$spacing-2};
+  --spacing-2-5: #{$spacing-2-5};
+  --spacing-3: #{$spacing-3};
+  --spacing-3-5: #{$spacing-3-5};
+  --spacing-4: #{$spacing-4};
+  --spacing-5: #{$spacing-5};
+  --spacing-6: #{$spacing-6};
+  --spacing-7: #{$spacing-7};
+  --spacing-8: #{$spacing-8};
+  --spacing-9: #{$spacing-9};
+  --spacing-10: #{$spacing-10};
+  --spacing-11: #{$spacing-11};
+  --spacing-12: #{$spacing-12};
+  --spacing-14: #{$spacing-14};
+  --spacing-16: #{$spacing-16};
+
+  // ============================================================================
+  // Typography - Font Families
+  // ============================================================================
+  --typography-font-family-base: #{$typography-font-family-base};
+  --typography-font-family-mono: #{$typography-font-family-mono};
+
+  // ============================================================================
+  // Typography - Font Sizes
+  // ============================================================================
+  --typography-font-size-xs: #{$typography-font-size-xs};
+  --typography-font-size-sm: #{$typography-font-size-sm};
+  --typography-font-size-base: #{$typography-font-size-base};
+  --typography-font-size-lg: #{$typography-font-size-lg};
+  --typography-font-size-xl: #{$typography-font-size-xl};
+  --typography-font-size-2xl: #{$typography-font-size-2xl};
+  --typography-font-size-3xl: #{$typography-font-size-3xl};
+  --typography-font-size-4xl: #{$typography-font-size-4xl};
+  --typography-font-size-5xl: #{$typography-font-size-5xl};
+  --typography-font-size-6xl: #{$typography-font-size-6xl};
+
+  // ============================================================================
+  // Typography - Font Weights
+  // ============================================================================
+  --typography-font-weight-normal: #{$typography-font-weight-normal};
+  --typography-font-weight-medium: #{$typography-font-weight-medium};
+  --typography-font-weight-semibold: #{$typography-font-weight-semibold};
+  --typography-font-weight-bold: #{$typography-font-weight-bold};
+
+  // ============================================================================
+  // Typography - Line Heights
+  // ============================================================================
+  --typography-line-height-tight: #{$typography-line-height-tight};
+  --typography-line-height-normal: #{$typography-line-height-normal};
+  --typography-line-height-relaxed: #{$typography-line-height-relaxed};
+
+  // ============================================================================
+  // Elevation (Box Shadows)
+  // ============================================================================
+  --elevation-1: #{$elevation-1};
+  --elevation-2: #{$elevation-2};
+  --elevation-3: #{$elevation-3};
+  --elevation-4: #{$elevation-4};
+
+  // ============================================================================
+  // Border Radius
+  // ============================================================================
+  --border-radius-none: #{$border-radius-none};
+  --border-radius-sm: #{$border-radius-sm};
+  --border-radius-md: #{$border-radius-md};
+  --border-radius-lg: #{$border-radius-lg};
+  --border-radius-xl: #{$border-radius-xl};
+  --border-radius-2xl: #{$border-radius-2xl};
+  --border-radius-full: #{$border-radius-full};
+
+  // ============================================================================
+  // Animation
+  // ============================================================================
+  --animation-duration-base: #{$animation-duration-fast};
+  --animation-easing-ease-in: #{$animation-easing-ease-in};
+  --animation-easing-ease-out: #{$animation-easing-ease-out};
+  --animation-easing-ease-in-out: #{$animation-easing-ease-in-out};
+
+  // ============================================================================
+  // Size - Interactive Elements
+  // ============================================================================
+  --size-interactive-xs-height: #{$size-interactive-xs-height};
+  --size-interactive-xs-padding: #{$size-interactive-xs-padding};
+  --size-interactive-xs-font-size: #{$size-interactive-xs-font-size};
+  
+  --size-interactive-sm-height: #{$size-interactive-sm-height};
+  --size-interactive-sm-padding: #{$size-interactive-sm-padding};
+  --size-interactive-sm-font-size: #{$size-interactive-sm-font-size};
+  
+  --size-interactive-md-height: #{$size-interactive-md-height};
+  --size-interactive-md-padding: #{$size-interactive-md-padding};
+  --size-interactive-md-font-size: #{$size-interactive-md-font-size};
+  
+  --size-interactive-lg-height: #{$size-interactive-lg-height};
+  --size-interactive-lg-padding: #{$size-interactive-lg-padding};
+  --size-interactive-lg-font-size: #{$size-interactive-lg-font-size};
+
+  // ============================================================================
+  // Size - Minimum Touch Target
+  // ============================================================================
+  --size-min-touch-width: #{$size-min-touch-width};
+  --size-min-touch-height: #{$size-min-touch-height};
+
+  // ============================================================================
+  // Semantic Color Mappings for Light Theme
+  // ============================================================================
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-text-primary: #{$color-neutral-900};
+  --color-text-secondary: #{$color-neutral-600};
+  --color-text-disabled: #{$color-neutral-400};
+  --color-border: #{$color-neutral-300};
+  --color-divider: #{$color-neutral-200};
+  --color-neutral-white: #ffffff;
+  
+  // Semantic color aliases for components
+  --color-error: #{$color-error-default};
+  --color-success: #{$color-success-default};
+  --color-warning: #{$color-warning-default};
+  --color-info: #{$color-info-default};
+
+  // ============================================================================
+  // Short Aliases for Common Usage (Component Convenience)
+  // ============================================================================
+  --font-family-sans: var(--typography-font-family-base);
+  --font-family-mono: var(--typography-font-family-mono);
+  --font-size-xs: var(--typography-font-size-xs);
+  --font-size-sm: var(--typography-font-size-sm);
+  --font-size-base: var(--typography-font-size-base);
+  --font-size-lg: var(--typography-font-size-lg);
+  --font-size-xl: var(--typography-font-size-xl);
+  --font-weight-normal: var(--typography-font-weight-normal);
+  --font-weight-medium: var(--typography-font-weight-medium);
+  --font-weight-semibold: var(--typography-font-weight-semibold);
+  --font-weight-bold: var(--typography-font-weight-bold);
+  --line-height-tight: var(--typography-line-height-tight);
+  --line-height-normal: var(--typography-line-height-normal);
+  --line-height-relaxed: var(--typography-line-height-relaxed);
+  --animation-timing-ease: var(--animation-easing-ease-in-out);
+  
+  // Error color scale aliases (for danger buttons, etc.)
+  --color-error-600: var(--color-error-default);
+  --color-error-700: var(--color-error-dark);
+  --color-error-800: #5a0707; // Darker shade for active state
+}

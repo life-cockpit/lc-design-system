@@ -1,0 +1,330 @@
+// Import color tokens for dark mode overrides
+@use '../../styles/tokens/colors' as *;
+
+// Select Component Styles
+.lc-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  width: 100%;
+  position: relative;
+}
+
+// Computed classes applied via TypeScript
+.lc-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  transition: all var(--animation-duration-base) var(--animation-timing-ease);
+  cursor: pointer;
+  user-select: none;
+
+  &:hover:not(.lc-select--disabled) {
+    border-color: var(--color-primary-400);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 0px;
+    border-color: var(--color-primary-500);
+  }
+
+  // Size variants
+  &.lc-select--xs {
+    height: var(--size-interactive-xs-height);
+    padding: var(--size-interactive-xs-padding);
+    padding-right: var(--spacing-8);
+    font-size: var(--size-interactive-xs-font-size);
+  }
+
+  &.lc-select--sm {
+    height: var(--size-interactive-sm-height);
+    padding: var(--size-interactive-sm-padding);
+    padding-right: var(--spacing-9);
+    font-size: var(--size-interactive-sm-font-size);
+  }
+
+  &.lc-select--md {
+    height: var(--size-interactive-md-height);
+    padding: var(--size-interactive-md-padding);
+    padding-right: var(--spacing-10);
+    font-size: var(--size-interactive-md-font-size);
+  }
+
+  &.lc-select--lg {
+    height: var(--size-interactive-lg-height);
+    padding: var(--size-interactive-lg-padding);
+    padding-right: var(--spacing-12);
+    font-size: var(--size-interactive-lg-font-size);
+  }
+
+  // Variant styles
+  &.lc-select--filled {
+    background-color: var(--color-neutral-100);
+    border-color: transparent;
+
+    &:hover:not(.lc-select--disabled) {
+      background-color: var(--color-neutral-200);
+    }
+
+    &:focus,
+    &:focus-visible {
+      background-color: var(--color-surface);
+      border-color: var(--color-primary-500);
+    }
+  }
+
+  // State variants
+  &.lc-select--error {
+    border-color: var(--color-error-600);
+
+    &:focus,
+    &:focus-visible {
+      outline-color: var(--color-error-600);
+      border-color: var(--color-error-600);
+    }
+  }
+
+  &.lc-select--disabled {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.lc-select__value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lc-select__placeholder {
+  color: var(--color-text-secondary);
+}
+
+.lc-select__icons {
+  position: absolute;
+  right: var(--spacing-3);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  flex-shrink: 0;
+  pointer-events: none;
+  
+  button {
+    pointer-events: auto;
+  }
+}
+
+.lc-select__spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-secondary);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.lc-select__clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+
+  &:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-neutral-100);
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.lc-select__chevron {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-secondary);
+  transition: transform var(--animation-duration-base) var(--animation-timing-ease);
+
+  &.lc-select__chevron--open {
+    transform: rotate(180deg);
+  }
+}
+
+// Dropdown Panel
+.lc-select__dropdown {
+  position: absolute;
+  z-index: 1000;
+  margin-top: var(--spacing-1);
+  padding: var(--spacing-2);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--elevation-lg);
+  min-width: 200px;
+  max-height: 320px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: all var(--animation-duration-base) var(--animation-timing-ease);
+  pointer-events: none;
+
+  &.lc-select__dropdown--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-neutral-100);
+    border-radius: var(--border-radius-md);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-neutral-400);
+    border-radius: var(--border-radius-md);
+
+    &:hover {
+      background: var(--color-neutral-500);
+    }
+  }
+}
+
+.lc-select__search {
+  padding: var(--spacing-2);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--spacing-2);
+}
+
+.lc-select__search-input {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  outline: none;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+
+  &:focus {
+    border-color: var(--color-primary-500);
+  }
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+}
+
+.lc-select__options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lc-select__option {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+  text-align: left;
+  width: 100%;
+
+  &:hover:not(.lc-select__option--disabled) {
+    background-color: var(--color-neutral-100);
+  }
+
+  &.lc-select__option--selected {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary-600);
+    background-color: var(--color-primary-50);
+  }
+
+  &.lc-select__option--focused {
+    background-color: var(--color-neutral-100);
+  }
+
+  &.lc-select__option--disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.lc-select__option-label {
+  flex: 1;
+}
+
+.lc-select__check {
+  width: 1rem;
+  height: 1rem;
+  margin-left: var(--spacing-2);
+  flex-shrink: 0;
+  color: var(--color-primary-600);
+}
+
+.lc-select__checkbox {
+  margin-right: var(--spacing-2);
+  width: 1rem;
+  height: 1rem;
+}
+
+.lc-select__empty {
+  padding: var(--spacing-4);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+// Error and Helper Text
+.lc-select__error {
+  font-size: var(--font-size-xs);
+  color: var(--color-error-600);
+  margin-top: var(--spacing-1);
+}
+
+.lc-select__helper {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-1);
+}

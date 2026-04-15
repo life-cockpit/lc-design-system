@@ -1,0 +1,60 @@
+<label [attr.for]="id()" [class]="labelClasses()">
+  <input
+    type="checkbox"
+    [id]="id()"
+    [checked]="computedChecked()"
+    [disabled]="computedDisabled()"
+    [indeterminate]="computedIndeterminate()"
+    [required]="required()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-labelledby]="ariaLabelledBy() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.aria-required]="required() ? 'true' : null"
+    [attr.aria-invalid]="error() ? 'true' : null"
+    [attr.aria-disabled]="computedDisabled() ? 'true' : null"
+    [attr.tabindex]="computedDisabled() ? -1 : 0"
+    role="checkbox"
+    class="checkbox-input"
+    (change)="handleChange($event)"
+    (blur)="handleBlur()"
+  />
+  <span class="checkbox-box">
+    <svg
+      class="checkbox-icon"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- Checkmark icon -->
+      @if (computedChecked() && !computedIndeterminate()) {
+        <path
+          d="M13.5 4L6 11.5L2.5 8"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      }
+      <!-- Indeterminate icon -->
+      @if (computedIndeterminate()) {
+        <path
+          d="M4 8H12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      }
+    </svg>
+  </span>
+  @if (label()) {
+    <span class="checkbox-label-text">{{ label() }}</span>
+  }
+</label>
+
+@if (helpText() && !error()) {
+  <div class="checkbox-help-text">{{ helpText() }}</div>
+}
+
+@if (error() && errorMessage()) {
+  <div class="checkbox-error-message">{{ errorMessage() }}</div>
+}

@@ -1,0 +1,161 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Toast Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Ephemeral notifications that appear temporarily to provide feedback.
+    </p>
+  </div>
+
+  <!-- Setup -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Setup</h2>
+    <lc-card>
+      <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+        Import the ToastService and inject it into your component.
+      </p>
+      <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>import {{ '{' }} ToastService {{ '}' }} from '@lc-platform/shared/ui-kit';
+
+export class MyComponent {{ '{' }}
+  constructor(private toastService: ToastService) {{ '{' }}{{ '}' }}
+{{ '}' }}</code></pre>
+    </lc-card>
+  </section>
+
+  <!-- Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-3">
+          <lc-button (clicked)="showSuccessToast()">
+            Show Success Toast
+          </lc-button>
+          <lc-button variant="danger" (clicked)="showErrorToast()">
+            Show Error Toast
+          </lc-button>
+          <lc-button variant="warning" (clicked)="showWarningToast()">
+            Show Warning Toast
+          </lc-button>
+          <lc-button variant="info" (clicked)="showInfoToast()">
+            Show Info Toast
+          </lc-button>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>this.toastService.show({{ '{' }}
+  message: 'Your changes have been saved',
+  variant: 'success',
+  duration: 3000
+{{ '}' }});</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- With Action -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Action</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+            Toasts can include an action button for user interaction.
+          </p>
+          <lc-button (clicked)="showToastWithAction()">
+            Show Toast with Action
+          </lc-button>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>this.toastService.show({{ '{' }}
+  message: 'Connection lost',
+  variant: 'error',
+  action: {{ '{' }}
+    label: 'Retry',
+    handler: () => this.reconnect()
+  {{ '}' }}
+{{ '}' }});</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Positions -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Positions</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+            Toasts can be positioned in six different locations on the screen.
+          </p>
+          <div class="grid grid-cols-3 gap-3">
+            <lc-button variant="secondary" size="sm" (clicked)="showTopLeftToast()">
+              Top Left
+            </lc-button>
+            <lc-button variant="secondary" size="sm" (clicked)="showTopCenterToast()">
+              Top Center
+            </lc-button>
+            <lc-button variant="secondary" size="sm" (clicked)="showTopRightToast()">
+              Top Right
+            </lc-button>
+            <lc-button variant="secondary" size="sm" (clicked)="showBottomLeftToast()">
+              Bottom Left
+            </lc-button>
+            <lc-button variant="secondary" size="sm" (clicked)="showBottomCenterToast()">
+              Bottom Center
+            </lc-button>
+            <lc-button variant="secondary" size="sm" (clicked)="showBottomRightToast()">
+              Bottom Right
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>this.toastService.show({{ '{' }}
+  message: 'Notification',
+  variant: 'info',
+  position: 'top-right' // or: top-left, top-center, bottom-left, bottom-center, bottom-right
+{{ '}' }});</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Duration -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Duration</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+            Control how long toasts remain visible. Set duration to 0 for persistent toasts.
+          </p>
+          <lc-button (clicked)="showPersistentToast()">
+            Show Persistent Toast (Manual Close)
+          </lc-button>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>this.toastService.show({{ '{' }}
+  message: 'This toast stays until manually closed',
+  variant: 'info',
+  duration: 0 // 0 = persistent, must be manually dismissed
+{{ '}' }});</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Multiple Toasts -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Multiple Toasts</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-400">
+            The toast service manages a queue and limits the number of visible toasts.
+          </p>
+          <div class="flex gap-3">
+            <lc-button (clicked)="showMultipleToasts()">
+              Show Multiple Toasts
+            </lc-button>
+            <lc-button variant="secondary" (clicked)="clearAllToasts()">
+              Clear All Toasts
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>// Clear all visible toasts
+this.toastService.clearAll();</code></pre>
+      </div>
+    </lc-card>
+  </section>
+</div>

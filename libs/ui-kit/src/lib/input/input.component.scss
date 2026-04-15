@@ -1,0 +1,199 @@
+// Import color tokens for dark mode overrides
+@use '../../styles/tokens/colors' as *;
+
+// Input Component Styles
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  width: 100%;
+}
+
+.input-label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-1);
+
+  .required-indicator {
+    color: var(--color-error-600);
+    margin-left: var(--spacing-0-5);
+  }
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  transition: all var(--animation-duration-base) var(--animation-timing-ease);
+
+  &:focus-within {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 0px;
+    border-color: var(--color-primary-500);
+  }
+
+  &.input-error {
+    border-color: var(--color-error-600);
+
+    &:focus-within {
+      outline-color: var(--color-error-600);
+      border-color: var(--color-error-600);
+    }
+  }
+
+  &.input-disabled {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &.input-readonly {
+    background-color: var(--color-neutral-50);
+    border-color: var(--color-border);
+  }
+}
+
+.input-field {
+  flex: 1;
+  width: 100%;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:read-only {
+    cursor: default;
+  }
+
+  // Remove number input spinners
+  &[type='number']::-webkit-inner-spin-button,
+  &[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  &.input-icon-before {
+    margin-left: var(--spacing-3);
+    margin-right: var(--spacing-2);
+  }
+
+  &.input-icon-after {
+    margin-left: var(--spacing-2);
+    margin-right: var(--spacing-3);
+  }
+}
+
+// Sizes
+.input-xs {
+  height: var(--size-interactive-xs-height);
+
+  .input-field {
+    padding: var(--size-interactive-xs-padding);
+    font-size: var(--size-interactive-xs-font-size);
+  }
+
+  .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.input-sm {
+  height: var(--size-interactive-sm-height);
+
+  .input-field {
+    padding: var(--size-interactive-sm-padding);
+    font-size: var(--size-interactive-sm-font-size);
+  }
+}
+
+.input-md {
+  height: var(--size-interactive-md-height);
+
+  .input-field {
+    padding: var(--size-interactive-md-padding);
+    font-size: var(--size-interactive-md-font-size);
+  }
+}
+
+.input-lg {
+  height: var(--size-interactive-lg-height);
+
+  .input-field {
+    padding: var(--size-interactive-lg-padding);
+    font-size: var(--size-interactive-lg-font-size);
+  }
+
+  .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+// Footer (Helper text, error, char count)
+.input-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  min-height: 1.25rem;
+}
+
+.input-error {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--color-error-600);
+  margin: 0;
+}
+
+.input-helper {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.char-count {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  margin: 0;
+}
+
+// Dark mode support - use inverted CSS custom properties
+// No :host-context overrides needed as theme handles color inversion

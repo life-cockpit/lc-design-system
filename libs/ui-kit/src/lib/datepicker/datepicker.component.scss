@@ -1,0 +1,345 @@
+// Import color tokens for dark mode overrides
+@use '../../styles/tokens/colors' as *;
+
+// DatePicker Component Styles
+.lc-datepicker-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  width: 100%;
+  position: relative;
+}
+
+.lc-datepicker-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+// Computed classes applied via TypeScript
+.lc-datepicker {
+  width: 100%;
+  font-family: var(--font-family-sans);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  transition: all var(--animation-duration-base) var(--animation-timing-ease);
+  cursor: pointer;
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  &:hover:not(:disabled):not([readonly]) {
+    border-color: var(--color-primary-400);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 0px;
+    border-color: var(--color-primary-500);
+  }
+
+  &:disabled {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-border);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &[readonly] {
+    background-color: var(--color-neutral-50);
+    border-color: var(--color-border);
+    cursor: default;
+  }
+
+  // Error state
+  &.lc-datepicker--error {
+    border-color: var(--color-error-600);
+
+    &:focus {
+      outline-color: var(--color-error-600);
+      border-color: var(--color-error-600);
+    }
+  }
+
+  // Size variants
+  &.lc-datepicker--xs {
+    height: var(--size-interactive-xs-height);
+    padding: var(--size-interactive-xs-padding);
+    padding-right: var(--spacing-10);
+    font-size: var(--size-interactive-xs-font-size);
+  }
+
+  &.lc-datepicker--sm {
+    height: var(--size-interactive-sm-height);
+    padding: var(--size-interactive-sm-padding);
+    padding-right: var(--spacing-12);
+    font-size: var(--size-interactive-sm-font-size);
+  }
+
+  &.lc-datepicker--md {
+    height: var(--size-interactive-md-height);
+    padding: var(--size-interactive-md-padding);
+    padding-right: var(--spacing-14);
+    font-size: var(--size-interactive-md-font-size);
+  }
+
+  &.lc-datepicker--lg {
+    height: var(--size-interactive-lg-height);
+    padding: var(--size-interactive-lg-padding);
+    padding-right: var(--spacing-16);
+    font-size: var(--size-interactive-lg-font-size);
+  }
+
+  // Variant styles
+  &.lc-datepicker--filled {
+    background-color: var(--color-neutral-100);
+    border-color: transparent;
+
+    &:hover:not(:disabled):not([readonly]) {
+      background-color: var(--color-neutral-200);
+    }
+
+    &:focus {
+      background-color: var(--color-surface);
+      border-color: var(--color-primary-500);
+    }
+
+    &:disabled {
+      background-color: var(--color-neutral-200);
+    }
+  }
+}
+
+// Icons container
+.lc-datepicker-icons {
+  position: absolute;
+  right: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  pointer-events: none;
+}
+
+.lc-datepicker-calendar-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-secondary);
+}
+
+.lc-datepicker-clear {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+
+  &:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-neutral-100);
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+// Calendar Panel
+.lc-datepicker-calendar {
+  position: absolute;
+  z-index: 1000;
+  margin-top: var(--spacing-1);
+  padding: var(--spacing-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--elevation-lg);
+  min-width: 280px;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: all var(--animation-duration-base) var(--animation-timing-ease);
+  pointer-events: none;
+
+  &.lc-datepicker-calendar--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+}
+
+// Calendar Header
+.lc-datepicker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+}
+
+.lc-datepicker-month-year {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.lc-datepicker-nav-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-md);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+
+  &:hover {
+    background-color: var(--color-neutral-100);
+    color: var(--color-text-primary);
+  }
+
+  &:active {
+    background-color: var(--color-neutral-200);
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+// Quick Actions
+.lc-datepicker-quick-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-3);
+}
+
+.lc-datepicker-today-button {
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary-600);
+  background: none;
+  border: 1px solid var(--color-primary-200);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+
+  &:hover {
+    background-color: var(--color-primary-50);
+    border-color: var(--color-primary-300);
+  }
+
+  &:active {
+    background-color: var(--color-primary-100);
+  }
+}
+
+// Weekday Headers
+.lc-datepicker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-1);
+  margin-bottom: var(--spacing-2);
+}
+
+.lc-datepicker-weekday {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-align: center;
+  padding: var(--spacing-1);
+}
+
+// Calendar Days
+.lc-datepicker-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-1);
+}
+
+.lc-datepicker-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--animation-duration-fast) var(--animation-timing-ease);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-neutral-100);
+  }
+
+  &.lc-datepicker-day--other-month {
+    color: var(--color-text-tertiary);
+  }
+
+  &.lc-datepicker-day--today {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary-600);
+    background-color: var(--color-primary-50);
+  }
+
+  &.lc-datepicker-day--selected {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-surface);
+    background-color: var(--color-primary-600);
+
+    &:hover {
+      background-color: var(--color-primary-700);
+    }
+  }
+
+  &.lc-datepicker-day--disabled {
+    color: var(--color-text-disabled);
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background: none;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}
+
+// Error and Helper Text
+.lc-datepicker__error {
+  font-size: var(--font-size-xs);
+  color: var(--color-error-600);
+  margin-top: var(--spacing-1);
+}
+
+.lc-datepicker__helper {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-1);
+}

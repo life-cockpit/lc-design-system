@@ -1,0 +1,132 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Size Tokens</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Standardized size system (xs, sm, md, lg) for consistent interactive component sizing.
+      These tokens ensure visual harmony across buttons, inputs, and other form controls.
+    </p>
+  </div>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Size Scale</h2>
+    <lc-card>
+      <div class="space-y-8">
+        @for (size of sizeTokens; track size.name) {
+          <div class="space-y-4">
+            <div>
+              <p class="font-mono text-lg font-medium text-neutral-900 dark:text-white mb-1">
+                {{ size.name }}
+              </p>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+                {{ size.description }}
+              </p>
+
+              <div class="grid grid-cols-3 gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+              <div><span class="font-semibold">Height:</span> {{ size.height }}</div>
+              <div><span class="font-semibold">Padding:</span> {{ size.padding }}</div>
+              <div><span class="font-semibold">Font Size:</span> {{ size.fontSize }}</div>
+            </div>
+          </div>
+
+          <!-- Button Example -->
+          <div class="flex flex-wrap gap-4 items-center">
+            <lc-button
+              [size]="size.name === 'xs' ? 'xs' : size.name === 'sm' ? 'sm' : size.name === 'md' ? 'md' : 'lg'"
+              variant="primary"
+            >
+              Button {{ size.name }}
+            </lc-button>
+
+              <!-- Input Example -->
+              <input
+                type="text"
+                [placeholder]="'Input ' + size.name"
+                [style.height]="size.height"
+                [style.padding]="'0 ' + size.padding"
+                [style.font-size]="size.fontSize"
+                class="border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              />
+
+              <!-- Select Example - using native for demonstration purposes -->
+              <!-- For actual implementation, use lc-select component -->
+              <select
+                [style.height]="size.height"
+                [style.padding]="'0 ' + size.padding"
+                [style.font-size]="size.fontSize"
+                class="border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+              >
+              <option>Select {{ size.name }}</option>
+              <option>Option 1</option>
+              <option>Option 2</option>
+              </select>
+            </div>
+          </div>
+        }
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Component Matrix -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Component Size Matrix</h2>
+    <lc-card>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-neutral-200 dark:border-neutral-700">
+              <th class="text-left py-3 px-4 font-semibold text-neutral-900 dark:text-white">
+                Size
+              </th>
+              <th class="text-left py-3 px-4 font-semibold text-neutral-900 dark:text-white">
+                Height
+              </th>
+              <th class="text-left py-3 px-4 font-semibold text-neutral-900 dark:text-white">
+                Horizontal Padding
+              </th>
+              <th class="text-left py-3 px-4 font-semibold text-neutral-900 dark:text-white">
+                Font Size
+              </th>
+              <th class="text-left py-3 px-4 font-semibold text-neutral-900 dark:text-white">
+                Use Cases
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (size of sizeTokens; track size.name) {
+              <tr class="border-b border-neutral-200 dark:border-neutral-700 last:border-b-0">
+                <td class="py-3 px-4 font-mono font-medium text-neutral-900 dark:text-white">
+                  {{ size.name }}
+                </td>
+                <td class="py-3 px-4 text-neutral-600 dark:text-neutral-400">
+                  {{ size.height }}
+                </td>
+                <td class="py-3 px-4 text-neutral-600 dark:text-neutral-400">
+                  {{ size.padding }}
+                </td>
+                <td class="py-3 px-4 text-neutral-600 dark:text-neutral-400">
+                  {{ size.fontSize }}
+                </td>
+                <td class="py-3 px-4 text-neutral-600 dark:text-neutral-400">
+                  {{ size.useCases }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Usage Example -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Usage Example</h2>
+    <lc-card>
+      <div class="bg-neutral-900 dark:bg-neutral-950 rounded-md p-4">
+        <pre
+          class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"
+        ><code>{{ usageExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+</div>

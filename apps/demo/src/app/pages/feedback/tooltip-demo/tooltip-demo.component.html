@@ -1,0 +1,200 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Tooltip Directive</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Contextual information displayed on hover or focus.
+    </p>
+  </div>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Hover over or focus on elements to see tooltips.</p>
+          
+          <div class="flex flex-wrap gap-6 items-center p-8 justify-center">
+            <lc-button lcTooltip="This is a tooltip" tooltipPosition="top">
+              Hover Me (Top)
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>&lt;lc-button lcTooltip="This is a tooltip"&gt;
+  Hover Me
+&lt;/lc-button&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Positions</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Tooltips can be positioned in four directions.</p>
+          
+          <div class="flex flex-wrap gap-6 items-center p-8 justify-center">
+            <lc-button lcTooltip="Tooltip on top" tooltipPosition="top">
+              Top
+            </lc-button>
+            <lc-button lcTooltip="Tooltip on right" tooltipPosition="right">
+              Right
+            </lc-button>
+            <lc-button lcTooltip="Tooltip on bottom" tooltipPosition="bottom">
+              Bottom
+            </lc-button>
+            <lc-button lcTooltip="Tooltip on left" tooltipPosition="left">
+              Left
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>&lt;lc-button 
+  lcTooltip="Tooltip on top" 
+  tooltipPosition="top"
+&gt;
+  Top
+&lt;/lc-button&gt;
+
+&lt;!-- Positions: top, right, bottom, left --&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Delays</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Control when tooltips appear and disappear.</p>
+          
+          <div class="flex flex-wrap gap-6 items-center p-8 justify-center">
+            <lc-button 
+              lcTooltip="Shows after 500ms" 
+              [tooltipShowDelay]="500"
+            >
+              Show Delay (500ms)
+            </lc-button>
+            <lc-button 
+              lcTooltip="Hides after 300ms" 
+              [tooltipHideDelay]="300"
+            >
+              Hide Delay (300ms)
+            </lc-button>
+            <lc-button 
+              lcTooltip="Both delays"
+              [tooltipShowDelay]="500"
+              [tooltipHideDelay]="300"
+            >
+              Both Delays
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>&lt;lc-button 
+  lcTooltip="Shows after 500ms" 
+  [tooltipShowDelay]="500"
+  [tooltipHideDelay]="300"
+&gt;
+  Delayed Tooltip
+&lt;/lc-button&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Disabled State</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Tooltips can be disabled conditionally.</p>
+          
+          <div class="flex flex-wrap gap-6 items-center p-8 justify-center">
+            <lc-button 
+              lcTooltip="This tooltip is disabled" 
+              [tooltipDisabled]="true"
+            >
+              Disabled Tooltip
+            </lc-button>
+            <lc-button 
+              lcTooltip="This tooltip is enabled" 
+              [tooltipDisabled]="false"
+            >
+              Enabled Tooltip
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>&lt;lc-button 
+  lcTooltip="This tooltip can be disabled" 
+  [tooltipDisabled]="isDisabled"
+&gt;
+  Conditional Tooltip
+&lt;/lc-button&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">On Different Elements</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Tooltips work on various HTML elements.</p>
+          
+          <div class="flex flex-wrap gap-6 items-center p-8 justify-center">
+            <lc-button lcTooltip="Button tooltip">
+              Button
+            </lc-button>
+            <a href="#" class="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 underline font-medium" lcTooltip="Link tooltip">
+              Link
+            </a>
+            <span class="inline-block px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium cursor-default" lcTooltip="Badge tooltip">
+              Badge
+            </span>
+            <input 
+              type="text" 
+              class="px-3 py-2 border border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400" 
+              lcTooltip="Input field tooltip"
+              placeholder="Hover or focus me"
+            />
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>&lt;!-- Button --&gt;
+&lt;lc-button lcTooltip="Button tooltip"&gt;Button&lt;/lc-button&gt;
+
+&lt;!-- Link --&gt;
+&lt;a href="#" lcTooltip="Link tooltip"&gt;Link&lt;/a&gt;
+
+&lt;!-- Input --&gt;
+&lt;input 
+  type="text" 
+  lcTooltip="Input tooltip"
+  placeholder="Hover or focus me"
+/&gt;
+
+&lt;!-- Any element --&gt;
+&lt;span lcTooltip="Span tooltip"&gt;Hover text&lt;/span&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Long Text</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <div>
+          <p class="text-neutral-600 dark:text-neutral-400 mb-4">Tooltips can contain longer text and will wrap appropriately.</p>
+          
+          <div class="flex flex-wrap gap-6 items-center p-8 justify-center">
+            <lc-button 
+              lcTooltip="This is a much longer tooltip text that demonstrates how tooltips handle multiple lines of content. They will wrap to maintain readability."
+            >
+              Long Tooltip
+            </lc-button>
+          </div>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-sm text-neutral-100"><code>&lt;lc-button lcTooltip="This is a much longer tooltip..."&gt;
+  Long Tooltip
+&lt;/lc-button&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+</div>

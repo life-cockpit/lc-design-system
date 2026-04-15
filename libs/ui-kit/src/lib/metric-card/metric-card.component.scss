@@ -1,0 +1,55 @@
+/**
+ * MetricCard Component Styles
+ *
+ * Content layout for KPI card (label, value, trend, icon).
+ * Card shell (background, border, padding, radius) is handled by lc-card.
+ */
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.lc-metric-card {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__label {
+    font-size: var(--typography-font-size-sm, 0.875rem);
+    font-weight: var(--typography-font-weight-medium, 500);
+    color: var(--color-text-secondary, #6b7280);
+    line-height: 1.25;
+  }
+
+  &__icon {
+    color: var(--color-text-secondary, #6b7280);
+  }
+
+  &__value {
+    margin-top: 0.25rem;
+    font-size: var(--typography-font-size-2xl, 1.5rem);
+    font-weight: var(--typography-font-weight-bold, 700);
+    color: var(--color-text-primary, #111827);
+    line-height: 1.2;
+  }
+
+  &__trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+    font-size: var(--typography-font-size-sm, 0.875rem);
+    font-weight: var(--typography-font-weight-medium, 500);
+  }
+
+  &__arrow {
+    font-size: 0.75rem;
+  }
+
+  &__trend-value {
+    line-height: 1;
+  }
+}

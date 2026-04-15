@@ -1,0 +1,326 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChipComponent } from './chip.component';
+import { HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+
+const MOCK_SVG =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>';
+
+describe('ChipComponent', () => {
+  let component: ChipComponent;
+  let fixture: ComponentFixture<ChipComponent>;
+  let chipElement: HTMLElement;
+  let httpMock: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ChipComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ChipComponent);
+    component = fixture.componentInstance;
+    chipElement = fixture.nativeElement;
+    httpMock = TestBed.inject(HttpTestingController);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    const pendingRequests = httpMock.match(() => true);
+    pendingRequests.forEach((req) => {
+      if (!req.cancelled) {
+        req.flush(MOCK_SVG);
+      }
+    });
+    httpMock.verify();
+  });
+
+  describe('Component Structure', () => {
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should render with lc-chip class', () => {
+      const chip = chipElement.querySelector('.lc-chip');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should project content', () => {
+      @Component({
+        template: `<lc-chip>Test Content</lc-chip>`,
+        standalone: true,
+        imports: [ChipComponent],
+        changeDetection: ChangeDetectionStrategy.OnPush,
+      })
+      class TestComponent {}
+
+      const testFixture = TestBed.createComponent(TestComponent);
+      testFixture.detectChanges();
+
+      const content = testFixture.nativeElement.textContent;
+      expect(content).toContain('Test Content');
+    });
+  });
+
+  describe('Variant Input', () => {
+    it('should have default variant', () => {
+      expect(component.variant()).toBe('default');
+      const chip = chipElement.querySelector('.lc-chip--default');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply primary variant', () => {
+      fixture.componentRef.setInput('variant', 'primary');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--primary');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply success variant', () => {
+      fixture.componentRef.setInput('variant', 'success');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--success');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply warning variant', () => {
+      fixture.componentRef.setInput('variant', 'warning');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--warning');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply error variant', () => {
+      fixture.componentRef.setInput('variant', 'error');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--error');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply info variant', () => {
+      fixture.componentRef.setInput('variant', 'info');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--info');
+      expect(chip).toBeTruthy();
+    });
+  });
+
+  describe('Size Input', () => {
+    it('should have md size by default', () => {
+      expect(component.size()).toBe('md');
+      const chip = chipElement.querySelector('.lc-chip--md');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply sm size', () => {
+      fixture.componentRef.setInput('size', 'sm');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--sm');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should apply lg size', () => {
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--lg');
+      expect(chip).toBeTruthy();
+    });
+  });
+
+  describe('Removable Functionality', () => {
+    it('should not show delete button by default', () => {
+      const deleteBtn = chipElement.querySelector('.lc-chip__delete');
+      expect(deleteBtn).toBeFalsy();
+    });
+
+    it('should show delete button when removable is true', () => {
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const deleteBtn = chipElement.querySelector('.lc-chip__delete');
+      expect(deleteBtn).toBeTruthy();
+    });
+
+    it('should emit remove event when delete button is clicked', () => {
+      const removeSpy = jest.fn();
+      component.remove.subscribe(removeSpy);
+
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const deleteBtn = chipElement.querySelector('.lc-chip__delete') as HTMLElement;
+      deleteBtn.click();
+
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should apply removable class when removable is true', () => {
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--removable');
+      expect(chip).toBeTruthy();
+    });
+  });
+
+  describe('Icon Support', () => {
+    it('should render icon when provided', () => {
+      fixture.componentRef.setInput('icon', 'tag');
+      fixture.detectChanges();
+
+      const icon = chipElement.querySelector('lc-icon');
+      expect(icon).toBeTruthy();
+    });
+
+    it('should not render icon when not provided', () => {
+      const icon = chipElement.querySelector('lc-icon');
+      expect(icon).toBeNull();
+    });
+  });
+
+  describe('Disabled State', () => {
+    it('should not be disabled by default', () => {
+      expect(component.disabled()).toBe(false);
+    });
+
+    it('should apply disabled class when disabled', () => {
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip--disabled');
+      expect(chip).toBeTruthy();
+    });
+
+    it('should not emit remove event when disabled', () => {
+      const removeSpy = jest.fn();
+      component.remove.subscribe(removeSpy);
+
+      fixture.componentRef.setInput('removable', true);
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const deleteBtn = chipElement.querySelector('.lc-chip__delete') as HTMLElement;
+      deleteBtn?.click();
+
+      expect(removeSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should have role="button" when removable', () => {
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip');
+      expect(chip?.getAttribute('role')).toBe('button');
+    });
+
+    it('should have tabindex="0" when removable and not disabled', () => {
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip');
+      expect(chip?.getAttribute('tabindex')).toBe('0');
+    });
+
+    it('should have tabindex="-1" when removable and disabled', () => {
+      fixture.componentRef.setInput('removable', true);
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip');
+      expect(chip?.getAttribute('tabindex')).toBe('-1');
+    });
+
+    it('should have aria-disabled when disabled', () => {
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip');
+      expect(chip?.getAttribute('aria-disabled')).toBe('true');
+    });
+
+    it('should have aria-label on delete button', () => {
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const deleteBtn = chipElement.querySelector('.lc-chip__delete');
+      expect(deleteBtn?.getAttribute('aria-label')).toBeTruthy();
+    });
+
+    it('should support keyboard navigation (Enter)', () => {
+      const removeSpy = jest.fn();
+      component.remove.subscribe(removeSpy);
+
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip') as HTMLElement;
+      const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+      chip.dispatchEvent(enterEvent);
+
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should support keyboard navigation (Space)', () => {
+      const removeSpy = jest.fn();
+      component.remove.subscribe(removeSpy);
+
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip') as HTMLElement;
+      const spaceEvent = new KeyboardEvent('keydown', { key: ' ' });
+      chip.dispatchEvent(spaceEvent);
+
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not trigger remove on keyboard when disabled', () => {
+      const removeSpy = jest.fn();
+      component.remove.subscribe(removeSpy);
+
+      fixture.componentRef.setInput('removable', true);
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const chip = chipElement.querySelector('.lc-chip') as HTMLElement;
+      const enterEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+      chip.dispatchEvent(enterEvent);
+
+      expect(removeSpy).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('CSS Classes Computed', () => {
+    it('should combine multiple classes correctly', () => {
+      fixture.componentRef.setInput('variant', 'primary');
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.componentRef.setInput('removable', true);
+      fixture.detectChanges();
+
+      const classes = component.chipClasses();
+      expect(classes).toContain('lc-chip');
+      expect(classes).toContain('lc-chip--primary');
+      expect(classes).toContain('lc-chip--lg');
+      expect(classes).toContain('lc-chip--removable');
+    });
+
+    it('should include disabled class when disabled', () => {
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      const classes = component.chipClasses();
+      expect(classes).toContain('lc-chip--disabled');
+    });
+  });
+});

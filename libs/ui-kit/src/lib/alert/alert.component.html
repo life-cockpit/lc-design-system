@@ -1,0 +1,34 @@
+@if (visible()) {
+  <div [class]="containerClasses()">
+    @if (showIcon()) {
+      <div class="lc-alert__icon">
+        <lc-icon [name]="defaultIcon()" size="md" />
+      </div>
+    }
+    
+    <div class="lc-alert__body">
+      @if (title()) {
+        <div class="lc-alert__title">{{ title() }}</div>
+      }
+      
+      <div class="lc-alert__content">
+        @if (message()) {
+          {{ message() }}
+        } @else {
+          <ng-content />
+        }
+      </div>
+    </div>
+    
+    @if (dismissible()) {
+      <button
+        type="button"
+        class="lc-alert__close"
+        aria-label="Close alert"
+        (click)="onCloseClick($event)"
+      >
+        <lc-icon name="x-mark" size="sm" />
+      </button>
+    }
+  </div>
+}

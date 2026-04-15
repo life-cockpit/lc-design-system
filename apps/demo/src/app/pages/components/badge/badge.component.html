@@ -1,0 +1,259 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Badge Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Compact labels for displaying counts, status indicators, and categories.
+    </p>
+  </div>
+
+  <!-- Basic Usage -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-2">
+          <lc-badge>New</lc-badge>
+          <lc-badge>Beta</lc-badge>
+          <lc-badge>Sale</lc-badge>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ basicExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-3">
+          <lc-badge variant="default">Default</lc-badge>
+          <lc-badge variant="primary">Primary</lc-badge>
+          <lc-badge variant="success">Success</lc-badge>
+          <lc-badge variant="warning">Warning</lc-badge>
+          <lc-badge variant="error">Error</lc-badge>
+          <lc-badge variant="info">Info</lc-badge>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ variantExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap items-center gap-3">
+          <lc-badge size="xs">Extra Small</lc-badge>
+          <lc-badge size="sm">Small</lc-badge>
+          <lc-badge size="md">Medium</lc-badge>
+          <lc-badge size="lg">Large</lc-badge>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ sizeExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Rounded (Pill Shape) -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Rounded (Pill Shape)</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap items-center gap-3">
+          <lc-badge [rounded]="true">5</lc-badge>
+          <lc-badge variant="primary" [rounded]="true">12</lc-badge>
+          <lc-badge variant="success" [rounded]="true">99+</lc-badge>
+          <lc-badge variant="warning" [rounded]="true">!</lc-badge>
+          <lc-badge variant="error" [rounded]="true">3</lc-badge>
+          <lc-badge variant="info" [rounded]="true">New</lc-badge>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ roundedExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- In Text Flow -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">In Text Flow</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="space-y-3">
+          <p class="text-base">
+            Inbox <lc-badge variant="error" [rounded]="true">{{ notificationCount() }}</lc-badge>
+          </p>
+          <p class="text-base">
+            Documentation <lc-badge variant="info" size="sm">New</lc-badge>
+          </p>
+          <p class="text-base">
+            Settings <lc-badge variant="warning" size="sm">Beta</lc-badge>
+          </p>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ inlineExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- With Buttons -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Buttons</h2>
+    
+    <lc-card>
+      <div class="space-y-6">
+        <div class="flex flex-wrap gap-3">
+          <lc-button>
+            Messages <lc-badge variant="primary" [rounded]="true">{{ notificationCount() }}</lc-badge>
+          </lc-button>
+          <lc-button variant="outline">
+            Notifications <lc-badge variant="error" size="sm" [rounded]="true">5</lc-badge>
+          </lc-button>
+          <lc-button variant="ghost">
+            Updates <lc-badge variant="success" size="sm">12</lc-badge>
+          </lc-button>
+        </div>
+
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ buttonExample }}</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    
+    <lc-card>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Controls -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">Variant</label>
+            <div class="flex flex-wrap gap-2">
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="variant() === 'default'"
+                (click)="setVariant('default')">
+                Default
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="variant() === 'primary'"
+                (click)="setVariant('primary')">
+                Primary
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="variant() === 'success'"
+                (click)="setVariant('success')">
+                Success
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="variant() === 'warning'"
+                (click)="setVariant('warning')">
+                Warning
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="variant() === 'error'"
+                (click)="setVariant('error')">
+                Error
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="variant() === 'info'"
+                (click)="setVariant('info')">
+                Info
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-2">Size</label>
+            <div class="flex flex-wrap gap-2">
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="size() === 'xs'"
+                (click)="setSize('xs')">
+                XS
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="size() === 'sm'"
+                (click)="setSize('sm')">
+                SM
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="size() === 'md'"
+                (click)="setSize('md')">
+                MD
+              </button>
+              <button 
+                class="px-3 py-1 text-sm rounded border"
+                [class.bg-primary-100]="size() === 'lg'"
+                (click)="setSize('lg')">
+                LG
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium mb-2">Options</label>
+            <button 
+              class="px-4 py-2 text-sm rounded border"
+              [class.bg-primary-100]="rounded()"
+              (click)="toggleRounded()">
+              Rounded: {{ rounded() ? 'On' : 'Off' }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="flex items-center justify-center p-8 bg-neutral-50 dark:bg-neutral-800 rounded-lg">
+          <lc-badge 
+            [variant]="variant()" 
+            [size]="size()" 
+            [rounded]="rounded()">
+            {{ content() }}
+          </lc-badge>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Props API -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Props API</h2>
+    
+    <lc-card>
+      <lc-table [columns]="apiColumns()" [data]="apiData()" variant="bordered" size="sm"></lc-table>
+    </lc-card>
+  </section>
+
+  <!-- Best Practices -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Best Practices</h2>
+    
+    <lc-card>
+      <div class="prose dark:prose-invert max-w-none">
+        <ul class="space-y-2">
+          <li><strong>Use rounded badges for counts:</strong> Pill-shaped badges work best for displaying numeric values</li>
+          <li><strong>Choose appropriate sizes:</strong> Match badge size to surrounding content (e.g., small badges for inline text)</li>
+          <li><strong>Limit text length:</strong> Badges should be compact - use abbreviations if necessary</li>
+          <li><strong>Use semantic variants:</strong> Apply success/warning/error variants to convey status meaningfully</li>
+          <li><strong>Avoid overuse:</strong> Too many badges can create visual clutter</li>
+        </ul>
+      </div>
+    </lc-card>
+  </section>
+</div>

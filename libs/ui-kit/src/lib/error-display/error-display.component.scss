@@ -1,0 +1,23 @@
+// Error display specific styles
+// Inherits all styles from alert component
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Animation for appearing/disappearing
+:host {
+  animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

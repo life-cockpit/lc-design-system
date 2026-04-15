@@ -1,0 +1,87 @@
+<div class="input-wrapper">
+  <!-- Label -->
+  @if (label()) {
+    <label [for]="inputId" class="input-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="required-indicator" aria-label="required">*</span>
+      }
+    </label>
+  }
+
+  <!-- Input Container -->
+  <div
+    class="input-container"
+    [class.input-xs]="size() === 'xs'"
+    [class.input-sm]="size() === 'sm'"
+    [class.input-md]="size() === 'md'"
+    [class.input-lg]="size() === 'lg'"
+    [class.input-error]="hasError"
+    [class.input-disabled]="isDisabled"
+    [class.input-readonly]="readonly()"
+  >
+    <!-- Icon Before -->
+    @if (iconBefore()) {
+      <span class="input-icon input-icon-before" aria-hidden="true">
+        <lc-icon [name]="iconBefore()!" size="sm" [decorative]="true" />
+      </span>
+    }
+
+    <!-- Input Element -->
+    <input
+      #inputRef
+      [id]="inputId"
+      [type]="type()"
+      [value]="value()"
+      [placeholder]="placeholder()"
+      [disabled]="isDisabled"
+      [readonly]="readonly()"
+      [required]="required()"
+      [attr.maxlength]="maxLength() || null"
+      [attr.aria-label]="ariaLabel()"
+      [attr.aria-required]="required() || undefined"
+      [attr.aria-invalid]="hasError || undefined"
+      [attr.aria-describedby]="
+        (error() ? inputId + '-error' : '') + (helperText() ? ' ' + inputId + '-helper' : '')
+      "
+      class="input-field"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keydown)="onKeydown($event)"
+    />
+
+    <!-- Icon After -->
+    @if (iconAfter()) {
+      <span class="input-icon input-icon-after" aria-hidden="true">
+        <lc-icon [name]="iconAfter()!" size="sm" [decorative]="true" />
+      </span>
+    }
+  </div>
+
+  <!-- Helper Text / Error Message / Character Count -->
+  @if (error() || helperText() || (showCharCount() && maxLength())) {
+    <div class="input-footer">
+      <!-- Error Message -->
+      @if (error()) {
+        <p [id]="inputId + '-error'" class="input-error" role="alert">
+          {{ error() }}
+        </p>
+      }
+
+      <!-- Helper Text -->
+      @if (helperText() && !error()) {
+        <p [id]="inputId + '-helper'" class="input-helper">
+          {{ helperText() }}
+        </p>
+      }
+
+      <!-- Character Count -->
+      @if (showCharCount() && maxLength()) {
+        <p class="char-count" aria-live="polite">
+          {{ charCount }} / {{ maxLength() }}
+        </p>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,62 @@
+@if (shouldRender()) {
+  <nav [attr.aria-label]="ariaLabel()">
+    <div [ngClass]="paginationClasses()">
+      <!-- Previous Button -->
+      <button
+        type="button"
+        class="lc-pagination__button lc-pagination__button--prev"
+        [disabled]="isFirstPage()"
+        [attr.aria-label]="'Previous page'"
+        (click)="goToPreviousPage()"
+      >
+        <svg class="lc-pagination__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+        <span class="lc-pagination__button-text">Previous</span>
+      </button>
+
+      <!-- Page Numbers -->
+      <div class="lc-pagination__pages">
+        @for (page of visiblePages(); track $index) {
+          @if (isEllipsis(page)) {
+            <span class="lc-pagination__ellipsis" aria-hidden="true">
+              &hellip;
+            </span>
+          } @else {
+            <button
+              type="button"
+              class="lc-pagination__button lc-pagination__button--page"
+              [class.lc-pagination__button--active]="isCurrentPage(page)"
+              [attr.aria-label]="'Page ' + page"
+              [attr.aria-current]="isCurrentPage(page) ? 'page' : null"
+              (click)="goToPage(page)"
+            >
+              {{ page }}
+            </button>
+          }
+        }
+      </div>
+
+      <!-- Next Button -->
+      <button
+        type="button"
+        class="lc-pagination__button lc-pagination__button--next"
+        [disabled]="isLastPage()"
+        [attr.aria-label]="'Next page'"
+        (click)="goToNextPage()"
+      >
+        <span class="lc-pagination__button-text">Next</span>
+        <svg class="lc-pagination__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Optional Info Text -->
+    @if (showInfo()) {
+      <div class="lc-pagination__info">
+        Showing {{ firstItemIndex() }} to {{ lastItemIndex() }} of {{ totalItems() }} items
+      </div>
+    }
+  </nav>
+}

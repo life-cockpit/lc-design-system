@@ -1,0 +1,366 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { TableComponent, type TableColumn } from './table.component';
+
+describe('TableComponent', () => {
+  let component: TableComponent;
+  let fixture: ComponentFixture<TableComponent>;
+
+  const mockColumns: TableColumn[] = [
+    { key: 'name', label: 'Name', sortable: true },
+    { key: 'age', label: 'Age', sortable: true },
+    { key: 'email', label: 'Email', sortable: false },
+  ];
+
+  const mockData = [
+    { name: 'Alice', age: 30, email: 'alice@example.com' },
+    { name: 'Bob', age: 25, email: 'bob@example.com' },
+    { name: 'Charlie', age: 35, email: 'charlie@example.com' },
+  ];
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TableComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TableComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('Basic Structure', () => {
+    it('should render table element', () => {
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table).toBeTruthy();
+      expect(table.nativeElement.classList.contains('lc-table')).toBe(true);
+    });
+
+    it('should render thead element', () => {
+      const thead = fixture.debugElement.query(By.css('thead'));
+      expect(thead).toBeTruthy();
+    });
+
+    it('should render tbody element', () => {
+      const tbody = fixture.debugElement.query(By.css('tbody'));
+      expect(tbody).toBeTruthy();
+    });
+  });
+
+  describe('Columns', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.detectChanges();
+    });
+
+    it('should render header cells for each column', () => {
+      const headers = fixture.debugElement.queryAll(By.css('th'));
+      expect(headers.length).toBe(mockColumns.length);
+    });
+
+    it('should display column labels in headers', () => {
+      const headers = fixture.debugElement.queryAll(By.css('th'));
+      headers.forEach((header, index) => {
+        expect(header.nativeElement.textContent).toContain(mockColumns[index].label);
+      });
+    });
+
+    it('should add sortable class to sortable columns', () => {
+      const headers = fixture.debugElement.queryAll(By.css('th'));
+      expect(headers[0].nativeElement.classList.contains('sortable')).toBe(true);
+      expect(headers[1].nativeElement.classList.contains('sortable')).toBe(true);
+      expect(headers[2].nativeElement.classList.contains('sortable')).toBe(false);
+    });
+  });
+
+  describe('Data Rendering', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+    });
+
+    it('should render rows for each data item', () => {
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      expect(rows.length).toBe(mockData.length);
+    });
+
+    it('should render cells for each column in each row', () => {
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      rows.forEach((row) => {
+        const cells = row.queryAll(By.css('td'));
+        expect(cells.length).toBe(mockColumns.length);
+      });
+    });
+
+    it('should display correct data in cells', () => {
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      rows.forEach((row, rowIndex) => {
+        const cells = row.queryAll(By.css('td'));
+        cells.forEach((cell, colIndex) => {
+          const key = mockColumns[colIndex].key;
+          const expectedValue = mockData[rowIndex][key];
+          expect(cell.nativeElement.textContent.trim()).toBe(String(expectedValue));
+        });
+      });
+    });
+  });
+
+  describe('Empty State', () => {
+    it('should show empty message when no data', () => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', []);
+      fixture.detectChanges();
+
+      const emptyMessage = fixture.debugElement.query(By.css('.lc-table__empty'));
+      expect(emptyMessage).toBeTruthy();
+      expect(emptyMessage.nativeElement.textContent).toContain('No data available');
+    });
+
+    it('should not show empty message when data exists', () => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+
+      const emptyMessage = fixture.debugElement.query(By.css('.lc-table__empty'));
+      expect(emptyMessage).toBeFalsy();
+    });
+  });
+
+  describe('Sorting', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+    });
+
+    it('should emit sort event when sortable header is clicked', () => {
+      const sortSpy = jest.fn();
+      component.sort.subscribe(sortSpy);
+
+      const firstHeader = fixture.debugElement.query(By.css('th.sortable'));
+      firstHeader.nativeElement.click();
+
+      expect(sortSpy).toHaveBeenCalledWith({ column: 'name', direction: 'asc' });
+    });
+
+    it('should toggle sort direction on repeated clicks', () => {
+      const sortSpy = jest.fn();
+      component.sort.subscribe(sortSpy);
+
+      const firstHeader = fixture.debugElement.query(By.css('th.sortable'));
+
+      firstHeader.nativeElement.click();
+      expect(sortSpy).toHaveBeenCalledWith({ column: 'name', direction: 'asc' });
+
+      firstHeader.nativeElement.click();
+      expect(sortSpy).toHaveBeenCalledWith({ column: 'name', direction: 'desc' });
+
+      firstHeader.nativeElement.click();
+      expect(sortSpy).toHaveBeenCalledWith({ column: 'name', direction: 'asc' });
+    });
+
+    it('should not emit sort event for non-sortable columns', () => {
+      const sortSpy = jest.fn();
+      component.sort.subscribe(sortSpy);
+
+      const emailHeader = fixture.debugElement.queryAll(By.css('th'))[2];
+      emailHeader.nativeElement.click();
+
+      expect(sortSpy).not.toHaveBeenCalled();
+    });
+
+    it('should show sort indicator for active sort column', () => {
+      component.handleSort('name');
+      fixture.detectChanges();
+
+      const firstHeader = fixture.debugElement.query(By.css('th.sortable'));
+      expect(firstHeader.nativeElement.classList.contains('sorted-asc')).toBe(true);
+    });
+  });
+
+  describe('Variants', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+    });
+
+    it('should apply default variant class', () => {
+      fixture.componentRef.setInput('variant', 'default');
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--default')).toBe(true);
+    });
+
+    it('should apply striped variant class', () => {
+      fixture.componentRef.setInput('variant', 'striped');
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--striped')).toBe(true);
+    });
+
+    it('should apply bordered variant class', () => {
+      fixture.componentRef.setInput('variant', 'bordered');
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--bordered')).toBe(true);
+    });
+
+    it('should apply hover class when hoverable is true', () => {
+      fixture.componentRef.setInput('hoverable', true);
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--hoverable')).toBe(true);
+    });
+  });
+
+  describe('Responsive', () => {
+    it('should apply responsive class', () => {
+      fixture.componentRef.setInput('responsive', true);
+      fixture.detectChanges();
+
+      const wrapper = fixture.debugElement.query(By.css('.lc-table-wrapper'));
+      expect(wrapper.nativeElement.classList.contains('lc-table-wrapper--responsive')).toBe(true);
+    });
+
+    it('should not apply responsive class when responsive is false', () => {
+      fixture.componentRef.setInput('responsive', false);
+      fixture.detectChanges();
+
+      const wrapper = fixture.debugElement.query(By.css('.lc-table-wrapper'));
+      expect(wrapper.nativeElement.classList.contains('lc-table-wrapper--responsive')).toBe(false);
+    });
+  });
+
+  describe('Sizes', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+    });
+
+    it('should apply sm size class', () => {
+      fixture.componentRef.setInput('size', 'sm');
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--sm')).toBe(true);
+    });
+
+    it('should apply md size class', () => {
+      fixture.componentRef.setInput('size', 'md');
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--md')).toBe(true);
+    });
+
+    it('should apply lg size class', () => {
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.detectChanges();
+
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.classList.contains('lc-table--lg')).toBe(true);
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+    });
+
+    it('should have role="table"', () => {
+      const table = fixture.debugElement.query(By.css('table'));
+      expect(table.nativeElement.getAttribute('role')).toBe('table');
+    });
+
+    it('should have proper scope attributes on headers', () => {
+      const headers = fixture.debugElement.queryAll(By.css('th'));
+      headers.forEach((header) => {
+        expect(header.nativeElement.getAttribute('scope')).toBe('col');
+      });
+    });
+
+    it('should have aria-sort attribute on sorted column', () => {
+      component.handleSort('name');
+      fixture.detectChanges();
+
+      const firstHeader = fixture.debugElement.query(By.css('th.sortable'));
+      expect(firstHeader.nativeElement.getAttribute('aria-sort')).toBe('ascending');
+
+      component.handleSort('name');
+      fixture.detectChanges();
+
+      expect(firstHeader.nativeElement.getAttribute('aria-sort')).toBe('descending');
+    });
+  });
+
+  describe('Input Bindings', () => {
+    it('should accept columns input', () => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      expect(component.columns()).toEqual(mockColumns);
+    });
+
+    it('should accept data input', () => {
+      fixture.componentRef.setInput('data', mockData);
+      expect(component.data()).toEqual(mockData);
+    });
+
+    it('should accept variant input', () => {
+      fixture.componentRef.setInput('variant', 'striped');
+      expect(component.variant()).toBe('striped');
+    });
+
+    it('should accept size input', () => {
+      fixture.componentRef.setInput('size', 'lg');
+      expect(component.size()).toBe('lg');
+    });
+
+    it('should accept hoverable input', () => {
+      fixture.componentRef.setInput('hoverable', true);
+      expect(component.hoverable()).toBe(true);
+    });
+
+    it('should accept responsive input', () => {
+      fixture.componentRef.setInput('responsive', true);
+      expect(component.responsive()).toBe(true);
+    });
+  });
+
+  describe('Computed Classes', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+    });
+
+    it('should compute correct table classes', () => {
+      fixture.componentRef.setInput('variant', 'striped');
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.componentRef.setInput('hoverable', true);
+      fixture.detectChanges();
+
+      const classes = component.tableClasses().split(' ');
+      expect(classes).toContain('lc-table');
+      expect(classes).toContain('lc-table--striped');
+      expect(classes).toContain('lc-table--lg');
+      expect(classes).toContain('lc-table--hoverable');
+    });
+
+    it('should compute correct wrapper classes', () => {
+      fixture.componentRef.setInput('responsive', true);
+      fixture.detectChanges();
+
+      const classes = component.wrapperClasses().split(' ');
+      expect(classes).toContain('lc-table-wrapper');
+      expect(classes).toContain('lc-table-wrapper--responsive');
+    });
+  });
+});

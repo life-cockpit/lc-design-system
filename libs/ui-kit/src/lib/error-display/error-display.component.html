@@ -1,0 +1,10 @@
+@if (visible() && errorMessage()) {
+  <lc-alert
+    [variant]="alertVariant()"
+    [title]="errorTitle()"
+    [message]="errorMessage()"
+    [dismissible]="dismissible()"
+    [showIcon]="showIcon()"
+    (dismissed)="onDismissed()"
+  />
+}

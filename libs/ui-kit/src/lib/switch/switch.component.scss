@@ -1,0 +1,194 @@
+// Import color tokens for dark mode overrides
+@use '../../styles/tokens/colors' as *;
+
+// Switch Component Styles
+.lc-switch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  
+  &.lc-switch-wrapper--label-left {
+    flex-direction: row;
+  }
+  
+  &.lc-switch-wrapper--label-right {
+    flex-direction: row-reverse;
+  }
+}
+
+.lc-switch-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+// Computed classes applied via TypeScript
+.lc-switch {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    border-radius: var(--border-radius-full);
+  }
+  
+  // Size variants
+  &.lc-switch--xs {
+    .lc-switch-track {
+      width: 2rem;
+      height: 1rem;
+    }
+    
+    .lc-switch-thumb {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+    
+    &.lc-switch--checked .lc-switch-thumb {
+      transform: translateX(1rem);
+    }
+  }
+  
+  &.lc-switch--sm {
+    .lc-switch-track {
+      width: 2.5rem;
+      height: 1.25rem;
+    }
+    
+    .lc-switch-thumb {
+      width: 1rem;
+      height: 1rem;
+    }
+    
+    &.lc-switch--checked .lc-switch-thumb {
+      transform: translateX(1.25rem);
+    }
+  }
+  
+  &.lc-switch--md {
+    .lc-switch-track {
+      width: 3rem;
+      height: 1.5rem;
+    }
+    
+    .lc-switch-thumb {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+    
+    &.lc-switch--checked .lc-switch-thumb {
+      transform: translateX(1.5rem);
+    }
+  }
+  
+  &.lc-switch--lg {
+    .lc-switch-track {
+      width: 3.5rem;
+      height: 1.75rem;
+    }
+    
+    .lc-switch-thumb {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    
+    &.lc-switch--checked .lc-switch-thumb {
+      transform: translateX(1.75rem);
+    }
+  }
+  
+  // Color variants
+  &.lc-switch--primary.lc-switch--checked {
+    .lc-switch-track {
+      background-color: var(--color-primary-600);
+    }
+  }
+  
+  &.lc-switch--secondary.lc-switch--checked {
+    .lc-switch-track {
+      background-color: var(--color-secondary-600);
+    }
+  }
+  
+  &.lc-switch--success.lc-switch--checked {
+    .lc-switch-track {
+      background-color: var(--color-success-default);
+    }
+  }
+  
+  &.lc-switch--warning.lc-switch--checked {
+    .lc-switch-track {
+      background-color: var(--color-warning-default);
+    }
+  }
+  
+  &.lc-switch--danger.lc-switch--checked {
+    .lc-switch-track {
+      background-color: var(--color-error-default);
+    }
+  }
+  
+  // State variants
+  &.lc-switch--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    
+    .lc-switch-track {
+      background-color: var(--color-neutral-300);
+    }
+  }
+  
+  &.lc-switch--loading {
+    cursor: wait;
+  }
+  
+  &.lc-switch--error {
+    .lc-switch-track {
+      background-color: var(--color-error-600);
+    }
+  }
+}
+
+.lc-switch-track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-neutral-300);
+  border-radius: var(--border-radius-full);
+  transition: background-color var(--animation-duration-base) var(--animation-timing-ease);
+  padding: 2px;
+}
+
+.lc-switch-thumb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-full);
+  box-shadow: var(--elevation-sm);
+  transition: transform var(--animation-duration-base) var(--animation-timing-ease);
+  transform: translateX(0);
+}
+
+.lc-switch-loading-spinner {
+  width: 60%;
+  height: 60%;
+  border: 2px solid var(--color-neutral-300);
+  border-top-color: var(--color-primary-600);
+  border-radius: var(--border-radius-full);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

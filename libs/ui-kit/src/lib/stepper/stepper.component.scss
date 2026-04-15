@@ -1,0 +1,98 @@
+.lc-stepper {
+  @apply w-full;
+
+  // ── Header (step indicators) ──────────────────────────────────────────
+  &__header {
+    @apply flex items-center gap-0;
+  }
+
+  &--horizontal &__header {
+    @apply flex-row;
+  }
+
+  &--vertical &__header {
+    @apply flex-col items-start;
+  }
+
+  // ── Individual step ───────────────────────────────────────────────────
+  &__step {
+    @apply flex items-center gap-3 shrink-0;
+
+    &--clickable {
+      @apply cursor-pointer;
+    }
+  }
+
+  // ── Step indicator circle ─────────────────────────────────────────────
+  &__indicator {
+    @apply flex items-center justify-center
+      w-8 h-8 rounded-full
+      text-sm font-semibold
+      transition-all duration-200;
+  }
+
+  &__step--pending &__indicator {
+    @apply bg-gray-200 text-gray-500
+      dark:bg-gray-700 dark:text-gray-400;
+  }
+
+  &__step--active &__indicator {
+    @apply bg-blue-600 text-white
+      ring-4 ring-blue-100
+      dark:bg-blue-500 dark:ring-blue-900/40;
+  }
+
+  &__step--completed &__indicator {
+    @apply bg-green-600 text-white
+      dark:bg-green-500;
+  }
+
+  &__check {
+    @apply w-4 h-4;
+  }
+
+  &__number {
+    @apply leading-none;
+  }
+
+  // ── Labels ────────────────────────────────────────────────────────────
+  &__label {
+    @apply flex flex-col;
+  }
+
+  &__title {
+    @apply text-sm font-medium text-gray-900 dark:text-gray-100;
+  }
+
+  &__step--pending &__title {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  &__description {
+    @apply text-xs text-gray-500 dark:text-gray-400 mt-0.5;
+  }
+
+  &__optional {
+    @apply text-xs text-gray-400 dark:text-gray-500 italic mt-0.5;
+  }
+
+  // ── Connector line ────────────────────────────────────────────────────
+  &__connector {
+    @apply flex-1 h-0.5 min-w-8 mx-2
+      bg-gray-200 dark:bg-gray-700
+      transition-colors duration-200;
+  }
+
+  &__connector--completed {
+    @apply bg-green-600 dark:bg-green-500;
+  }
+
+  &--vertical &__connector {
+    @apply w-0.5 h-8 min-w-0 mx-0 ml-4 my-1;
+  }
+
+  // ── Content area ──────────────────────────────────────────────────────
+  &__content {
+    @apply mt-6;
+  }
+}

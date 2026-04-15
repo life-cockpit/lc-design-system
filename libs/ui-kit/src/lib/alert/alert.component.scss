@@ -1,0 +1,147 @@
+@use '../../styles/tokens/colors' as *;
+@use '../../styles/tokens/spacing' as *;
+@use '../../styles/tokens/typography' as *;
+@use '../../styles/tokens/border-radius' as *;
+
+.lc-alert {
+  display: block;
+  width: 100%;
+  border-radius: var(--border-radius-md);
+  border-width: 1px;
+  border-style: solid;
+  transition: opacity 0.15s ease-in-out;
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.lc-alert__container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+}
+
+.lc-alert__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lc-alert__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.lc-alert__title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-1);
+}
+
+.lc-alert__content {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+}
+
+.lc-alert__close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-1);
+  margin: calc(var(--spacing-1) * -1);
+  border-radius: var(--border-radius-sm);
+  transition: background-color 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}
+
+// Success variant
+.lc-alert--success {
+  background-color: $color-success-light;
+  border-color: $color-success-default;
+  color: $color-success-dark;
+
+  .lc-alert__icon {
+    color: $color-success-default;
+  }
+
+  .lc-alert__close:hover {
+    background-color: rgba(142, 164, 117, 0.1);
+  }
+}
+
+// Error variant
+.lc-alert--error {
+  background-color: $color-error-light;
+  border-color: $color-error-default;
+  color: $color-error-dark;
+
+  .lc-alert__icon {
+    color: $color-error-default;
+  }
+
+  .lc-alert__close:hover {
+    background-color: rgba(157, 14, 14, 0.1);
+  }
+}
+
+// Warning variant
+.lc-alert--warning {
+  background-color: $color-warning-light;
+  border-color: $color-warning-default;
+  color: $color-warning-dark;
+
+  .lc-alert__icon {
+    color: $color-warning-default;
+  }
+
+  .lc-alert__close:hover {
+    background-color: rgba(225, 160, 64, 0.1);
+  }
+}
+
+// Info variant
+.lc-alert--info {
+  background-color: $color-info-light;
+  border-color: $color-info-default;
+  color: $color-info-dark;
+
+  .lc-alert__icon {
+    color: $color-info-default;
+  }
+
+  .lc-alert__close:hover {
+    background-color: rgba(59, 101, 136, 0.1);
+  }
+}
+
+// Animation for dismiss
+@media (prefers-reduced-motion: no-preference) {
+  .lc-alert--hidden {
+    animation: fadeOut 0.15s ease-in-out;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

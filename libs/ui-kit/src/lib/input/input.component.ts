@@ -1,0 +1,258 @@
+/* eslint-disable @typescript-eslint/member-ordering */
+import {
+  Component,
+  input,
+  output,
+  signal,
+  viewChild,
+  ElementRef,
+  ChangeDetectionStrategy,
+  forwardRef,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IconComponent } from '../icon/icon.component';
+
+/**
+ * Text input component for form data entry.
+ *
+ * Implements ControlValueAccessor for seamless integration with Angular forms.
+ * Supports validation, icons, character count, and accessibility features.
+ *
+ * @example
+ * ```html
+ * <lc-input
+ *   label="Email"
+ *   type="email"
+ *   placeholder="Enter your email"
+ *   [(ngModel)]="email"
+ *   [error]="emailError"
+ * ></lc-input>
+ * ```
+ */
+@Component({
+  selector: 'lc-input',
+  imports: [CommonModule, IconComponent],
+  templateUrl: './input.component.html',
+  styleUrl: './input.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true,
+    },
+  ],
+})
+export class InputComponent implements ControlValueAccessor {
+  // Input Properties
+  /**
+   * Input label (displayed above input)
+   */
+  readonly label = input<string>();
+
+  /**
+   * Placeholder text
+   * @default ''
+   */
+  readonly placeholder = input<string>('');
+
+  /**
+   * Input type
+   * @default 'text'
+   */
+  readonly type = input<'text' | 'email' | 'password' | 'number' | 'tel' | 'url'>('text');
+
+  /**
+   * Size of the input
+   * @default 'md'
+   */
+  readonly size = input<'xs' | 'sm' | 'md' | 'lg'>('md');
+
+  /**
+   * Whether the input is disabled
+   * @default false
+   */
+  readonly disabled = input<boolean>(false);
+
+  /**
+   * Whether the input is read-only
+   * @default false
+   */
+  readonly readonly = input<boolean>(false);
+
+  /**
+   * Whether the input is required
+   * @default false
+   */
+  readonly required = input<boolean>(false);
+
+  /**
+   * Error message to display (if validation fails)
+   */
+  readonly error = input<string>();
+
+  /**
+   * Helper text to display below input
+   */
+  readonly helperText = input<string>();
+
+  /**
+   * Icon to display before input text (Heroicons name)
+   * @example 'envelope'
+   */
+  readonly iconBefore = input<string>();
+
+  /**
+   * Icon to display after input text (Heroicons name)
+   * @example 'eye'
+   */
+  readonly iconAfter = input<string>();
+
+  /**
+   * Maximum number of characters
+   */
+  readonly maxLength = input<number>();
+
+  /**
+   * Whether to show character count
+   * @default false
+   */
+  readonly showCharCount = input<boolean>(false);
+
+  /**
+   * ARIA label for accessibility
+   */
+  readonly ariaLabel = input<string>();
+
+  // Output Events
+  /**
+   * Emitted when input value changes
+   */
+  readonly valueChange = output<string>();
+
+  /**
+   * Emitted when input receives focus
+   */
+  readonly focused = output<void>();
+
+  /**
+   * Emitted when input loses focus
+   */
+  readonly blurred = output<void>();
+
+  /**
+   * Emitted when Enter key is pressed
+   */
+  readonly enterPressed = output<void>();
+
+  // Internal state
+  readonly value = signal<string>('');
+  readonly inputId = `lc-input-${Math.random().toString(36).substr(2, 9)}`;
+
+  // ViewChild reference
+  private readonly inputElement = viewChild<ElementRef<HTMLInputElement>>('inputRef');
+
+  // Internal disabled state (for ControlValueAccessor)
+  private readonly _formDisabled = signal<boolean>(false);
+
+  // ControlValueAccessor callbacks
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  /**
+   * Computed disabled state from both input and form control
+   */
+  protected get isDisabled(): boolean {
+    return this.disabled() || this._formDisabled();
+  }
+
+  /**
+   * Gets current character count
+   */
+  protected get charCount(): number {
+    return this.value().length;
+  }
+
+  /**
+   * Determines if error state should be shown
+   */
+  protected get hasError(): boolean {
+    return !!this.error();
+  }
+
+  /**
+   * Programmatically focus the input
+   */
+  public focus(): void {
+    this.inputElement()?.nativeElement.focus();
+  }
+
+  /**
+   * Programmatically select input text
+   */
+  public select(): void {
+    this.inputElement()?.nativeElement.select();
+  }
+
+  /**
+   * Clear the input value
+   */
+  public clear(): void {
+    this.value.set('');
+    this.onChange('');
+    this.valueChange.emit('');
+  }
+
+  // ControlValueAccessor implementation
+  writeValue(value: string): void {
+    this.value.set(value || '');
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._formDisabled.set(isDisabled);
+  }
+
+  /**
+   * Handles input value changes
+   */
+  protected onInput(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const newValue = target.value;
+    this.value.set(newValue);
+    this.onChange(newValue);
+    this.valueChange.emit(newValue);
+  }
+
+  /**
+   * Handles input focus
+   */
+  protected onFocus(): void {
+    this.focused.emit();
+  }
+
+  /**
+   * Handles input blur
+   */
+  protected onBlur(): void {
+    this.onTouched();
+    this.blurred.emit();
+  }
+
+  /**
+   * Handles keydown events
+   */
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.enterPressed.emit();
+    }
+  }
+}

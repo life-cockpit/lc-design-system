@@ -1,0 +1,159 @@
+@use '../../styles/tokens/colors';
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-surface);
+  transition: all 150ms ease-in-out;
+
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // Variants
+  &-elevated {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+    &:hover {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+  }
+
+  &-outlined {
+    border: 1px solid var(--color-border);
+  }
+
+  &-flat {
+    // No additional styles needed for flat variant
+  }
+
+  // Padding sizes
+  &-padding {
+    &-none {
+      padding: 0;
+    }
+
+    &-xs {
+      padding: 0.5rem; // 8px
+    }
+
+    &-sm {
+      padding: 0.75rem; // 12px
+    }
+
+    &-md {
+      padding: 1rem; // 16px
+    }
+
+    &-lg {
+      padding: 1.5rem; // 24px
+    }
+  }
+
+  // Border radius sizes
+  &-radius {
+    &-none {
+      border-radius: 0;
+    }
+
+    &-sm {
+      border-radius: 0.25rem; // 4px
+    }
+
+    &-md {
+      border-radius: 0.5rem; // 8px
+    }
+
+    &-lg {
+      border-radius: 1rem; // 16px
+    }
+
+    &-full {
+      border-radius: 9999px;
+    }
+  }
+
+  // Clickable state
+  &-clickable {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: var(--color-surface-hover);
+    }
+
+    &:focus {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  // Selected state
+  &-selected {
+    border: 2px solid var(--color-primary);
+    background-color: var(--color-surface-selected);
+
+    &.card-elevated {
+      box-shadow: 0 3px 6px rgba(32, 132, 151, 0.16),
+        0 3px 6px rgba(32, 132, 151, 0.23);
+    }
+  }
+
+  // Built-in title section
+  &__header {
+    margin-bottom: 0.75rem;
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.25;
+    color: var(--color-text-primary);
+  }
+
+  &__subtitle {
+    margin: 0.25rem 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+}
+
+// Support for named content projection sections
+:host ::ng-deep [card-header] {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .card-header {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 1.125rem; // 18px
+  color: var(--color-text-primary);
+}
+
+:host ::ng-deep .card-content {
+  color: var(--color-text-primary);
+}
+
+:host ::ng-deep [card-footer],
+:host ::ng-deep .card-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,262 @@
+/**
+ * AppHeaderComponent Styles
+ * 
+ * Uses design system tokens for colors, spacing, typography
+ * Component-scoped styles with BEM naming
+ */
+
+.lc-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-neutral-0, #ffffff);
+  border-bottom: 1px solid var(--color-neutral-200, #e5e7eb);
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    padding: var(--spacing-3) var(--spacing-4);
+  }
+}
+
+// Hamburger menu button
+.lc-header__hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-neutral-700);
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-900);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .lc-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// Logo link
+.lc-header__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.lc-header__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--color-neutral-900);
+  flex-shrink: 0;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+.lc-header__logo-img {
+  height: 32px;
+  width: auto;
+}
+
+.lc-header__title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.lc-header__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.2;
+  transition: color 0.2s ease;
+
+  @media (max-width: 640px) {
+    font-size: 1.125rem;
+  }
+}
+
+.lc-header__subtitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+
+// Spacer to push profile to the right
+.lc-header__spacer {
+  flex: 1;
+}
+
+// Theme toggle button
+.lc-header__theme-toggle {
+  margin-right: var(--spacing-2);
+}
+
+// Profile menu container
+.lc-header__profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: transparent;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  color: var(--color-neutral-700);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-neutral-300);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}
+
+// Menu header (email display)
+.lc-menu__header {
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-600);
+  border-bottom: 1px solid var(--color-neutral-200);
+  margin-bottom: var(--spacing-1);
+  word-break: break-word;
+}
+
+// Menu header with avatar
+.lc-header__menu-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--color-neutral-200);
+  margin-bottom: var(--spacing-1);
+}
+
+.lc-header__menu-user-info {
+  flex: 1;
+  min-width: 0; // Allow text to truncate
+}
+
+.lc-header__menu-user-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-neutral-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.lc-header__menu-user-email {
+  font-size: var(--font-size-xs);
+  color: var(--color-neutral-600);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+// Dark mode support - using direct selectors for global styles
+html.dark .lc-header,
+:root.dark .lc-header,
+.dark .lc-header {
+  background-color: #27272a !important;
+  border-bottom-color: #3f3f46 !important;
+}
+
+html.dark .lc-header__hamburger,
+:root.dark .lc-header__hamburger,
+.dark .lc-header__hamburger {
+  color: #d4d4d8;
+}
+
+html.dark .lc-header__hamburger:hover,
+:root.dark .lc-header__hamburger:hover,
+.dark .lc-header__hamburger:hover {
+  background-color: #27272a;
+  color: #f5f5f5;
+}
+
+html.dark .lc-header__logo,
+:root.dark .lc-header__logo,
+.dark .lc-header__logo {
+  color: #f5f5f5;
+}
+
+html.dark .lc-header__title,
+:root.dark .lc-header__title,
+.dark .lc-header__title {
+  color: #f5f5f5;
+}
+
+html.dark .lc-header__subtitle,
+:root.dark .lc-header__subtitle,
+.dark .lc-header__subtitle {
+  color: #a1a1aa;
+}
+
+html.dark .lc-header__profile-trigger,
+:root.dark .lc-header__profile-trigger,
+.dark .lc-header__profile-trigger {
+  border-color: #3f3f46;
+  color: #d4d4d8;
+}
+
+html.dark .lc-header__profile-trigger:hover,
+:root.dark .lc-header__profile-trigger:hover,
+.dark .lc-header__profile-trigger:hover {
+  background-color: #27272a;
+  border-color: #52525b;
+}
+
+html.dark .lc-menu__header,
+:root.dark .lc-menu__header,
+.dark .lc-menu__header {
+  color: #a1a1aa;
+  border-bottom-color: #3f3f46;
+}
+
+html.dark .lc-header__menu-header,
+:root.dark .lc-header__menu-header,
+.dark .lc-header__menu-header {
+  border-bottom-color: #3f3f46;
+}
+
+html.dark .lc-header__menu-user-name,
+:root.dark .lc-header__menu-user-name,
+.dark .lc-header__menu-user-name {
+  color: #f5f5f5;
+}
+
+html.dark .lc-header__menu-user-email,
+:root.dark .lc-header__menu-user-email,
+.dark .lc-header__menu-user-email {
+  color: #a1a1aa;
+}

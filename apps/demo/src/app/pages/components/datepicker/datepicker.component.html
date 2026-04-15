@@ -1,0 +1,335 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">DatePicker Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Date selection component with calendar overlay and keyboard navigation.
+    </p>
+  </div>
+
+  <!-- Basic Usage -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Basic DatePicker</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">The default datepicker with outline variant.</p>
+        <div class="max-w-md">
+          <lc-datepicker
+            label="Select Date"
+            placeholder="Choose a date"
+            helperText="Pick any date from the calendar"
+            [(ngModel)]="basicDate"
+          />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-datepicker
+  label="Select Date"
+  placeholder="Choose a date"
+  helperText="Pick any date from the calendar"
+  [(ngModel)]="date"
+/&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">DatePicker supports outline and filled variants.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-medium mb-2">Outline (default)</h4>
+            <lc-datepicker
+              [variant]="'outline'"
+              label="Outline DatePicker"
+              placeholder="Outline variant"
+              [(ngModel)]="outlineDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Filled</h4>
+            <lc-datepicker
+              [variant]="'filled'"
+              label="Filled DatePicker"
+              placeholder="Filled variant"
+              [(ngModel)]="filledDate"
+            />
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-datepicker [variant]="'outline'" /&gt;
+&lt;lc-datepicker [variant]="'filled'" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Available sizes: xs, sm, md, lg</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-medium mb-2">Extra Small (xs)</h4>
+            <lc-datepicker
+              [size]="'xs'"
+              label="XS DatePicker"
+              placeholder="Extra small"
+              [(ngModel)]="xsDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Small (sm)</h4>
+            <lc-datepicker
+              [size]="'sm'"
+              label="SM DatePicker"
+              placeholder="Small"
+              [(ngModel)]="smDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Medium (md)</h4>
+            <lc-datepicker
+              [size]="'md'"
+              label="MD DatePicker"
+              placeholder="Medium (default)"
+              [(ngModel)]="mdDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Large (lg)</h4>
+            <lc-datepicker
+              [size]="'lg'"
+              label="LG DatePicker"
+              placeholder="Large"
+              [(ngModel)]="lgDate"
+            />
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-datepicker [size]="'xs'" /&gt;
+&lt;lc-datepicker [size]="'sm'" /&gt;
+&lt;lc-datepicker [size]="'md'" /&gt;
+&lt;lc-datepicker [size]="'lg'" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- States -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">States</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">DatePicker supports various interactive states.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="text-sm font-medium mb-2">Disabled</h4>
+            <lc-datepicker
+              [disabled]="true"
+              label="Disabled DatePicker"
+              [(ngModel)]="disabledDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Error</h4>
+            <lc-datepicker
+              [error]="true"
+              label="Error DatePicker"
+              errorMessage="Please select a valid date"
+              placeholder="Select a date"
+              [(ngModel)]="errorDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Readonly</h4>
+            <lc-datepicker
+              [readonly]="true"
+              label="Readonly DatePicker"
+              [(ngModel)]="readonlyDate"
+            />
+          </div>
+          <div>
+            <h4 class="text-sm font-medium mb-2">Required</h4>
+            <lc-datepicker
+              [required]="true"
+              label="Required DatePicker"
+              placeholder="This field is required"
+              [(ngModel)]="requiredDate"
+            />
+          </div>
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-datepicker [disabled]="true" /&gt;
+&lt;lc-datepicker [error]="true" errorMessage="Error message" /&gt;
+&lt;lc-datepicker [readonly]="true" /&gt;
+&lt;lc-datepicker [required]="true" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Date Constraints -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Date Constraints</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Restrict selectable dates with min and max date boundaries.</p>
+        <div class="max-w-md">
+          <h4 class="text-sm font-medium mb-2">Min/Max Dates</h4>
+          <lc-datepicker
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            label="Constrained DatePicker"
+            placeholder="30 days before/after today"
+            helperText="Only dates within 30 days are selectable"
+            [(ngModel)]="minMaxDate"
+          />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-datepicker
+  [minDate]="minDate"
+  [maxDate]="maxDate"
+/&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Date Format -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Date Format</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Customize the display format of selected dates.</p>
+        <div class="max-w-md">
+          <h4 class="text-sm font-medium mb-2">Custom Format</h4>
+          <lc-datepicker
+            [format]="'MM/dd/yyyy'"
+            label="US Format (MM/dd/yyyy)"
+            placeholder="MM/DD/YYYY"
+            helperText="Displays in US date format"
+            [(ngModel)]="formatDate"
+          />
+        </div>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;lc-datepicker [format]="'MM/dd/yyyy'" /&gt;
+&lt;lc-datepicker [format]="'dd.MM.yyyy'" /&gt;
+&lt;lc-datepicker [format]="'yyyy-MM-dd'" /&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Reactive Forms -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Reactive Forms Integration</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">DatePicker works seamlessly with Angular reactive forms.</p>
+        <form [formGroup]="datepickerForm" (ngSubmit)="onSubmit()" class="space-y-4 max-w-md">
+          <lc-datepicker
+            label="Start Date"
+            placeholder="Select start date"
+            helperText="Project start date"
+            formControlName="startDate"
+          />
+          <lc-datepicker
+            label="End Date"
+            placeholder="Select end date"
+            helperText="Project end date"
+            formControlName="endDate"
+          />
+          <lc-datepicker
+            label="Birth Date"
+            placeholder="Select birth date"
+            helperText="Date of birth"
+            formControlName="birthDate"
+          />
+          <button 
+            type="submit" 
+            class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+          >
+            Submit Form
+          </button>
+        </form>
+        <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm"><code>&lt;form [formGroup]="form"&gt;
+  &lt;lc-datepicker formControlName="startDate" /&gt;
+  &lt;lc-datepicker formControlName="endDate" /&gt;
+  &lt;lc-datepicker formControlName="birthDate" /&gt;
+&lt;/form&gt;</code></pre>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- Interactive Playground -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Interactive Playground</h2>
+    <lc-card>
+      <div class="space-y-6">
+        <p class="text-neutral-600 dark:text-neutral-400">Experiment with different datepicker configurations.</p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="block text-sm font-medium">Variant:</label>
+              <lc-select
+                [(ngModel)]="playgroundVariant"
+                [options]="variantOptions"
+              />
+            </div>
+            <div class="space-y-2">
+              <label class="block text-sm font-medium">Size:</label>
+              <lc-select
+                [(ngModel)]="playgroundSize"
+                [options]="sizeOptions"
+              />
+            </div>
+            <div class="space-y-2">
+              <lc-checkbox [(ngModel)]="playgroundDisabled" label="Disabled" />
+              <lc-checkbox [(ngModel)]="playgroundError" label="Error" />
+              <lc-checkbox [(ngModel)]="playgroundReadonly" label="Readonly" />
+              <lc-checkbox [(ngModel)]="playgroundRequired" label="Required" />
+            </div>
+          </div>
+          <div class="p-6 border-2 border-dashed rounded-lg">
+            <lc-datepicker
+              [variant]="playgroundVariant"
+              [size]="playgroundSize"
+              [disabled]="playgroundDisabled"
+              [error]="playgroundError"
+              [readonly]="playgroundReadonly"
+              [required]="playgroundRequired"
+              label="Playground DatePicker"
+              placeholder="Experiment with different configurations"
+              helperText="Change the controls to see different states"
+              errorMessage="This is an error message"
+              [(ngModel)]="playgroundDate"
+            />
+          </div>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+    <lc-card>
+      <div class="space-y-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Inputs</h3>
+          <lc-table [columns]="apiInputsColumns" [data]="apiInputsData" variant="bordered" size="sm"></lc-table>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Outputs</h3>
+          <lc-table [columns]="apiOutputsColumns" [data]="apiOutputsData" variant="bordered" size="sm"></lc-table>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Form Control</h3>
+          <p class="text-neutral-600 dark:text-neutral-400">
+            Implements <code class="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">ControlValueAccessor</code> for use with Angular forms (ngModel, formControl, formControlName).
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Keyboard Interactions</h3>
+          <lc-table [columns]="keyboardColumns" [data]="keyboardData" variant="bordered" size="sm"></lc-table>
+        </div>
+      </div>
+    </lc-card>
+  </section>
+</div>

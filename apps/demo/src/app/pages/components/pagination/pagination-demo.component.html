@@ -1,0 +1,200 @@
+<div class="p-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Pagination Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400 text-lg">
+      Navigate through pages of content with customizable page sizes and size variants
+    </p>
+  </div>
+
+  <!-- Default Pagination -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Default Pagination</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Basic pagination with 250 total items, 10 items per page, showing 25 pages
+    </p>
+
+    <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 mb-6">
+      <lc-pagination
+        [currentPageInput]="currentPage1()"
+        [totalItemsInput]="totalItems1"
+        [pageSizeInput]="pageSize1"
+        (pageChange)="onPageChange1($event)"
+      ></lc-pagination>
+    </div>
+
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-pagination
+  [currentPageInput]="currentPage"
+  [totalItemsInput]="250"
+  [pageSizeInput]="10"
+  (pageChange)="onPageChange($event)"
+&gt;&lt;/lc-pagination&gt;</code></pre>
+  </section>
+
+  <!-- Size Variants -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Size Variants</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Three size options: <code class="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sm</code>, 
+      <code class="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">md</code> (default), 
+      <code class="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">lg</code>
+    </p>
+
+    <div class="space-y-8">
+      <div>
+        <h3 class="text-lg font-medium mb-3">Small</h3>
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+          <lc-pagination
+            [currentPageInput]="currentPage2()"
+            [totalItemsInput]="totalItems2"
+            [pageSizeInput]="pageSize2"
+            [sizeInput]="'sm'"
+            (pageChange)="onPageChange2($event)"
+          ></lc-pagination>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm mt-4"><code>&lt;lc-pagination [sizeInput]="'sm'" ... &gt;&lt;/lc-pagination&gt;</code></pre>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-medium mb-3">Medium (Default)</h3>
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+          <lc-pagination
+            [currentPageInput]="currentPage3()"
+            [totalItemsInput]="totalItems3"
+            [pageSizeInput]="pageSize3"
+            [sizeInput]="'md'"
+            (pageChange)="onPageChange3($event)"
+          ></lc-pagination>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm mt-4"><code>&lt;lc-pagination [sizeInput]="'md'" ... &gt;&lt;/lc-pagination&gt;</code></pre>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-medium mb-3">Large</h3>
+        <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+          <lc-pagination
+            [currentPageInput]="currentPage4()"
+            [totalItemsInput]="totalItems4"
+            [pageSizeInput]="pageSize4"
+            [sizeInput]="'lg'"
+            (pageChange)="onPageChange4($event)"
+          ></lc-pagination>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm mt-4"><code>&lt;lc-pagination [sizeInput]="'lg'" ... &gt;&lt;/lc-pagination&gt;</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Page Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Dynamic Page Sizes</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Allow users to select how many items per page. Current: {{ currentPage5() }} of {{ totalPages5 }}
+    </p>
+
+    <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 mb-6">
+      <div class="mb-4">
+        <label class="block text-sm font-medium mb-2">Items per page:</label>
+        <select
+          class="px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded bg-white dark:bg-neutral-700"
+          (change)="onPageSizeChange($event)"
+          [value]="pageSize5()"
+        >
+          @for (size of availablePageSizes; track size) {
+            <option [value]="size">{{ size }}</option>
+          }
+        </select>
+      </div>
+      
+      <lc-pagination
+        [currentPageInput]="currentPage5()"
+        [totalItemsInput]="totalItems5"
+        [pageSizeInput]="pageSize5()"
+        (pageChange)="onPageChange5($event)"
+      ></lc-pagination>
+    </div>
+
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;select (change)="onPageSizeChange($event)"&gt;
+  &lt;option value="10"&gt;10&lt;/option&gt;
+  &lt;option value="25"&gt;25&lt;/option&gt;
+  &lt;option value="50"&gt;50&lt;/option&gt;
+  &lt;option value="100"&gt;100&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;lc-pagination
+  [currentPageInput]="currentPage"
+  [totalItemsInput]="500"
+  [pageSizeInput]="pageSize()"
+  (pageChange)="onPageChange($event)"
+&gt;&lt;/lc-pagination&gt;</code></pre>
+  </section>
+
+  <!-- Many Pages with Ellipsis -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Many Pages with Ellipsis</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      When there are many pages (100 in this example), ellipsis (...) are used to truncate the page list
+    </p>
+
+    <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 mb-6">
+      <lc-pagination
+        [currentPageInput]="currentPage6()"
+        [totalItemsInput]="totalItems6"
+        [pageSizeInput]="pageSize6"
+        [maxVisiblePagesInput]="7"
+        (pageChange)="onPageChange6($event)"
+      ></lc-pagination>
+    </div>
+
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-pagination
+  [currentPageInput]="42"
+  [totalItemsInput]="1000"
+  [pageSizeInput]="10"
+  [maxVisiblePagesInput]="7"
+  (pageChange)="onPageChange($event)"
+&gt;&lt;/lc-pagination&gt;</code></pre>
+  </section>
+
+  <!-- With Info Text -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Item Count Info</h2>
+    <p class="text-neutral-600 dark:text-neutral-400 mb-4">
+      Display the range of items being shown and total count
+    </p>
+
+    <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 mb-6">
+      <lc-pagination
+        [currentPageInput]="currentPage7()"
+        [totalItemsInput]="totalItems7"
+        [pageSizeInput]="pageSize7"
+        [showInfoInput]="true"
+        (pageChange)="onPageChange7($event)"
+      ></lc-pagination>
+    </div>
+
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-pagination
+  [currentPageInput]="currentPage"
+  [totalItemsInput]="235"
+  [pageSizeInput]="20"
+  [showInfoInput]="true"
+  (pageChange)="onPageChange($event)"
+&gt;&lt;/lc-pagination&gt;</code></pre>
+  </section>
+
+  <section class="mb-12">
+    <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 space-y-4">
+      <div>
+        <h3 class="font-semibold mb-2">Visual Focus Indicators</h3>
+        <p class="text-neutral-700 dark:text-neutral-300">
+          All interactive elements have clear focus indicators that meet WCAG 2.1 AA contrast requirements
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Props API -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Props API</h2>
+    <lc-table [columns]="apiColumns()" [data]="apiData()" variant="bordered" size="sm"></lc-table>
+  </section>
+</div>

@@ -1,0 +1,114 @@
+<div class="p-8">
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold mb-4">Empty State Component</h1>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Placeholder for screens, cards, and sections with no data. Supports icon, heading, message, and projected action slots.
+    </p>
+  </div>
+
+  <!-- Inline (sm) — inside cards -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Inline / Card-Level (sm)</h2>
+
+    <div class="grid grid-cols-2 gap-4">
+      <lc-card title="Signals">
+        <lc-empty-state size="sm" message="No signals generated for this asset yet." />
+      </lc-card>
+      <lc-card title="News">
+        <lc-empty-state size="sm" message="No news articles for this asset." />
+      </lc-card>
+    </div>
+
+    <div class="mt-4">
+      <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ inlineExample }}</code></pre>
+    </div>
+  </section>
+
+  <!-- With Icon + Heading -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Icon &amp; Heading</h2>
+
+    <lc-card>
+      <lc-empty-state
+        icon="chart-bar"
+        heading="No Paper Trading Portfolios"
+        message="Portfolios are created automatically when strategies are promoted."
+      />
+    </lc-card>
+
+    <div class="mt-4">
+      <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ iconExample }}</code></pre>
+    </div>
+  </section>
+
+  <!-- With Action Button -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">With Action Button</h2>
+
+    <lc-card>
+      <lc-empty-state
+        icon="bolt"
+        heading="No runs yet"
+        message="Start a new AI trading run to discover strategies across your watchlist."
+      >
+        <lc-button variant="primary">Create First Run</lc-button>
+      </lc-empty-state>
+    </lc-card>
+
+    <div class="mt-4">
+      <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ actionExample }}</code></pre>
+    </div>
+  </section>
+
+  <!-- Sizes -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Sizes</h2>
+
+    <div class="grid grid-cols-3 gap-4">
+      <lc-card title="sm">
+        <lc-empty-state size="sm" message="Compact inline" />
+      </lc-card>
+      <lc-card title="md (default)">
+        <lc-empty-state size="md" icon="inbox-stack" heading="Nothing here" message="Standard centered block" />
+      </lc-card>
+      <lc-card title="lg">
+        <lc-empty-state size="lg" icon="inbox-stack" heading="Nothing here" message="Large page-level placeholder" />
+      </lc-card>
+    </div>
+
+    <div class="mt-4">
+      <pre class="bg-neutral-900 text-neutral-100 rounded-lg p-4 text-sm overflow-x-auto"><code>{{ sizesExample }}</code></pre>
+    </div>
+  </section>
+
+  <!-- Multiple Icons -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">Icon Examples</h2>
+
+    <div class="grid grid-cols-3 gap-4">
+      <lc-card>
+        <lc-empty-state icon="bell" heading="No Subscriptions" message="Subscribe to signal alerts from the Assets page." />
+      </lc-card>
+      <lc-card>
+        <lc-empty-state icon="presentation-chart-bar" heading="No Strategies" message="Strategies are discovered during analysis runs." />
+      </lc-card>
+      <lc-card>
+        <lc-empty-state icon="document-text" heading="No Results" message="Try adjusting your filters." />
+      </lc-card>
+    </div>
+  </section>
+
+  <!-- API Reference -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold mb-4">API Reference</h2>
+
+    <lc-card>
+      <lc-table
+        [columns]="apiTable"
+        [data]="apiData"
+        variant="default"
+        size="sm"
+      />
+    </lc-card>
+  </section>
+</div>

@@ -1,0 +1,27 @@
+<div class="inline-flex items-center gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+  @for (viewport of viewports; track viewport.name) {
+    <button
+      type="button"
+      (click)="selectViewport(viewport.name)"
+      [class.bg-white]="currentViewport() === viewport.name"
+      [class.dark:bg-gray-700]="currentViewport() === viewport.name"
+      [class.text-primary-600]="currentViewport() === viewport.name"
+      [class.dark:text-primary-400]="currentViewport() === viewport.name"
+      [class.shadow-sm]="currentViewport() === viewport.name"
+      class="p-2 rounded-md text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-all"
+      [attr.aria-label]="viewport.label"
+      [attr.title]="viewport.label + ' (' + viewport.width + ')'"
+    >
+      <div [innerHTML]="viewport.icon" class="w-5 h-5"></div>
+    </button>
+  }
+</div>
+
+<!-- Current Viewport Info -->
+@if (showInfo()) {
+  <div class="mt-2 text-xs text-gray-600 dark:text-gray-400 text-center">
+    <span class="font-medium">{{ getCurrentViewport()?.label }}</span>
+    <span class="mx-2">•</span>
+    <span>{{ getCurrentViewport()?.width }}</span>
+  </div>
+}

@@ -1,0 +1,116 @@
+.lc-tabs {
+  display: block;
+  width: 100%;
+
+  &__container {
+    display: flex;
+    gap: var(--spacing-4);
+
+    &--horizontal {
+      flex-direction: column;
+    }
+
+    &--vertical {
+      flex-direction: row;
+    }
+  }
+
+  &__list {
+    display: flex;
+    gap: var(--spacing-2);
+    border-bottom: 1px solid var(--color-neutral-200);
+    
+    &.lc-tabs--horizontal {
+      flex-direction: row;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+
+    &.lc-tabs--vertical {
+      flex-direction: column;
+      border-bottom: none;
+      border-right: 1px solid var(--color-neutral-200);
+      min-width: 200px;
+    }
+  }
+
+  &__tab {
+    // Reset button styles
+    appearance: none;
+    background: none;
+    border: none;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-neutral-600);
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+
+    &:hover:not(&--disabled) {
+      color: var(--color-neutral-900);
+      background-color: var(--color-neutral-50);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-primary-500);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
+    &--selected {
+      color: var(--color-primary-600);
+      border-bottom-color: var(--color-primary-600);
+      font-weight: var(--font-weight-semibold);
+
+      .lc-tabs--vertical & {
+        border-bottom-color: transparent;
+        border-right: 2px solid var(--color-primary-600);
+      }
+    }
+
+    &--disabled {
+      color: var(--color-neutral-400);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .lc-tabs--vertical & {
+      border-bottom: none;
+      border-right: 2px solid transparent;
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  &__panels {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__panel {
+    display: none;
+    padding: var(--spacing-4);
+    animation: fadeIn var(--transition-fast);
+
+    &--active {
+      display: block;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

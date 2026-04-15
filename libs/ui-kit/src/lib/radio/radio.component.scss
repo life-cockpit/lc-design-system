@@ -1,0 +1,191 @@
+// Radio Component Styles
+// Following design tokens and ensuring Tailwind reset doesn't interfere
+
+:host {
+  display: block;
+}
+
+.radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  font-family: var(--font-family-sans);
+  color: var(--color-text-primary);
+  transition: opacity 150ms ease-in-out;
+
+  &:hover:not(.radio-disabled) {
+    .radio-circle {
+      border-color: var(--color-primary-600);
+      background-color: var(--color-primary-400);
+    }
+  }
+
+  &.radio-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    .radio-circle {
+      background-color: var(--color-neutral-100);
+      border-color: var(--color-neutral-300);
+    }
+  }
+
+  &.radio-error {
+    .radio-circle {
+      border-color: var(--color-error);
+    }
+  }
+}
+
+.radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+
+  &:focus + .radio-circle {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  &:focus-visible + .radio-circle {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}
+
+.radio-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 2px solid var(--color-neutral-400);
+  border-radius: 50%;
+  background-color: var(--color-background-primary);
+  transition: all 150ms ease-in-out;
+  box-sizing: border-box;
+
+  .radio-checked & {
+    background-color: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+  }
+
+  .radio-error & {
+    border-color: var(--color-error);
+  }
+
+  .radio-disabled & {
+    cursor: not-allowed;
+  }
+}
+
+.radio-dot {
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background-color: white;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 150ms ease-in-out;
+
+  .radio-checked & {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.radio-label-text {
+  line-height: 1.5;
+  margin-top: 0.125rem;
+}
+
+.radio-help-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+  margin-left: calc(var(--radio-size) + 0.5rem);
+}
+
+.radio-error-message {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-error);
+  margin-top: 0.25rem;
+  margin-left: calc(var(--radio-size) + 0.5rem);
+}
+
+// Size variants
+.radio-xs {
+  --radio-size: 1rem; // 16px
+  font-size: 0.875rem; // 14px
+
+  .radio-circle {
+    width: var(--radio-size);
+    height: var(--radio-size);
+  }
+}
+
+.radio-sm {
+  --radio-size: 1.125rem; // 18px
+  font-size: 0.875rem; // 14px
+
+  .radio-circle {
+    width: var(--radio-size);
+    height: var(--radio-size);
+  }
+}
+
+.radio-md {
+  --radio-size: 1.25rem; // 20px
+  font-size: 1rem; // 16px
+  align-items: center;
+
+  .radio-circle {
+    width: var(--radio-size);
+    height: var(--radio-size);
+  }
+}
+
+.radio-lg {
+  --radio-size: 1.5rem; // 24px
+  font-size: 1.125rem; // 18px
+
+  .radio-circle {
+    width: var(--radio-size);
+    height: var(--radio-size);
+  }
+}
+
+// Required indicator
+.radio-required .radio-label-text::after {
+  content: ' *';
+  color: var(--color-error);
+}
+
+// Animation for state changes
+@media (prefers-reduced-motion: no-preference) {
+  .radio-circle {
+    transition: all 10ms ease-in-out;
+  }
+
+  .radio-dot {
+    transition: all 10ms ease-in-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio-circle,
+  .radio-dot {
+    transition: none;
+  }
+}

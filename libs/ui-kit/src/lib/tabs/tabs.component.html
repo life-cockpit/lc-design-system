@@ -1,0 +1,46 @@
+<div
+  class="lc-tabs__container"
+  [class.lc-tabs__container--horizontal]="orientation === 'horizontal'"
+  [class.lc-tabs__container--vertical]="orientation === 'vertical'"
+>
+  <div
+    [ngClass]="tabListClasses()"
+    role="tablist"
+    [attr.aria-orientation]="orientation"
+    (keydown)="handleKeyDown($event)"
+  >
+    @for (tab of tabList(); track tab.id; let i = $index) {
+      <button
+        class="lc-tabs__tab"
+        [class.lc-tabs__tab--selected]="isSelected(i)"
+        [class.lc-tabs__tab--disabled]="tab.disabled"
+        role="tab"
+        [attr.id]="tab.id"
+        [attr.aria-selected]="isSelected(i)"
+        [attr.aria-controls]="tab.panelId"
+        [attr.aria-disabled]="tab.disabled || null"
+        [tabindex]="getTabIndex(i)"
+        [disabled]="tab.disabled"
+        (click)="selectTab(i)"
+      >
+        {{ tab.label }}
+      </button>
+    }
+  </div>
+
+  <div class="lc-tabs__panels">
+    @for (tab of tabList(); track tab.id; let i = $index) {
+      <div
+        class="lc-tabs__panel"
+        [class.lc-tabs__panel--active]="isSelected(i)"
+        role="tabpanel"
+        [attr.id]="tab.panelId"
+        [attr.aria-labelledby]="tab.id"
+        [attr.hidden]="!isSelected(i) || null"
+        [tabindex]="0"
+      >
+        <ng-container *ngTemplateOutlet="tab.template"></ng-container>
+      </div>
+    }
+  </div>
+</div>
