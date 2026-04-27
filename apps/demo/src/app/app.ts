@@ -3,7 +3,7 @@ import { LayoutComponent } from './layout/layout/layout.component';
 
 @Component({
   imports: [LayoutComponent],
-  selector: 'app-root',
+  selector: 'lc-root',
   template: '<app-layout />',
   styleUrl: './app.scss',
 })
