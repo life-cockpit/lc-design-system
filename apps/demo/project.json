@@ -26,7 +26,7 @@
           },
           {
             "glob": "**/*",
-            "input": "libs/ui-kit/src/assets",
+            "input": "libs/angular-ui-kit/src/assets",
             "output": "/assets"
           }
         ],

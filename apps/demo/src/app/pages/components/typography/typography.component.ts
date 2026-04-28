@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TypographyComponent, CheckboxComponent } from '@life-cockpit/ui-kit';
+import { TypographyComponent, CheckboxComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-typography',

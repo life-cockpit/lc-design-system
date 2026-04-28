@@ -9,7 +9,7 @@ import {
   TableCellDirective,
   ButtonComponent,
   BadgeComponent,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 interface User extends Record<string, unknown> {
   id: number;

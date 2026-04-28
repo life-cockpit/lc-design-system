@@ -1,14 +1,14 @@
 /**
  * Component Metadata Extraction Script
  *
- * Parses all Angular component .ts files in libs/ui-kit/src/lib/
+ * Parses all Angular component .ts files in libs/angular-ui-kit/src/lib/
  * and extracts structured metadata (inputs, outputs, types, descriptions, examples).
  *
  * Supports both:
  * - Classic decorators: @Input(), @Output()
  * - Angular signals: input(), output()
  *
- * Output: libs/ui-kit/component-metadata.json
+ * Output: libs/angular-ui-kit/component-metadata.json
  */
 
 import * as ts from 'typescript';
@@ -59,8 +59,8 @@ interface ComponentMetadata {
 // Helpers
 // ============================================================================
 
-const LIB_ROOT = path.resolve(__dirname, '../libs/ui-kit/src/lib');
-const OUTPUT_PATH = path.resolve(__dirname, '../libs/ui-kit/component-metadata.json');
+const LIB_ROOT = path.resolve(__dirname, '../libs/angular-ui-kit/src/lib');
+const OUTPUT_PATH = path.resolve(__dirname, '../libs/angular-ui-kit/component-metadata.json');
 
 function getCategory(filePath: string): string {
   const componentName = path.basename(path.dirname(filePath));

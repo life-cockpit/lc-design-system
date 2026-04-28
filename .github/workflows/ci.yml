@@ -23,10 +23,10 @@ jobs:
       - run: npm ci
 
       - name: Run tests
-        run: npx nx run ui-kit:test --ci
+        run: npx nx run angular-ui-kit:test --ci
 
-      - name: Build ui-kit library
-        run: npx nx build ui-kit --configuration=production
+      - name: Build angular-ui-kit library
+        run: npx nx build angular-ui-kit --configuration=production
 
       - name: Build demo app
         run: npx nx build demo --configuration=production

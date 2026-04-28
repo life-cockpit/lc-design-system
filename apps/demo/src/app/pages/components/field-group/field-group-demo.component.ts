@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   CardComponent,
   FieldGroupComponent,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-field-group-demo',

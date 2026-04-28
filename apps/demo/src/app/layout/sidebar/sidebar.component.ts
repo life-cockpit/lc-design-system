@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IconComponent } from '@life-cockpit/ui-kit';
+import { IconComponent } from '@life-cockpit/angular-ui-kit';
 
 interface NavItem {
   label: string;

@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Load component metadata
-const metadataPath = resolve(__dirname, '../../../libs/ui-kit/component-metadata.json');
+const metadataPath = resolve(__dirname, '../../../libs/angular-ui-kit/component-metadata.json');
 let rawMetadata: string;
 try {
   rawMetadata = readFileSync(metadataPath, 'utf-8');
@@ -206,8 +206,8 @@ server.registerTool(
     const tokenInfo = {
       description:
         'Life-Cockpit uses Style Dictionary to generate design tokens. Tokens are available as SCSS variables, CSS custom properties, and TypeScript constants.',
-      installation: `import { tokens } from '@life-cockpit/ui-kit';`,
-      scss_usage: `@use '@life-cockpit/ui-kit/styles' as lc;\n\n.my-element {\n  color: lc.$color-primary-500;\n  padding: lc.$spacing-4;\n}`,
+      installation: `import { tokens } from '@life-cockpit/angular-ui-kit';`,
+      scss_usage: `@use '@life-cockpit/angular-ui-kit/styles' as lc;\n\n.my-element {\n  color: lc.$color-primary-500;\n  padding: lc.$spacing-4;\n}`,
       css_usage: `.my-element {\n  color: var(--lc-color-primary-500);\n  padding: var(--lc-spacing-4);\n}`,
       categories: [
         'Colors (primary, neutral, success, warning, error, info)',
@@ -219,7 +219,7 @@ server.registerTool(
       ],
       theme: {
         description: 'Built-in light/dark theme support via ThemeService',
-        usage: `import { ThemeService } from '@life-cockpit/ui-kit';\n\nconst theme = inject(ThemeService);\ntheme.toggleTheme();`,
+        usage: `import { ThemeService } from '@life-cockpit/angular-ui-kit';\n\nconst theme = inject(ThemeService);\ntheme.toggleTheme();`,
       },
     };
 
@@ -241,16 +241,16 @@ server.registerTool(
   },
   async () => {
     const guide = {
-      name: '@life-cockpit/ui-kit',
+      name: '@life-cockpit/angular-ui-kit',
       framework: 'Angular 21+',
-      installation: 'npm install @life-cockpit/ui-kit',
+      installation: 'npm install @life-cockpit/angular-ui-kit',
       setup: [
-        '1. Install the package: npm install @life-cockpit/ui-kit',
-        '2. Import global styles in your styles.scss: @use "@life-cockpit/ui-kit/styles";',
+        '1. Install the package: npm install @life-cockpit/angular-ui-kit',
+        '2. Import global styles in your styles.scss: @use "@life-cockpit/angular-ui-kit/styles";',
         '3. Import components directly in your Angular components (standalone):',
       ],
       example: `import { Component } from '@angular/core';
-import { ButtonComponent, CardComponent } from '@life-cockpit/ui-kit';
+import { ButtonComponent, CardComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-example',

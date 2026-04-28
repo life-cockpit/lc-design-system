@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TooltipDirective, ButtonComponent, CardComponent } from '@life-cockpit/ui-kit';
+import { TooltipDirective, ButtonComponent, CardComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-tooltip-demo',

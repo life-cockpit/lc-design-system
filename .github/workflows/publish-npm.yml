@@ -26,12 +26,12 @@ jobs:
       - run: npm ci
 
       - name: Run tests
-        run: npx nx run ui-kit:test --ci
+        run: npx nx run angular-ui-kit:test --ci
 
-      - name: Build ui-kit
-        run: npx nx build ui-kit --configuration=production
+      - name: Build angular-ui-kit
+        run: npx nx build angular-ui-kit --configuration=production
 
       - name: Publish
-        run: cd dist/libs/ui-kit && npm publish --access public
+        run: cd dist/libs/angular-ui-kit && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

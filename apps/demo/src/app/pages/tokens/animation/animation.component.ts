@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent, CardComponent } from '@life-cockpit/ui-kit';
+import { ButtonComponent, CardComponent } from '@life-cockpit/angular-ui-kit';
 
 interface AnimationToken {
   name: string;

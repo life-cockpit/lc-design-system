@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlertComponent, CardComponent, ButtonComponent } from '@life-cockpit/ui-kit';
+import { AlertComponent, CardComponent, ButtonComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-alert-demo',

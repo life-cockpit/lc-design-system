@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "ignoreDeprecations": "5.0",
     "paths": {
-      "@life-cockpit/ui-kit": ["libs/ui-kit/src/index.ts"]
+      "@life-cockpit/angular-ui-kit": ["libs/angular-ui-kit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

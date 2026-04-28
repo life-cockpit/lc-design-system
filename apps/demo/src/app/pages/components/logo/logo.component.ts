@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LogoComponent, CardComponent } from '@life-cockpit/ui-kit';
+import { LogoComponent, CardComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-logo-demo',

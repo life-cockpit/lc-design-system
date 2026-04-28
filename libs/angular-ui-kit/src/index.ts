@@ -4,7 +4,7 @@
  * Public API for the design system library.
  *
  * To use global styles, import in your Angular application's styles.scss:
- * @import '@life-cockpit/ui-kit/styles/index.scss';
+ * @import '@life-cockpit/angular-ui-kit/styles/index.scss';
  */
 
 // ============================================================================
@@ -188,4 +188,4 @@ export * from './lib/drawer/drawer.component';
 // Styles
 // ============================================================================
 // Styles are available at: libs/shared/src/styles/index.scss
-// Import path: '@life-cockpit/ui-kit/styles/index.scss'
+// Import path: '@life-cockpit/angular-ui-kit/styles/index.scss'

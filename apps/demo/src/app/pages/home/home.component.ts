@@ -13,7 +13,7 @@ export class HomeComponent {
   private sanitizer = inject(DomSanitizer);
 
   // Moved template to home.component.html
-  protected usageExample = `import { ButtonComponent } from '@life-cockpit/ui-kit';
+  protected usageExample = `import { ButtonComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   imports: [ButtonComponent],

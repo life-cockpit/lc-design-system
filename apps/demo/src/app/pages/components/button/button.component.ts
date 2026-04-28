@@ -6,7 +6,7 @@ import {
   CardComponent,
   CheckboxComponent,
   IconComponent,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-button',

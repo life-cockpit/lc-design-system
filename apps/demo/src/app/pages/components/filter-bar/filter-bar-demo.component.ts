@@ -7,7 +7,7 @@ import {
   CardComponent,
   TableComponent,
   type TableColumn,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 @Component({
   standalone: true,

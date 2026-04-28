@@ -6,7 +6,7 @@ import {
   ThemeService,
   TableComponent,
   TableColumn,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 /**
  * Header Component Demo Page

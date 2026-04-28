@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
-import { CheckboxComponent, CardComponent, SelectComponent } from '@life-cockpit/ui-kit';
+import { CheckboxComponent, CardComponent, SelectComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-checkbox-demo',

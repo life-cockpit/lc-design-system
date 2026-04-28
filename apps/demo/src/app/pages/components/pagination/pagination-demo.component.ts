@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { PaginationComponent, TableComponent, TableColumn } from '@life-cockpit/ui-kit';
+import { PaginationComponent, TableComponent, TableColumn } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-pagination-demo',

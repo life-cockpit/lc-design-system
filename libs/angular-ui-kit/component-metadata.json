@@ -70,7 +70,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/avatar/avatar.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/avatar/avatar.component.ts"
     },
     {
       "name": "BadgeComponent",
@@ -126,7 +126,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/badge/badge.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/badge/badge.component.ts"
     },
     {
       "name": "CardComponent",
@@ -216,7 +216,7 @@
           "description": "Named slot: [card-footer]"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/card/card.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/card/card.component.ts"
     },
     {
       "name": "ChipComponent",
@@ -290,7 +290,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/chip/chip.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/chip/chip.component.ts"
     },
     {
       "name": "IconComponent",
@@ -358,7 +358,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/icon/icon.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/icon/icon.component.ts"
     },
     {
       "name": "ListComponent",
@@ -421,7 +421,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/list/list.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/list/list.component.ts"
     },
     {
       "name": "LogoComponent",
@@ -462,7 +462,7 @@
       "outputs": [],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/logo/logo.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/logo/logo.component.ts"
     },
     {
       "name": "MetricCardComponent",
@@ -516,7 +516,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/metric-card/metric-card.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/metric-card/metric-card.component.ts"
     },
     {
       "name": "SkeletonComponent",
@@ -562,7 +562,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/skeleton/skeleton.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/skeleton/skeleton.component.ts"
     },
     {
       "name": "SpinnerComponent",
@@ -596,7 +596,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/spinner/spinner.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/spinner/spinner.component.ts"
     },
     {
       "name": "TableComponent",
@@ -682,7 +682,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/table/table.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/table/table.component.ts"
     },
     {
       "name": "ToggleGroupComponent",
@@ -716,7 +716,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/toggle-group/toggle-group.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/toggle-group/toggle-group.component.ts"
     },
     {
       "name": "TypographyComponent",
@@ -792,7 +792,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/typography/typography.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/typography/typography.component.ts"
     },
     {
       "name": "AlertComponent",
@@ -870,7 +870,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/alert/alert.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/alert/alert.component.ts"
     },
     {
       "name": "EmptyStateComponent",
@@ -921,7 +921,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/empty-state/empty-state.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/empty-state/empty-state.component.ts"
     },
     {
       "name": "ErrorDisplayComponent",
@@ -995,7 +995,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/error-display/error-display.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/error-display/error-display.component.ts"
     },
     {
       "name": "ModalComponent",
@@ -1109,7 +1109,7 @@
           "description": "Named slot: [slot='footer']"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/modal/modal.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/modal/modal.component.ts"
     },
     {
       "name": "ToastComponent",
@@ -1136,7 +1136,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/toast/toast.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/toast/toast.component.ts"
     },
     {
       "name": "TooltipContentComponent",
@@ -1155,7 +1155,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/tooltip/tooltip.directive.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/tooltip/tooltip.directive.ts"
     },
     {
       "name": "ButtonComponent",
@@ -1282,7 +1282,7 @@
           "description": "Named slot: [slot='icon-after']"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/button/button.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/button/button.component.ts"
     },
     {
       "name": "CheckboxComponent",
@@ -1378,7 +1378,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/checkbox/checkbox.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/checkbox/checkbox.component.ts"
     },
     {
       "name": "DatepickerComponent",
@@ -1520,7 +1520,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/datepicker/datepicker.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/datepicker/datepicker.component.ts"
     },
     {
       "name": "EmailInputComponent",
@@ -1628,7 +1628,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/email-input/email-input.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/email-input/email-input.component.ts"
     },
     {
       "name": "FieldGroupComponent",
@@ -1678,7 +1678,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/field-group/field-group.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/field-group/field-group.component.ts"
     },
     {
       "name": "FilterBarComponent",
@@ -1719,7 +1719,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/filter-bar/filter-bar.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/filter-bar/filter-bar.component.ts"
     },
     {
       "name": "InputComponent",
@@ -1846,7 +1846,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/input/input.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/input/input.component.ts"
     },
     {
       "name": "PasswordInputComponent",
@@ -1913,7 +1913,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/password-input/password-input.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/password-input/password-input.component.ts"
     },
     {
       "name": "RadioComponent",
@@ -2028,7 +2028,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/radio/radio.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/radio/radio.component.ts"
     },
     {
       "name": "SelectComponent",
@@ -2151,7 +2151,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/select/select.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/select/select.component.ts"
     },
     {
       "name": "SwitchComponent",
@@ -2235,7 +2235,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/switch/switch.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/switch/switch.component.ts"
     },
     {
       "name": "TextareaComponent",
@@ -2375,7 +2375,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/textarea/textarea.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/textarea/textarea.component.ts"
     },
     {
       "name": "VerificationCodeInputComponent",
@@ -2435,7 +2435,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/verification-code-input/verification-code-input.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/verification-code-input/verification-code-input.component.ts"
     },
     {
       "name": "ContainerComponent",
@@ -2482,7 +2482,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/container/container.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/container/container.component.ts"
     },
     {
       "name": "DrawerComponent",
@@ -2575,7 +2575,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/drawer/drawer.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/drawer/drawer.component.ts"
     },
     {
       "name": "SectionComponent",
@@ -2635,7 +2635,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/section/section.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/section/section.component.ts"
     },
     {
       "name": "SpacerComponent",
@@ -2664,7 +2664,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/spacer/spacer.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/spacer/spacer.component.ts"
     },
     {
       "name": "StackComponent",
@@ -2752,7 +2752,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/stack/stack.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/stack/stack.component.ts"
     },
     {
       "name": "BreadcrumbsComponent",
@@ -2775,7 +2775,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/breadcrumbs/breadcrumbs.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/breadcrumbs/breadcrumbs.component.ts"
     },
     {
       "name": "HeaderComponent",
@@ -2867,7 +2867,7 @@
       ],
       "types": {},
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/header/header.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/header/header.component.ts"
     },
     {
       "name": "MenuComponent",
@@ -2934,7 +2934,7 @@
           "description": "Named slot: [footer]"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/menu/menu.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/menu/menu.component.ts"
     },
     {
       "name": "PaginationComponent",
@@ -2960,7 +2960,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/pagination/pagination.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/pagination/pagination.component.ts"
     },
     {
       "name": "SidenavComponent",
@@ -2997,7 +2997,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/sidenav/sidenav.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/sidenav/sidenav.component.ts"
     },
     {
       "name": "TabsComponent",
@@ -3022,7 +3022,7 @@
         ]
       },
       "slots": [],
-      "filePath": "libs/ui-kit/src/lib/tabs/tabs.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/tabs/tabs.component.ts"
     },
     {
       "name": "AccordionComponent",
@@ -3069,7 +3069,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/accordion/accordion.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/accordion/accordion.component.ts"
     },
     {
       "name": "StepperComponent",
@@ -3121,7 +3121,7 @@
           "description": "Default content projection slot"
         }
       ],
-      "filePath": "libs/ui-kit/src/lib/stepper/stepper.component.ts"
+      "filePath": "libs/angular-ui-kit/src/lib/stepper/stepper.component.ts"
     }
   ]
 }

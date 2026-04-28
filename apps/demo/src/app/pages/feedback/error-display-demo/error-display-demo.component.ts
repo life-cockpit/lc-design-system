@@ -10,7 +10,7 @@ import {
   TableColumn,
   SelectComponent,
   SelectOption,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-error-display-demo',

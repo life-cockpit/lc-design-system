@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TabsComponent, TabComponent } from '@life-cockpit/ui-kit';
+import { TabsComponent, TabComponent } from '@life-cockpit/angular-ui-kit';
 
 /**
  * Tabs Demo Page

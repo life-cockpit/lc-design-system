@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AccordionComponent } from '@life-cockpit/ui-kit';
+import { AccordionComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-accordion',

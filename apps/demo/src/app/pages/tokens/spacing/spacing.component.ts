@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from '@life-cockpit/ui-kit';
+import { CardComponent } from '@life-cockpit/angular-ui-kit';
 
 interface SpacingToken {
   name: string;

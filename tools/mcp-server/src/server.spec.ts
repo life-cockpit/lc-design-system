@@ -195,7 +195,7 @@ describe('MCP Tools', () => {
       const result = await callTool('get_usage_guide');
       const guide = JSON.parse(result.content[0].text);
 
-      expect(guide).toHaveProperty('name', '@life-cockpit/ui-kit');
+      expect(guide).toHaveProperty('name', '@life-cockpit/angular-ui-kit');
       expect(guide).toHaveProperty('framework');
       expect(guide).toHaveProperty('installation');
       expect(guide).toHaveProperty('example');

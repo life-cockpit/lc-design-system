@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalComponent, ButtonComponent, CardComponent, InputComponent, TextareaComponent } from '@life-cockpit/ui-kit';
+import { ModalComponent, ButtonComponent, CardComponent, InputComponent, TextareaComponent } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-modal-demo',

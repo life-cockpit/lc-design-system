@@ -1,12 +1,12 @@
 # Life Cockpit Design System
 
-A standalone Angular component library (`@life-cockpit/ui-kit`) with 47+ accessible, themeable components built with Angular 21, TailwindCSS, and design tokens.
+A standalone Angular component library (`@life-cockpit/angular-ui-kit`) with 47+ accessible, themeable components built with Angular 21, TailwindCSS, and design tokens.
 
 ## Structure
 
 | Project | Path | Description |
 |---------|------|-------------|
-| `ui-kit` | `libs/ui-kit/` | Publishable Angular component library |
+| `ui-kit` | `libs/angular-ui-kit/` | Publishable Angular component library |
 | `demo` | `apps/demo/` | Interactive demo & documentation site |
 
 ## Quick Start
@@ -18,7 +18,7 @@ npm install
 npx nx serve demo
 
 # Build the library for publishing
-npx nx build ui-kit
+npx nx build angular-ui-kit
 ```
 
 ## Components
@@ -27,17 +27,17 @@ accordion, alert, avatar, badge, breadcrumbs, button, card, checkbox, chip, cont
 
 ## Design Tokens
 
-Design tokens are managed via [Style Dictionary](https://amzn.github.io/style-dictionary/) and generate both TypeScript constants and SCSS variables from `libs/ui-kit/tokens.json`.
+Design tokens are managed via [Style Dictionary](https://amzn.github.io/style-dictionary/) and generate both TypeScript constants and SCSS variables from `libs/angular-ui-kit/tokens.json`.
 
 ```sh
-cd libs/ui-kit && npx style-dictionary build
+cd libs/angular-ui-kit && npx style-dictionary build
 ```
 
 ## Publishing
 
 ```sh
-npx nx build ui-kit
-cd dist/libs/ui-kit
+npx nx build angular-ui-kit
+cd dist/libs/angular-ui-kit
 npm publish --access public
 ```
 

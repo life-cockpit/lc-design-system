@@ -44,7 +44,7 @@ jobs:
             --out-extension:.js=.mjs \
             --external:@aws-sdk/* \
             --banner:js="import{createRequire}from'module';const require=createRequire(import.meta.url);"
-          cp ../../libs/ui-kit/component-metadata.json dist/
+          cp ../../libs/angular-ui-kit/component-metadata.json dist/
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

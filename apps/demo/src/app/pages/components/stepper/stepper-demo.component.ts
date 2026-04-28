@@ -6,7 +6,7 @@ import {
   ButtonComponent,
   TableComponent,
   type TableColumn,
-} from '@life-cockpit/ui-kit';
+} from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-stepper-demo',

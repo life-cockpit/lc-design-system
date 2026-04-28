@@ -1,8 +1,8 @@
 module.exports = {
-  displayName: 'ui-kit',
+  displayName: 'angular-ui-kit',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/libs/ui-kit',
+  coverageDirectory: '../../coverage/libs/angular-ui-kit',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

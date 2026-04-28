@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent, ButtonComponent } from '@life-cockpit/ui-kit';
-import { ToastService } from '@life-cockpit/ui-kit';
+import { CardComponent, ButtonComponent } from '@life-cockpit/angular-ui-kit';
+import { ToastService } from '@life-cockpit/angular-ui-kit';
 
 @Component({
   selector: 'app-toast-demo',
