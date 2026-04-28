@@ -1,0 +1,10 @@
+{
+  "mcp": {
+    "servers": {
+      "storybook": {
+        "type": "http",
+        "url": "http://localhost:4400/mcp"
+      }
+    }
+  }
+}

@@ -1,0 +1,186 @@
+import type { Meta, StoryObj } from '@storybook/angular';
+import { CardComponent } from './card.component';
+
+const meta: Meta<CardComponent> = {
+  title: 'Components/Card',
+  component: CardComponent,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+The Card component groups related content with visual hierarchy.
+Use it for content sections, dashboard widgets, and list items.
+
+**Key Features:**
+- 3 variants (elevated, outlined, flat)
+- Configurable padding and border radius
+- Optional title and subtitle
+- Clickable mode with hover effects
+- Content projection for headers, body, and footers
+        `,
+      },
+    },
+  },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['elevated', 'outlined', 'flat'],
+      description: 'Visual style of the card',
+      table: { defaultValue: { summary: 'elevated' } },
+    },
+    padding: {
+      control: 'select',
+      options: ['none', 'xs', 'sm', 'md', 'lg'],
+      description: 'Internal padding',
+      table: { defaultValue: { summary: 'md' } },
+    },
+    borderRadius: {
+      control: 'select',
+      options: ['none', 'sm', 'md', 'lg', 'full'],
+      description: 'Corner rounding',
+      table: { defaultValue: { summary: 'md' } },
+    },
+    clickable: { control: 'boolean', description: 'Adds hover effects and pointer cursor' },
+    selected: { control: 'boolean', description: 'Highlight as selected (when clickable)' },
+  },
+};
+
+export default meta;
+type Story = StoryObj<CardComponent>;
+
+export const Default: Story = {
+  args: { title: 'Project Overview', subtitle: 'Last updated 2 hours ago', variant: 'elevated', padding: 'md' },
+  render: (args) => ({
+    props: args,
+    template: `
+      <lc-card [title]="title" [subtitle]="subtitle" [variant]="variant" [padding]="padding">
+        <p style="margin: 0; color: #4b5563; font-size: 14px; line-height: 1.5;">
+          Your project is on track. 12 of 15 tasks completed this sprint.
+          The team velocity has increased by 20% compared to last month.
+        </p>
+      </lc-card>`,
+  }),
+};
+
+export const Outlined: Story = {
+  args: { title: 'Team Members', variant: 'outlined', padding: 'md' },
+  render: (args) => ({
+    props: args,
+    template: `
+      <lc-card [title]="title" [variant]="variant" [padding]="padding">
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <lc-avatar name="Alice Johnson" size="sm"></lc-avatar>
+            <div>
+              <p style="margin: 0; font-weight: 500; font-size: 14px;">Alice Johnson</p>
+              <p style="margin: 0; font-size: 12px; color: #6b7280;">Product Designer</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <lc-avatar name="Bob Smith" size="sm"></lc-avatar>
+            <div>
+              <p style="margin: 0; font-weight: 500; font-size: 14px;">Bob Smith</p>
+              <p style="margin: 0; font-size: 12px; color: #6b7280;">Frontend Developer</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <lc-avatar name="Carol White" size="sm"></lc-avatar>
+            <div>
+              <p style="margin: 0; font-weight: 500; font-size: 14px;">Carol White</p>
+              <p style="margin: 0; font-size: 12px; color: #6b7280;">Backend Engineer</p>
+            </div>
+          </div>
+        </div>
+      </lc-card>`,
+  }),
+};
+
+export const Flat: Story = {
+  args: { title: 'Quick Stats', variant: 'flat', padding: 'md' },
+  render: (args) => ({
+    props: args,
+    template: `
+      <lc-card [title]="title" [variant]="variant" [padding]="padding" style="background: #f9fafb;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; text-align: center;">
+          <div>
+            <p style="margin: 0; font-size: 24px; font-weight: 700; color: #111827;">128</p>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #6b7280;">Active Users</p>
+          </div>
+          <div>
+            <p style="margin: 0; font-size: 24px; font-weight: 700; color: #111827;">94%</p>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #6b7280;">Uptime</p>
+          </div>
+          <div>
+            <p style="margin: 0; font-size: 24px; font-weight: 700; color: #111827;">3.2s</p>
+            <p style="margin: 4px 0 0; font-size: 12px; color: #6b7280;">Avg Response</p>
+          </div>
+        </div>
+      </lc-card>`,
+  }),
+};
+
+export const Clickable: Story = {
+  parameters: {
+    docs: { description: { story: 'Clickable cards show hover effects and emit `cardClick` events. Use for selectable items.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 600px;">
+        <lc-card variant="outlined" [clickable]="true" title="Starter" padding="md">
+          <p style="margin: 0 0 8px; font-size: 24px; font-weight: 700;">$9<span style="font-size: 14px; color: #6b7280;">/mo</span></p>
+          <p style="margin: 0; font-size: 13px; color: #6b7280;">5 projects, 1 user</p>
+        </lc-card>
+        <lc-card variant="outlined" [clickable]="true" [selected]="true" title="Pro" padding="md">
+          <p style="margin: 0 0 8px; font-size: 24px; font-weight: 700;">$29<span style="font-size: 14px; color: #6b7280;">/mo</span></p>
+          <p style="margin: 0; font-size: 13px; color: #6b7280;">Unlimited projects</p>
+        </lc-card>
+        <lc-card variant="outlined" [clickable]="true" title="Enterprise" padding="md">
+          <p style="margin: 0 0 8px; font-size: 24px; font-weight: 700;">Custom</p>
+          <p style="margin: 0; font-size: 13px; color: #6b7280;">Dedicated support</p>
+        </lc-card>
+      </div>`,
+  }),
+};
+
+export const WithFooter: Story = {
+  parameters: {
+    docs: { description: { story: 'Cards can contain multiple projected sections for header, body, and footer areas.' } },
+  },
+  render: () => ({
+    template: `
+      <lc-card variant="elevated" padding="md" style="max-width: 400px;">
+        <div style="margin-bottom: 12px;">
+          <h3 style="margin: 0 0 4px; font-size: 16px; font-weight: 600;">Subscription Renewal</h3>
+          <p style="margin: 0; font-size: 13px; color: #6b7280;">Your current plan expires on June 1, 2026</p>
+        </div>
+        <p style="margin: 0 0 16px; font-size: 14px; color: #4b5563; line-height: 1.5;">
+          Renew now to keep access to all premium features including advanced analytics, priority support, and unlimited exports.
+        </p>
+        <div style="display: flex; gap: 8px; justify-content: flex-end; padding-top: 12px; border-top: 1px solid #e5e7eb;">
+          <lc-button variant="ghost" size="sm">Remind Later</lc-button>
+          <lc-button variant="primary" size="sm">Renew Now</lc-button>
+        </div>
+      </lc-card>`,
+  }),
+};
+
+export const Variants: Story = {
+  parameters: {
+    docs: { description: { story: 'All card variants side by side.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <lc-card variant="elevated" title="Elevated" padding="md">
+          <p style="margin: 0; font-size: 14px; color: #6b7280;">Box shadow for depth</p>
+        </lc-card>
+        <lc-card variant="outlined" title="Outlined" padding="md">
+          <p style="margin: 0; font-size: 14px; color: #6b7280;">Border only, no shadow</p>
+        </lc-card>
+        <lc-card variant="flat" title="Flat" padding="md">
+          <p style="margin: 0; font-size: 14px; color: #6b7280;">No shadow or border</p>
+        </lc-card>
+      </div>`,
+  }),
+};

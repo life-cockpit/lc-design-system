@@ -1,0 +1,124 @@
+import type { Meta, StoryObj } from '@storybook/angular';
+import { fn, expect, userEvent, within } from 'storybook/test';
+import { MenuComponent } from './menu.component';
+
+/**
+ * Menus display a list of actions or options in a floating panel.
+ * Triggered by a button or icon, they appear in configurable positions.
+ * Items can have icons, dividers, danger variants, and disabled states.
+ */
+const meta: Meta<MenuComponent> = {
+  title: 'Navigation/Menu',
+  component: MenuComponent,
+  tags: ['autodocs'],
+  args: {
+    itemClick: fn(),
+    closed: fn(),
+  },
+  argTypes: {
+    itemClick: { action: 'itemClick', description: 'Emitted with the MenuItem when an item is clicked' },
+    closed: { action: 'closed', description: 'Emitted when the menu is closed' },
+    isOpen: { description: 'Whether the menu is currently visible' },
+    position: {
+      control: 'select',
+      options: ['bottom-left', 'bottom-right', 'top-left', 'top-right'],
+      description: 'Anchor position relative to the trigger element',
+    },
+    minWidth: { description: 'Minimum width of the menu panel (CSS value)' },
+  },
+};
+
+export default meta;
+type Story = StoryObj<MenuComponent>;
+
+export const Default: Story = {
+  args: {
+    isOpen: true,
+    position: 'bottom-right',
+    items: [
+      { id: 'profile', label: 'Profile', icon: 'user' },
+      { id: 'settings', label: 'Settings', icon: 'cog-6-tooth' },
+      { id: 'help', label: 'Help & Support', icon: 'question-mark-circle', dividerAfter: true },
+      { id: 'logout', label: 'Sign Out', icon: 'arrow-right-on-rectangle', variant: 'danger' },
+    ],
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="position: relative; display: inline-block; padding: 20px;">
+        <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
+          <button trigger style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer;">Account ▾</button>
+        </lc-menu>
+      </div>`,
+  }),
+};
+
+export const WithDividers: Story = {
+  name: 'With Dividers & Danger',
+  args: {
+    isOpen: true,
+    position: 'bottom-right',
+    items: [
+      { id: 'edit', label: 'Edit', icon: 'pencil' },
+      { id: 'duplicate', label: 'Duplicate', icon: 'document-duplicate' },
+      { id: 'move', label: 'Move to…', icon: 'folder', dividerAfter: true },
+      { id: 'archive', label: 'Archive', icon: 'archive-box' },
+      { id: 'delete', label: 'Delete', icon: 'trash', variant: 'danger' },
+    ],
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="position: relative; display: inline-block; padding: 20px;">
+        <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
+          <button trigger style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer;">Actions ▾</button>
+        </lc-menu>
+      </div>`,
+  }),
+};
+
+export const WithDisabled: Story = {
+  name: 'With Disabled Items',
+  args: {
+    isOpen: true,
+    position: 'bottom-right',
+    items: [
+      { id: 'view', label: 'View Details', icon: 'eye' },
+      { id: 'share', label: 'Share', icon: 'share' },
+      { id: 'export', label: 'Export (Pro)', icon: 'arrow-down-tray', disabled: true },
+      { id: 'api', label: 'API Access (Pro)', icon: 'code-bracket', disabled: true },
+    ],
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="position: relative; display: inline-block; padding: 20px;">
+        <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
+          <button trigger style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer;">More ▾</button>
+        </lc-menu>
+      </div>`,
+  }),
+};
+
+export const FileMenu: Story = {
+  name: 'File Context Menu',
+  args: {
+    isOpen: true,
+    position: 'bottom-left',
+    items: [
+      { id: 'open', label: 'Open', icon: 'folder-open' },
+      { id: 'rename', label: 'Rename', icon: 'pencil' },
+      { id: 'download', label: 'Download', icon: 'arrow-down-tray', dividerAfter: true },
+      { id: 'move', label: 'Move to Trash', icon: 'trash', variant: 'danger' },
+    ],
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="position: relative; display: inline-block; padding: 20px;">
+        <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
+          <button trigger style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 18px;">⋮</button>
+        </lc-menu>
+      </div>`,
+  }),
+};

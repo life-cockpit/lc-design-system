@@ -1,0 +1,75 @@
+import type { Meta, StoryObj } from '@storybook/angular';
+import { ToastComponent } from './toast.component';
+
+const meta: Meta<ToastComponent> = {
+  title: 'Feedback/Toast',
+  component: ToastComponent,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+The Toast component shows brief, non-blocking notifications.
+Toasts auto-dismiss after a duration and can be manually closed.
+
+**Key Features:**
+- 4 semantic variants (success, error, warning, info)
+- Configurable position and duration
+- Optional close button
+- Stacks multiple toasts
+        `,
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<ToastComponent>;
+
+export const Success: Story = {
+  args: {
+    toast: { id: '1', message: 'Your changes have been saved successfully.', variant: 'success', position: 'top-right', duration: 5000, showCloseButton: true },
+  },
+};
+
+export const Error: Story = {
+  args: {
+    toast: { id: '2', message: 'Failed to upload file. Please check your connection and try again.', variant: 'error', position: 'top-right', duration: 5000, showCloseButton: true },
+  },
+};
+
+export const Warning: Story = {
+  args: {
+    toast: { id: '3', message: 'Your session will expire in 5 minutes. Save your work.', variant: 'warning', position: 'top-right', duration: 5000, showCloseButton: true },
+  },
+};
+
+export const Info: Story = {
+  args: {
+    toast: { id: '4', message: 'A new version is available. Refresh to update.', variant: 'info', position: 'top-right', duration: 5000, showCloseButton: true },
+  },
+};
+
+export const WithoutCloseButton: Story = {
+  parameters: {
+    docs: { description: { story: 'Toasts without close button rely on auto-dismiss.' } },
+  },
+  args: {
+    toast: { id: '5', message: 'Message sent!', variant: 'success', position: 'top-right', duration: 3000, showCloseButton: false },
+  },
+};
+
+export const AllVariants: Story = {
+  parameters: {
+    docs: { description: { story: 'All toast variants stacked together for comparison.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 8px; max-width: 380px;">
+        <lc-toast [toast]="{ id: '1', message: 'Profile updated successfully.', variant: 'success', position: 'top-right', duration: 5000, showCloseButton: true }"></lc-toast>
+        <lc-toast [toast]="{ id: '2', message: 'Unable to connect to server.', variant: 'error', position: 'top-right', duration: 5000, showCloseButton: true }"></lc-toast>
+        <lc-toast [toast]="{ id: '3', message: 'Storage quota at 90%.', variant: 'warning', position: 'top-right', duration: 5000, showCloseButton: true }"></lc-toast>
+        <lc-toast [toast]="{ id: '4', message: '3 new messages received.', variant: 'info', position: 'top-right', duration: 5000, showCloseButton: true }"></lc-toast>
+      </div>`,
+  }),
+};
