@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -9,7 +10,7 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HeaderComponent],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HeaderComponent);
@@ -30,15 +31,6 @@ describe('HeaderComponent', () => {
     it('should accept userEmail input', () => {
       component.userEmail = 'test@example.com';
       expect(component.userEmail).toBe('test@example.com');
-    });
-
-    it('should accept profileUrl input with default value', () => {
-      expect(component.profileUrl).toBe('https://profile.life-cockpit.de');
-    });
-
-    it('should accept custom profileUrl input', () => {
-      component.profileUrl = 'https://custom.com';
-      expect(component.profileUrl).toBe('https://custom.com');
     });
 
     it('should accept showHamburger input', () => {
@@ -83,12 +75,11 @@ describe('HeaderComponent', () => {
   });
 
   describe('Rendering', () => {
-    it('should render logo when provided', () => {
+    it('should render brand area with logo component', () => {
       fixture.componentRef.setInput('logo', '/assets/logo.svg');
       fixture.detectChanges();
-      const logo = fixture.nativeElement.querySelector('.lc-header__logo img');
-      expect(logo).toBeTruthy();
-      expect(logo.getAttribute('src')).toBe('/assets/logo.svg');
+      const brand = fixture.nativeElement.querySelector('.lc-header__logo');
+      expect(brand).toBeTruthy();
     });
 
     it('should render hamburger icon when showHamburger is true', () => {
@@ -99,34 +90,31 @@ describe('HeaderComponent', () => {
     });
 
     it('should not render hamburger icon when showHamburger is false', () => {
-      component.showHamburger = false;
+      fixture.componentRef.setInput('showHamburger', false);
       fixture.detectChanges();
       const hamburger = fixture.nativeElement.querySelector('.lc-header__hamburger');
       expect(hamburger).toBeFalsy();
     });
 
-    it('should render user email in profile dropdown', () => {
+    it('should render user email in menu header when dropdown is open', () => {
       component.userEmail = 'test@example.com';
       component.toggleDropdown();
       fixture.detectChanges();
-      const email = fixture.nativeElement.querySelector('.lc-header__profile-email');
+      const email = fixture.nativeElement.querySelector('.lc-header__menu-user-email');
       expect(email?.textContent).toContain('test@example.com');
     });
 
-    it('should render Profile link in dropdown', () => {
+    it('should render menu items when dropdown is open', () => {
       component.toggleDropdown();
       fixture.detectChanges();
-      const profileLink = fixture.nativeElement.querySelector('.lc-header__profile-link');
-      expect(profileLink).toBeTruthy();
-      expect(profileLink.textContent).toContain('Profile');
+      const menuItems = component.menuItems();
+      expect(menuItems.length).toBeGreaterThan(0);
+      expect(menuItems.some(item => item.id === 'logout')).toBe(true);
     });
 
-    it('should render Logout button in dropdown', () => {
-      component.toggleDropdown();
-      fixture.detectChanges();
-      const logoutBtn = fixture.nativeElement.querySelector('.lc-header__logout-btn');
-      expect(logoutBtn).toBeTruthy();
-      expect(logoutBtn.textContent).toContain('Logout');
+    it('should include Profile menu item by default', () => {
+      const items = component.menuItems();
+      expect(items.some(item => item.id === 'profile')).toBe(true);
     });
   });
 });

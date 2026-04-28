@@ -1,46 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MetricCardComponent } from './metric-card.component';
-import { Component } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 
-@Component({
-  standalone: true,
-  imports: [MetricCardComponent],
-  template: `
-    <lc-metric-card
-      [label]="label"
-      [value]="value"
-      [trend]="trend"
-      [trendValue]="trendValue"
-      [icon]="icon"
-    ></lc-metric-card>
-  `,
-})
-class TestHostComponent {
-  label = 'Portfolio Equity';
-  value = '$125,430';
-  trend: 'up' | 'down' | 'flat' = 'up';
-  trendValue = '+2.4%';
-  icon = '';
-}
-
 describe('MetricCardComponent', () => {
-  let fixture: ComponentFixture<TestHostComponent>;
-  let host: TestHostComponent;
+  let fixture: ComponentFixture<MetricCardComponent>;
+  let component: MetricCardComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [MetricCardComponent],
       providers: [provideHttpClient()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
-    host = fixture.componentInstance;
+    fixture = TestBed.createComponent(MetricCardComponent);
+    component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('label', 'Portfolio Equity');
+    fixture.componentRef.setInput('value', '$125,430');
+    fixture.componentRef.setInput('trend', 'up');
+    fixture.componentRef.setInput('trendValue', '+2.4%');
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(fixture.nativeElement.querySelector('.lc-metric-card')).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should display label and value', () => {
@@ -56,14 +39,14 @@ describe('MetricCardComponent', () => {
   });
 
   it('should show down arrow for down trend', () => {
-    host.trend = 'down';
+    fixture.componentRef.setInput('trend', 'down');
     fixture.detectChanges();
     const arrow = fixture.nativeElement.querySelector('.lc-metric-card__arrow');
     expect(arrow.textContent).toContain('↓');
   });
 
   it('should show flat arrow for flat trend', () => {
-    host.trend = 'flat';
+    fixture.componentRef.setInput('trend', 'flat');
     fixture.detectChanges();
     const arrow = fixture.nativeElement.querySelector('.lc-metric-card__arrow');
     expect(arrow.textContent).toContain('→');
@@ -75,27 +58,29 @@ describe('MetricCardComponent', () => {
   });
 
   it('should apply red class for down trend', () => {
-    host.trend = 'down';
+    fixture.componentRef.setInput('trend', 'down');
     fixture.detectChanges();
     const trend = fixture.nativeElement.querySelector('.lc-metric-card__trend');
     expect(trend.classList).toContain('text-red-600');
   });
 
   it('should not show trend section when trendValue is empty', () => {
-    host.trendValue = '';
+    fixture.componentRef.setInput('trendValue', '');
     fixture.detectChanges();
     const trend = fixture.nativeElement.querySelector('.lc-metric-card__trend');
     expect(trend).toBeNull();
   });
 
   it('should show icon when provided', () => {
-    host.icon = 'arrow-trending-up';
+    fixture.componentRef.setInput('icon', 'arrow-trending-up');
     fixture.detectChanges();
     const icon = fixture.nativeElement.querySelector('.lc-metric-card__icon');
     expect(icon).toBeTruthy();
   });
 
   it('should not show icon when not provided', () => {
+    fixture.componentRef.setInput('icon', '');
+    fixture.detectChanges();
     const icon = fixture.nativeElement.querySelector('.lc-metric-card__icon');
     expect(icon).toBeNull();
   });

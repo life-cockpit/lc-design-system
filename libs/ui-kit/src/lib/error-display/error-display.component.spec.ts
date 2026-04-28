@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ErrorDisplayComponent } from './error-display.component';
 
 describe('ErrorDisplayComponent', () => {
@@ -6,6 +6,8 @@ describe('ErrorDisplayComponent', () => {
   let fixture: ComponentFixture<ErrorDisplayComponent>;
 
   beforeEach(async () => {
+    jest.useFakeTimers();
+
     await TestBed.configureTestingModule({
       imports: [ErrorDisplayComponent],
     }).compileComponents();
@@ -13,6 +15,10 @@ describe('ErrorDisplayComponent', () => {
     fixture = TestBed.createComponent(ErrorDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('should create', () => {
@@ -138,7 +144,7 @@ describe('ErrorDisplayComponent', () => {
   });
 
   describe('Auto Dismiss', () => {
-    it('should auto-dismiss after delay when enabled', fakeAsync(() => {
+    it('should auto-dismiss after delay when enabled', () => {
       fixture.componentRef.setInput('error', { message: 'Test error' });
       fixture.componentRef.setInput('autoDismiss', true);
       fixture.componentRef.setInput('autoDismissDelay', 1000);
@@ -146,48 +152,49 @@ describe('ErrorDisplayComponent', () => {
 
       expect(component['visible']()).toBe(true);
 
-      tick(1000);
+      jest.advanceTimersByTime(1000);
       expect(component['visible']()).toBe(false);
-    }));
+    });
 
-    it('should not auto-dismiss when disabled', fakeAsync(() => {
+    it('should not auto-dismiss when disabled', () => {
       fixture.componentRef.setInput('error', { message: 'Test error' });
       fixture.componentRef.setInput('autoDismiss', false);
       fixture.detectChanges();
 
       expect(component['visible']()).toBe(true);
 
-      tick(10000);
+      jest.advanceTimersByTime(10000);
       expect(component['visible']()).toBe(true);
-    }));
+    });
   });
 
   describe('Public Methods', () => {
-    it('should show error when show() is called', () => {
-      component.show();
+    it('should show visible when error is set', () => {
+      fixture.componentRef.setInput('error', { message: 'Test error' });
+      fixture.detectChanges();
       expect(component['visible']()).toBe(true);
     });
 
-    it('should hide error when hide() is called', () => {
+    it('should hide when dismissed', () => {
       fixture.componentRef.setInput('error', { message: 'Test error' });
       fixture.detectChanges();
       expect(component['visible']()).toBe(true);
 
-      component.hide();
+      component['onDismissed']();
       expect(component['visible']()).toBe(false);
     });
 
-    it('should clear auto-dismiss timer when hide() is called', fakeAsync(() => {
+    it('should clear auto-dismiss timer when dismissed', () => {
       fixture.componentRef.setInput('error', { message: 'Test error' });
       fixture.componentRef.setInput('autoDismiss', true);
       fixture.componentRef.setInput('autoDismissDelay', 1000);
       fixture.detectChanges();
 
-      component.hide();
-      tick(1000);
+      component['onDismissed']();
+      jest.advanceTimersByTime(1000);
 
       // Should stay hidden and not auto-show again
       expect(component['visible']()).toBe(false);
-    }));
+    });
   });
 });

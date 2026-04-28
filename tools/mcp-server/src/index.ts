@@ -1,10 +1,10 @@
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { createServer } from 'http';
+import { createServer, type IncomingMessage, type ServerResponse } from 'http';
 import { createServer as createMcpServer } from './server.js';
 
 const PORT = parseInt(process.env.PORT || '3001', 10);
 
-const httpServer = createServer(async (req, res) => {
+const httpServer = createServer(async (req: IncomingMessage, res: ServerResponse) => {
   // CORS headers for public access
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE');

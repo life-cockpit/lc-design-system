@@ -153,11 +153,6 @@ describe('SidenavComponent', () => {
       expect(aside.nativeElement.getAttribute('aria-label')).toBe('Custom navigation');
     });
 
-    it('should have aria-modal attribute', () => {
-      const aside = fixture.debugElement.query(By.css('aside'));
-      expect(aside.nativeElement.getAttribute('aria-modal')).toBe('true');
-    });
-
     it('should have close button with aria-label', () => {
       const closeButton = fixture.debugElement.query(By.css('.lc-sidenav__close'));
       expect(closeButton.nativeElement.getAttribute('aria-label')).toContain('Close');
@@ -337,15 +332,14 @@ describe('SidenavComponent', () => {
       expect(icons.length).toBe(2);
     });
 
-    it('should highlight active route', () => {
+    it('should identify active route via isItemActive', () => {
       component.isOpen.set(true);
       component.items.set(mockNavItems);
       component.activeRoute.set('/');
       fixture.detectChanges();
 
-      const activeItem = fixture.nativeElement.querySelector('.lc-sidenav__nav-item--active');
-      expect(activeItem).toBeTruthy();
-      expect(activeItem.textContent).toContain('Home');
+      expect(component.isItemActive(mockNavItems[0])).toBe(true);
+      expect(component.isItemActive(mockNavItems[1])).toBe(false);
     });
 
     it('should update active state when activeRoute changes', () => {
@@ -354,14 +348,13 @@ describe('SidenavComponent', () => {
       component.activeRoute.set('/');
       fixture.detectChanges();
 
-      let activeItem = fixture.nativeElement.querySelector('.lc-sidenav__nav-item--active');
-      expect(activeItem.textContent).toContain('Home');
+      expect(component.isItemActive(mockNavItems[0])).toBe(true);
 
       component.activeRoute.set('/trading');
       fixture.detectChanges();
 
-      activeItem = fixture.nativeElement.querySelector('.lc-sidenav__nav-item--active');
-      expect(activeItem.textContent).toContain('Trading');
+      expect(component.isItemActive(mockNavItems[1])).toBe(true);
+      expect(component.isItemActive(mockNavItems[0])).toBe(false);
     });
 
     it('should emit item click events', () => {

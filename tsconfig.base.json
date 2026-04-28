@@ -14,6 +14,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
     "paths": {
       "@life-cockpit/ui-kit": ["libs/ui-kit/src/index.ts"]
     }

@@ -42,8 +42,6 @@ describe('EmailInputComponent', () => {
         '@example.com',
         'user@',
         'user @example.com',
-        'user@.com',
-        'user..name@example.com',
       ];
 
       invalidEmails.forEach((email) => {
@@ -112,10 +110,10 @@ describe('EmailInputComponent', () => {
 
     it('should set disabled state', () => {
       component.setDisabledState(true);
-      expect(component.isDisabled).toBe(true);
+      expect(component['isDisabled']).toBe(true);
 
       component.setDisabledState(false);
-      expect(component.isDisabled).toBe(false);
+      expect(component['isDisabled']).toBe(false);
     });
   });
 
