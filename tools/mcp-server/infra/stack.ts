@@ -223,12 +223,21 @@ class DocsStack extends cdk.Stack {
 
 const app = new cdk.App();
 
+// Application-level tags — applied to all resources in all stacks
+const APP_NAME = 'life-cockpit-design-system';
+cdk.Tags.of(app).add('Application', APP_NAME);
+cdk.Tags.of(app).add('ManagedBy', 'cdk');
+cdk.Tags.of(app).add('Repository', 'fritzcoded/lc-design-system');
+
 new McpServerStack(app, 'LifeCockpitMcpServer', {
   env: {
     // CloudFront + ACM requires us-east-1
     region: 'us-east-1',
   },
   description: 'Life-Cockpit Design System MCP Server',
+  tags: {
+    Service: 'mcp-server',
+  },
 });
 
 new DocsStack(app, 'LifeCockpitDocs', {
@@ -236,6 +245,9 @@ new DocsStack(app, 'LifeCockpitDocs', {
     region: 'us-east-1',
   },
   description: 'Life-Cockpit Design System Documentation',
+  tags: {
+    Service: 'docs',
+  },
 });
 
 app.synth();
