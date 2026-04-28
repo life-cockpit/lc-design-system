@@ -57,7 +57,7 @@ class McpServerStack extends cdk.Stack {
       },
     });
 
-    // ACM Certificate for mcp.life-cockpit.de (must be in us-east-1 for CloudFront)
+    // ACM Certificate (CDK auto-creates in us-east-1 via crossRegionReferences)
     const certificate = new acm.Certificate(this, 'McpCertificate', {
       domainName: MCP_SUBDOMAIN,
       validation: acm.CertificateValidation.fromDns(),
@@ -132,7 +132,7 @@ class DocsStack extends cdk.Stack {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
     });
 
-    // ACM Certificate for design.life-cockpit.de
+    // ACM Certificate (CDK auto-creates in us-east-1 via crossRegionReferences)
     const certificate = new acm.Certificate(this, 'DocsCertificate', {
       domainName: DESIGN_SUBDOMAIN,
       validation: acm.CertificateValidation.fromDns(),
@@ -223,17 +223,20 @@ class DocsStack extends cdk.Stack {
 
 const app = new cdk.App();
 
+const account = process.env.CDK_DEFAULT_ACCOUNT || process.env.AWS_ACCOUNT_ID;
+
 // Application-level tags — applied to all resources in all stacks
 const APP_NAME = 'life-cockpit-design-system';
 cdk.Tags.of(app).add('Application', APP_NAME);
 cdk.Tags.of(app).add('ManagedBy', 'cdk');
-cdk.Tags.of(app).add('Repository', 'fritzcoded/lc-design-system');
+cdk.Tags.of(app).add('Repository', 'Life-Cockpit/lc-design-system');
 
 new McpServerStack(app, 'LifeCockpitMcpServer', {
   env: {
-    // CloudFront + ACM requires us-east-1
-    region: 'us-east-1',
+    account,
+    region: 'eu-central-1',
   },
+  crossRegionReferences: true,
   description: 'Life-Cockpit Design System MCP Server',
   tags: {
     Service: 'mcp-server',
@@ -242,8 +245,10 @@ new McpServerStack(app, 'LifeCockpitMcpServer', {
 
 new DocsStack(app, 'LifeCockpitDocs', {
   env: {
-    region: 'us-east-1',
+    account,
+    region: 'eu-central-1',
   },
+  crossRegionReferences: true,
   description: 'Life-Cockpit Design System Documentation',
   tags: {
     Service: 'docs',
