@@ -1,5 +1,5 @@
 {
-  "name": "@life-cockpit/ui-kit",
+  "name": "@life-cockpit/angular-ui-kit",
   "version": "0.1.0",
   "description": "Life Cockpit Design System - Angular UI component library",
   "license": "MIT",
@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/Life-Cockpit/lc-design-system.git"
   },
-  "keywords": ["angular", "design-system", "ui-kit", "components", "life-cockpit"],
+  "keywords": ["angular", "design-system", "angular-ui-kit", "components", "life-cockpit"],
   "peerDependencies": {
     "@angular/cdk": "^21.0.0",
     "@angular/common": "^21.0.0",
