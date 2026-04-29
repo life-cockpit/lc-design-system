@@ -1,0 +1,103 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Elevation" />
+
+# Elevation
+
+Shadow levels for visual depth and hierarchy. Higher values = more prominence.
+
+## Shadows
+
+<div style={{ display: 'grid', gap: '24px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+    <div style={{
+      width: '120px', height: '80px', borderRadius: '8px', background: 'white',
+      boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 600
+    }}>1</div>
+    <div>
+      <div style={{ fontWeight: 600, fontSize: '14px' }}>Elevation 1</div>
+      <div style={{ fontSize: '12px', color: '#6B7280', marginTop: 4 }}>Subtle – for cards, raised surfaces</div>
+      <code style={{ fontSize: '11px' }}>0 1px 2px 0 rgba(0, 0, 0, 0.05)</code>
+    </div>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+    <div style={{
+      width: '120px', height: '80px', borderRadius: '8px', background: 'white',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 600
+    }}>2</div>
+    <div>
+      <div style={{ fontWeight: 600, fontSize: '14px' }}>Elevation 2</div>
+      <div style={{ fontSize: '12px', color: '#6B7280', marginTop: 4 }}>Medium – for dropdowns, floating elements</div>
+      <code style={{ fontSize: '11px' }}>0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)</code>
+    </div>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+    <div style={{
+      width: '120px', height: '80px', borderRadius: '8px', background: 'white',
+      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 600
+    }}>3</div>
+    <div>
+      <div style={{ fontWeight: 600, fontSize: '14px' }}>Elevation 3</div>
+      <div style={{ fontSize: '12px', color: '#6B7280', marginTop: 4 }}>High – for modals, dialogs</div>
+      <code style={{ fontSize: '11px' }}>0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)</code>
+    </div>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+    <div style={{
+      width: '120px', height: '80px', borderRadius: '8px', background: 'white',
+      boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: 600
+    }}>4</div>
+    <div>
+      <div style={{ fontWeight: 600, fontSize: '14px' }}>Elevation 4</div>
+      <div style={{ fontSize: '12px', color: '#6B7280', marginTop: 4 }}>Highest – for tooltips, overlays</div>
+      <code style={{ fontSize: '11px' }}>0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)</code>
+    </div>
+  </div>
+</div>
+
+## Border Radius
+
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
+  {[
+    { name: 'none', value: '0', radius: '0' },
+    { name: 'sm', value: '0.25rem', radius: '4px' },
+    { name: 'md', value: '0.5rem', radius: '8px' },
+    { name: 'lg', value: '0.75rem', radius: '12px' },
+    { name: 'xl', value: '1rem', radius: '16px' },
+    { name: '2xl', value: '1.5rem', radius: '24px' },
+    { name: 'full', value: '9999px', radius: '9999px' },
+  ].map(token => (
+    <div key={token.name} style={{ textAlign: 'center' }}>
+      <div style={{
+        width: '64px', height: '64px', background: '#208497', borderRadius: token.radius,
+        margin: '0 auto 8px'
+      }}></div>
+      <div style={{ fontWeight: 600, fontSize: '13px' }}>{token.name}</div>
+      <div style={{ fontSize: '11px', color: '#6B7280' }}>{token.value}</div>
+    </div>
+  ))}
+</div>
+
+## Usage
+
+```css
+box-shadow: var(--elevation-2);
+border-radius: var(--borderRadius-md);
+```
+
+## Recommendations
+
+| Element | Elevation | Border Radius |
+|---|---|---|
+| Cards | 1 | md (8px) |
+| Dropdowns | 2 | md (8px) |
+| Modals | 3 | lg (12px) |
+| Tooltips | 4 | sm (4px) |
+| Buttons | – | md (8px) |
+| Inputs | – | md (8px) |
+| Avatars | – | full |
+| Badges | – | full |

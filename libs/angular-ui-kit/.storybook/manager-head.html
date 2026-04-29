@@ -1,0 +1,25 @@
+<style>
+  /* Hide Storybook's default type icons (component grid, document, story bookmark) */
+  .sidebar-item svg[viewBox="0 0 14 14"] {
+    display: none !important;
+  }
+
+  /* Make root sections non-collapsible headings */
+  .sidebar-subheading [data-action="collapse-root"] {
+    pointer-events: none !important;
+    cursor: default !important;
+  }
+  /* Hide the collapse chevron on root headings */
+  .sidebar-subheading [data-action="collapse-root"] svg {
+    display: none !important;
+  }
+  /* Hide the expand-all/collapse-all button */
+  .sidebar-subheading [data-action="expand-all"] {
+    display: none !important;
+  }
+
+  /* Hide the preview toolbar entirely */
+  [data-testid="sb-preview-toolbar"] {
+    display: none !important;
+  }
+</style>

@@ -30,6 +30,7 @@ const preview: Preview = {
     }),
   ],
   parameters: {
+    layout: 'padded',
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -44,6 +45,22 @@ const preview: Preview = {
       },
       canvas: {
         sourceState: 'shown',
+      },
+    },
+    options: {
+      storySort: {
+        order: [
+          'Installation',
+          'Design Tokens',
+          ['Colors', 'Spacing', 'Typography', 'Elevation', 'Sizes & Animation'],
+          'Components',
+          'Form',
+          'Data Display',
+          'Feedback',
+          'Navigation',
+          'Layout',
+          '*',
+        ],
       },
     },
   },

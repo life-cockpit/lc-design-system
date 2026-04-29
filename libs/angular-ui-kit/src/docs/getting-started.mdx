@@ -1,0 +1,114 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Installation" />
+
+# Installation
+
+## 1. Install the package
+
+```bash
+npm install @life-cockpit/angular-ui-kit
+```
+
+## 2. Include styles
+
+In your `styles.scss` (or via `angular.json` under `styles`):
+
+```scss
+@use '@life-cockpit/angular-ui-kit/styles';
+```
+
+Or individually:
+
+```scss
+@use '@life-cockpit/angular-ui-kit/styles/reset';
+@use '@life-cockpit/angular-ui-kit/styles/theme-light';
+@use '@life-cockpit/angular-ui-kit/styles/theme-dark';
+@use '@life-cockpit/angular-ui-kit/styles/typography';
+@use '@life-cockpit/angular-ui-kit/styles/utilities';
+```
+
+## 3. Use components
+
+All components are **standalone** and can be imported directly:
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  ButtonComponent,
+  InputComponent,
+  CardComponent,
+} from '@life-cockpit/angular-ui-kit';
+
+@Component({
+  selector: 'app-my-page',
+  standalone: true,
+  imports: [ButtonComponent, InputComponent, CardComponent],
+  template: `
+    <lc-card>
+      <lc-input label="Name" placeholder="John Doe"></lc-input>
+      <lc-button variant="primary" (clicked)="onSubmit()">
+        Save
+      </lc-button>
+    </lc-card>
+  `,
+})
+export class MyPageComponent {
+  onSubmit() {
+    console.log('Submitted!');
+  }
+}
+```
+
+## 4. Provide HttpClient (for Icons)
+
+The `IconComponent` loads SVGs via HTTP. Make sure `provideHttpClient()` is included in your app config:
+
+```typescript
+// app.config.ts
+import { provideHttpClient } from '@angular/common/http';
+
+export const appConfig = {
+  providers: [provideHttpClient()],
+};
+```
+
+## 5. Theming
+
+Components use CSS Custom Properties. Choose a theme by setting a CSS class on `:root` or `<body>`:
+
+```html
+<!-- Light Theme (default) -->
+<html class="light">
+
+<!-- Dark Theme -->
+<html class="dark">
+```
+
+## Prerequisites
+
+| Dependency | Version |
+|---|---|
+| Angular | >= 19 |
+| TypeScript | >= 5.4 |
+| Node.js | >= 20 |
+
+## MCP Server (AI-assisted development)
+
+If you have a deployed Storybook, you can configure the MCP Server in VS Code:
+
+```json
+// .vscode/settings.json
+{
+  "mcp": {
+    "servers": {
+      "lc-design-system": {
+        "type": "http",
+        "url": "https://your-storybook-url.com/mcp"
+      }
+    }
+  }
+}
+```
+
+This allows GitHub Copilot to fetch component documentation and generate correct usage examples.

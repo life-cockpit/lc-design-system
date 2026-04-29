@@ -1,0 +1,77 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Sizes & Animation" />
+
+# Sizes
+
+Standardized sizes for interactive elements (buttons, inputs, etc.).
+
+## Interactive Sizes
+
+<div style={{ display: 'grid', gap: '16px', marginBottom: '32px' }}>
+  {[
+    { name: 'xs', height: '24px', padding: '0.25rem 0.5rem', fontSize: '12px' },
+    { name: 'sm', height: '32px', padding: '0.375rem 0.75rem', fontSize: '14px' },
+    { name: 'md', height: '40px', padding: '0.5rem 1rem', fontSize: '16px' },
+    { name: 'lg', height: '44px', padding: '0.625rem 1.25rem', fontSize: '18px' },
+  ].map(size => (
+    <div key={size.name} style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+      <code style={{ width: '40px', fontSize: '13px', fontWeight: 600 }}>{size.name}</code>
+      <div style={{
+        height: size.height, padding: size.padding, fontSize: size.fontSize,
+        background: '#208497', color: 'white', borderRadius: '8px',
+        display: 'inline-flex', alignItems: 'center', fontWeight: 500
+      }}>
+        Button {size.name}
+      </div>
+      <span style={{ fontSize: '12px', color: '#6B7280' }}>
+        Height: {size.height} · Padding: {size.padding} · Font: {size.fontSize}
+      </span>
+    </div>
+  ))}
+</div>
+
+## Minimum Touch Target
+
+The minimum touch target is **44px** (`spacing-11`) per WCAG 2.5.5. All interactive elements should be at least this size.
+
+---
+
+# Animation
+
+Animation values for consistent transitions and motion.
+
+## Duration
+
+| Token | Value | Usage |
+|---|---|---|
+| `duration-fast` | 150ms | Hover states, toggles, small transitions |
+
+## Easing
+
+| Token | Value | Usage |
+|---|---|---|
+| `easeIn` | ease-in | Elements leaving the viewport |
+| `easeOut` | ease-out | Elements appearing |
+| `easeInOut` | ease-in-out | Default for most transitions |
+
+## Usage
+
+```css
+transition: all var(--animation-duration-fast) var(--animation-easing-easeInOut);
+```
+
+## Example
+
+<div style={{ display: 'flex', gap: '24px', marginTop: '16px' }}>
+  <div style={{
+    width: '80px', height: '80px', background: '#208497', borderRadius: '8px',
+    transition: 'transform 150ms ease-in-out, box-shadow 150ms ease-in-out',
+    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+    color: 'white', fontSize: '12px', fontWeight: 600
+  }}>
+    Hover me
+  </div>
+</div>
+
+> **Tip:** Keep animations short (max 300ms) and use `prefers-reduced-motion` for accessibility.

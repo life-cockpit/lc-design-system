@@ -1,0 +1,108 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Typography" />
+
+# Typography
+
+The type system defines consistent font sizes, weights, and line heights.
+
+## Font Families
+
+| Token | Value |
+|---|---|
+| `fontFamily-base` | -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, ... sans-serif |
+| `fontFamily-mono` | 'SF Mono', Monaco, Inconsolata, ... monospace |
+
+## Font Sizes
+
+<div style={{ display: 'grid', gap: '16px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>xs</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>12px</span>
+    <span style={{ fontSize: '0.75rem' }}>The quick brown fox jumps over the lazy dog</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>sm</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>14px</span>
+    <span style={{ fontSize: '0.875rem' }}>The quick brown fox jumps over the lazy dog</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>base</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>16px</span>
+    <span style={{ fontSize: '1rem' }}>The quick brown fox jumps over the lazy dog</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>lg</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>18px</span>
+    <span style={{ fontSize: '1.125rem' }}>The quick brown fox jumps over the lazy dog</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>xl</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>20px</span>
+    <span style={{ fontSize: '1.25rem' }}>The quick brown fox jumps over the lazy dog</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>2xl</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>24px</span>
+    <span style={{ fontSize: '1.5rem' }}>The quick brown fox jumps over the lazy dog</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>3xl</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>30px</span>
+    <span style={{ fontSize: '1.875rem' }}>The quick brown fox jumps</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>4xl</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>36px</span>
+    <span style={{ fontSize: '2.25rem' }}>The quick brown fox</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '60px', fontSize: '12px' }}>5xl</code>
+    <span style={{ width: '60px', fontSize: '12px', color: '#6B7280' }}>48px</span>
+    <span style={{ fontSize: '3rem' }}>The quick brown</span>
+  </div>
+</div>
+
+## Font Weights
+
+<div style={{ display: 'grid', gap: '12px', marginBottom: '32px' }}>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '100px', fontSize: '12px' }}>normal (400)</code>
+    <span style={{ fontWeight: 400, fontSize: '18px' }}>Life-Cockpit Design System</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '100px', fontSize: '12px' }}>medium (500)</code>
+    <span style={{ fontWeight: 500, fontSize: '18px' }}>Life-Cockpit Design System</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '100px', fontSize: '12px' }}>semibold (600)</code>
+    <span style={{ fontWeight: 600, fontSize: '18px' }}>Life-Cockpit Design System</span>
+  </div>
+  <div style={{ display: 'flex', alignItems: 'baseline', gap: '24px' }}>
+    <code style={{ width: '100px', fontSize: '12px' }}>bold (700)</code>
+    <span style={{ fontWeight: 700, fontSize: '18px' }}>Life-Cockpit Design System</span>
+  </div>
+</div>
+
+## Line Heights
+
+| Token | Value | Usage |
+|---|---|---|
+| `tight` | 1.25 | Headings, compact text |
+| `normal` | 1.5 | Body text (default) |
+| `relaxed` | 1.75 | Long-form reading text |
+
+## Usage
+
+```css
+font-size: var(--typography-fontSize-base);
+font-weight: var(--typography-fontWeight-semibold);
+line-height: var(--typography-lineHeight-normal);
+```
+
+```html
+<!-- Typography component -->
+<lc-typography variant="h1">Heading</lc-typography>
+<lc-typography variant="body">Body text</lc-typography>
+<lc-typography variant="caption">Caption</lc-typography>
+```
