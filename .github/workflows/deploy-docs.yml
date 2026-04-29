@@ -36,7 +36,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Install CDK dependencies
-        run: cd tools/mcp-server/infra && npm ci
+        run: cd tools/infra && npm ci
 
       - name: Deploy Docs stack
-        run: cd tools/mcp-server/infra && npx cdk deploy LifeCockpitDocs --require-approval never
+        run: cd tools/infra && npx cdk deploy LifeCockpitDocs --require-approval never
