@@ -26,8 +26,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build demo app
-        run: npx nx build demo --configuration=production
+      - name: Build Storybook
+        run: npx nx build-storybook angular-ui-kit
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
