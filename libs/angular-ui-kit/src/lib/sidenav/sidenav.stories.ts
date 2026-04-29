@@ -10,7 +10,6 @@ import { SidenavComponent } from './sidenav.component';
 const meta: Meta<SidenavComponent> = {
   title: 'Navigation/Sidenav',
   component: SidenavComponent,
-  tags: ['autodocs'],
   args: {
     closed: fn(),
     itemClicked: fn(),

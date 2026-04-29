@@ -8,7 +8,6 @@ import { LogoComponent } from './logo.component';
 const meta: Meta<LogoComponent> = {
   title: 'Components/Logo',
   component: LogoComponent,
-  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',

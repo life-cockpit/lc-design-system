@@ -10,7 +10,6 @@ import { DatepickerComponent } from './datepicker.component';
 const meta: Meta<DatepickerComponent> = {
   title: 'Form/Datepicker',
   component: DatepickerComponent,
-  tags: ['autodocs'],
   args: {
     dateChange: fn(),
     opened: fn(),

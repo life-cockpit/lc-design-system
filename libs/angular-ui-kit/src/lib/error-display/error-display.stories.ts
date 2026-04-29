@@ -9,7 +9,6 @@ import { ErrorDisplayComponent } from './error-display.component';
 const meta: Meta<ErrorDisplayComponent> = {
   title: 'Feedback/Error Display',
   component: ErrorDisplayComponent,
-  tags: ['autodocs'],
   argTypes: {
     title: { description: 'Bold heading text for the error' },
     message: { description: 'Detailed description of the error or action needed' },

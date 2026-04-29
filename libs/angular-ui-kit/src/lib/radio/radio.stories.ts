@@ -9,7 +9,6 @@ import { RadioComponent } from './radio.component';
 const meta: Meta<RadioComponent> = {
   title: 'Form/Radio',
   component: RadioComponent,
-  tags: ['autodocs'],
   argTypes: {
     label: { description: 'Display text next to the radio button' },
     name: { description: 'Groups radios together — only one in a group can be selected' },

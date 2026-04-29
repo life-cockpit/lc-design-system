@@ -9,7 +9,6 @@ import { SpacerComponent } from './spacer.component';
 const meta: Meta<SpacerComponent> = {
   title: 'Layout/Spacer',
   component: SpacerComponent,
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: 'select',

@@ -4,7 +4,6 @@ import { InputComponent } from './input.component';
 const meta: Meta<InputComponent> = {
   title: 'Form/Input',
   component: InputComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

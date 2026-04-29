@@ -9,7 +9,6 @@ import { BreadcrumbsComponent } from './breadcrumbs.component';
 const meta: Meta<BreadcrumbsComponent> = {
   title: 'Navigation/Breadcrumbs',
   component: BreadcrumbsComponent,
-  tags: ['autodocs'],
   argTypes: {
     itemsInput: { description: 'Array of breadcrumb items with label and optional url' },
     sizeInput: {

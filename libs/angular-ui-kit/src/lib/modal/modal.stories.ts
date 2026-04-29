@@ -4,7 +4,6 @@ import { ModalComponent } from './modal.component';
 const meta: Meta<ModalComponent> = {
   title: 'Feedback/Modal',
   component: ModalComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

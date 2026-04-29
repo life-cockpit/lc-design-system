@@ -10,7 +10,6 @@ import { VerificationCodeInputComponent } from './verification-code-input.compon
 const meta: Meta<VerificationCodeInputComponent> = {
   title: 'Form/Verification Code Input',
   component: VerificationCodeInputComponent,
-  tags: ['autodocs'],
   args: {
     complete: fn(),
   },

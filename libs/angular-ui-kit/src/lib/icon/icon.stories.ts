@@ -135,7 +135,6 @@ class IconGalleryComponent {
 const meta: Meta<IconComponent> = {
   title: 'Components/Icon',
   component: IconComponent,
-  tags: ['autodocs'],
   argTypes: {
     name: { description: 'Icon name from the Heroicons set (e.g. "home", "user", "cog-6-tooth")' },
     variant: {

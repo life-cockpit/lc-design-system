@@ -4,7 +4,6 @@ import { TableComponent } from './table.component';
 const meta: Meta<TableComponent> = {
   title: 'Data Display/Table',
   component: TableComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

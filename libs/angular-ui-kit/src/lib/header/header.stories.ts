@@ -10,7 +10,6 @@ import { HeaderComponent } from './header.component';
 const meta: Meta<HeaderComponent> = {
   title: 'Navigation/Header',
   component: HeaderComponent,
-  tags: ['autodocs'],
   args: {
     hamburgerClick: fn(),
     themeToggleClick: fn(),

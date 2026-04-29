@@ -9,7 +9,6 @@ import { PasswordInputComponent } from './password-input.component';
 const meta: Meta<PasswordInputComponent> = {
   title: 'Form/Password Input',
   component: PasswordInputComponent,
-  tags: ['autodocs'],
   args: {
     strengthChange: fn(),
   },

@@ -9,7 +9,6 @@ import { ChipComponent } from './chip.component';
 const meta: Meta<ChipComponent> = {
   title: 'Data Display/Chip',
   component: ChipComponent,
-  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',

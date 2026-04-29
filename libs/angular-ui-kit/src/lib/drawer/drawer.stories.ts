@@ -4,7 +4,6 @@ import { DrawerComponent } from './drawer.component';
 const meta: Meta<DrawerComponent> = {
   title: 'Feedback/Drawer',
   component: DrawerComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

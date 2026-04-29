@@ -9,7 +9,6 @@ import { AccordionComponent } from './accordion.component';
 const meta: Meta<AccordionComponent> = {
   title: 'Components/Accordion',
   component: AccordionComponent,
-  tags: ['autodocs'],
   argTypes: {
     title: { description: 'Header text displayed in the toggle button' },
     variant: {
@@ -31,7 +30,7 @@ export default meta;
 type Story = StoryObj<AccordionComponent>;
 
 export const Default: Story = {
-  args: { title: 'What is Life-Cockpit?', variant: 'outlined', size: 'md', disabled: false, expanded: false },
+  args: { title: 'What is Life-Cockpit?', variant: 'outlined', size: 'md', disabled: false, expanded: true },
   render: (args) => ({
     props: args,
     template: `<lc-accordion [title]="title" [variant]="variant" [size]="size" [disabled]="disabled" [expanded]="expanded">

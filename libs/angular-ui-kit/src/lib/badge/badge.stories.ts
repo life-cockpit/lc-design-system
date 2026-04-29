@@ -4,7 +4,6 @@ import { BadgeComponent } from './badge.component';
 const meta: Meta<BadgeComponent> = {
   title: 'Data Display/Badge',
   component: BadgeComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

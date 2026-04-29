@@ -5,7 +5,6 @@ import { TabsComponent, TabComponent } from './tabs.component';
 const meta: Meta<TabsComponent> = {
   title: 'Navigation/Tabs',
   component: TabsComponent,
-  tags: ['autodocs'],
   args: {
     selectedIndexChange: fn(),
   },

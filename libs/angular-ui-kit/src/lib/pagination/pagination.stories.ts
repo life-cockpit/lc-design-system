@@ -10,7 +10,6 @@ import { PaginationComponent } from './pagination.component';
 const meta: Meta<PaginationComponent> = {
   title: 'Navigation/Pagination',
   component: PaginationComponent,
-  tags: ['autodocs'],
   args: {
     pageChange: fn(),
   },

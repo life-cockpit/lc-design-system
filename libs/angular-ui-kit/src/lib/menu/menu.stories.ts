@@ -10,7 +10,6 @@ import { MenuComponent } from './menu.component';
 const meta: Meta<MenuComponent> = {
   title: 'Navigation/Menu',
   component: MenuComponent,
-  tags: ['autodocs'],
   args: {
     itemClick: fn(),
     closed: fn(),

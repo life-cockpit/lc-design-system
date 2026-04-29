@@ -9,7 +9,6 @@ import { ContainerComponent } from './container.component';
 const meta: Meta<ContainerComponent> = {
   title: 'Layout/Container',
   component: ContainerComponent,
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: 'select',

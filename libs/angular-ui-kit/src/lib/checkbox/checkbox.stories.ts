@@ -4,7 +4,6 @@ import { CheckboxComponent } from './checkbox.component';
 const meta: Meta<CheckboxComponent> = {
   title: 'Form/Checkbox',
   component: CheckboxComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

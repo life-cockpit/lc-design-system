@@ -9,7 +9,6 @@ import { ToggleGroupComponent } from './toggle-group.component';
 const meta: Meta<ToggleGroupComponent> = {
   title: 'Form/Toggle Group',
   component: ToggleGroupComponent,
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: 'select',

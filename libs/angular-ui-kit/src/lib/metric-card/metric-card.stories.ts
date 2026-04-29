@@ -9,7 +9,6 @@ import { MetricCardComponent } from './metric-card.component';
 const meta: Meta<MetricCardComponent> = {
   title: 'Data Display/Metric Card',
   component: MetricCardComponent,
-  tags: ['autodocs'],
   argTypes: {
     label: { description: 'Label describing what the metric measures' },
     value: { description: 'The formatted metric value (e.g. "$12,450", "98.5%")' },

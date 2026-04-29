@@ -9,7 +9,6 @@ import { ListComponent } from './list.component';
 const meta: Meta<ListComponent> = {
   title: 'Data Display/List',
   component: ListComponent,
-  tags: ['autodocs'],
   argTypes: {
     orientation: {
       control: 'select',

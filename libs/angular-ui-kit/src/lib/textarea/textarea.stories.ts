@@ -9,7 +9,6 @@ import { TextareaComponent } from './textarea.component';
 const meta: Meta<TextareaComponent> = {
   title: 'Form/Textarea',
   component: TextareaComponent,
-  tags: ['autodocs'],
   argTypes: {
     label: { description: 'Label text displayed above the textarea' },
     placeholder: { description: 'Placeholder text shown when empty' },

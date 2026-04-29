@@ -10,7 +10,6 @@ import { ButtonComponent } from '../button/button.component';
 const meta: Meta<TooltipDirective> = {
   title: 'Feedback/Tooltip',
   component: TooltipDirective,
-  tags: ['autodocs'],
   argTypes: {
     lcTooltip: { description: 'The text content to display in the tooltip' },
     tooltipPosition: {

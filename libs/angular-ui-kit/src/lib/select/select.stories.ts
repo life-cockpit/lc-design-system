@@ -9,7 +9,6 @@ import { SelectComponent } from './select.component';
 const meta: Meta<SelectComponent> = {
   title: 'Form/Select',
   component: SelectComponent,
-  tags: ['autodocs'],
   args: {
     selectionChange: fn(),
     opened: fn(),

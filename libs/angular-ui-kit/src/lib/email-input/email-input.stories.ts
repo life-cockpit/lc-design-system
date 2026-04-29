@@ -9,7 +9,6 @@ import { EmailInputComponent } from './email-input.component';
 const meta: Meta<EmailInputComponent> = {
   title: 'Form/Email Input',
   component: EmailInputComponent,
-  tags: ['autodocs'],
   argTypes: {
     label: { description: 'Label text above the input' },
     placeholder: { description: 'Placeholder text (default: "you@example.com")' },

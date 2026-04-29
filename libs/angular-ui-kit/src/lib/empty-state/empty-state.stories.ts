@@ -9,7 +9,6 @@ import { EmptyStateComponent } from './empty-state.component';
 const meta: Meta<EmptyStateComponent> = {
   title: 'Feedback/Empty State',
   component: EmptyStateComponent,
-  tags: ['autodocs'],
   argTypes: {
     heading: { description: 'Primary message (e.g. "No projects yet")' },
     message: { description: 'Supporting text explaining what the user can do' },

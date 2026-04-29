@@ -9,7 +9,6 @@ import { FilterBarComponent } from './filter-bar.component';
 const meta: Meta<FilterBarComponent> = {
   title: 'Data Display/Filter Bar',
   component: FilterBarComponent,
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: 'select',

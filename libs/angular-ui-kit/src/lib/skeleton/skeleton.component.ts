@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, computed, HostBinding } from '@angular/core';
 
 export type SkeletonVariant = 'line' | 'circle' | 'rect';
 
@@ -59,4 +59,16 @@ export class SkeletonComponent {
       'border-radius': this.borderRadius() ?? d.r,
     };
   });
+
+  @HostBinding('style.width')
+  get hostWidth(): string {
+    const v = this.variant();
+    const defaults: Record<SkeletonVariant, string> = { line: '100%', circle: '40px', rect: '100%' };
+    return this.width() ?? defaults[v];
+  }
+
+  @HostBinding('style.flex-shrink')
+  get hostFlexShrink(): string {
+    return '0';
+  }
 }

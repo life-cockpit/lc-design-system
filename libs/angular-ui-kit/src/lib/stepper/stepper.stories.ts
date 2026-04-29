@@ -4,7 +4,6 @@ import { StepperComponent } from './stepper.component';
 const meta: Meta<StepperComponent> = {
   title: 'Components/Stepper',
   component: StepperComponent,
-  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {

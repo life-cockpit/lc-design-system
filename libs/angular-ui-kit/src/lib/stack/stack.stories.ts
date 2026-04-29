@@ -9,7 +9,6 @@ import { StackComponent } from './stack.component';
 const meta: Meta<StackComponent> = {
   title: 'Layout/Stack',
   component: StackComponent,
-  tags: ['autodocs'],
   argTypes: {
     direction: {
       control: 'select',

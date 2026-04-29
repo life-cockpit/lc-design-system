@@ -9,7 +9,6 @@ import { FieldGroupComponent } from './field-group.component';
 const meta: Meta<FieldGroupComponent> = {
   title: 'Data Display/Field Group',
   component: FieldGroupComponent,
-  tags: ['autodocs'],
   argTypes: {
     label: { description: 'Field label (key)' },
     value: { description: 'Field value displayed next to/below the label' },

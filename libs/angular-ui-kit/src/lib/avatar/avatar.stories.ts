@@ -8,7 +8,6 @@ import { AvatarComponent } from './avatar.component';
 const meta: Meta<AvatarComponent> = {
   title: 'Data Display/Avatar',
   component: AvatarComponent,
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: 'select',

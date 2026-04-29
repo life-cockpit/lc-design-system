@@ -9,7 +9,6 @@ import { SectionComponent } from './section.component';
 const meta: Meta<SectionComponent> = {
   title: 'Layout/Section',
   component: SectionComponent,
-  tags: ['autodocs'],
   argTypes: {
     spacing: {
       control: 'select',

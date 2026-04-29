@@ -9,7 +9,6 @@ import { SkeletonComponent } from './skeleton.component';
 const meta: Meta<SkeletonComponent> = {
   title: 'Feedback/Skeleton',
   component: SkeletonComponent,
-  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
@@ -27,7 +26,7 @@ type Story = StoryObj<SkeletonComponent>;
 
 export const Line: Story = {
   name: 'Text Line',
-  args: { variant: 'line' },
+  args: { variant: 'line', width: '100%', height: '16px' },
 };
 
 export const Circle: Story = {
