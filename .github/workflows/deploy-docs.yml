@@ -39,4 +39,9 @@ jobs:
         run: cd tools/infra && npm ci
 
       - name: Deploy Docs stack
-        run: cd tools/infra && npx cdk deploy LifeCockpitDocs --require-approval never
+        run: cd tools/infra && npx cdk deploy LifeCockpitDocs --require-approval never --outputs-file cdk-outputs.json
+
+      - name: Invalidate CloudFront cache
+        run: |
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[?contains(@,'design.life-cockpit.de')]].Id" --output text)
+          aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*"
