@@ -22,4 +22,23 @@
   [data-testid="sb-preview-toolbar"] {
     display: none !important;
   }
+
+  /* Hide the settings gear button in the sidebar */
+  button[title="Shortcuts"],
+  button[title="Settings"],
+  #storybook-explorer-menu a[href*="settings"],
+  .sidebar-header button:has(svg) {
+    display: none !important;
+  }
+
+  /* Allow brand logo to be larger */
+  .sidebar-header a {
+    height: auto !important;
+    min-height: 80px !important;
+  }
+  .sidebar-header img {
+    max-width: 100% !important;
+    max-height: none !important;
+    height: 60px !important;
+  }
 </style>

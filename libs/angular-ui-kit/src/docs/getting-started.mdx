@@ -92,23 +92,3 @@ Components use CSS Custom Properties. Choose a theme by setting a CSS class on `
 | Angular | >= 19 |
 | TypeScript | >= 5.4 |
 | Node.js | >= 20 |
-
-## MCP Server (AI-assisted development)
-
-If you have a deployed Storybook, you can configure the MCP Server in VS Code:
-
-```json
-// .vscode/settings.json
-{
-  "mcp": {
-    "servers": {
-      "lc-design-system": {
-        "type": "http",
-        "url": "https://your-storybook-url.com/mcp"
-      }
-    }
-  }
-}
-```
-
-This allows GitHub Copilot to fetch component documentation and generate correct usage examples.

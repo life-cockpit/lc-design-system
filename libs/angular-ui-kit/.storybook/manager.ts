@@ -2,14 +2,15 @@ import { addons } from 'storybook/manager-api';
 import { create } from 'storybook/theming/create';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const React = require('react');
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { version } = require('../package.json');
 
 const lcTheme = create({
   base: 'light',
 
   // Brand
-  brandTitle: 'Life-Cockpit Design System',
+  brandTitle: `<div style="display:flex;flex-direction:column;align-items:flex-start;width:100%"><img src="/assets/life-cockpit-logo.svg" alt="Life-Cockpit" style="height:60px;max-width:none;margin-bottom:6px" /><span style="font-size:11px;font-weight:700;color:#6B7280;font-family:Inter,sans-serif">v${version}</span></div>`,
   brandUrl: '/',
-  brandImage: '/assets/life-cockpit-logo.svg',
   brandTarget: '_self',
 
   // Colors — LC Primary (#208497) & Neutral palette
