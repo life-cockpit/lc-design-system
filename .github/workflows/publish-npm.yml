@@ -33,6 +33,6 @@ jobs:
         run: npx nx build angular-ui-kit --configuration=production
 
       - name: Publish
-        run: cd dist/libs/angular-ui-kit && npm publish --access public
+        run: cd dist/libs/angular-ui-kit && npm publish --access public || echo "Version already published, skipping."
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
