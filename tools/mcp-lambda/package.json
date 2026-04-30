@@ -1,0 +1,21 @@
+{
+  "name": "mcp-lambda",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.mjs --format=esm --external:@aws-sdk/*"
+  },
+  "dependencies": {
+    "@storybook/mcp": "^0.7.0",
+    "tmcp": "^1.19.3",
+    "@tmcp/transport-http": "^0.8.5",
+    "@tmcp/adapter-valibot": "^0.1.5",
+    "valibot": "1.2.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.5.0"
+  }
+}
