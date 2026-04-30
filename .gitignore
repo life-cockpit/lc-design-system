@@ -49,3 +49,5 @@ __screenshots__/
 
 
 storybook-static
+# CDK
+cdk.out
