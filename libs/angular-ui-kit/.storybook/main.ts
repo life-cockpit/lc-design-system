@@ -14,6 +14,9 @@ const config: StorybookConfig = {
     name: '@storybook/angular',
     options: {},
   },
+  features: {
+    componentsManifest: true,
+  },
   staticDirs: [
     { from: '../../../node_modules/heroicons', to: '/heroicons' },
     { from: '../src/assets', to: '/assets' },

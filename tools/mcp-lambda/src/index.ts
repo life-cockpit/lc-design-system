@@ -8,7 +8,7 @@ async function fetchManifest(_request: unknown, path: string) {
   if (!res.ok) {
     throw new Error(`Failed to fetch manifest from ${url}: ${res.status}`);
   }
-  return res.json();
+  return res.text();
 }
 
 let handler: Awaited<ReturnType<typeof createStorybookMcpHandler>> | null = null;

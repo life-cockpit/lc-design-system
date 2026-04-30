@@ -29,6 +29,9 @@ jobs:
       - name: Build Storybook
         run: npx nx build-storybook angular-ui-kit
 
+      - name: Generate components manifest
+        run: node tools/generate-components-manifest.mjs
+
       - name: Build MCP Lambda
         run: cd tools/mcp-lambda && npm ci && npm run build
 
