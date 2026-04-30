@@ -1,6 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as s3deploy from 'aws-cdk-lib/aws-s3-deployment';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
@@ -86,13 +85,9 @@ export class DocsStack extends cdk.Stack {
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
     });
 
-    new s3deploy.BucketDeployment(this, 'DeployDocs', {
-      sources: [
-        s3deploy.Source.asset(path.join(__dirname, '..', '..', '..', 'dist', 'storybook', 'angular-ui-kit')),
-      ],
-      destinationBucket: bucket,
-      distribution,
-      distributionPaths: ['/*'],
+    new cdk.CfnOutput(this, 'DocsBucketName', {
+      value: bucket.bucketName,
+      description: 'S3 Bucket for Storybook files',
     });
 
     new cdk.CfnOutput(this, 'DocsUrl', {

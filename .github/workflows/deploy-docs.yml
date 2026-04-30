@@ -44,6 +44,11 @@ jobs:
       - name: Deploy Docs stack
         run: cd tools/infra && npx cdk deploy LifeCockpitDocs --require-approval never --outputs-file cdk-outputs.json
 
+      - name: Sync Storybook to S3
+        run: |
+          BUCKET_NAME=$(jq -r '.LifeCockpitDocs.DocsBucketName' tools/infra/cdk-outputs.json)
+          aws s3 sync dist/storybook/angular-ui-kit/ "s3://$BUCKET_NAME/" --delete
+
       - name: Invalidate CloudFront cache
         run: |
           DISTRIBUTION_ID=$(aws cloudfront list-distributions --query "DistributionList.Items[?Aliases.Items[?contains(@,'design.life-cockpit.de')]].Id" --output text)
