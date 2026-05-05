@@ -85,6 +85,9 @@ export * from './lib/verification-code-input/verification-code-input.component';
 // Email Input Component
 export * from './lib/email-input/email-input.component';
 
+// Hero Component
+export * from './lib/hero/hero.component';
+
 // ============================================================================
 // Layout Components
 // ============================================================================

@@ -299,6 +299,13 @@ export const appRoutes: Route[] = [
           ),
       },
       {
+        path: 'hero',
+        loadComponent: () =>
+          import('./pages/components/hero/hero-demo.component').then(
+            (m) => m.HeroDemoComponent,
+          ),
+      },
+      {
         path: '',
         redirectTo: 'button',
         pathMatch: 'full',

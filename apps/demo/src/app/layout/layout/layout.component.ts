@@ -141,7 +141,14 @@ export class LayoutComponent {
           route: '/components/field-group',
           displayOrder: 6,
         },
-        { id: 'icon', label: 'Icon', icon: 'photo', route: '/components/icon', displayOrder: 7 },
+        {
+          id: 'hero',
+          label: 'Hero',
+          icon: 'window',
+          route: '/components/hero',
+          displayOrder: 7,
+        },
+        { id: 'icon', label: 'Icon', icon: 'photo', route: '/components/icon', displayOrder: 8 },
         {
           id: 'logo',
           label: 'Logo',

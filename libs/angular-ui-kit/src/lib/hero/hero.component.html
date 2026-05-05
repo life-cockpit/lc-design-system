@@ -1,0 +1,12 @@
+<div [class]="heroClasses()">
+  <div class="hero__content">
+    @if (label()) {
+      <span class="hero__label">{{ label() }}</span>
+    }
+    <h1 class="hero__title">{{ title() }}</h1>
+    <div class="hero__body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <ng-content select="[hero-footer]"></ng-content>
+</div>

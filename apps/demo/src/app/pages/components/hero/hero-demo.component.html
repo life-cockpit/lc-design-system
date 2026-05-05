@@ -1,0 +1,107 @@
+<h2>Hero Component</h2>
+<p class="demo-description">
+  Prominent page header with gradient background. Use for landing sections, feature intros, or dashboards.
+</p>
+
+<!-- Interactive Playground -->
+<section class="demo-section">
+  <h3>Playground</h3>
+
+  <div class="controls">
+    <div class="control-group">
+      <label>Color</label>
+      <div class="control-options">
+        @for (color of colors; track color) {
+          <button
+            [class.active]="selectedColor() === color"
+            (click)="setColor(color)"
+          >
+            {{ color }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Size</label>
+      <div class="control-options">
+        @for (size of sizes; track size) {
+          <button
+            [class.active]="selectedSize() === size"
+            (click)="setSize(size)"
+          >
+            {{ size }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Border Radius</label>
+      <div class="control-options">
+        @for (radius of radii; track radius) {
+          <button
+            [class.active]="selectedRadius() === radius"
+            (click)="setRadius(radius)"
+          >
+            {{ radius }}
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="preview">
+    <lc-hero
+      label="LIFE-COCKPIT FACTORY"
+      title="Software wird spec-driven gebaut. Nicht prompt-driven."
+      [color]="selectedColor()"
+      [size]="selectedSize()"
+      [borderRadius]="selectedRadius()"
+    >
+      <p>
+        Eine industrialisierte Plattform für AI-getriebene Softwareentwicklung.
+        Aus einer Spezifikation entstehen vollständige Features — UI, Backend, Tests, Doku —
+        durch orchestrierte KI-Agenten mit menschlicher Kontrolle an jedem kritischen Punkt.
+      </p>
+      <div hero-footer>
+        <div class="stat-item">
+          <span class="stat-label">STAND</span>
+          <span class="stat-value">Mai 2026 · Production-Ready Core</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">STACK</span>
+          <span class="stat-value">Python 3.13 · FastAPI · PostgreSQL · Bedrock</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">TESTABDECKUNG</span>
+          <span class="stat-value">1.384 Tests grün</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">MULTI-TENANCY</span>
+          <span class="stat-value">RLS-isoliert · audit-ready</span>
+        </div>
+      </div>
+    </lc-hero>
+  </div>
+</section>
+
+<!-- Minimal Example -->
+<section class="demo-section">
+  <h3>Minimal</h3>
+  <lc-hero title="Willkommen" color="neutral" size="sm">
+    <p>Ein einfacher Hero ohne Footer.</p>
+  </lc-hero>
+</section>
+
+<!-- Color Variants -->
+<section class="demo-section">
+  <h3>All Colors</h3>
+  <div class="color-grid">
+    @for (color of colors; track color) {
+      <lc-hero [title]="color" [color]="color" size="sm" borderRadius="md">
+        <p>Gradient preview</p>
+      </lc-hero>
+    }
+  </div>
+</section>

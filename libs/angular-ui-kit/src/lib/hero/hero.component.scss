@@ -1,0 +1,237 @@
+@use 'sass:map';
+@use '../../styles/tokens/colors';
+
+// ---------------------------------------------------------------------------
+// Color map – each entry produces a gradient from darker to lighter shade
+// ---------------------------------------------------------------------------
+$hero-colors: (
+  'primary': (
+    from: colors.$color-primary-800,
+    to: colors.$color-primary-500,
+  ),
+  'secondary': (
+    from: colors.$color-secondary-800,
+    to: colors.$color-secondary-500,
+  ),
+  'neutral': (
+    from: colors.$color-neutral-900,
+    to: colors.$color-neutral-600,
+  ),
+  'success': (
+    from: colors.$color-success-dark,
+    to: colors.$color-success-default,
+  ),
+  'info': (
+    from: colors.$color-info-dark,
+    to: colors.$color-info-default,
+  ),
+  'warning': (
+    from: colors.$color-warning-dark,
+    to: colors.$color-warning-default,
+  ),
+  'accent-orange': (
+    from: #7a3a10,
+    to: colors.$color-accent-orange,
+  ),
+  'accent-purple': (
+    from: #3a2a52,
+    to: colors.$color-accent-purple,
+  ),
+  'accent-violet': (
+    from: #221a42,
+    to: colors.$color-accent-violet,
+  ),
+);
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fff;
+  overflow: hidden;
+
+  // -------------------------------------------------------------------------
+  // Color variants (gradient backgrounds)
+  // -------------------------------------------------------------------------
+  @each $name, $shades in $hero-colors {
+    &--#{$name} {
+      background: linear-gradient(135deg, map.get($shades, from) 0%, map.get($shades, to) 100%);
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Size variants
+  // -------------------------------------------------------------------------
+  &--sm {
+    padding: 1.5rem 1.25rem;
+
+    @media (min-width: 640px) {
+      padding: 2rem 2rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 2.5rem 3rem;
+    }
+  }
+
+  &--md {
+    padding: 2rem 1.25rem;
+
+    @media (min-width: 640px) {
+      padding: 2.5rem 2rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 3rem 3.5rem;
+    }
+  }
+
+  &--lg {
+    padding: 2.5rem 1.25rem;
+
+    @media (min-width: 640px) {
+      padding: 3rem 2.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      padding: 4rem 4rem;
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Border radius
+  // -------------------------------------------------------------------------
+  &--radius-none {
+    border-radius: 0;
+  }
+
+  &--radius-sm {
+    border-radius: 0.25rem;
+  }
+
+  &--radius-md {
+    border-radius: 0.5rem;
+  }
+
+  &--radius-lg {
+    border-radius: 1rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content area
+// ---------------------------------------------------------------------------
+.hero__content {
+  flex: 1;
+}
+
+.hero__label {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 0.75rem;
+
+  @media (min-width: 640px) {
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.hero__title {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.1;
+  color: inherit;
+
+  .hero--sm & {
+    font-size: 1.5rem;
+
+    @media (min-width: 640px) {
+      font-size: 1.75rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 2rem;
+    }
+  }
+
+  .hero--md & {
+    font-size: 1.75rem;
+
+    @media (min-width: 640px) {
+      font-size: 2.25rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 2.75rem;
+    }
+  }
+
+  .hero--lg & {
+    font-size: 2rem;
+
+    @media (min-width: 640px) {
+      font-size: 2.75rem;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 3.5rem;
+    }
+  }
+}
+
+.hero__body {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  max-width: 48rem;
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.125rem;
+    margin-top: 1.5rem;
+  }
+
+  &:empty {
+    display: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer slot (stats, metadata, CTAs)
+// ---------------------------------------------------------------------------
+::ng-deep [hero-footer] {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    margin-top: 3rem;
+  }
+}

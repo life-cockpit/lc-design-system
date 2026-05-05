@@ -108,6 +108,11 @@ export class SidebarComponent {
           icon: this.getFieldGroupIcon(),
         },
         {
+          label: 'Hero',
+          path: '/components/hero',
+          icon: this.getHeroIcon(),
+        },
+        {
           label: 'Icon',
           path: '/components/icon',
           icon: this.getIconIcon(),
@@ -342,6 +347,10 @@ export class SidebarComponent {
 
   private getFieldGroupIcon(): string {
     return 'queue-list';
+  }
+
+  private getHeroIcon(): string {
+    return 'window';
   }
 
   private getInputIcon(): string {
