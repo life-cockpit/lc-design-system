@@ -99,5 +99,10 @@ export class DocsStack extends cdk.Stack {
       value: `https://${domainName}/mcp`,
       description: 'MCP Server URL',
     });
+
+    new cdk.CfnOutput(this, 'DistributionId', {
+      value: distribution.distributionId,
+      description: 'CloudFront Distribution ID',
+    });
   }
 }
