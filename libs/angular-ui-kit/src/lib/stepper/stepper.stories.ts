@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { StepperComponent } from './stepper.component';
 
 const meta: Meta<StepperComponent> = {
-  title: 'Components/Stepper',
+  title: 'Navigation/Stepper',
   component: StepperComponent,
   parameters: {
     docs: {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { DependencyViewerComponent, DependencyNode } from './dependency-viewer.component';
 
 const meta: Meta<DependencyViewerComponent> = {
-  title: 'Components/Dependency Viewer',
+  title: 'Data Display/Dependency Viewer',
   component: DependencyViewerComponent,
   tags: ['autodocs'],
   argTypes: {

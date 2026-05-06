@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { DateRangePickerComponent } from './date-range-picker.component';
 
 const meta: Meta<DateRangePickerComponent> = {
-  title: 'Components/Date Range Picker',
+  title: 'Form/Date Range Picker',
   component: DateRangePickerComponent,
   tags: ['autodocs'],
   parameters: {

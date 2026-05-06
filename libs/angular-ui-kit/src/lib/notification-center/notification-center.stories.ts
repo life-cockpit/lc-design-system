@@ -44,7 +44,7 @@ const sampleNotifications: Notification[] = [
 ];
 
 const meta: Meta<NotificationCenterComponent> = {
-  title: 'Components/Notification Center',
+  title: 'Feedback/Notification Center',
   component: NotificationCenterComponent,
   tags: ['autodocs'],
   parameters: {

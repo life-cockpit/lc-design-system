@@ -13,7 +13,7 @@ function generateItems(count: number, withCategories = false): GalleryItem[] {
 }
 
 const meta: Meta<GalleryComponent> = {
-  title: 'Components/Gallery',
+  title: 'Data Display/Gallery',
   component: GalleryComponent,
   tags: ['autodocs'],
   parameters: {

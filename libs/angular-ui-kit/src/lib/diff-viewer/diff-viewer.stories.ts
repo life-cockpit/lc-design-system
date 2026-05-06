@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { DiffViewerComponent } from './diff-viewer.component';
 
 const meta: Meta<DiffViewerComponent> = {
-  title: 'Components/Diff Viewer',
+  title: 'Data Display/Diff Viewer',
   component: DiffViewerComponent,
   tags: ['autodocs'],
   argTypes: {

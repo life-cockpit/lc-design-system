@@ -83,7 +83,7 @@ const SAMPLE_TEXT = `Application Log — 2026-05-06
 `;
 
 const meta: Meta<DocumentViewerComponent> = {
-  title: 'Components/Document Viewer',
+  title: 'Data Display/Document Viewer',
   component: DocumentViewerComponent,
   tags: ['autodocs'],
   parameters: {

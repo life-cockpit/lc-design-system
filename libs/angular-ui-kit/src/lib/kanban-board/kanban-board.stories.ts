@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { KanbanBoardComponent } from './kanban-board.component';
 
 const meta: Meta<KanbanBoardComponent> = {
-  title: 'Components/Kanban Board',
+  title: 'Data Display/Kanban Board',
   component: KanbanBoardComponent,
   tags: ['autodocs'],
   parameters: {
