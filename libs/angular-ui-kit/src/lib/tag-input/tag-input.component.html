@@ -1,0 +1,49 @@
+@if (label()) {
+  <label class="lc-tag-input__label">{{ label() }}</label>
+}
+
+<div
+  class="lc-tag-input__container"
+  [class.lc-tag-input__container--focused]="focused()"
+  [class.lc-tag-input__container--disabled]="disabled()"
+  (click)="focusInput()"
+>
+  @for (tag of tags(); track $index) {
+    <span class="lc-tag-input__tag">
+      <span class="lc-tag-input__tag-text">{{ tag }}</span>
+      @if (removable() && !disabled()) {
+        <button
+          type="button"
+          class="lc-tag-input__tag-remove"
+          (click)="removeTag($index); $event.stopPropagation()"
+          aria-label="Remove tag"
+        >×</button>
+      }
+    </span>
+  }
+
+  @if (canAdd() && !disabled()) {
+    <input
+      #inputEl
+      type="text"
+      class="lc-tag-input__input"
+      [placeholder]="tags().length ? '' : placeholder()"
+      [value]="inputValue()"
+      (input)="onInput($event)"
+      (keydown)="onKeydown($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    />
+  }
+</div>
+
+@if (filteredSuggestions().length && focused()) {
+  <ul class="lc-tag-input__suggestions">
+    @for (sug of filteredSuggestions(); track sug) {
+      <li
+        class="lc-tag-input__suggestion"
+        (mousedown)="selectSuggestion(sug); $event.preventDefault()"
+      >{{ sug }}</li>
+    }
+  </ul>
+}

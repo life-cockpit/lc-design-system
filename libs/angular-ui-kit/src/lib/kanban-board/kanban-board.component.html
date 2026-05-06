@@ -1,0 +1,77 @@
+<div class="lc-kanban">
+  @for (col of displayColumns(); track trackColumn($index, col)) {
+    <div
+      class="lc-kanban__column"
+      [class.lc-kanban__column--drop-target]="dropTargetColumn() === col.id"
+      [class.lc-kanban__column--over-limit]="showWipLimit() && isOverLimit(col)"
+      (dragover)="onDragOverColumn($event, col.id)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event, col.id)"
+    >
+      <div class="lc-kanban__column-header">
+        @if (col.color) {
+          <span class="lc-kanban__column-dot" [style.background]="col.color"></span>
+        }
+        <span class="lc-kanban__column-title">{{ col.title }}</span>
+        @if (showCardCount()) {
+          <span class="lc-kanban__column-count">{{ col.cards.length }}</span>
+        }
+        @if (showWipLimit() && col.limit) {
+          <span class="lc-kanban__column-limit" [class.lc-kanban__column-limit--over]="isOverLimit(col)">
+            / {{ col.limit }}
+          </span>
+        }
+      </div>
+
+      <div class="lc-kanban__cards">
+        @for (card of col.cards; track trackCard($index, card)) {
+          <div
+            class="lc-kanban__card"
+            [class.lc-kanban__card--dragging]="draggedCard()?.card.id === card.id"
+            [attr.draggable]="!readonly()"
+            (dragstart)="onDragStart($event, card, col.id)"
+            (dragover)="onDragOver($event, col.id, $index)"
+            (drop)="onDrop($event, col.id, $index)"
+            (dragend)="onDragEnd()"
+            (click)="onCardClick(card, col.id)"
+          >
+            @if (card.priority) {
+              <span class="lc-kanban__card-priority">{{ getPriorityIcon(card.priority) }}</span>
+            }
+            <span class="lc-kanban__card-title">{{ card.title }}</span>
+
+            @if (card.description) {
+              <p class="lc-kanban__card-desc">{{ card.description }}</p>
+            }
+
+            @if (card.labels?.length || card.assignee) {
+              <div class="lc-kanban__card-footer">
+                @if (card.labels?.length) {
+                  <div class="lc-kanban__card-labels">
+                    @for (label of card.labels; track label.text) {
+                      <span class="lc-kanban__card-label" [style.background]="label.color || 'var(--color-neutral-200)'">{{ label.text }}</span>
+                    }
+                  </div>
+                }
+                @if (card.assignee) {
+                  <span class="lc-kanban__card-assignee">{{ card.assignee }}</span>
+                }
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Empty state drop zone -->
+        @if (col.cards.length === 0) {
+          <div
+            class="lc-kanban__empty"
+            (dragover)="onDragOver($event, col.id, 0)"
+            (drop)="onDrop($event, col.id, 0)"
+          >
+            Drop here
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

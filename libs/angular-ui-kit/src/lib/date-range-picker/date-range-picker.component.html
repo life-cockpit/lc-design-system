@@ -1,0 +1,54 @@
+@if (label()) {
+  <label class="lc-drp__label">{{ label() }}</label>
+}
+
+<div class="lc-drp__trigger" [class.lc-drp__trigger--disabled]="disabled()" (click)="toggle()">
+  <span class="lc-drp__icon">📅</span>
+  <span class="lc-drp__value" [class.lc-drp__value--placeholder]="!displayValue()">
+    {{ displayValue() || placeholder() }}
+  </span>
+  @if (displayValue()) {
+    <button type="button" class="lc-drp__clear" (click)="clearRange($event)" aria-label="Clear">×</button>
+  }
+</div>
+
+@if (isOpen()) {
+  <div class="lc-drp__dropdown">
+    <div class="lc-drp__header">
+      <button type="button" class="lc-drp__nav" (click)="prevMonth()">‹</button>
+      <span class="lc-drp__month">{{ monthLabel() }}</span>
+      <button type="button" class="lc-drp__nav" (click)="nextMonth()">›</button>
+    </div>
+
+    <div class="lc-drp__weekdays">
+      @for (wd of weekdays; track wd) {
+        <span class="lc-drp__weekday">{{ wd }}</span>
+      }
+    </div>
+
+    <div class="lc-drp__grid">
+      @for (day of calendarDays(); track $index) {
+        <button
+          type="button"
+          class="lc-drp__day"
+          [class.lc-drp__day--outside]="!day.inMonth"
+          [class.lc-drp__day--disabled]="day.disabled"
+          [class.lc-drp__day--today]="isToday(day.date)"
+          [class.lc-drp__day--start]="isStart(day.date)"
+          [class.lc-drp__day--end]="isEnd(day.date)"
+          [class.lc-drp__day--in-range]="isInRange(day.date)"
+          [disabled]="day.disabled"
+          (click)="selectDate(day.date)"
+          (mouseenter)="onDayHover(day.date)"
+        >{{ day.date.getDate() }}</button>
+      }
+    </div>
+
+    <div class="lc-drp__footer">
+      <span class="lc-drp__hint">
+        @if (selecting() === 'start') { Select start date }
+        @else { Select end date }
+      </span>
+    </div>
+  </div>
+}

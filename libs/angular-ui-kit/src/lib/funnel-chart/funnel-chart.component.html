@@ -1,0 +1,42 @@
+<div class="lc-funnel-chart">
+  <svg
+    [attr.width]="width()"
+    [attr.height]="height()"
+    [attr.viewBox]="viewBox()"
+    role="img"
+    aria-label="Funnel chart"
+    class="lc-funnel-chart__svg"
+  >
+    @for (step of renderedSteps(); track step.label) {
+      <path
+        [attr.d]="step.path"
+        [attr.fill]="step.color"
+        class="lc-funnel-chart__step"
+      />
+
+      @if (showLabels()) {
+        <text
+          [attr.x]="step.labelX"
+          [attr.y]="step.labelY - 2"
+          text-anchor="middle"
+          dominant-baseline="auto"
+          class="lc-funnel-chart__label"
+        >{{ step.label }}</text>
+      }
+
+      @if (showValues() || showPercentage()) {
+        <text
+          [attr.x]="step.labelX"
+          [attr.y]="step.labelY + 12"
+          text-anchor="middle"
+          dominant-baseline="auto"
+          class="lc-funnel-chart__value"
+        >
+          @if (showValues()) { {{ step.value }} }
+          @if (showValues() && showPercentage()) { · }
+          @if (showPercentage()) { {{ step.pct }}% }
+        </text>
+      }
+    }
+  </svg>
+</div>

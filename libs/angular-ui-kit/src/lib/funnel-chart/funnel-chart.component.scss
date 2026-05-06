@@ -1,0 +1,32 @@
+.lc-funnel-chart {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lc-funnel-chart__svg {
+  overflow: visible;
+}
+
+.lc-funnel-chart__step {
+  opacity: 0.85;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.lc-funnel-chart__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  fill: white;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.lc-funnel-chart__value {
+  font-size: 0.625rem;
+  fill: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}

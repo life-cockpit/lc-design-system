@@ -289,6 +289,24 @@ export * from './lib/gallery/gallery.component';
 // Dependency Viewer Component
 export * from './lib/dependency-viewer/dependency-viewer.component';
 
+// Scatter Plot Component
+export * from './lib/scatter-plot/scatter-plot.component';
+
+// Funnel Chart Component
+export * from './lib/funnel-chart/funnel-chart.component';
+
+// Tag Input Component
+export * from './lib/tag-input/tag-input.component';
+
+// Date Range Picker Component
+export * from './lib/date-range-picker/date-range-picker.component';
+
+// Diff Viewer Component
+export * from './lib/diff-viewer/diff-viewer.component';
+
+// Kanban Board Component
+export * from './lib/kanban-board/kanban-board.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

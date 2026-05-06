@@ -1,0 +1,66 @@
+<div class="lc-diff">
+  <!-- Stats bar -->
+  <div class="lc-diff__stats">
+    <span class="lc-diff__stat lc-diff__stat--add">+{{ stats().additions }}</span>
+    <span class="lc-diff__stat lc-diff__stat--del">−{{ stats().deletions }}</span>
+  </div>
+
+  @if (mode() === 'inline') {
+    <!-- Inline mode -->
+    <div class="lc-diff__inline">
+      <div class="lc-diff__headers">
+        <span class="lc-diff__file-label">{{ oldLabel() }} → {{ newLabel() }}</span>
+      </div>
+      <div class="lc-diff__body">
+        @for (line of filteredLines(); track $index) {
+          <div
+            class="lc-diff__line"
+            [class.lc-diff__line--added]="line.type === 'added'"
+            [class.lc-diff__line--removed]="line.type === 'removed'"
+          >
+            @if (showLineNumbers()) {
+              <span class="lc-diff__num lc-diff__num--left">{{ line.leftNum ?? '' }}</span>
+              <span class="lc-diff__num lc-diff__num--right">{{ line.rightNum ?? '' }}</span>
+            }
+            <span class="lc-diff__prefix">{{ line.type === 'added' ? '+' : line.type === 'removed' ? '−' : ' ' }}</span>
+            <span class="lc-diff__content">{{ line.content }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Side-by-side mode -->
+    <div class="lc-diff__side-by-side">
+      <div class="lc-diff__pane lc-diff__pane--left">
+        <div class="lc-diff__pane-header">{{ oldLabel() }}</div>
+        @for (line of sideBySide().left; track $index) {
+          <div
+            class="lc-diff__line"
+            [class.lc-diff__line--removed]="line.type === 'removed'"
+            [class.lc-diff__line--empty]="line.type === 'empty'"
+          >
+            @if (showLineNumbers()) {
+              <span class="lc-diff__num">{{ line.num ?? '' }}</span>
+            }
+            <span class="lc-diff__content">{{ line.content }}</span>
+          </div>
+        }
+      </div>
+      <div class="lc-diff__pane lc-diff__pane--right">
+        <div class="lc-diff__pane-header">{{ newLabel() }}</div>
+        @for (line of sideBySide().right; track $index) {
+          <div
+            class="lc-diff__line"
+            [class.lc-diff__line--added]="line.type === 'added'"
+            [class.lc-diff__line--empty]="line.type === 'empty'"
+          >
+            @if (showLineNumbers()) {
+              <span class="lc-diff__num">{{ line.num ?? '' }}</span>
+            }
+            <span class="lc-diff__content">{{ line.content }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,104 @@
+<div class="lc-scatter-plot">
+  <svg
+    [attr.width]="width()"
+    [attr.height]="height()"
+    [attr.viewBox]="viewBox()"
+    role="img"
+    aria-label="Scatter plot"
+    class="lc-scatter-plot__svg"
+  >
+    <!-- Grid lines Y -->
+    @for (line of gridLinesY(); track line.y) {
+      <line
+        [attr.x1]="axisLine().hx1"
+        [attr.y1]="line.y"
+        [attr.x2]="axisLine().hx2"
+        [attr.y2]="line.y"
+        class="lc-scatter-plot__grid-line"
+      />
+      @if (showYLabels()) {
+        <text
+          [attr.x]="axisLine().vx1 - 6"
+          [attr.y]="line.y"
+          text-anchor="end"
+          dominant-baseline="central"
+          class="lc-scatter-plot__label"
+        >{{ line.label }}</text>
+      }
+    }
+
+    <!-- Grid lines X -->
+    @for (line of gridLinesX(); track line.x) {
+      <line
+        [attr.x1]="line.x"
+        [attr.y1]="axisLine().vy1"
+        [attr.x2]="line.x"
+        [attr.y2]="axisLine().vy2"
+        class="lc-scatter-plot__grid-line"
+      />
+      @if (showXLabels()) {
+        <text
+          [attr.x]="line.x"
+          [attr.y]="height() - 10"
+          text-anchor="middle"
+          class="lc-scatter-plot__label"
+        >{{ line.label }}</text>
+      }
+    }
+
+    <!-- Axes -->
+    <line [attr.x1]="axisLine().vx1" [attr.y1]="axisLine().vy1" [attr.x2]="axisLine().vx2" [attr.y2]="axisLine().vy2" class="lc-scatter-plot__axis" />
+    <line [attr.x1]="axisLine().hx1" [attr.y1]="axisLine().hy1" [attr.x2]="axisLine().hx2" [attr.y2]="axisLine().hy2" class="lc-scatter-plot__axis" />
+
+    <!-- Axis labels -->
+    @if (xAxisLabel()) {
+      <text [attr.x]="plotArea().x + plotArea().w / 2" [attr.y]="height() - 2" text-anchor="middle" class="lc-scatter-plot__axis-label">{{ xAxisLabel() }}</text>
+    }
+    @if (yAxisLabel()) {
+      <text [attr.x]="12" [attr.y]="plotArea().y + plotArea().h / 2" text-anchor="middle" [attr.transform]="'rotate(-90, 12, ' + (plotArea().y + plotArea().h / 2) + ')'" class="lc-scatter-plot__axis-label">{{ yAxisLabel() }}</text>
+    }
+
+    <!-- Series dots -->
+    @for (ser of renderedSeries(); track ser.label) {
+      @for (pt of ser.points; track $index) {
+        <circle
+          [attr.cx]="pt.cx"
+          [attr.cy]="pt.cy"
+          [attr.r]="pt.r"
+          [attr.fill]="ser.color"
+          class="lc-scatter-plot__dot"
+          (mouseenter)="onDotEnter(pt.cx, pt.cy, pt.label)"
+          (mouseleave)="onDotLeave()"
+          (click)="onDotClick(ser.label, pt.orig)"
+        />
+      }
+    }
+
+    <!-- Tooltip -->
+    @if (hoveredPoint(); as hp) {
+      <rect
+        [attr.x]="hp.sx - 40"
+        [attr.y]="hp.sy - 22"
+        width="80" height="18" rx="4"
+        class="lc-scatter-plot__tooltip-bg"
+      />
+      <text
+        [attr.x]="hp.sx"
+        [attr.y]="hp.sy - 10"
+        text-anchor="middle"
+        class="lc-scatter-plot__tooltip-text"
+      >{{ hp.label }}</text>
+    }
+  </svg>
+
+  @if (legendItems().length) {
+    <div class="lc-scatter-plot__legend">
+      @for (item of legendItems(); track item.label) {
+        <div class="lc-scatter-plot__legend-item">
+          <span class="lc-scatter-plot__legend-dot" [style.background-color]="item.color"></span>
+          <span class="lc-scatter-plot__legend-label">{{ item.label }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

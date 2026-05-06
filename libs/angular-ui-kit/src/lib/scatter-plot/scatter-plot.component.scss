@@ -1,0 +1,104 @@
+.lc-scatter-plot {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lc-scatter-plot__svg {
+  overflow: visible;
+}
+
+.lc-scatter-plot__axis {
+  stroke: var(--color-neutral-300);
+  stroke-width: 1;
+
+  [data-theme='dark'] &,
+  :root[data-theme='dark'] & {
+    stroke: var(--color-neutral-600);
+  }
+}
+
+.lc-scatter-plot__grid-line {
+  stroke: var(--color-neutral-200);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+
+  [data-theme='dark'] &,
+  :root[data-theme='dark'] & {
+    stroke: var(--color-neutral-700);
+  }
+}
+
+.lc-scatter-plot__label {
+  font-size: 0.625rem;
+  fill: var(--color-neutral-500);
+}
+
+.lc-scatter-plot__axis-label {
+  font-size: 0.6875rem;
+  fill: var(--color-neutral-600);
+  font-weight: 500;
+}
+
+.lc-scatter-plot__dot {
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.15s, r 0.15s;
+
+  &:hover {
+    opacity: 1;
+    r: 6;
+  }
+}
+
+.lc-scatter-plot__tooltip-bg {
+  fill: var(--color-neutral-800);
+  opacity: 0.9;
+
+  [data-theme='dark'] &,
+  :root[data-theme='dark'] & {
+    fill: var(--color-neutral-200);
+  }
+}
+
+.lc-scatter-plot__tooltip-text {
+  font-size: 0.625rem;
+  fill: white;
+  pointer-events: none;
+
+  [data-theme='dark'] &,
+  :root[data-theme='dark'] & {
+    fill: var(--color-neutral-900);
+  }
+}
+
+.lc-scatter-plot__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: center;
+}
+
+.lc-scatter-plot__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--typography-font-size-sm, 0.875rem);
+}
+
+.lc-scatter-plot__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lc-scatter-plot__legend-label {
+  color: var(--color-neutral-700);
+
+  [data-theme='dark'] &,
+  :root[data-theme='dark'] & {
+    color: var(--color-neutral-300);
+  }
+}
