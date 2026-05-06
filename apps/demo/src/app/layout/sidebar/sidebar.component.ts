@@ -478,10 +478,6 @@ export class SidebarComponent {
     return 'information-circle';
   }
 
-  private getPopoverIcon(): string {
-    return 'chat-bubble-oval-left-ellipsis';
-  }
-
   private getBreadcrumbsIcon(): string {
     return 'home';
   }
