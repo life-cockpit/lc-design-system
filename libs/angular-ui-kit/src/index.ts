@@ -88,6 +88,21 @@ export * from './lib/email-input/email-input.component';
 // Hero Component
 export * from './lib/hero/hero.component';
 
+// Progress Bar Component
+export * from './lib/progress-bar/progress-bar.component';
+
+// Divider Component
+export * from './lib/divider/divider.component';
+
+// Search Input Component
+export * from './lib/search-input/search-input.component';
+
+// File Upload Component
+export * from './lib/file-upload/file-upload.component';
+
+// Popover Component
+export * from './lib/popover/popover.component';
+
 // ============================================================================
 // Layout Components
 // ============================================================================

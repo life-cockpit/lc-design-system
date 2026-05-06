@@ -103,9 +103,19 @@ export class SidebarComponent {
           icon: this.getCalendarIcon(),
         },
         {
+          label: 'Divider',
+          path: '/components/divider',
+          icon: this.getDividerIcon(),
+        },
+        {
           label: 'Field Group',
           path: '/components/field-group',
           icon: this.getFieldGroupIcon(),
+        },
+        {
+          label: 'File Upload',
+          path: '/components/file-upload',
+          icon: this.getFileUploadIcon(),
         },
         {
           label: 'Hero',
@@ -171,6 +181,21 @@ export class SidebarComponent {
           label: 'Typography',
           path: '/components/typography',
           icon: this.getTypographyIcon(),
+        },
+        {
+          label: 'Popover',
+          path: '/components/popover',
+          icon: this.getPopoverIcon(),
+        },
+        {
+          label: 'Progress Bar',
+          path: '/components/progress-bar',
+          icon: this.getProgressBarIcon(),
+        },
+        {
+          label: 'Search Input',
+          path: '/components/search-input',
+          icon: this.getSearchInputIcon(),
         },
       ],
     },
@@ -351,6 +376,26 @@ export class SidebarComponent {
 
   private getHeroIcon(): string {
     return 'window';
+  }
+
+  private getDividerIcon(): string {
+    return 'minus';
+  }
+
+  private getFileUploadIcon(): string {
+    return 'cloud-arrow-up';
+  }
+
+  private getPopoverIcon(): string {
+    return 'chat-bubble-bottom-center-text';
+  }
+
+  private getProgressBarIcon(): string {
+    return 'chart-bar';
+  }
+
+  private getSearchInputIcon(): string {
+    return 'magnifying-glass';
   }
 
   private getInputIcon(): string {

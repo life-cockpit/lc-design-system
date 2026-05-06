@@ -1,0 +1,49 @@
+@if (variant() === 'linear') {
+  <div
+    [class]="barClasses()"
+    role="progressbar"
+    [attr.aria-valuenow]="indeterminate() ? null : clampedValue()"
+    [attr.aria-valuemin]="0"
+    [attr.aria-valuemax]="100"
+    [attr.aria-label]="ariaLabel()"
+  >
+    <div class="progress-bar__track">
+      <div
+        class="progress-bar__fill"
+        [style.width.%]="indeterminate() ? 0 : clampedValue()"
+      ></div>
+    </div>
+    @if (showLabel() && !indeterminate()) {
+      <span class="progress-bar__label">{{ clampedValue() }}%</span>
+    }
+  </div>
+} @else {
+  <div
+    class="progress-bar-circular"
+    [class]="'progress-bar-circular progress-bar-circular--' + color() + ' progress-bar-circular--' + size()"
+    role="progressbar"
+    [attr.aria-valuenow]="indeterminate() ? null : clampedValue()"
+    [attr.aria-valuemin]="0"
+    [attr.aria-valuemax]="100"
+    [attr.aria-label]="ariaLabel()"
+  >
+    <svg viewBox="0 0 100 100" class="progress-bar-circular__svg">
+      <circle
+        class="progress-bar-circular__track"
+        cx="50" cy="50" [attr.r]="circleRadius"
+        fill="none"
+      />
+      <circle
+        class="progress-bar-circular__fill"
+        cx="50" cy="50" [attr.r]="circleRadius"
+        fill="none"
+        [attr.stroke-dasharray]="circleCircumference"
+        [attr.stroke-dashoffset]="indeterminate() ? circleCircumference * 0.75 : strokeDashoffset()"
+        [class.progress-bar-circular__fill--indeterminate]="indeterminate()"
+      />
+    </svg>
+    @if (showLabel() && !indeterminate()) {
+      <span class="progress-bar-circular__label">{{ clampedValue() }}%</span>
+    }
+  </div>
+}

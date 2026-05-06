@@ -1,0 +1,55 @@
+<div
+  [class]="dropzoneClasses()"
+  (dragover)="onDragOver($event)"
+  (dragleave)="onDragLeave($event)"
+  (drop)="onDrop($event)"
+  (click)="openFilePicker()"
+  role="button"
+  tabindex="0"
+  (keydown.enter)="openFilePicker()"
+  (keydown.space)="openFilePicker()"
+  [attr.aria-label]="hint()"
+  [attr.aria-disabled]="disabled()"
+>
+  <input
+    #fileInput
+    type="file"
+    class="file-upload__input"
+    [accept]="accept()"
+    [multiple]="multiple()"
+    [disabled]="disabled()"
+    (change)="onFileChange($event)"
+    tabindex="-1"
+    aria-hidden="true"
+  />
+  <div class="file-upload__content">
+    <lc-icon name="cloud-arrow-up" class="file-upload__icon"></lc-icon>
+    <p class="file-upload__hint">{{ hint() }}</p>
+    @if (accept()) {
+      <p class="file-upload__accept">Accepted: {{ accept() }}</p>
+    }
+    @if (maxSizeBytes() > 0) {
+      <p class="file-upload__accept">Max: {{ formatSize(maxSizeBytes()) }}</p>
+    }
+  </div>
+</div>
+
+@if (selectedFiles().length > 0) {
+  <ul class="file-upload__list">
+    @for (f of selectedFiles(); track f.name; let i = $index) {
+      <li class="file-upload__file">
+        <lc-icon name="document" class="file-upload__file-icon"></lc-icon>
+        <span class="file-upload__file-name">{{ f.name }}</span>
+        <span class="file-upload__file-size">{{ formatSize(f.size) }}</span>
+        <button
+          type="button"
+          class="file-upload__file-remove"
+          (click)="removeFile(i); $event.stopPropagation()"
+          aria-label="Remove file"
+        >
+          <lc-icon name="x-mark"></lc-icon>
+        </button>
+      </li>
+    }
+  </ul>
+}

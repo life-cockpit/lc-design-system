@@ -1,0 +1,26 @@
+<div [class]="wrapperClasses()">
+  <lc-icon name="magnifying-glass" class="search-input__icon"></lc-icon>
+  <input
+    #searchInputEl
+    type="search"
+    class="search-input__field"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [value]="value()"
+    (input)="onInput($event)"
+    (keydown)="onKeydown($event)"
+    autocomplete="off"
+    aria-label="Search"
+  />
+  @if (value()) {
+    <button
+      type="button"
+      class="search-input__clear"
+      (click)="clear()"
+      aria-label="Clear search"
+      [disabled]="disabled()"
+    >
+      <lc-icon name="x-mark" class="search-input__clear-icon"></lc-icon>
+    </button>
+  }
+</div>

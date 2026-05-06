@@ -1,0 +1,149 @@
+@use '../../styles/tokens/colors';
+
+// ---------------------------------------------------------------------------
+// Color map
+// ---------------------------------------------------------------------------
+$progress-colors: (
+  'primary': colors.$color-primary-500,
+  'secondary': colors.$color-secondary-500,
+  'success': colors.$color-success-default,
+  'warning': colors.$color-warning-default,
+  'error': colors.$color-error-default,
+  'info': colors.$color-info-default,
+);
+
+$progress-track: colors.$color-neutral-200;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ---------------------------------------------------------------------------
+// Linear variant
+// ---------------------------------------------------------------------------
+.progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+
+  &__track {
+    flex: 1;
+    background-color: $progress-track;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 300ms ease-in-out;
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: colors.$color-neutral-600;
+    min-width: 2.5rem;
+    text-align: right;
+  }
+
+  // Size variants
+  &--xs .progress-bar__track { height: 0.125rem; }
+  &--sm .progress-bar__track { height: 0.25rem; }
+  &--md .progress-bar__track { height: 0.5rem; }
+  &--lg .progress-bar__track { height: 0.75rem; }
+
+  // Color variants
+  @each $name, $clr in $progress-colors {
+    &--#{$name} .progress-bar__fill {
+      background-color: $clr;
+    }
+  }
+
+  // Indeterminate animation
+  &--indeterminate .progress-bar__fill {
+    width: 40% !important;
+    animation: progress-indeterminate 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+// ---------------------------------------------------------------------------
+// Circular variant
+// ---------------------------------------------------------------------------
+.progress-bar-circular {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &__svg {
+    transform: rotate(-90deg);
+  }
+
+  &__track {
+    stroke: $progress-track;
+  }
+
+  &__fill {
+    transition: stroke-dashoffset 300ms ease-in-out;
+    stroke-linecap: round;
+
+    &--indeterminate {
+      animation: circular-indeterminate 1.5s linear infinite;
+      transform-origin: center;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    font-weight: 700;
+    color: colors.$color-neutral-700;
+  }
+
+  // Sizes
+  &--xs {
+    width: 2rem; height: 2rem;
+    .progress-bar-circular__track,
+    .progress-bar-circular__fill { stroke-width: 8; }
+    .progress-bar-circular__label { font-size: 0.5rem; }
+  }
+
+  &--sm {
+    width: 3rem; height: 3rem;
+    .progress-bar-circular__track,
+    .progress-bar-circular__fill { stroke-width: 7; }
+    .progress-bar-circular__label { font-size: 0.625rem; }
+  }
+
+  &--md {
+    width: 4.5rem; height: 4.5rem;
+    .progress-bar-circular__track,
+    .progress-bar-circular__fill { stroke-width: 6; }
+    .progress-bar-circular__label { font-size: 0.8125rem; }
+  }
+
+  &--lg {
+    width: 6rem; height: 6rem;
+    .progress-bar-circular__track,
+    .progress-bar-circular__fill { stroke-width: 5; }
+    .progress-bar-circular__label { font-size: 1rem; }
+  }
+
+  // Colors
+  @each $name, $clr in $progress-colors {
+    &--#{$name} .progress-bar-circular__fill {
+      stroke: $clr;
+    }
+  }
+}
+
+@keyframes circular-indeterminate {
+  100% { transform: rotate(360deg); }
+}

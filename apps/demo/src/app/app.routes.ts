@@ -306,6 +306,41 @@ export const appRoutes: Route[] = [
           ),
       },
       {
+        path: 'progress-bar',
+        loadComponent: () =>
+          import('./pages/components/progress-bar/progress-bar-demo.component').then(
+            (m) => m.ProgressBarDemoComponent,
+          ),
+      },
+      {
+        path: 'divider',
+        loadComponent: () =>
+          import('./pages/components/divider/divider-demo.component').then(
+            (m) => m.DividerDemoComponent,
+          ),
+      },
+      {
+        path: 'search-input',
+        loadComponent: () =>
+          import('./pages/components/search-input/search-input-demo.component').then(
+            (m) => m.SearchInputDemoComponent,
+          ),
+      },
+      {
+        path: 'file-upload',
+        loadComponent: () =>
+          import('./pages/components/file-upload/file-upload-demo.component').then(
+            (m) => m.FileUploadDemoComponent,
+          ),
+      },
+      {
+        path: 'popover',
+        loadComponent: () =>
+          import('./pages/components/popover/popover-demo.component').then(
+            (m) => m.PopoverDemoComponent,
+          ),
+      },
+      {
         path: '',
         redirectTo: 'button',
         pathMatch: 'full',

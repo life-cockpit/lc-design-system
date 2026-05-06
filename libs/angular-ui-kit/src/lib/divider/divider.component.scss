@@ -1,0 +1,89 @@
+@use '../../styles/tokens/colors';
+
+:host {
+  display: block;
+}
+
+.divider {
+  // ---------------------------------------------------------------------------
+  // Horizontal (default)
+  // ---------------------------------------------------------------------------
+  &--horizontal {
+    width: 100%;
+    border: none;
+    border-top-width: 1px;
+    border-top-color: colors.$color-neutral-200;
+  }
+
+  &--horizontal.divider--solid   { border-top-style: solid; }
+  &--horizontal.divider--dashed  { border-top-style: dashed; }
+  &--horizontal.divider--dotted  { border-top-style: dotted; }
+
+  // Spacing (vertical margin)
+  &--horizontal.divider--spacing-none { margin-top: 0; margin-bottom: 0; }
+  &--horizontal.divider--spacing-xs   { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+  &--horizontal.divider--spacing-sm   { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+  &--horizontal.divider--spacing-md   { margin-top: 1rem; margin-bottom: 1rem; }
+  &--horizontal.divider--spacing-lg   { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+  &--horizontal.divider--spacing-xl   { margin-top: 2rem; margin-bottom: 2rem; }
+
+  // With label
+  &--horizontal.divider--with-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-top: none;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-top-width: 1px;
+      border-top-color: colors.$color-neutral-200;
+    }
+
+    &.divider--solid::before,
+    &.divider--solid::after   { border-top-style: solid; }
+    &.divider--dashed::before,
+    &.divider--dashed::after  { border-top-style: dashed; }
+    &.divider--dotted::before,
+    &.divider--dotted::after  { border-top-style: dotted; }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Vertical
+  // ---------------------------------------------------------------------------
+  &--vertical {
+    display: inline-block;
+    width: 0;
+    align-self: stretch;
+    min-height: 1rem;
+    border: none;
+    border-left-width: 1px;
+    border-left-color: colors.$color-neutral-200;
+  }
+
+  &--vertical.divider--solid   { border-left-style: solid; }
+  &--vertical.divider--dashed  { border-left-style: dashed; }
+  &--vertical.divider--dotted  { border-left-style: dotted; }
+
+  // Spacing (horizontal margin)
+  &--vertical.divider--spacing-none { margin-left: 0; margin-right: 0; }
+  &--vertical.divider--spacing-xs   { margin-left: 0.25rem; margin-right: 0.25rem; }
+  &--vertical.divider--spacing-sm   { margin-left: 0.5rem; margin-right: 0.5rem; }
+  &--vertical.divider--spacing-md   { margin-left: 1rem; margin-right: 1rem; }
+  &--vertical.divider--spacing-lg   { margin-left: 1.5rem; margin-right: 1.5rem; }
+  &--vertical.divider--spacing-xl   { margin-left: 2rem; margin-right: 2rem; }
+
+  // ---------------------------------------------------------------------------
+  // Label
+  // ---------------------------------------------------------------------------
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: colors.$color-neutral-400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+}

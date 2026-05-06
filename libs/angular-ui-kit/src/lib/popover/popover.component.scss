@@ -1,0 +1,107 @@
+@use '../../styles/tokens/colors';
+
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.popover {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  &__panel {
+    position: absolute;
+    z-index: 50;
+    min-width: 12rem;
+    padding: 0.75rem;
+    background: #fff;
+    border: 1px solid colors.$color-neutral-200;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08);
+    animation: popover-enter 150ms ease-out;
+
+    // Positions
+    &--bottom {
+      top: calc(100% + 0.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &--top {
+      bottom: calc(100% + 0.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &--left {
+      right: calc(100% + 0.5rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &--right {
+      left: calc(100% + 0.5rem);
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    // Arrow
+    &--arrow::before {
+      content: '';
+      position: absolute;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: #fff;
+      border: 1px solid colors.$color-neutral-200;
+      transform: rotate(45deg);
+    }
+
+    &--arrow.popover__panel--bottom::before {
+      top: -0.3rem;
+      left: 50%;
+      margin-left: -0.25rem;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    &--arrow.popover__panel--top::before {
+      bottom: -0.3rem;
+      left: 50%;
+      margin-left: -0.25rem;
+      border-left: none;
+      border-top: none;
+    }
+
+    &--arrow.popover__panel--left::before {
+      right: -0.3rem;
+      top: 50%;
+      margin-top: -0.25rem;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    &--arrow.popover__panel--right::before {
+      left: -0.3rem;
+      top: 50%;
+      margin-top: -0.25rem;
+      border-right: none;
+      border-top: none;
+    }
+  }
+}
+
+@keyframes popover-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
