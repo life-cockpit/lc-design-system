@@ -164,9 +164,6 @@ export * from './lib/avatar/avatar.component';
 // Badge Component
 export * from './lib/badge/badge.component';
 
-// MetricCard Component
-export * from './lib/metric-card/metric-card.component';
-
 // ToggleGroup Component
 export * from './lib/toggle-group/toggle-group.component';
 
@@ -270,6 +267,18 @@ export * from './lib/progress-ring/progress-ring.component';
 
 // Waterfall Chart Component
 export * from './lib/waterfall-chart/waterfall-chart.component';
+
+// ============================================================================
+// Complex Components
+// ============================================================================
+// Calendar Component
+export * from './lib/calendar/calendar.component';
+
+// Gantt Chart Component
+export * from './lib/gantt-chart/gantt-chart.component';
+
+// Chat Component
+export * from './lib/chat/chat.component';
 
 // ============================================================================
 // Styles

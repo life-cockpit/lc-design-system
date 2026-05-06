@@ -1,7 +1,12 @@
 <div class="lc-stat-trend">
-  @if (label()) {
-    <span class="lc-stat-trend__label">{{ label() }}</span>
-  }
+  <div class="lc-stat-trend__header">
+    @if (label()) {
+      <span class="lc-stat-trend__label">{{ label() }}</span>
+    }
+    @if (icon()) {
+      <lc-icon [name]="icon()" size="sm" class="lc-stat-trend__header-icon" />
+    }
+  </div>
 
   <div class="lc-stat-trend__row">
     <span class="lc-stat-trend__value">{{ value() }}</span>

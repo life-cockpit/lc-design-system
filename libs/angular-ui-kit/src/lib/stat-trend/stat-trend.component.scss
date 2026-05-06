@@ -4,6 +4,18 @@
   gap: 0.25rem;
 }
 
+.lc-stat-trend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.lc-stat-trend__header-icon {
+  color: var(--color-neutral-400);
+  flex-shrink: 0;
+}
+
 .lc-stat-trend__label {
   font-size: var(--typography-font-size-xs, 0.75rem);
   color: var(--color-neutral-500);

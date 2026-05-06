@@ -30,7 +30,6 @@ import { InputComponent } from '../src/lib/input/input.component';
 import { ListComponent } from '../src/lib/list/list.component';
 import { LogoComponent } from '../src/lib/logo/logo.component';
 import { MenuComponent } from '../src/lib/menu/menu.component';
-import { MetricCardComponent } from '../src/lib/metric-card/metric-card.component';
 import { ModalComponent } from '../src/lib/modal/modal.component';
 import { PaginationComponent } from '../src/lib/pagination/pagination.component';
 import { PasswordInputComponent } from '../src/lib/password-input/password-input.component';
@@ -91,7 +90,6 @@ const preview: Preview = {
         ListComponent,
         LogoComponent,
         MenuComponent,
-        MetricCardComponent,
         ModalComponent,
         PaginationComponent,
         PasswordInputComponent,

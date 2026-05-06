@@ -5,13 +5,14 @@ import {
   computed,
 } from '@angular/core';
 import { SparklineComponent, SparklineColor } from '../sparkline/sparkline.component';
+import { IconComponent } from '../icon/icon.component';
 
 export type StatTrendDirection = 'up' | 'down' | 'neutral';
 
 @Component({
   selector: 'lc-stat-trend',
   standalone: true,
-  imports: [SparklineComponent],
+  imports: [SparklineComponent, IconComponent],
   templateUrl: './stat-trend.component.html',
   styleUrls: ['./stat-trend.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +35,9 @@ export class StatTrendComponent {
 
   /** Color of the sparkline. Auto-matched to trend direction if not set. */
   sparklineColor = input<SparklineColor | undefined>(undefined);
+
+  /** Optional icon name (Heroicon). */
+  icon = input<string>('');
 
   protected readonly resolvedDirection = computed<StatTrendDirection>(() => {
     const dir = this.direction();
