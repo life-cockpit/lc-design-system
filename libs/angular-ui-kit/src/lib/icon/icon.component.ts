@@ -23,7 +23,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
  * - Signal-based reactive API
  * - Support for outline and solid variants
  * - Multiple size options (xs, sm, md, lg, xl)
- * - Custom color support (CSS colors, variables, Tailwind classes)
+ * - Custom color support (CSS colors, variables)
  * - Accessibility attributes (ARIA labels, decorative icons)
  * - Dynamic SVG loading from Heroicons
  *
@@ -38,8 +38,8 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
  * <!-- With custom color -->
  * <lc-icon name="arrow-right" color="#FF5733" />
  *
- * <!-- With Tailwind color -->
- * <lc-icon name="star" color="text-primary-500" />
+ * <!-- With CSS variable color -->
+ * <lc-icon name="star" color="var(--color-primary-500)" />
  *
  * <!-- With accessibility label -->
  * <lc-icon name="user" ariaLabel="User profile" />
@@ -88,7 +88,6 @@ export class IconComponent {
    * Can be:
    * - CSS color: "#FF5733", "rgb(255, 87, 51)"
    * - CSS variable: "var(--color-primary-500)"
-   * - Tailwind class: "text-primary-500"
    * - "currentColor" (default - inherits from parent)
    * @default "currentColor"
    */
@@ -403,12 +402,6 @@ export class IconComponent {
   readonly computedClasses = computed(() => {
     const classes = ['icon-container', `icon-${this.size()}`, `icon-${this.variant()}`];
 
-    const colorValue = this.color();
-    // Add color as class if it's a Tailwind class (starts with text-)
-    if (colorValue.startsWith('text-')) {
-      classes.push(colorValue);
-    }
-
     return classes.join(' ');
   });
 
@@ -417,12 +410,7 @@ export class IconComponent {
    * @internal
    */
   readonly colorStyle = computed(() => {
-    const colorValue = this.color();
-    // Only apply inline style if it's not a Tailwind class
-    if (!colorValue.startsWith('text-')) {
-      return colorValue;
-    }
-    return 'currentColor';
+    return this.color();
   });
 
   constructor() {

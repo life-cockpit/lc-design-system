@@ -1,98 +1,171 @@
 .lc-stepper {
-  @apply w-full;
+  width: 100%;
 
   // ── Header (step indicators) ──────────────────────────────────────────
   &__header {
-    @apply flex items-center gap-0;
+    display: flex;
+    align-items: center;
+    gap: 0;
   }
 
   &--horizontal &__header {
-    @apply flex-row;
+    flex-direction: row;
   }
 
   &--vertical &__header {
-    @apply flex-col items-start;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   // ── Individual step ───────────────────────────────────────────────────
   &__step {
-    @apply flex items-center gap-3 shrink-0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
 
     &--clickable {
-      @apply cursor-pointer;
+      cursor: pointer;
     }
   }
 
   // ── Step indicator circle ─────────────────────────────────────────────
   &__indicator {
-    @apply flex items-center justify-center
-      w-8 h-8 rounded-full
-      text-sm font-semibold
-      transition-all duration-200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--typography-font-weight-semibold, 600);
+    transition: all 0.2s ease;
   }
 
   &__step--pending &__indicator {
-    @apply bg-gray-200 text-gray-500
-      dark:bg-gray-700 dark:text-gray-400;
+    background-color: var(--color-neutral-200, #e5e7eb);
+    color: var(--color-neutral-500, #6b7280);
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      background-color: var(--color-neutral-700, #374151);
+      color: var(--color-neutral-400, #9ca3af);
+    }
   }
 
   &__step--active &__indicator {
-    @apply bg-blue-600 text-white
-      ring-4 ring-blue-100
-      dark:bg-blue-500 dark:ring-blue-900/40;
+    background-color: var(--color-primary-600, #2563eb);
+    color: #ffffff;
+    box-shadow: 0 0 0 4px var(--color-primary-100, #dbeafe);
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      background-color: var(--color-primary-500, #3b82f6);
+      box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.4);
+    }
   }
 
   &__step--completed &__indicator {
-    @apply bg-green-600 text-white
-      dark:bg-green-500;
+    background-color: var(--color-success-default, #16a34a);
+    color: #ffffff;
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      background-color: var(--color-success-light, #22c55e);
+    }
   }
 
   &__check {
-    @apply w-4 h-4;
+    width: 1rem;
+    height: 1rem;
   }
 
   &__number {
-    @apply leading-none;
+    line-height: 1;
   }
 
   // ── Labels ────────────────────────────────────────────────────────────
   &__label {
-    @apply flex flex-col;
+    display: flex;
+    flex-direction: column;
   }
 
   &__title {
-    @apply text-sm font-medium text-gray-900 dark:text-gray-100;
+    font-size: var(--font-size-sm, 0.875rem);
+    font-weight: var(--typography-font-weight-medium, 500);
+    color: var(--color-neutral-900, #111827);
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      color: var(--color-neutral-100, #f3f4f6);
+    }
   }
 
   &__step--pending &__title {
-    @apply text-gray-500 dark:text-gray-400;
+    color: var(--color-neutral-500, #6b7280);
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      color: var(--color-neutral-400, #9ca3af);
+    }
   }
 
   &__description {
-    @apply text-xs text-gray-500 dark:text-gray-400 mt-0.5;
+    font-size: var(--font-size-xs, 0.75rem);
+    color: var(--color-neutral-500, #6b7280);
+    margin-top: 0.125rem;
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      color: var(--color-neutral-400, #9ca3af);
+    }
   }
 
   &__optional {
-    @apply text-xs text-gray-400 dark:text-gray-500 italic mt-0.5;
+    font-size: var(--font-size-xs, 0.75rem);
+    color: var(--color-neutral-400, #9ca3af);
+    font-style: italic;
+    margin-top: 0.125rem;
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      color: var(--color-neutral-500, #6b7280);
+    }
   }
 
   // ── Connector line ────────────────────────────────────────────────────
   &__connector {
-    @apply flex-1 h-0.5 min-w-8 mx-2
-      bg-gray-200 dark:bg-gray-700
-      transition-colors duration-200;
+    flex: 1;
+    height: 0.125rem;
+    min-width: 2rem;
+    margin: 0 0.5rem;
+    background-color: var(--color-neutral-200, #e5e7eb);
+    transition: background-color 0.2s ease;
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      background-color: var(--color-neutral-700, #374151);
+    }
   }
 
   &__connector--completed {
-    @apply bg-green-600 dark:bg-green-500;
+    background-color: var(--color-success-default, #16a34a);
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      background-color: var(--color-success-light, #22c55e);
+    }
   }
 
   &--vertical &__connector {
-    @apply w-0.5 h-8 min-w-0 mx-0 ml-4 my-1;
+    width: 0.125rem;
+    height: 2rem;
+    min-width: 0;
+    margin: 0.25rem 0 0.25rem 1rem;
   }
 
   // ── Content area ──────────────────────────────────────────────────────
   &__content {
-    @apply mt-6;
+    margin-top: 1.5rem;
   }
 }

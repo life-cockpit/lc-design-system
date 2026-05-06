@@ -201,15 +201,14 @@ describe('IconComponent', () => {
       expect(component.colorStyle()).toBe('var(--color-primary-500)');
     });
 
-    it('should apply Tailwind color class', async () => {
+    it('should apply CSS variable color', async () => {
       fixture.componentRef.setInput('name', 'academic-cap');
-      fixture.componentRef.setInput('color', 'text-primary-500');
+      fixture.componentRef.setInput('color', 'var(--color-primary-500)');
       fixture.detectChanges();
       mockIconLoad('academic-cap');
       await waitForAsync();
 
-      const container = fixture.nativeElement.querySelector('.icon-container');
-      expect(container?.classList.contains('text-primary-500')).toBe(true);
+      expect(component.colorStyle()).toBe('var(--color-primary-500)');
     });
   });
 

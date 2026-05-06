@@ -18,7 +18,7 @@ export interface ToggleOption {
  * ToggleGroup Component
  *
  * Binary or multi-option toggle with active state styling.
- * Uses Tailwind classes with dark mode support.
+ * Uses CSS custom properties with dark mode support.
  *
  * @example
  * ```html

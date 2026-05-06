@@ -115,7 +115,7 @@ export const DestructiveConfirmation: Story = {
       <lc-modal [open]="open" [size]="size">
         <div slot="header">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <lc-icon name="exclamation-triangle" size="md" color="text-red-500"></lc-icon>
+            <lc-icon name="exclamation-triangle" size="md" color="var(--color-error-default)"></lc-icon>
             <h2 style="margin: 0; font-size: 18px; font-weight: 600; color: #991b1b;">Delete Account</h2>
           </div>
         </div>
