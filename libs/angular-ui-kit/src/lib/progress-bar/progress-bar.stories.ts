@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { ProgressBarComponent } from './progress-bar.component';
 
 const meta: Meta<ProgressBarComponent> = {
-  title: 'Components/Progress Bar',
+  title: 'Feedback/Progress Bar',
   component: ProgressBarComponent,
   parameters: {
     docs: {

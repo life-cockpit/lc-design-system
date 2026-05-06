@@ -1,0 +1,171 @@
+@use '../../styles/tokens/colors';
+
+$timeline-colors: (
+  'primary': colors.$color-primary-500,
+  'secondary': colors.$color-secondary-500,
+  'success': colors.$color-success-default,
+  'warning': colors.$color-warning-default,
+  'error': colors.$color-error-default,
+  'info': colors.$color-info-default,
+  'neutral': colors.$color-neutral-400,
+);
+
+:host {
+  display: block;
+}
+
+// ---------------------------------------------------------------------------
+// Vertical
+// ---------------------------------------------------------------------------
+.timeline--vertical {
+  display: flex;
+  flex-direction: column;
+
+  .timeline__item {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+
+    &--last {
+      padding-bottom: 0;
+    }
+  }
+
+  .timeline__marker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #fff;
+    z-index: 1;
+  }
+
+  .timeline__dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+  }
+
+  .timeline__icon {
+    --icon-size: 0.875rem;
+  }
+
+  .timeline__connector {
+    position: absolute;
+    left: calc(1rem - 0.5px);
+    top: 2rem;
+    bottom: 0;
+    width: 1px;
+    background: colors.$color-neutral-200;
+  }
+
+  .timeline__content {
+    flex: 1;
+    min-width: 0;
+    padding-top: 0.25rem;
+  }
+
+  &.timeline--compact {
+    .timeline__item { padding-bottom: 0.75rem; }
+    .timeline__marker { width: 1.5rem; height: 1.5rem; }
+    .timeline__dot { width: 0.5rem; height: 0.5rem; }
+    .timeline__connector { left: calc(0.75rem - 0.5px); top: 1.5rem; }
+    .timeline__content { padding-top: 0.125rem; }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Horizontal
+// ---------------------------------------------------------------------------
+.timeline--horizontal {
+  display: flex;
+  overflow-x: auto;
+
+  .timeline__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 8rem;
+    padding-right: 2rem;
+    text-align: center;
+
+    &--last {
+      padding-right: 0;
+    }
+  }
+
+  .timeline__marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: #fff;
+    z-index: 1;
+  }
+
+  .timeline__dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+  }
+
+  .timeline__icon {
+    --icon-size: 0.875rem;
+  }
+
+  .timeline__connector {
+    position: absolute;
+    top: calc(1rem - 0.5px);
+    left: calc(50% + 1rem);
+    right: -1rem;
+    height: 1px;
+    background: colors.$color-neutral-200;
+  }
+
+  .timeline__content {
+    margin-top: 0.5rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Color variants
+// ---------------------------------------------------------------------------
+@each $name, $clr in $timeline-colors {
+  .timeline__marker--#{$name} {
+    .timeline__dot { background-color: $clr; }
+    .timeline__icon { color: $clr; }
+    border: 2px solid $clr;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Content typography
+// ---------------------------------------------------------------------------
+.timeline__title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: colors.$color-neutral-800;
+}
+
+.timeline__description {
+  margin: 0.25rem 0 0;
+  font-size: 0.8125rem;
+  color: colors.$color-neutral-500;
+  line-height: 1.5;
+}
+
+.timeline__timestamp {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: colors.$color-neutral-400;
+}

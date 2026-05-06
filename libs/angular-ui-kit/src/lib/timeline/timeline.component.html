@@ -1,0 +1,25 @@
+<div [class]="timelineClasses()">
+  @for (item of items(); track item.title; let last = $last) {
+    <div class="timeline__item" [class.timeline__item--last]="last">
+      <div class="timeline__marker" [class]="'timeline__marker--' + (item.color || 'primary')">
+        @if (item.icon) {
+          <lc-icon [name]="item.icon" class="timeline__icon"></lc-icon>
+        } @else {
+          <span class="timeline__dot"></span>
+        }
+      </div>
+      @if (!last) {
+        <div class="timeline__connector"></div>
+      }
+      <div class="timeline__content">
+        <p class="timeline__title">{{ item.title }}</p>
+        @if (item.description) {
+          <p class="timeline__description">{{ item.description }}</p>
+        }
+        @if (item.timestamp) {
+          <time class="timeline__timestamp">{{ item.timestamp }}</time>
+        }
+      </div>
+    </div>
+  }
+</div>

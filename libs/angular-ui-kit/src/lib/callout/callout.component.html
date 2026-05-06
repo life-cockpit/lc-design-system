@@ -1,0 +1,23 @@
+@if (visible()) {
+  <div [class]="calloutClasses()" role="alert">
+    <lc-icon class="callout__icon" [name]="iconName()" size="md" />
+    <div class="callout__content">
+      @if (title()) {
+        <strong class="callout__title">{{ title() }}</strong>
+      }
+      <div class="callout__body">
+        <ng-content />
+      </div>
+    </div>
+    @if (dismissible()) {
+      <button
+        type="button"
+        class="callout__dismiss"
+        aria-label="Dismiss"
+        (click)="dismiss()"
+      >
+        <lc-icon name="x-mark" size="sm" />
+      </button>
+    }
+  </div>
+}

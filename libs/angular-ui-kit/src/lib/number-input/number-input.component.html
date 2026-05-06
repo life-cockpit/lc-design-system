@@ -1,0 +1,35 @@
+<div [class]="containerClasses()">
+  @if (label()) {
+    <label class="number-input__label">{{ label() }}</label>
+  }
+  <div class="number-input__control">
+    <button
+      type="button"
+      class="number-input__button number-input__button--decrement"
+      [disabled]="disabled() || isDisabled() || !canDecrement()"
+      (click)="decrement()"
+      aria-label="Decrease value"
+    >
+      <lc-icon name="minus" size="sm" />
+    </button>
+    <input
+      type="text"
+      inputmode="numeric"
+      class="number-input__input"
+      [value]="value() !== null ? value() : ''"
+      [placeholder]="placeholder()"
+      [disabled]="disabled() || isDisabled()"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    />
+    <button
+      type="button"
+      class="number-input__button number-input__button--increment"
+      [disabled]="disabled() || isDisabled() || !canIncrement()"
+      (click)="increment()"
+      aria-label="Increase value"
+    >
+      <lc-icon name="plus" size="sm" />
+    </button>
+  </div>
+</div>

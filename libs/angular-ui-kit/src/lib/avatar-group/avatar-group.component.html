@@ -1,0 +1,16 @@
+<div [class]="groupClasses()">
+  @for (avatar of visibleAvatars(); track avatar.name ?? $index) {
+    <lc-avatar
+      class="avatar-group__item"
+      [src]="avatar.src"
+      [alt]="avatar.alt"
+      [name]="avatar.name"
+      [size]="size()"
+    />
+  }
+  @if (overflowCount() > 0) {
+    <span class="avatar-group__overflow avatar-group__overflow--{{ size() }}">
+      +{{ overflowCount() }}
+    </span>
+  }
+</div>

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { DividerComponent } from './divider.component';
 
 const meta: Meta<DividerComponent> = {
-  title: 'Components/Divider',
+  title: 'Layout/Divider',
   component: DividerComponent,
   parameters: {
     docs: {

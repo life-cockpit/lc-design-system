@@ -202,6 +202,21 @@ export * from './lib/empty-state/empty-state.component';
 // Drawer Component
 export * from './lib/drawer/drawer.component';
 
+// Timeline Component
+export * from './lib/timeline/timeline.component';
+
+// Avatar Group Component
+export * from './lib/avatar-group/avatar-group.component';
+
+// Slider Component
+export * from './lib/slider/slider.component';
+
+// Number Input Component
+export * from './lib/number-input/number-input.component';
+
+// Callout Component
+export * from './lib/callout/callout.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

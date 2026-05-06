@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { PopoverComponent } from './popover.component';
 
 const meta: Meta<PopoverComponent> = {
-  title: 'Components/Popover',
+  title: 'Feedback/Popover',
   component: PopoverComponent,
   parameters: {
     docs: {

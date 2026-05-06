@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { SearchInputComponent } from './search-input.component';
 
 const meta: Meta<SearchInputComponent> = {
-  title: 'Components/Search Input',
+  title: 'Form/Search Input',
   component: SearchInputComponent,
   parameters: {
     docs: {
