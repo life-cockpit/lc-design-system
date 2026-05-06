@@ -570,46 +570,4 @@ describe('TableComponent', () => {
     });
   });
 
-  describe('Export', () => {
-    beforeEach(() => {
-      fixture.componentRef.setInput('columns', mockColumns);
-      fixture.componentRef.setInput('data', mockData);
-      fixture.componentRef.setInput('exportable', true);
-      fixture.detectChanges();
-    });
-
-    it('should show export button when exportable', () => {
-      const btn = fixture.debugElement.query(By.css('.lc-table-toolbar__export'));
-      expect(btn).toBeTruthy();
-    });
-
-    it('should not show export button when exportable is false', () => {
-      fixture.componentRef.setInput('exportable', false);
-      fixture.detectChanges();
-
-      const btn = fixture.debugElement.query(By.css('.lc-table-toolbar__export'));
-      expect(btn).toBeFalsy();
-    });
-
-    it('should trigger CSV download on click', () => {
-      const createObjectURL = jest.fn().mockReturnValue('blob:test');
-      const revokeObjectURL = jest.fn();
-      global.URL.createObjectURL = createObjectURL;
-      global.URL.revokeObjectURL = revokeObjectURL;
-
-      const clickSpy = jest.fn();
-      jest.spyOn(document, 'createElement').mockReturnValue({
-        href: '',
-        download: '',
-        click: clickSpy,
-      } as unknown as HTMLElement);
-
-      const btn = fixture.debugElement.query(By.css('.lc-table-toolbar__export'));
-      btn.nativeElement.click();
-
-      expect(createObjectURL).toHaveBeenCalled();
-      expect(clickSpy).toHaveBeenCalled();
-      expect(revokeObjectURL).toHaveBeenCalled();
-    });
-  });
 });

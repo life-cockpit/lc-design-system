@@ -196,32 +196,6 @@
   }
 }
 
-// Toolbar
-.lc-table-toolbar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: var(--spacing-2) 0;
-  gap: var(--spacing-2);
-
-  &__export {
-    appearance: none;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-surface);
-    color: var(--color-text-primary);
-    padding: var(--spacing-2) var(--spacing-3);
-    border-radius: var(--border-radius-md);
-    font-size: var(--typography-font-size-sm);
-    cursor: pointer;
-    transition: background-color 0.15s ease, border-color 0.15s ease;
-
-    &:hover {
-      background-color: var(--color-neutral-100);
-      border-color: var(--color-primary);
-    }
-  }
-}
-
 // Filter row
 .lc-table__filter-row {
   th {
@@ -382,18 +356,6 @@
 }
 
 // Dark theme adjustments for new features
-[data-theme='dark'] .lc-table-toolbar,
-:root[data-theme='dark'] .lc-table-toolbar {
-  &__export {
-    background-color: var(--color-neutral-800);
-    border-color: var(--color-neutral-700);
-
-    &:hover {
-      background-color: var(--color-neutral-700);
-    }
-  }
-}
-
 [data-theme='dark'] .lc-table__filter-input,
 :root[data-theme='dark'] .lc-table__filter-input {
   background-color: var(--color-neutral-800);

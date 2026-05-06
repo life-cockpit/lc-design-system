@@ -20,7 +20,6 @@ The Table component displays structured data in rows and columns with advanced d
 - Row selection with select-all checkbox
 - Per-column text filtering
 - Inline cell editing via double-click
-- CSV export of filtered data
         `,
       },
     },
@@ -44,8 +43,6 @@ The Table component displays structured data in rows and columns with advanced d
     selectable: { control: 'boolean', description: 'Enable row selection checkboxes' },
     filterable: { control: 'boolean', description: 'Enable per-column text filters' },
     editable: { control: 'boolean', description: 'Enable inline cell editing (double-click)' },
-    exportable: { control: 'boolean', description: 'Show CSV export button' },
-    exportFilename: { control: 'text', description: 'Filename for CSV export' },
   },
 };
 
@@ -208,24 +205,9 @@ export const WithInlineEditing: Story = {
   },
 };
 
-export const WithExport: Story = {
-  parameters: {
-    docs: { description: { story: 'CSV export button allows users to download the current (filtered) dataset as a CSV file.' } },
-  },
-  args: {
-    columns: largeColumns,
-    data: largeDataset,
-    exportable: true,
-    exportFilename: 'employees',
-    filterable: true,
-    variant: 'default',
-    hoverable: true,
-  },
-};
-
 export const FullFeatured: Story = {
   parameters: {
-    docs: { description: { story: 'All advanced features combined: pagination, selection, filtering, inline editing, and CSV export.' } },
+    docs: { description: { story: 'All advanced features combined: pagination, selection, filtering, and inline editing.' } },
   },
   args: {
     columns: [
@@ -242,8 +224,6 @@ export const FullFeatured: Story = {
     selectable: true,
     filterable: true,
     editable: true,
-    exportable: true,
-    exportFilename: 'full-report',
     hoverable: true,
     variant: 'striped',
     size: 'md',

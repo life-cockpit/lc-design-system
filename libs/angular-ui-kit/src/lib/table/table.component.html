@@ -1,12 +1,3 @@
-<!-- Toolbar -->
-@if (exportable()) {
-  <div class="lc-table-toolbar">
-    <button type="button" class="lc-table-toolbar__export" (click)="exportCsv()">
-      Export CSV
-    </button>
-  </div>
-}
-
 <div [class]="wrapperClasses()">
   <table [class]="tableClasses()" role="table">
     <thead>

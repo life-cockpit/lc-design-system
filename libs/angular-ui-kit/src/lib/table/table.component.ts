@@ -123,13 +123,6 @@ export class TableComponent {
   /** Enable inline cell editing on double-click */
   editable = input<boolean>(false);
 
-  // -- Export --
-  /** Show CSV export button */
-  exportable = input<boolean>(false);
-
-  /** Filename for CSV export (without extension) */
-  exportFilename = input<string>('table-export');
-
   /** Emitted when a sortable column header is clicked */
   readonly sort = output<SortEvent>();
 
@@ -401,26 +394,5 @@ export class TableComponent {
     } else if (event.key === 'Escape') {
       this.cancelEdit();
     }
-  }
-
-  // -- Export --
-  protected exportCsv(): void {
-    const cols = this.columns();
-    const data = this.filteredData();
-    const header = cols.map(c => `"${c.label}"`).join(',');
-    const rows = data.map(row =>
-      cols.map(c => {
-        const val = String(row[c.key] ?? '').replace(/"/g, '""');
-        return `"${val}"`;
-      }).join(',')
-    );
-    const csv = [header, ...rows].join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${this.exportFilename()}.csv`;
-    link.click();
-    URL.revokeObjectURL(url);
   }
 }
