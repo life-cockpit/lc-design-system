@@ -286,6 +286,9 @@ export * from './lib/document-viewer/document-viewer.component';
 // Gallery Component
 export * from './lib/gallery/gallery.component';
 
+// Dependency Viewer Component
+export * from './lib/dependency-viewer/dependency-viewer.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

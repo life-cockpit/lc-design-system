@@ -1,0 +1,174 @@
+<!-- Toolbar -->
+@if (showToolbar()) {
+  <div class="dep-viewer__toolbar">
+    <button class="dep-viewer__btn" (click)="zoomIn()" title="Zoom in">+</button>
+    <span class="dep-viewer__zoom">{{ zoom() }}%</span>
+    <button class="dep-viewer__btn" (click)="zoomOut()" title="Zoom out">−</button>
+    <button class="dep-viewer__btn dep-viewer__btn--reset" (click)="resetZoom()" title="Reset">⟲</button>
+    <span class="dep-viewer__direction-label">{{ direction() === 'horizontal' ? '→' : '↓' }}</span>
+  </div>
+}
+
+<!-- Canvas -->
+<div
+  class="dep-viewer__canvas"
+  (mousedown)="onMouseDown($event)"
+  (wheel)="onWheel($event)"
+  (click)="deselectNode()"
+>
+  <svg
+    [attr.width]="svgWidth()"
+    [attr.height]="svgHeight()"
+    [attr.viewBox]="viewBox()"
+    [style.transform]="transform()"
+    class="dep-viewer__svg"
+  >
+    <!-- Arrow markers for cross-reference edges -->
+    <defs>
+      <marker id="arrow-default"  markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-neutral-400)"/></marker>
+      <marker id="arrow-blocks"   markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-error-default)"/></marker>
+      <marker id="arrow-references" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-info-default, #3b82f6)"/></marker>
+      <marker id="arrow-requires" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-warning-default)"/></marker>
+      <marker id="arrow-extends"  markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-primary-400)"/></marker>
+      <marker id="arrow-implements" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-success-default)"/></marker>
+      <marker id="arrow-uses"     markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-neutral-300)"/></marker>
+      <marker id="arrow-depends"  markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="var(--color-neutral-400)"/></marker>
+    </defs>
+
+    <!-- Edges -->
+    @for (edge of layout().edges; track edge.id) {
+      <path
+        [attr.d]="edge.path"
+        [attr.stroke]="edge.color"
+        [attr.stroke-width]="edgeWidth()"
+        [attr.stroke-dasharray]="edge.dashed ? '6 3' : 'none'"
+        [attr.marker-end]="edge.isCrossRef ? 'url(#arrow-' + (edge.relation || 'default') + ')' : ''"
+        fill="none"
+        class="dep-viewer__edge"
+        [class.dep-viewer__edge--cross-ref]="edge.isCrossRef"
+      />
+      @if (showEdgeLabels() && edge.isCrossRef && edge.relation) {
+        <text
+          [attr.x]="edge.labelX"
+          [attr.y]="edge.labelY"
+          class="dep-viewer__edge-label"
+          [attr.fill]="edge.color"
+          text-anchor="middle"
+        >{{ getRelationLabel(edge.relation) }}</text>
+      }
+    }
+
+    <!-- Nodes -->
+    @for (node of layout().nodes; track node.id) {
+      <g
+        class="dep-viewer__node"
+        [class.dep-viewer__node--selected]="selectedNodeId() === node.id"
+        (click)="selectNode(node.id, $event)"
+      >
+        <rect
+          [attr.x]="node.x"
+          [attr.y]="node.y"
+          [attr.width]="node.width"
+          [attr.height]="node.height"
+          rx="6" ry="6"
+          [attr.fill]="getNodeBg(node.status)"
+          [attr.stroke]="selectedNodeId() === node.id ? 'var(--color-primary-500)' : getNodeBorder(node.status)"
+          stroke-width="1.5"
+        />
+        <text
+          [attr.x]="node.x + node.width / 2"
+          [attr.y]="node.y + node.height / 2 + 4"
+          text-anchor="middle"
+          [attr.fill]="getNodeText(node.status)"
+          class="dep-viewer__node-label"
+        >{{ node.label }}</text>
+
+        <!-- Collapse/expand toggle -->
+        @if (hasChildren(node.id)) {
+          <g
+            class="dep-viewer__toggle"
+            (click)="toggleCollapse(node.id, $event)"
+          >
+            @if (direction() === 'horizontal') {
+              <circle
+                [attr.cx]="node.x + node.width + 10"
+                [attr.cy]="node.y + node.height / 2"
+                r="8"
+                fill="var(--color-neutral-100)" stroke="var(--color-neutral-300)" stroke-width="1"
+              />
+              <text
+                [attr.x]="node.x + node.width + 10"
+                [attr.y]="node.y + node.height / 2 + 4"
+                text-anchor="middle"
+                class="dep-viewer__toggle-text"
+              >{{ isCollapsed(node.id) ? '+' : '−' }}</text>
+            } @else {
+              <circle
+                [attr.cx]="node.x + node.width / 2"
+                [attr.cy]="node.y + node.height + 10"
+                r="8"
+                fill="var(--color-neutral-100)" stroke="var(--color-neutral-300)" stroke-width="1"
+              />
+              <text
+                [attr.x]="node.x + node.width / 2"
+                [attr.y]="node.y + node.height + 14"
+                text-anchor="middle"
+                class="dep-viewer__toggle-text"
+              >{{ isCollapsed(node.id) ? '+' : '−' }}</text>
+            }
+          </g>
+        }
+      </g>
+    }
+  </svg>
+</div>
+
+<!-- Legend -->
+@if (legendItems().length) {
+  <div class="dep-viewer__legend">
+    @for (item of legendItems(); track item.relation) {
+      <span class="dep-viewer__legend-item">
+        <svg width="24" height="10">
+          <line
+            x1="0" y1="5" x2="24" y2="5"
+            [attr.stroke]="item.color"
+            stroke-width="2"
+            [attr.stroke-dasharray]="item.dashed ? '4 2' : 'none'"
+          />
+        </svg>
+        <span class="dep-viewer__legend-text">{{ item.label }}</span>
+      </span>
+    }
+  </div>
+}
+
+<!-- Detail panel -->
+@if (selectedNode(); as node) {
+  <div class="dep-viewer__detail">
+    <div class="dep-viewer__detail-header">
+      <span class="dep-viewer__detail-status dep-viewer__detail-status--{{ node.status }}">●</span>
+      <strong>{{ node.label }}</strong>
+    </div>
+    @if (node.description) {
+      <p class="dep-viewer__detail-desc">{{ node.description }}</p>
+    }
+    <div class="dep-viewer__detail-meta">
+      <span>Depth: {{ node.depth }}</span>
+      <span>Children: {{ node.outgoingCount }}</span>
+      <span>Depends on: {{ node.incomingCount }}</span>
+    </div>
+    @if (selectedDependsOn().length) {
+      <div class="dep-viewer__detail-deps">
+        <strong>Dependencies:</strong>
+        <ul>
+          @for (dep of selectedDependsOn(); track dep.id) {
+            <li>
+              <span class="dep-viewer__dep-relation">{{ getRelationLabel(dep.relation || 'depends') }}</span>
+              → {{ dep.id }}
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+}
