@@ -1,0 +1,52 @@
+<svg
+  [attr.width]="svgSize()"
+  [attr.height]="svgHeight()"
+  [attr.viewBox]="viewBox()"
+  class="lc-gauge"
+  role="img"
+  aria-label="Gauge chart"
+>
+  <path
+    [attr.d]="trackD()"
+    [attr.stroke-width]="strokeW()"
+    fill="none"
+    stroke-linecap="round"
+    class="lc-gauge__track"
+  />
+
+  @if (valueD()) {
+    <path
+      [attr.d]="valueD()"
+      [attr.stroke-width]="strokeW()"
+      fill="none"
+      stroke-linecap="round"
+      [class]="'lc-gauge__value-arc lc-gauge__value-arc--' + color()"
+    />
+  }
+
+  @if (showValue()) {
+    <text
+      [attr.x]="cx()"
+      [attr.y]="cy() + 8"
+      text-anchor="middle"
+      dominant-baseline="auto"
+      class="lc-gauge__value-text"
+      [style.font-size]="valueFontSize()"
+    >
+      {{ displayValue() }}
+    </text>
+  }
+
+  @if (label()) {
+    <text
+      [attr.x]="cx()"
+      [attr.y]="cy() + 24"
+      text-anchor="middle"
+      dominant-baseline="auto"
+      class="lc-gauge__label"
+      [style.font-size]="labelFontSize()"
+    >
+      {{ label() }}
+    </text>
+  }
+</svg>

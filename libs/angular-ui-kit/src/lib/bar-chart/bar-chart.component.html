@@ -1,0 +1,83 @@
+<svg
+  [attr.width]="width()"
+  [attr.height]="height()"
+  [attr.viewBox]="viewBox()"
+  role="img"
+  aria-label="Bar chart"
+  class="lc-bar-chart"
+>
+  <!-- Grid lines -->
+  @if (showGrid() && isVertical()) {
+    @for (line of gridLines(); track line.y) {
+      <line
+        [attr.x1]="axisLine().bx1"
+        [attr.y1]="line.y"
+        [attr.x2]="axisLine().bx2"
+        [attr.y2]="line.y"
+        class="lc-bar-chart__grid-line"
+      />
+      <text
+        [attr.x]="axisLine().x1 - 6"
+        [attr.y]="line.y"
+        text-anchor="end"
+        dominant-baseline="central"
+        class="lc-bar-chart__grid-label"
+      >
+        {{ line.label }}
+      </text>
+    }
+  }
+
+  <!-- Axes -->
+  <line
+    [attr.x1]="axisLine().x1"
+    [attr.y1]="axisLine().y1"
+    [attr.x2]="axisLine().x2"
+    [attr.y2]="axisLine().y2"
+    class="lc-bar-chart__axis"
+  />
+  <line
+    [attr.x1]="axisLine().bx1"
+    [attr.y1]="axisLine().by1"
+    [attr.x2]="axisLine().bx2"
+    [attr.y2]="axisLine().by2"
+    class="lc-bar-chart__axis"
+  />
+
+  <!-- Bars -->
+  @for (bar of bars(); track bar.label) {
+    <rect
+      [attr.x]="bar.x"
+      [attr.y]="bar.y"
+      [attr.width]="bar.width"
+      [attr.height]="bar.height"
+      [attr.fill]="bar.color"
+      rx="2"
+      class="lc-bar-chart__bar"
+    />
+
+    @if (showValues()) {
+      <text
+        [attr.x]="bar.valueX"
+        [attr.y]="bar.valueY"
+        [attr.text-anchor]="isVertical() ? 'middle' : 'start'"
+        [attr.dominant-baseline]="isVertical() ? 'auto' : 'central'"
+        class="lc-bar-chart__value"
+      >
+        {{ bar.value }}
+      </text>
+    }
+
+    @if (showLabels()) {
+      <text
+        [attr.x]="bar.labelX"
+        [attr.y]="bar.labelY"
+        [attr.text-anchor]="isVertical() ? 'middle' : 'end'"
+        [attr.dominant-baseline]="isVertical() ? 'auto' : 'central'"
+        class="lc-bar-chart__label"
+      >
+        {{ bar.label }}
+      </text>
+    }
+  }
+</svg>

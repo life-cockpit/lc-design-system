@@ -1,0 +1,53 @@
+<div class="lc-donut-chart">
+  <svg
+    [attr.width]="svgSize()"
+    [attr.height]="svgSize()"
+    [attr.viewBox]="viewBox()"
+    role="img"
+    aria-label="Donut chart"
+    class="lc-donut-chart__svg"
+  >
+    @for (arc of arcs(); track arc.label) {
+      <path
+        [attr.d]="arc.d"
+        [attr.fill]="arc.color"
+        class="lc-donut-chart__segment"
+      />
+    }
+
+    @if (showCenter() && (centerValue() || centerLabel())) {
+      <text
+        [attr.x]="center()"
+        [attr.y]="centerLabel() ? center() - 4 : center()"
+        text-anchor="middle"
+        dominant-baseline="central"
+        class="lc-donut-chart__center-value"
+      >
+        {{ centerValue() }}
+      </text>
+      @if (centerLabel()) {
+        <text
+          [attr.x]="center()"
+          [attr.y]="center() + 14"
+          text-anchor="middle"
+          dominant-baseline="central"
+          class="lc-donut-chart__center-label"
+        >
+          {{ centerLabel() }}
+        </text>
+      }
+    }
+  </svg>
+
+  @if (showLegend()) {
+    <div class="lc-donut-chart__legend">
+      @for (item of legendItems(); track item.label) {
+        <div class="lc-donut-chart__legend-item">
+          <span class="lc-donut-chart__legend-dot" [style.background-color]="item.color"></span>
+          <span class="lc-donut-chart__legend-label">{{ item.label }}</span>
+          <span class="lc-donut-chart__legend-pct">{{ item.percentage }}%</span>
+        </div>
+      }
+    </div>
+  }
+</div>

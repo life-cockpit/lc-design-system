@@ -1,0 +1,104 @@
+<div class="lc-line-chart">
+  <svg
+    [attr.width]="width()"
+    [attr.height]="height()"
+    [attr.viewBox]="viewBox()"
+    role="img"
+    aria-label="Line chart"
+    class="lc-line-chart__svg"
+  >
+    <!-- Grid lines -->
+    @for (line of gridLines(); track line.y) {
+      <line
+        [attr.x1]="axisLine().hx1"
+        [attr.y1]="line.y"
+        [attr.x2]="axisLine().hx2"
+        [attr.y2]="line.y"
+        class="lc-line-chart__grid-line"
+      />
+      @if (showYLabels()) {
+        <text
+          [attr.x]="axisLine().vx1 - 6"
+          [attr.y]="line.y"
+          text-anchor="end"
+          dominant-baseline="central"
+          class="lc-line-chart__y-label"
+        >
+          {{ line.label }}
+        </text>
+      }
+    }
+
+    <!-- Axes -->
+    <line
+      [attr.x1]="axisLine().vx1"
+      [attr.y1]="axisLine().vy1"
+      [attr.x2]="axisLine().vx2"
+      [attr.y2]="axisLine().vy2"
+      class="lc-line-chart__axis"
+    />
+    <line
+      [attr.x1]="axisLine().hx1"
+      [attr.y1]="axisLine().hy1"
+      [attr.x2]="axisLine().hx2"
+      [attr.y2]="axisLine().hy2"
+      class="lc-line-chart__axis"
+    />
+
+    <!-- X labels -->
+    @for (lbl of xLabels(); track lbl.x) {
+      <text
+        [attr.x]="lbl.x"
+        [attr.y]="lbl.y"
+        text-anchor="middle"
+        class="lc-line-chart__x-label"
+      >
+        {{ lbl.label }}
+      </text>
+    }
+
+    <!-- Series -->
+    @for (ser of renderedSeries(); track ser.label) {
+      @if (ser.areaD) {
+        <path
+          [attr.d]="ser.areaD"
+          [attr.fill]="ser.color"
+          class="lc-line-chart__area"
+        />
+      }
+      @if (ser.pathD) {
+        <path
+          [attr.d]="ser.pathD"
+          [attr.stroke]="ser.color"
+          [attr.stroke-width]="strokeWidth()"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lc-line-chart__line"
+        />
+      }
+      @for (pt of ser.points; track $index) {
+        <circle
+          [attr.cx]="pt.x"
+          [attr.cy]="pt.y"
+          r="3"
+          [attr.fill]="ser.color"
+          stroke="white"
+          stroke-width="1.5"
+          class="lc-line-chart__dot"
+        />
+      }
+    }
+  </svg>
+
+  @if (legendItems().length > 0) {
+    <div class="lc-line-chart__legend">
+      @for (item of legendItems(); track item.label) {
+        <div class="lc-line-chart__legend-item">
+          <span class="lc-line-chart__legend-line" [style.background-color]="item.color"></span>
+          <span class="lc-line-chart__legend-label">{{ item.label }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

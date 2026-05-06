@@ -1,0 +1,40 @@
+<div class="lc-stacked-bar-chart">
+  <svg
+    [attr.width]="width()"
+    [attr.height]="height()"
+    [attr.viewBox]="viewBox()"
+    role="img"
+    aria-label="Stacked bar chart"
+    class="lc-stacked-bar-chart__svg"
+  >
+    @if (showGrid() && isVertical()) {
+      @for (line of gridLines(); track line.y) {
+        <line [attr.x1]="axisLine().hx1" [attr.y1]="line.y" [attr.x2]="axisLine().hx2" [attr.y2]="line.y" class="lc-stacked-bar-chart__grid" />
+        <text [attr.x]="axisLine().vx1 - 6" [attr.y]="line.y" text-anchor="end" dominant-baseline="central" class="lc-stacked-bar-chart__grid-label">{{ line.label }}</text>
+      }
+    }
+
+    <line [attr.x1]="axisLine().vx1" [attr.y1]="axisLine().vy1" [attr.x2]="axisLine().vx2" [attr.y2]="axisLine().vy2" class="lc-stacked-bar-chart__axis" />
+    <line [attr.x1]="axisLine().hx1" [attr.y1]="axisLine().hy1" [attr.x2]="axisLine().hx2" [attr.y2]="axisLine().hy2" class="lc-stacked-bar-chart__axis" />
+
+    @for (stack of stacks(); track stack.label) {
+      @for (seg of stack.segments; track $index) {
+        <rect [attr.x]="seg.x" [attr.y]="seg.y" [attr.width]="seg.w" [attr.height]="seg.h" [attr.fill]="seg.color" class="lc-stacked-bar-chart__segment" />
+      }
+      @if (showLabels()) {
+        <text [attr.x]="stack.labelPos.x" [attr.y]="stack.labelPos.y" [attr.text-anchor]="isVertical() ? 'middle' : 'end'" [attr.dominant-baseline]="isVertical() ? 'auto' : 'central'" class="lc-stacked-bar-chart__label">{{ stack.label }}</text>
+      }
+    }
+  </svg>
+
+  @if (showLegend() && legendItems().length) {
+    <div class="lc-stacked-bar-chart__legend">
+      @for (item of legendItems(); track item.label) {
+        <div class="lc-stacked-bar-chart__legend-item">
+          <span class="lc-stacked-bar-chart__legend-dot" [style.background-color]="item.color"></span>
+          <span class="lc-stacked-bar-chart__legend-text">{{ item.label }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>

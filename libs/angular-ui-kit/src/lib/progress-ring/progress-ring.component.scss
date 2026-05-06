@@ -1,0 +1,20 @@
+:host { display: inline-flex; }
+.lc-progress-ring { overflow: visible; }
+.lc-progress-ring__track {
+  stroke: var(--color-neutral-200);
+  [data-theme='dark'] &, :root[data-theme='dark'] & { stroke: var(--color-neutral-700); }
+}
+.lc-progress-ring__value {
+  transition: stroke-dashoffset 0.4s ease;
+  &--primary { stroke: var(--color-primary-500); }
+  &--secondary { stroke: var(--color-secondary-500); }
+  &--success { stroke: var(--color-success-default); }
+  &--warning { stroke: var(--color-warning-default); }
+  &--error { stroke: var(--color-error-default); }
+  &--info { stroke: var(--color-info-default); }
+}
+.lc-progress-ring__text {
+  font-weight: 700;
+  fill: var(--color-neutral-900);
+  [data-theme='dark'] &, :root[data-theme='dark'] & { fill: var(--color-neutral-100); }
+}

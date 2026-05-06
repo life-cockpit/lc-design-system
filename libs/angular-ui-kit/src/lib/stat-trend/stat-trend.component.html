@@ -1,0 +1,27 @@
+<div class="lc-stat-trend">
+  @if (label()) {
+    <span class="lc-stat-trend__label">{{ label() }}</span>
+  }
+
+  <div class="lc-stat-trend__row">
+    <span class="lc-stat-trend__value">{{ value() }}</span>
+
+    @if (change()) {
+      <span class="lc-stat-trend__change" [class]="trendColorClass()">
+        <span class="lc-stat-trend__icon">{{ trendIcon() }}</span>
+        {{ change() }}
+      </span>
+    }
+  </div>
+
+  @if (hasSparkline()) {
+    <lc-sparkline
+      [data]="sparklineData()"
+      [color]="resolvedSparklineColor()"
+      [width]="120"
+      [height]="28"
+      [filled]="true"
+      [strokeWidth]="1.5"
+    ></lc-sparkline>
+  }
+</div>

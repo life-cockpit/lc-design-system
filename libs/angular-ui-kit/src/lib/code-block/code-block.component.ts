@@ -16,6 +16,8 @@ export type CodeBlockLanguage =
   | 'scss'
   | 'json'
   | 'bash'
+  | 'python'
+  | 'java'
   | 'text';
 
 interface TokenRule {
@@ -85,6 +87,28 @@ const LANGUAGE_RULES: Record<string, TokenRule[]> = {
     { pattern: /\b(?:if|then|else|elif|fi|for|do|done|while|until|case|esac|function|in|select|time|coproc)\b/g, className: 'token-keyword' },
     { pattern: /(?:^|\s)(?:npm|npx|yarn|pnpm|git|cd|ls|mkdir|rm|cp|mv|echo|cat|grep|find|sed|awk|curl|wget|docker|node|python|pip|brew|apt|sudo)\b/g, className: 'token-builtin' },
     { pattern: /--?[\w-]+/g, className: 'token-flag' },
+  ],
+  python: [
+    { pattern: /#.*$/gm, className: 'token-comment' },
+    { pattern: /"""[\s\S]*?"""/g, className: 'token-string' },
+    { pattern: /'''[\s\S]*?'''/g, className: 'token-string' },
+    ...SHARED_RULES,
+    { pattern: /@\w+/g, className: 'token-decorator' },
+    { pattern: /\b(?:def|class|import|from|as|return|if|elif|else|for|while|break|continue|pass|raise|try|except|finally|with|yield|lambda|assert|del|global|nonlocal|async|await|in|not|and|or|is)\b/g, className: 'token-keyword' },
+    { pattern: /\b(?:True|False|None)\b/g, className: 'token-constant' },
+    { pattern: /\b(?:str|int|float|bool|list|dict|tuple|set|bytes|type|object|Exception|ValueError|TypeError|KeyError|IndexError|AttributeError|RuntimeError|StopIteration)\b/g, className: 'token-type' },
+    { pattern: /\b(?:print|len|range|enumerate|zip|map|filter|sorted|reversed|isinstance|issubclass|hasattr|getattr|setattr|super|property|staticmethod|classmethod|open|input)\b/g, className: 'token-builtin' },
+    { pattern: /\bself\b/g, className: 'token-variable' },
+  ],
+  java: [
+    { pattern: /\/\/.*$/gm, className: 'token-comment' },
+    { pattern: /\/\*[\s\S]*?\*\//g, className: 'token-comment' },
+    ...SHARED_RULES,
+    { pattern: /@\w+/g, className: 'token-decorator' },
+    { pattern: /\b(?:abstract|assert|break|case|catch|class|continue|default|do|else|enum|extends|final|finally|for|if|implements|import|instanceof|interface|native|new|package|private|protected|public|return|static|strictfp|super|switch|synchronized|this|throw|throws|transient|try|volatile|while|var|record|sealed|permits|yield)\b/g, className: 'token-keyword' },
+    { pattern: /\b(?:true|false|null)\b/g, className: 'token-constant' },
+    { pattern: /\b(?:void|int|long|short|byte|float|double|char|boolean|String|Integer|Long|Double|Float|Boolean|Character|Object|Class|List|Map|Set|ArrayList|HashMap|HashSet|Optional|Stream|Collectors)\b/g, className: 'token-type' },
+    { pattern: /\b(?:System|Math|Arrays|Collections|Objects|Thread|Runnable)\b/g, className: 'token-builtin' },
   ],
 };
 

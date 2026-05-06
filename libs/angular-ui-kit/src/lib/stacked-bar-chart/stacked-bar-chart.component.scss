@@ -1,0 +1,63 @@
+.lc-stacked-bar-chart {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lc-stacked-bar-chart__svg { overflow: visible; }
+
+.lc-stacked-bar-chart__axis {
+  stroke: var(--color-neutral-300);
+  stroke-width: 1;
+  [data-theme='dark'] &, :root[data-theme='dark'] & { stroke: var(--color-neutral-600); }
+}
+
+.lc-stacked-bar-chart__grid {
+  stroke: var(--color-neutral-200);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  [data-theme='dark'] &, :root[data-theme='dark'] & { stroke: var(--color-neutral-700); }
+}
+
+.lc-stacked-bar-chart__grid-label {
+  font-size: 0.625rem;
+  fill: var(--color-neutral-500);
+}
+
+.lc-stacked-bar-chart__segment {
+  transition: opacity 0.15s ease;
+  &:hover { opacity: 0.8; }
+}
+
+.lc-stacked-bar-chart__label {
+  font-size: 0.6875rem;
+  fill: var(--color-neutral-600);
+  [data-theme='dark'] &, :root[data-theme='dark'] & { fill: var(--color-neutral-400); }
+}
+
+.lc-stacked-bar-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  justify-content: center;
+}
+
+.lc-stacked-bar-chart__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: var(--typography-font-size-sm, 0.875rem);
+}
+
+.lc-stacked-bar-chart__legend-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.lc-stacked-bar-chart__legend-text {
+  color: var(--color-neutral-700);
+  [data-theme='dark'] &, :root[data-theme='dark'] & { color: var(--color-neutral-300); }
+}

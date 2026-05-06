@@ -1,0 +1,38 @@
+<svg
+  [attr.width]="width()"
+  [attr.height]="height()"
+  [attr.viewBox]="viewBox()"
+  class="lc-sparkline"
+  role="img"
+  aria-label="Sparkline chart"
+>
+  @if (areaD()) {
+    <path
+      [attr.d]="areaD()"
+      [attr.fill]="fillColorVar()"
+      class="lc-sparkline__area"
+    />
+  }
+
+  @if (pathD()) {
+    <path
+      [attr.d]="pathD()"
+      [attr.stroke]="colorVar()"
+      [attr.stroke-width]="strokeWidth()"
+      fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lc-sparkline__line"
+    />
+  }
+
+  @if (endDot(); as dot) {
+    <circle
+      [attr.cx]="dot.cx"
+      [attr.cy]="dot.cy"
+      [attr.r]="dot.r"
+      [attr.fill]="colorVar()"
+      class="lc-sparkline__dot"
+    />
+  }
+</svg>

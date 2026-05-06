@@ -7,7 +7,7 @@ const meta: Meta<CodeBlockComponent> = {
   argTypes: {
     language: {
       control: 'select',
-      options: ['typescript', 'javascript', 'html', 'css', 'scss', 'json', 'bash', 'text'],
+      options: ['typescript', 'javascript', 'html', 'css', 'scss', 'json', 'bash', 'python', 'java', 'text'],
     },
     showLineNumbers: { control: 'boolean' },
     showCopy: { control: 'boolean' },
@@ -81,5 +81,68 @@ export const HTML: Story = {
   <p>Content goes here</p>
 </lc-card>`,
     language: 'html',
+  },
+};
+
+export const Python: Story = {
+  args: {
+    code: `from dataclasses import dataclass
+from typing import Optional
+
+@dataclass
+class User:
+    name: str
+    age: int
+    email: Optional[str] = None
+
+    def greet(self) -> str:
+        """Return a greeting message."""
+        return f"Hello, {self.name}!"
+
+    @staticmethod
+    def validate_age(age: int) -> bool:
+        return 0 < age < 150
+
+# Create a user
+user = User(name="Alice", age=30)
+print(user.greet())  # Hello, Alice!
+
+for i in range(5):
+    if i % 2 == 0:
+        print(f"{i} is even")`,
+    language: 'python',
+    filename: 'models.py',
+  },
+};
+
+export const Java: Story = {
+  args: {
+    code: `import java.util.List;
+import java.util.stream.Collectors;
+
+public class UserService {
+    private final List<User> users;
+
+    public UserService(List<User> users) {
+        this.users = users;
+    }
+
+    /**
+     * Find all active users older than the given age.
+     */
+    public List<User> findActiveUsers(int minAge) {
+        return users.stream()
+            .filter(u -> u.isActive() && u.getAge() > minAge)
+            .sorted((a, b) -> a.getName().compareTo(b.getName()))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "UserService{count=" + users.size() + "}";
+    }
+}`,
+    language: 'java',
+    filename: 'UserService.java',
   },
 };

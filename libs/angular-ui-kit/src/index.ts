@@ -230,6 +230,48 @@ export * from './lib/code-block/code-block.component';
 export * from './lib/footer/footer.component';
 
 // ============================================================================
+// Chart Components
+// ============================================================================
+// Sparkline Component
+export * from './lib/sparkline/sparkline.component';
+
+// Stat Trend Component
+export * from './lib/stat-trend/stat-trend.component';
+
+// Donut Chart Component
+export * from './lib/donut-chart/donut-chart.component';
+
+// Bar Chart Component
+export * from './lib/bar-chart/bar-chart.component';
+
+// Line Chart Component
+export * from './lib/line-chart/line-chart.component';
+
+// Gauge Component
+export * from './lib/gauge/gauge.component';
+
+// Stacked Bar Chart Component
+export * from './lib/stacked-bar-chart/stacked-bar-chart.component';
+
+// Area Chart Component
+export * from './lib/area-chart/area-chart.component';
+
+// Heatmap Component
+export * from './lib/heatmap/heatmap.component';
+
+// Pie Chart Component
+export * from './lib/pie-chart/pie-chart.component';
+
+// Radar Chart Component
+export * from './lib/radar-chart/radar-chart.component';
+
+// Progress Ring Component
+export * from './lib/progress-ring/progress-ring.component';
+
+// Waterfall Chart Component
+export * from './lib/waterfall-chart/waterfall-chart.component';
+
+// ============================================================================
 // Styles
 // ============================================================================
 // Styles are available at: libs/shared/src/styles/index.scss
