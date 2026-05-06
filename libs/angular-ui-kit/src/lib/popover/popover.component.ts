@@ -15,17 +15,21 @@ export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right';
 export type PopoverTrigger = 'click' | 'hover';
 
 /**
- * Popover component that displays rich content in a floating panel.
+ * Popover component for displaying rich floating content.
  *
- * Use for menus, previews, inline forms, or any content richer than a tooltip.
+ * Features:
+ * - Position options (top, bottom, left, right)
+ * - Click or hover trigger modes
+ * - Optional arrow indicator
+ * - Click-outside to close
+ * - Open state change event
+ * - Content projection for trigger and body
  *
  * @example
  * ```html
  * <lc-popover position="bottom" trigger="click">
- *   <button popover-trigger>Open Menu</button>
- *   <div popover-content>
- *     <p>Popover content goes here</p>
- *   </div>
+ *   <button popover-trigger>Open</button>
+ *   <div popover-content>Rich content here</div>
  * </lc-popover>
  * ```
  */

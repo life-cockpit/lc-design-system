@@ -30,6 +30,21 @@ const DEFAULT_SWATCHES = [
     },
   ],
 })
+/**
+ * Color picker component for selecting colors from swatches or custom input.
+ *
+ * Features:
+ * - Predefined color swatch palette
+ * - Native browser color picker integration
+ * - Hex color text input with validation
+ * - Disabled state support
+ * - ControlValueAccessor integration for reactive forms
+ *
+ * @example
+ * ```html
+ * <lc-color-picker label="Brand Color" [showInput]="true" />
+ * ```
+ */
 export class ColorPickerComponent implements ControlValueAccessor {
   /** Label text */
   label = input<string>();

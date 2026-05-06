@@ -151,6 +151,24 @@ const meta: Meta<IconComponent> = {
     ariaLabel: { description: 'Accessible label for screen readers (omit for decorative icons)' },
     decorative: { description: 'If true, icon is hidden from screen readers (aria-hidden)' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Icon component - Heroicons wrapper for displaying SVG icons
+
+**Key Features:**
+- Signal-based reactive API
+- Support for outline and solid variants
+- Multiple size options (xs, sm, md, lg, xl)
+- Custom color support (CSS colors, variables)
+- Accessibility attributes (ARIA labels, decorative icons)
+- Dynamic SVG loading from Heroicons
+`,
+      },
+    },
+  },
 };
 
 export default meta;

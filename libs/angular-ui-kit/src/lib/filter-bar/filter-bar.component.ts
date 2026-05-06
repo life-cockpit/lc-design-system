@@ -37,10 +37,15 @@ export interface FilterValues {
 }
 
 /**
- * FilterBar Component
+ * Filter bar component for composable data filtering.
  *
- * Composable filter bar that combines selects, toggle groups, and search
- * in a responsive horizontal layout. Ideal for list pages.
+ * Features:
+ * - Select dropdowns, toggle groups, and search inputs
+ * - Declarative filter configuration via FilterConfig array
+ * - Two-way filter values binding
+ * - Responsive horizontal flex layout
+ * - Size variants (sm, md)
+ * - Dark mode support
  *
  * @example
  * ```html
@@ -48,7 +53,7 @@ export interface FilterValues {
  *   [filters]="filterConfig"
  *   [values]="currentFilters"
  *   (valuesChange)="onFilterChange($event)"
- * ></lc-filter-bar>
+ * />
  * ```
  */
 @Component({

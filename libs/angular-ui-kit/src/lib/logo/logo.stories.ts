@@ -22,6 +22,22 @@ const meta: Meta<LogoComponent> = {
     alt: { description: 'Alt text for accessibility' },
     clickable: { description: 'Adds hover effect and cursor pointer (for use as a link)' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Logo component for displaying the Life-Cockpit brand identity.
+
+**Key Features:**
+- Full logo and emblem-only variants
+- Multiple size options (sm, md, lg)
+- SVG-based for crisp rendering at any resolution
+- Dark mode compatible
+`,
+      },
+    },
+  },
 };
 
 export default meta;

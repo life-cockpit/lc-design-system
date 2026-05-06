@@ -24,6 +24,24 @@ const meta: Meta<RadioComponent> = {
     required: { description: 'Marks the field as required' },
     disabled: { control: 'boolean', description: 'Prevents interaction' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Radio button component for single-option selection within a group.
+
+**Key Features:**
+- Single selection within a named radio group
+- Multiple size variants (sm, md, lg)
+- Validation error display with error message
+- Help text support
+- Full accessibility with ARIA attributes
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

@@ -39,6 +39,25 @@ const meta: Meta<DatepickerComponent> = {
     required: { description: 'Marks the field as required' },
     disableWeekends: { description: 'Prevents selecting Saturday/Sunday' },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Datepicker component for date selection with calendar overlay.
+
+**Key Features:**
+- Calendar popup with month and year navigation
+- Min/max date constraints
+- Disabled specific dates and weekends
+- Configurable date format string
+- Variant styles (outline, filled)
+- Size presets (xs, sm, md, lg)
+- Disabled and readonly states
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

@@ -30,6 +30,25 @@ const meta: Meta<ChatComponent> = {
   title: 'Components/Chat',
   component: ChatComponent,
   tags: ['autodocs'],
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Chat component for conversational user interfaces.
+
+**Key Features:**
+- User, agent, and system message roles
+- Streaming cursor indicator for AI responses
+- Typing indicator with animated dots
+- Auto-scroll to latest message
+- Optional avatars and timestamps
+- Configurable header with title
+- Send on Enter with Shift+Enter for newline
+`,
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<ChatComponent>;

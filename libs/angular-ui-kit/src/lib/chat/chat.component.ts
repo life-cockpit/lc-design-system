@@ -33,6 +33,23 @@ export interface ChatSendEvent {
   styleUrls: ['./chat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Chat component for conversational user interfaces.
+ *
+ * Features:
+ * - User, agent, and system message roles
+ * - Streaming cursor indicator for AI responses
+ * - Typing indicator with animated dots
+ * - Auto-scroll to latest message
+ * - Optional avatars and timestamps
+ * - Configurable header with title
+ * - Send on Enter with Shift+Enter for newline
+ *
+ * @example
+ * ```html
+ * <lc-chat [messages]="messages" title="Support" (messageSend)="onSend($event)" />
+ * ```
+ */
 export class ChatComponent implements AfterViewChecked {
   /** Messages to display. */
   messages = input<ChatMessage[]>([]);

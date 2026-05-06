@@ -5,22 +5,18 @@ export type SkeletonVariant = 'line' | 'circle' | 'rect';
 /**
  * Skeleton loader component for placeholder loading states.
  *
- * Renders a shimmer-animated placeholder block. Use multiple instances
- * to compose loading skeletons that match your page layout.
+ * Features:
+ * - Variant shapes (text, rect, circle)
+ * - Shimmer animation effect
+ * - Custom width, height, and border radius
+ * - Composable for building complex loading layouts
+ * - Dark mode compatible
  *
  * @example
  * ```html
- * <!-- Text line (default) -->
  * <lc-skeleton />
- *
- * <!-- Custom width/height -->
- * <lc-skeleton width="200px" height="1.75rem" />
- *
- * <!-- Circle avatar placeholder -->
  * <lc-skeleton variant="circle" width="40px" height="40px" />
- *
- * <!-- Full-width rectangle (e.g. chart area) -->
- * <lc-skeleton variant="rect" width="100%" height="400px" borderRadius="0.5rem" />
+ * <lc-skeleton variant="rect" width="100%" height="400px" />
  * ```
  */
 @Component({

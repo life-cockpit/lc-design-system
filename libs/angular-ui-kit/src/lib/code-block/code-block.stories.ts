@@ -13,6 +13,23 @@ const meta: Meta<CodeBlockComponent> = {
     showCopy: { control: 'boolean' },
     showHeader: { control: 'boolean' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Code block component for displaying syntax-highlighted source code.
+
+**Key Features:**
+- Syntax highlighting for 10+ languages (TypeScript, Python, Java, etc.)
+- Optional line numbers
+- Copy-to-clipboard button
+- Optional header with filename and language label
+- Dark-mode compatible color scheme
+`,
+      },
+    },
+  },
 };
 
 export default meta;

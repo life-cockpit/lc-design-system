@@ -15,6 +15,14 @@ export type AlertVariant = 'success' | 'error' | 'warning' | 'info';
 /**
  * Alert component for inline notifications.
  *
+ * Features:
+ * - Semantic variants (success, warning, error, info)
+ * - Optional title and icon display
+ * - Auto-mapped variant icons
+ * - Dismissible with close button
+ * - Content projection for custom body
+ * - Accessible with ARIA alert role
+ *
  * @example
  * ```html
  * <lc-alert variant="success" title="Success!" [dismissible]="true">

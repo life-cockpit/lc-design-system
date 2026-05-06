@@ -12,7 +12,12 @@ export type ProgressBarVariant = 'linear' | 'circular';
 /**
  * Progress bar component for displaying completion status.
  *
- * Supports linear and circular variants with configurable colors and sizes.
+ * Features:
+ * - Linear and circular progress variants
+ * - Color theme options (primary, secondary, success, warning, error)
+ * - Multiple size presets (xs, sm, md, lg)
+ * - Animated value transitions
+ * - Accessible with ARIA progressbar role
  *
  * @example
  * ```html

@@ -27,6 +27,25 @@ const meta: Meta<GanttChartComponent> = {
   title: 'Charts/Gantt Chart',
   component: GanttChartComponent,
   tags: ['autodocs'],
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Gantt chart component for project timeline visualization.
+
+**Key Features:**
+- Task bars with progress indicators
+- Dependency lines with Bézier curves and arrowheads
+- Monthly and daily header timeline
+- Today marker line
+- Weekend highlighting
+- Configurable row height, label width, and day width
+- Task click event handling
+`,
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<GanttChartComponent>;

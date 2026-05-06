@@ -3,21 +3,19 @@ import { Component, ChangeDetectionStrategy, input, computed } from '@angular/co
 export type SpinnerSize = 'sm' | 'md' | 'lg';
 
 /**
- * Spinner component for loading states.
+ * Spinner component for loading state indication.
  *
- * Displays a spinning indicator with an optional message.
- * Supports three sizes and respects the design-system color tokens.
+ * Features:
+ * - Animated spinning indicator
+ * - Size variants (sm, md, lg)
+ * - Optional message text below spinner
+ * - Design system color token integration
+ * - Accessible with ARIA status role
  *
  * @example
  * ```html
- * <!-- Simple spinner -->
  * <lc-spinner />
- *
- * <!-- With message -->
- * <lc-spinner message="Loading data..." />
- *
- * <!-- Large spinner -->
- * <lc-spinner size="lg" message="Loading dashboard..." />
+ * <lc-spinner size="lg" message="Loading data..." />
  * ```
  */
 @Component({

@@ -15,17 +15,22 @@ export interface ToggleOption {
 }
 
 /**
- * ToggleGroup Component
+ * Toggle group component for single-option selection from a set.
  *
- * Binary or multi-option toggle with active state styling.
- * Uses CSS custom properties with dark mode support.
+ * Features:
+ * - Multiple segmented toggle buttons
+ * - Active state highlighting
+ * - Size variants (sm, md, lg)
+ * - Two-way selected value binding
+ * - Per-option disabled state
+ * - Dark mode support via CSS custom properties
  *
  * @example
  * ```html
  * <lc-toggle-group
- *   [options]="[{value:'1D',label:'1D'},{value:'1h',label:'1H'}]"
+ *   [options]="[{value:'1D',label:'1D'},{value:'1W',label:'1W'}]"
  *   [(selected)]="interval"
- * ></lc-toggle-group>
+ * />
  * ```
  */
 @Component({

@@ -11,6 +11,23 @@ const meta: Meta<SliderComponent> = {
     showValue: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Slider component for selecting a numeric value within a range.
+
+**Key Features:**
+- Configurable min, max, and step values
+- Visual fill track indicating current position
+- Optional value label display
+- Disabled state support
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

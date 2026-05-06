@@ -18,14 +18,18 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 /**
  * Textarea component for multi-line text input.
  *
+ * Features:
+ * - Variant styles (outline, filled)
+ * - Size presets (xs, sm, md, lg)
+ * - Auto-resize with configurable min/max rows
+ * - Character count display with maxLength
+ * - Validation error message and helper text
+ * - Disabled and readonly states
+ * - ControlValueAccessor integration for reactive forms
+ *
  * @example
  * ```html
- * <lc-textarea
- *   variant="outline"
- *   size="md"
- *   placeholder="Enter your message"
- *   [(ngModel)]="message"
- * ></lc-textarea>
+ * <lc-textarea placeholder="Enter message" [autoResize]="true" [(ngModel)]="message" />
  * ```
  */
 /* eslint-disable @typescript-eslint/member-ordering */

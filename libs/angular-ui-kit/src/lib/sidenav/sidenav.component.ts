@@ -17,29 +17,22 @@ export type SidenavPosition = 'left' | 'right';
 export type SidenavMode = 'drawer' | 'docked';
 
 /**
- * Sidenav Component
+ * Sidenav component for application navigation sidebar.
  *
- * A navigation component that can work as either a drawer (overlay) or
- * a docked (persistent) sidebar. Supports section headlines, collapsible
- * groups, keyboard navigation, and accessibility features.
+ * Features:
+ * - Drawer (overlay) and docked (persistent) modes
+ * - Hierarchical navigation with collapsible groups
+ * - Section headlines for item grouping
+ * - Active route highlighting
+ * - Keyboard navigation support
+ * - Configurable width and position (left/right)
+ * - Optional backdrop overlay
+ * - Accessible with ARIA navigation role
  *
- * @example Drawer mode (default — overlay that slides in)
+ * @example
  * ```html
- * <lc-sidenav
- *   [isOpen]="isOpen"
- *   mode="drawer"
- *   (closed)="handleClose()">
- * </lc-sidenav>
- * ```
- *
- * @example Docked mode (persistent sidebar that stays open)
- * ```html
- * <lc-sidenav
- *   [isOpen]="sidebarOpen"
- *   mode="docked"
- *   [items]="navItems"
- *   (closed)="sidebarOpen = false">
- * </lc-sidenav>
+ * <lc-sidenav [isOpen]="isOpen" mode="docked" [items]="navItems"
+ *   (closed)="isOpen = false" (itemClicked)="navigate($event)" />
  * ```
  */
 @Component({

@@ -18,6 +18,22 @@ export interface HeatmapCell {
   styleUrls: ['./heatmap.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Heatmap component for visualizing 2D data density.
+ *
+ * Features:
+ * - Color-interpolated cells from min to max value
+ * - Configurable cell size, gap, and corner radius
+ * - Custom min/max color range
+ * - Optional row and column labels
+ * - Optional value display within cells
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-heatmap [data]="matrix" [rowLabels]="days" [colLabels]="hours" />
+ * ```
+ */
 export class HeatmapComponent {
   /** 2D data: array of rows, each row an array of values. */
   data = input.required<number[][]>();

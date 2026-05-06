@@ -22,6 +22,23 @@ const meta: Meta<ErrorDisplayComponent> = {
     autoDismiss: { description: 'Automatically hides after a delay' },
     autoDismissDelay: { description: 'Milliseconds before auto-dismiss (default: 5000)' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Error display component for authentication and application error messages.
+
+**Key Features:**
+- Automatic Cognito error code mapping to user-friendly messages
+- Severity levels (error, warning, info)
+- Custom error message override
+- Dismissible with close button
+- Accepts Error objects or custom error shapes
+`,
+      },
+    },
+  },
 };
 
 export default meta;

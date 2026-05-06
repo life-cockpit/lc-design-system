@@ -12,16 +12,20 @@ import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 /**
- * Switch component for toggle functionality.
+ * Switch component for boolean toggle functionality.
+ *
+ * Features:
+ * - Color variants (primary, secondary, success, warning, danger)
+ * - Size options (sm, md, lg)
+ * - Loading state with spinner
+ * - Configurable label positioning (left/right)
+ * - Keyboard toggle support
+ * - Disabled and required states
+ * - ControlValueAccessor integration for reactive forms
  *
  * @example
  * ```html
- * <lc-switch
- *   variant="primary"
- *   size="md"
- *   label="Enable notifications"
- *   [(ngModel)]="isEnabled"
- * ></lc-switch>
+ * <lc-switch label="Enable notifications" [(ngModel)]="isEnabled" />
  * ```
  */
 /* eslint-disable @typescript-eslint/member-ordering */

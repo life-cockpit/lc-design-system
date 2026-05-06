@@ -11,6 +11,13 @@ import { IconComponent } from '../icon/icon.component';
 /**
  * Accordion component for collapsible content sections.
  *
+ * Features:
+ * - Expandable/collapsible content panels
+ * - Two-way binding for expanded state
+ * - Animated expand/collapse transitions
+ * - Content projection for custom body content
+ * - Accessible with keyboard support
+ *
  * @example
  * ```html
  * <lc-accordion title="Section Title" [(expanded)]="isOpen">

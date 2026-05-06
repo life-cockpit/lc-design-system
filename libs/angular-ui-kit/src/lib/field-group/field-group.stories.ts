@@ -20,6 +20,23 @@ const meta: Meta<FieldGroupComponent> = {
     },
     compact: { description: 'Compact layout with less spacing' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Field group component for displaying label-value pairs.
+
+**Key Features:**
+- Consistent label-value layout for read-only data
+- Optional leading icon from Heroicons
+- Compact mode for dense layouts
+- Content projection for custom value rendering
+- Configurable icon size (xs, sm, md)
+`,
+      },
+    },
+  },
 };
 
 export default meta;

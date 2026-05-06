@@ -29,6 +29,22 @@ const DEFAULT_COLORS = [
   styleUrls: ['./bar-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Bar chart component for comparing categorical data.
+ *
+ * Features:
+ * - Vertical and horizontal orientation
+ * - Per-bar or uniform color support
+ * - Optional value labels on bars
+ * - Configurable grid and axis labels
+ * - Adjustable bar gap spacing
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-bar-chart [data]="items" orientation="vertical" [showValues]="true" />
+ * ```
+ */
 export class BarChartComponent {
   /** Data items. */
   data = input.required<BarChartItem[]>();

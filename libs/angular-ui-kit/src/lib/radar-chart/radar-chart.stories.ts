@@ -1,7 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { RadarChartComponent } from './radar-chart.component';
 
-const meta: Meta<RadarChartComponent> = { title: 'Charts/Radar Chart', component: RadarChartComponent, tags: ['autodocs'] };
+const meta: Meta<RadarChartComponent> = {
+  title: 'Charts/Radar Chart',
+  component: RadarChartComponent,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Radar chart component for multi-axis data comparison.
+
+**Key Features:**
+- Multiple data series overlay
+- Configurable concentric grid rings
+- Axis labels with configurable max values
+- Adjustable fill opacity per series
+- Optional legend display
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
+};
 export default meta;
 type Story = StoryObj<RadarChartComponent>;
 

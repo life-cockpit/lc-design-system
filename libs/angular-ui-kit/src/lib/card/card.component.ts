@@ -8,7 +8,14 @@ import {
 } from '@angular/core';
 
 /**
- * Card component for content grouping and hierarchy.
+ * Card component for content grouping and visual hierarchy.
+ *
+ * Features:
+ * - Variant styles (elevated, outlined, filled)
+ * - Configurable padding (none, sm, md, lg)
+ * - Border radius options (none, sm, md, lg, xl)
+ * - Optional title display
+ * - Content projection for flexible body content
  *
  * @example
  * ```html

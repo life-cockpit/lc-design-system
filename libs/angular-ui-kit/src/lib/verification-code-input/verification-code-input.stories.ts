@@ -22,6 +22,25 @@ const meta: Meta<VerificationCodeInputComponent> = {
     disabled: { description: 'Prevents all interaction' },
     required: { description: 'Marks the field group as required' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Verification Code Input Component with 6 Separate Digit Inputs
+
+**Key Features:**
+- 6 separate input fields (one digit each)
+- Automatic focus advancement after entering digit
+- Backspace moves to previous input
+- Paste support (splits 6-digit code across inputs)
+- Accessible ARIA attributes
+- Reactive Forms ControlValueAccessor implementation
+- Auto-submit on complete (optional)
+`,
+      },
+    },
+  },
 };
 
 export default meta;

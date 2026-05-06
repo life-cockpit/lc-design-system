@@ -22,6 +22,24 @@ const meta: Meta<PasswordInputComponent> = {
     required: { description: 'Marks the field as required' },
     error: { description: 'Custom error message to display' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Password Input Component with Show/Hide Toggle and Strength Meter
+
+**Key Features:**
+- Show/Hide password toggle (eye icon)
+- Real-time password strength indicator (Weak/Fair/Good/Strong)
+- Visual strength meter bar with color coding
+- Validation feedback (length, uppercase, lowercase, digit, symbol)
+- Accessible ARIA attributes
+- Reactive Forms ControlValueAccessor implementation
+`,
+      },
+    },
+  },
 };
 
 export default meta;

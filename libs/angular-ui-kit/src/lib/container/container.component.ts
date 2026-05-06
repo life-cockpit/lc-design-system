@@ -11,6 +11,20 @@ export type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
   styleUrls: ['./container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Container component for responsive max-width content layout.
+ *
+ * Features:
+ * - Max-width presets (sm, md, lg, xl, full)
+ * - Optional horizontal padding removal
+ * - Optional vertical padding
+ * - Centered content alignment
+ *
+ * @example
+ * ```html
+ * <lc-container size="lg">Content here</lc-container>
+ * ```
+ */
 export class ContainerComponent {
   size = input<ContainerSize>('lg');
   noPadding = input<boolean>(false);

@@ -8,6 +8,23 @@ const meta: Meta<ColorPickerComponent> = {
     showInput: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Color picker component for selecting colors from swatches or custom input.
+
+**Key Features:**
+- Predefined color swatch palette
+- Native browser color picker integration
+- Hex color text input with validation
+- Disabled state support
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

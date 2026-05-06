@@ -39,6 +39,22 @@ interface HourSlot {
   styleUrls: ['./calendar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Calendar component for date-based event display and navigation.
+ *
+ * Features:
+ * - Day, week, and month view modes
+ * - Event display with six color variants
+ * - Navigation controls for previous/next/today
+ * - Configurable first day of week and locale
+ * - Time grid for day and week views with hourly slots
+ * - Click handlers for events and date cells
+ *
+ * @example
+ * ```html
+ * <lc-calendar [events]="events" view="month" [firstDayOfWeek]="1" />
+ * ```
+ */
 export class CalendarComponent {
   /** Current view mode. */
   view = input<CalendarView>('month');

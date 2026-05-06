@@ -24,6 +24,13 @@ export type TimelineOrientation = 'vertical' | 'horizontal';
 /**
  * Timeline component for chronological event display.
  *
+ * Features:
+ * - Vertical timeline with connecting line
+ * - Semantic status colors per event (info, success, warning, error)
+ * - Date and description display per item
+ * - Icon support for timeline markers
+ * - Dark mode support
+ *
  * @example
  * ```html
  * <lc-timeline [items]="events"></lc-timeline>

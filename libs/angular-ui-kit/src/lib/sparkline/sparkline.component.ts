@@ -15,6 +15,22 @@ export type SparklineCurve = 'linear' | 'smooth';
   styleUrls: ['./sparkline.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Sparkline component for compact inline trend visualization.
+ *
+ * Features:
+ * - Linear or smooth curve interpolation
+ * - Optional area fill below the line
+ * - Color theme variants (primary, secondary, success, warning, error)
+ * - Optional end-dot indicator
+ * - Configurable dimensions and stroke width
+ * - Lightweight SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-sparkline [data]="[10, 25, 15, 30, 20]" color="primary" [filled]="true" />
+ * ```
+ */
 export class SparklineComponent {
   /** Data points to plot. */
   data = input.required<number[]>();

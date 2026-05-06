@@ -4,24 +4,21 @@ import { IconComponent } from '../icon/icon.component';
 export type EmptyStateSize = 'sm' | 'md' | 'lg';
 
 /**
- * Empty-state component for "no data" placeholders.
+ * Empty state component for "no data" placeholder displays.
  *
- * Supports a compact inline mode (inside cards) and a larger page-level mode.
- * An optional icon, heading, description, and projected action slot are supported.
+ * Features:
+ * - Compact (sm) and page-level (md, lg) size modes
+ * - Optional icon from Heroicons library
+ * - Heading and description text
+ * - Action slot for projected CTA buttons
+ * - Centered layout with visual hierarchy
  *
  * @example
  * ```html
- * <!-- Inline / card-level (sm) -->
- * <lc-empty-state
- *   size="sm"
- *   message="No signals generated for this asset yet." />
- *
- * <!-- Page-level with icon + action -->
  * <lc-empty-state
  *   icon="chart-bar"
- *   heading="No Paper Trading Portfolios"
- *   message="Portfolios are created automatically when strategies are promoted."
- * >
+ *   heading="No Data"
+ *   message="No items found.">
  *   <lc-button variant="primary">Get Started</lc-button>
  * </lc-empty-state>
  * ```

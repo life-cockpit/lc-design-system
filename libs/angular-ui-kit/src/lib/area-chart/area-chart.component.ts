@@ -27,6 +27,21 @@ const DEFAULT_COLORS = [
   styleUrls: ['./area-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Area chart component for visualizing trends over time.
+ *
+ * Features:
+ * - Multiple data series with stacking support
+ * - Smooth or linear curve interpolation
+ * - Configurable fill opacity for area shading
+ * - Optional grid, axis labels, dots, and legend
+ * - Responsive SVG rendering with configurable dimensions
+ *
+ * @example
+ * ```html
+ * <lc-area-chart [series]="data" [labels]="months" [showLegend]="true" />
+ * ```
+ */
 export class AreaChartComponent {
   series = input.required<AreaChartSeries[]>();
   labels = input<string[]>([]);

@@ -13,11 +13,16 @@ export type DrawerPosition = 'left' | 'right';
 export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl';
 
 /**
- * Drawer Component — a slide-out overlay panel for supplementary content.
+ * Drawer component for slide-out overlay panels.
  *
- * Unlike the Sidenav (which renders navigation items), the Drawer
- * accepts arbitrary projected content via `<ng-content>`, making it
- * ideal for settings panels, filters, detail views, etc.
+ * Features:
+ * - Slide-in from left, right, top, or bottom
+ * - Size presets (sm, md, lg, xl, full)
+ * - Optional backdrop overlay with click-to-close
+ * - Close on Escape key support
+ * - Heading text display
+ * - Content projection for arbitrary body content
+ * - Accessible with ARIA dialog role
  *
  * @example
  * ```html

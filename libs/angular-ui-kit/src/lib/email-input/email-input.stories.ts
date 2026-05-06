@@ -24,6 +24,25 @@ const meta: Meta<EmailInputComponent> = {
     readonly: { description: 'Allows copying but not editing' },
     required: { description: 'Marks the field as required' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Email input component with built-in RFC 5322 validation.
+
+**Key Features:**
+- RFC 5322 regex email format validation
+- Real-time validation feedback on input
+- Valid/invalid visual indicators
+- Size presets (xs, sm, md, lg)
+- Helper text and error message display
+- Disabled and readonly states
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

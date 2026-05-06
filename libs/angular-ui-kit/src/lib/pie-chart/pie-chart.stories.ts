@@ -1,7 +1,31 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { PieChartComponent } from './pie-chart.component';
 
-const meta: Meta<PieChartComponent> = { title: 'Charts/Pie Chart', component: PieChartComponent, tags: ['autodocs'], argTypes: { size: { control: 'select', options: ['sm', 'md', 'lg'] } } };
+const meta: Meta<PieChartComponent> = {
+  title: 'Charts/Pie Chart',
+  component: PieChartComponent,
+  tags: ['autodocs'],
+  argTypes: { size: { control: 'select',
+  options: ['sm',
+  'md',
+  'lg'] } },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Pie chart component for displaying proportional data.
+
+**Key Features:**
+- Color-coded segments with automatic arc calculation
+- Size presets (sm, md, lg)
+- Optional legend display
+- Hover state support
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
+};
 export default meta;
 type Story = StoryObj<PieChartComponent>;
 

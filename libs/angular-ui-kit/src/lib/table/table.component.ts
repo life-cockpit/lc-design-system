@@ -31,26 +31,22 @@ export type TableVariant = 'default' | 'striped' | 'bordered';
 export type TableSize = 'sm' | 'md' | 'lg';
 
 /**
- * Table Component
+ * Table component for displaying structured data in rows and columns.
  *
- * A flexible, accessible data table component with sorting, variants, and responsive behavior.
+ * Features:
+ * - Column-based sorting with sort direction indicators
+ * - Variant styles (default, striped, bordered)
+ * - Size presets (sm, md, lg)
+ * - Hoverable row highlighting
+ * - Custom cell templates via content projection
+ * - Responsive horizontal scrolling
+ * - Empty state text for no data
+ * - Accessible with proper table semantics
  *
  * @example
  * ```html
- * <lc-table
- *   [columns]="columns"
- *   [data]="data"
- *   variant="striped"
- *   [hoverable]="true"
- *   (sort)="onSort($event)">
- * </lc-table>
- *
- * <!-- With custom cell templates -->
- * <lc-table [columns]="columns" [data]="data">
- *   <ng-template lcTableCell="status" let-row>
- *     <lc-badge [variant]="row.status">{{ row.status }}</lc-badge>
- *   </ng-template>
- * </lc-table>
+ * <lc-table [columns]="columns" [data]="data" variant="striped" [hoverable]="true"
+ *   (sort)="onSort($event)" (rowClick)="onRowClick($event)" />
  * ```
  */
 @Component({

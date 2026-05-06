@@ -8,6 +8,23 @@ const meta: Meta<CalloutComponent> = {
     variant: { control: 'select', options: ['info', 'success', 'warning', 'error', 'neutral'] },
     dismissible: { control: 'boolean' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Callout component for contextual information banners.
+
+**Key Features:**
+- Semantic variants (info, success, warning, error, neutral)
+- Auto-mapped variant icons
+- Optional title text
+- Dismissible with close button
+- Content projection for custom body content
+`,
+      },
+    },
+  },
 };
 
 export default meta;

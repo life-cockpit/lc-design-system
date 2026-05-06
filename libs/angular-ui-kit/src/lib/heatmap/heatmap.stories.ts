@@ -1,7 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { HeatmapComponent } from './heatmap.component';
 
-const meta: Meta<HeatmapComponent> = { title: 'Charts/Heatmap', component: HeatmapComponent, tags: ['autodocs'] };
+const meta: Meta<HeatmapComponent> = {
+  title: 'Charts/Heatmap',
+  component: HeatmapComponent,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Heatmap component for visualizing 2D data density.
+
+**Key Features:**
+- Color-interpolated cells from min to max value
+- Configurable cell size, gap, and corner radius
+- Custom min/max color range
+- Optional row and column labels
+- Optional value display within cells
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
+};
 export default meta;
 type Story = StoryObj<HeatmapComponent>;
 

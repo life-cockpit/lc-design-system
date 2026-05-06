@@ -12,6 +12,20 @@ export type SectionBackground = 'none' | 'gray' | 'primary' | 'secondary';
   styleUrls: ['./section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Section component for page content grouping with spacing and background.
+ *
+ * Features:
+ * - Configurable vertical spacing (none, sm, md, lg, xl)
+ * - Background color options (none, subtle, muted)
+ * - Independent horizontal and vertical padding control
+ * - Content projection via ng-content
+ *
+ * @example
+ * ```html
+ * <lc-section spacing="lg" background="subtle">Content</lc-section>
+ * ```
+ */
 export class SectionComponent {
   spacing = input<SectionSpacing>('md');
   background = input<SectionBackground>('none');

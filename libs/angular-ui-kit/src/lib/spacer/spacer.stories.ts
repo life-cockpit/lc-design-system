@@ -16,6 +16,21 @@ const meta: Meta<SpacerComponent> = {
       description: 'auto = flex-grow (fills available space), fixed sizes add specific gaps',
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Spacer component for adding vertical or flexible spacing.
+
+**Key Features:**
+- Fixed spacing sizes (xs, sm, md, lg, xl, 2xl)
+- Auto (flex-grow) mode for filling available space
+- Host class binding for layout integration
+`,
+      },
+    },
+  },
 };
 
 export default meta;

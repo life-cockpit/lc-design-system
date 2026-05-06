@@ -16,6 +16,21 @@ export type BreadcrumbSize = 'sm' | 'md' | 'lg';
   styleUrls: ['./breadcrumbs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Breadcrumbs component for hierarchical navigation.
+ *
+ * Features:
+ * - Configurable separator character
+ * - Ellipsis collapse for long paths with maxItems
+ * - Multiple size variants (sm, md, lg)
+ * - Router link support for navigation items
+ * - Accessible with ARIA breadcrumb landmark
+ *
+ * @example
+ * ```html
+ * <lc-breadcrumbs [items]="[{label: 'Home', url: '/'}, {label: 'Settings'}]" />
+ * ```
+ */
 export class BreadcrumbsComponent {
   // Signals for reactive state
   items = signal<BreadcrumbItem[]>([]);

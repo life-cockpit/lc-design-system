@@ -14,20 +14,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IconComponent } from '../icon/icon.component';
 
 /**
- * Text input component for form data entry.
+ * Input component for single-line text form data entry.
  *
- * Implements ControlValueAccessor for seamless integration with Angular forms.
- * Supports validation, icons, character count, and accessibility features.
+ * Features:
+ * - Type variants (text, email, password, number, tel, url)
+ * - Size presets (xs, sm, md, lg)
+ * - Leading and trailing icon support
+ * - Character count display with maxLength
+ * - Validation error message display
+ * - Helper text support
+ * - Disabled and readonly states
+ * - ControlValueAccessor integration for reactive forms
  *
  * @example
  * ```html
- * <lc-input
- *   label="Email"
- *   type="email"
- *   placeholder="Enter your email"
- *   [(ngModel)]="email"
- *   [error]="emailError"
- * ></lc-input>
+ * <lc-input label="Email" type="email" placeholder="Enter email" [(ngModel)]="email" />
  * ```
  */
 @Component({

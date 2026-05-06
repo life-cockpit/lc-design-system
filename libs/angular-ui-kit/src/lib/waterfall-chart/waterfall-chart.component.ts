@@ -19,6 +19,22 @@ export interface WaterfallItem {
   styleUrls: ['./waterfall-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Waterfall chart component for visualizing cumulative value changes.
+ *
+ * Features:
+ * - Increase, decrease, and total bar types
+ * - Connector lines between bars
+ * - Configurable colors for increase, decrease, and total
+ * - Optional value labels and grid
+ * - Adjustable bar gap spacing
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-waterfall-chart [data]="items" [showConnectors]="true" />
+ * ```
+ */
 export class WaterfallChartComponent {
   data = input.required<WaterfallItem[]>();
   width = input<number>(500);

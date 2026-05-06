@@ -30,6 +30,24 @@ const meta: Meta<HeaderComponent> = {
     showThemeButton: { description: 'Shows a dark/light theme toggle button' },
     showProfileMenuItem: { description: 'Whether to show a "Profile" item in the user menu' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+AppHeaderComponent - Global application header for Life-Cockpit shell
+
+**Key Features:**
+- Clickable logo for home navigation
+- Optional title and subtitle display
+- User profile dropdown with avatar, name, email, optional Profile link, and Logout
+- Optional theme toggle button in header
+- Hamburger menu toggle for mobile sidebar
+- OnPush change detection for performance
+`,
+      },
+    },
+  },
 };
 
 export default meta;

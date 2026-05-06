@@ -36,6 +36,24 @@ const meta: Meta<SwitchComponent> = {
     loading: { description: 'Shows a loading indicator (e.g. while saving)' },
     required: { description: 'Marks the field as required in forms' },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Switch component for boolean toggle functionality.
+
+**Key Features:**
+- Color variants (primary, secondary, success, warning, danger)
+- Size options (sm, md, lg)
+- Loading state with spinner
+- Configurable label positioning (left/right)
+- Keyboard toggle support
+- Disabled and required states
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

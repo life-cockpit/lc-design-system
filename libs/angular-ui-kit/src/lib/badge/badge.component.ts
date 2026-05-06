@@ -5,9 +5,13 @@ export type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'erro
 export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
 
 /**
- * Badge Component
+ * Badge component for displaying status, notifications, or counts.
  *
- * A small count and labeling component used to display status, notifications, or counts.
+ * Features:
+ * - Semantic color variants (primary, secondary, success, warning, error, info, neutral)
+ * - Multiple size options (xs, sm, md, lg)
+ * - Pill-shaped rounded mode
+ * - Content projection for labels or count values
  *
  * @example
  * ```html

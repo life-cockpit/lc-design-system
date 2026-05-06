@@ -38,6 +38,22 @@ export interface FileUploadFile {
   styleUrls: ['./file-upload.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * File upload component with drag-and-drop support.
+ *
+ * Features:
+ * - Drag-and-drop file dropzone with visual feedback
+ * - Click-to-browse file selection
+ * - File type and size validation
+ * - Multi-file upload support
+ * - File list display with removal
+ * - Disabled state support
+ *
+ * @example
+ * ```html
+ * <lc-file-upload accept=".pdf,.jpg" [multiple]="true" [maxSizeBytes]="5242880" />
+ * ```
+ */
 export class FileUploadComponent {
   /**
    * Accepted file types (e.g. ".pdf,.jpg,image/*").

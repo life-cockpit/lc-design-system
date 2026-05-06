@@ -14,6 +14,21 @@ export type StackJustify = 'start' | 'center' | 'end' | 'between' | 'around' | '
   styleUrls: ['./stack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Stack component for flexbox-based layout composition.
+ *
+ * Features:
+ * - Vertical and horizontal direction
+ * - Configurable gap spacing (none, xs, sm, md, lg, xl)
+ * - Alignment and justification options
+ * - Optional wrapping and full-width modes
+ * - Content projection via ng-content
+ *
+ * @example
+ * ```html
+ * <lc-stack direction="horizontal" gap="md" align="center">content</lc-stack>
+ * ```
+ */
 export class StackComponent {
   direction = input<StackDirection>('vertical');
   gap = input<StackGap>('md');

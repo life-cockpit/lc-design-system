@@ -18,6 +18,21 @@ export type CalloutVariant = 'info' | 'success' | 'warning' | 'error' | 'neutral
   styleUrls: ['./callout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Callout component for contextual information banners.
+ *
+ * Features:
+ * - Semantic variants (info, success, warning, error, neutral)
+ * - Auto-mapped variant icons
+ * - Optional title text
+ * - Dismissible with close button
+ * - Content projection for custom body content
+ *
+ * @example
+ * ```html
+ * <lc-callout variant="warning" title="Attention">Please review your input.</lc-callout>
+ * ```
+ */
 export class CalloutComponent {
   /** Visual variant */
   variant = input<CalloutVariant>('info');

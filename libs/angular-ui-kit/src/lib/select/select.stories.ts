@@ -29,6 +29,26 @@ const meta: Meta<SelectComponent> = {
       table: { defaultValue: { summary: 'md' } },
     },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Select component for dropdown option selection.
+
+**Key Features:**
+- Single and multiple selection modes
+- Searchable/filterable option list
+- Option groups with headers
+- Loading state indicator
+- Variant styles (outline, filled)
+- Size presets (xs, sm, md, lg)
+- Keyboard navigation support
+- CDK overlay positioning
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

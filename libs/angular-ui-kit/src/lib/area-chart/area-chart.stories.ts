@@ -1,7 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { AreaChartComponent } from './area-chart.component';
 
-const meta: Meta<AreaChartComponent> = { title: 'Charts/Area Chart', component: AreaChartComponent, tags: ['autodocs'] };
+const meta: Meta<AreaChartComponent> = {
+  title: 'Charts/Area Chart',
+  component: AreaChartComponent,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Area chart component for visualizing trends over time.
+
+**Key Features:**
+- Multiple data series with stacking support
+- Smooth or linear curve interpolation
+- Configurable fill opacity for area shading
+- Optional grid, axis labels, dots, and legend
+- Responsive SVG rendering with configurable dimensions
+`,
+      },
+    },
+  },
+};
 export default meta;
 type Story = StoryObj<AreaChartComponent>;
 

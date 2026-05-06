@@ -8,6 +8,22 @@ const meta: Meta<AvatarGroupComponent> = {
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'] },
     max: { control: 'number' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Avatar group component for displaying multiple user avatars.
+
+**Key Features:**
+- Overlapping avatar display with configurable max visible count
+- Overflow indicator showing remaining count
+- Shared size variant across all avatars (xs, sm, md, lg)
+- Automatic truncation based on max property
+`,
+      },
+    },
+  },
 };
 
 export default meta;

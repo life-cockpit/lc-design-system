@@ -29,17 +29,22 @@ export interface SelectOptionGroup {
 export type SelectValue = string | number | string[] | number[] | null;
 
 /**
- * Select component for dropdown selection with single or multiple options.
+ * Select component for dropdown option selection.
+ *
+ * Features:
+ * - Single and multiple selection modes
+ * - Searchable/filterable option list
+ * - Option groups with headers
+ * - Loading state indicator
+ * - Variant styles (outline, filled)
+ * - Size presets (xs, sm, md, lg)
+ * - Keyboard navigation support
+ * - CDK overlay positioning
+ * - ControlValueAccessor integration for reactive forms
  *
  * @example
  * ```html
- * <lc-select
- *   [options]="options"
- *   variant="outline"
- *   size="md"
- *   placeholder="Select an option"
- *   [(ngModel)]="selectedValue"
- * ></lc-select>
+ * <lc-select [options]="options" placeholder="Choose" [(ngModel)]="selected" />
  * ```
  */
 /* eslint-disable @typescript-eslint/member-ordering */

@@ -18,6 +18,22 @@ export interface RadarChartSeries {
   styleUrls: ['./radar-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Radar chart component for multi-axis data comparison.
+ *
+ * Features:
+ * - Multiple data series overlay
+ * - Configurable concentric grid rings
+ * - Axis labels with configurable max values
+ * - Adjustable fill opacity per series
+ * - Optional legend display
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-radar-chart [series]="data" [axes]="categories" [showLegend]="true" />
+ * ```
+ */
 export class RadarChartComponent {
   series = input.required<RadarChartSeries[]>();
   /** Axis labels. */

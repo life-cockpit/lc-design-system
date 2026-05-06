@@ -11,6 +11,26 @@ const meta: Meta<TypographyComponent> = {
     weight: { control: 'select', options: ['regular', 'medium', 'semibold', 'bold'] },
     transform: { control: 'select', options: ['none', 'uppercase', 'lowercase', 'capitalize'] },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Typography component for consistent text styling.
+
+**Key Features:**
+- Semantic variants (h1–h6, body1, body2, caption, overline)
+- Automatic HTML element mapping per variant
+- Text alignment options (left, center, right, justify)
+- Color variants (primary, secondary, success, warning, error, info)
+- Font weight overrides (regular, medium, semibold, bold)
+- Text transform (uppercase, lowercase, capitalize)
+- Line clamping for text truncation
+- Gutter bottom margin option
+`,
+      },
+    },
+  },
 };
 
 export default meta;

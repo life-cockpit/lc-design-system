@@ -7,25 +7,22 @@ import {
 } from '@angular/core';
 
 /**
- * Typography Component
+ * Typography component for consistent text styling.
  *
- * A flexible text component that provides consistent typography styling across the application.
- * Supports semantic HTML elements (h1-h6, p, span), text alignment, color variants,
- * font weights, text transforms, and line clamping.
+ * Features:
+ * - Semantic variants (h1–h6, body1, body2, caption, overline)
+ * - Automatic HTML element mapping per variant
+ * - Text alignment options (left, center, right, justify)
+ * - Color variants (primary, secondary, success, warning, error, info)
+ * - Font weight overrides (regular, medium, semibold, bold)
+ * - Text transform (uppercase, lowercase, capitalize)
+ * - Line clamping for text truncation
+ * - Gutter bottom margin option
  *
  * @example
  * ```html
- * <lc-typography variant="h1" align="center" color="primary">
- *   Main Heading
- * </lc-typography>
- *
- * <lc-typography variant="body1" gutterBottom>
- *   Body text with bottom margin
- * </lc-typography>
- *
- * <lc-typography variant="caption" color="secondary" lineClamp="2">
- *   This is a caption that will be truncated after 2 lines...
- * </lc-typography>
+ * <lc-typography variant="h1" color="primary">Heading</lc-typography>
+ * <lc-typography variant="body1" [lineClamp]="2">Truncated text...</lc-typography>
  * ```
  */
 @Component({

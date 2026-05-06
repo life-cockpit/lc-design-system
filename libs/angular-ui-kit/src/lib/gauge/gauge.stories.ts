@@ -9,6 +9,24 @@ const meta: Meta<GaugeComponent> = {
     color: { control: 'select', options: ['primary', 'secondary', 'success', 'warning', 'error', 'info'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Gauge component for displaying a value on a semicircular scale.
+
+**Key Features:**
+- Semicircle arc with value and track segments
+- Color theme variants (primary, secondary, success, warning, error)
+- Size presets (sm, md, lg)
+- Configurable max value and suffix
+- Optional numeric value display
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<GaugeComponent>;

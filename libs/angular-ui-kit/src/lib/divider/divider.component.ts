@@ -12,6 +12,13 @@ export type DividerSpacing = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 /**
  * Divider component for visual separation of content.
  *
+ * Features:
+ * - Horizontal and vertical orientations
+ * - Line style variants (solid, dashed, dotted)
+ * - Configurable spacing (none, sm, md, lg)
+ * - Optional centered text label
+ * - Dark mode support
+ *
  * @example
  * ```html
  * <lc-divider></lc-divider>

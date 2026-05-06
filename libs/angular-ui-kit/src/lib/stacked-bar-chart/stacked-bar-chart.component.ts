@@ -35,6 +35,22 @@ const DEFAULT_COLORS = [
   styleUrls: ['./stacked-bar-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Stacked bar chart component for comparing category compositions.
+ *
+ * Features:
+ * - Multiple stacked value segments per category
+ * - Vertical and horizontal orientation
+ * - Optional legend, grid, value labels, and axis labels
+ * - Configurable bar gap spacing
+ * - Color-coded segments with legend mapping
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-stacked-bar-chart [categories]="data" [legends]="legends" [showLegend]="true" />
+ * ```
+ */
 export class StackedBarChartComponent {
   /** Categories with stacked values. */
   categories = input.required<StackedBarCategory[]>();

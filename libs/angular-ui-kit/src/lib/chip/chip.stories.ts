@@ -24,6 +24,23 @@ const meta: Meta<ChipComponent> = {
     removable: { description: 'Shows a close button to allow the user to dismiss the chip' },
     disabled: { description: 'Visually dims the chip and prevents interaction' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Chip component for displaying tags, filters, or selections.
+
+**Key Features:**
+- Color variants (primary, secondary, success, warning, error, info, neutral)
+- Multiple size options (sm, md, lg)
+- Optional leading icon
+- Removable with close button and remove event
+- Disabled state support
+`,
+      },
+    },
+  },
 };
 
 export default meta;

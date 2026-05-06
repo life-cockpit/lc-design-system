@@ -25,6 +25,21 @@ import { IconComponent } from '../icon/icon.component';
     },
   ],
 })
+/**
+ * Number input component with increment/decrement controls.
+ *
+ * Features:
+ * - Increment and decrement buttons
+ * - Configurable min, max, and step values
+ * - Value clamping within bounds
+ * - Disabled state support
+ * - ControlValueAccessor integration for reactive forms
+ *
+ * @example
+ * ```html
+ * <lc-number-input label="Quantity" [min]="0" [max]="100" [step]="1" />
+ * ```
+ */
 export class NumberInputComponent implements ControlValueAccessor {
   /** Minimum value */
   min = input<number | undefined>(undefined);

@@ -24,6 +24,23 @@ const meta: Meta<AccordionComponent> = {
     expanded: { description: 'Whether the content section is visible (supports two-way binding)' },
     disabled: { description: 'Prevents the accordion from being toggled' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Accordion component for collapsible content sections.
+
+**Key Features:**
+- Expandable/collapsible content panels
+- Two-way binding for expanded state
+- Animated expand/collapse transitions
+- Content projection for custom body content
+- Accessible with keyboard support
+`,
+      },
+    },
+  },
 };
 
 export default meta;

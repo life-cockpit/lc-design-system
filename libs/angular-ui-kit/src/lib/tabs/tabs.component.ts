@@ -70,6 +70,13 @@ export class TabComponent {
 /**
  * Tabs component for organizing content into switchable views.
  *
+ * Features:
+ * - Dynamic tab registration via content projection
+ * - Active tab tracking with two-way binding
+ * - Accessible with ARIA tablist/tab/tabpanel roles
+ * - Keyboard navigation between tabs
+ * - Lazy content rendering per tab
+ *
  * @example
  * ```html
  * <lc-tabs>

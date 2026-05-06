@@ -23,6 +23,20 @@ export interface AvatarGroupItem {
   styleUrls: ['./avatar-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Avatar group component for displaying multiple user avatars.
+ *
+ * Features:
+ * - Overlapping avatar display with configurable max visible count
+ * - Overflow indicator showing remaining count
+ * - Shared size variant across all avatars (xs, sm, md, lg)
+ * - Automatic truncation based on max property
+ *
+ * @example
+ * ```html
+ * <lc-avatar-group [avatars]="users" [max]="5" size="md" />
+ * ```
+ */
 export class AvatarGroupComponent {
   /** List of avatars to show */
   avatars = input.required<AvatarGroupItem[]>();

@@ -11,6 +11,24 @@ const meta: Meta<BarChartComponent> = {
       options: ['vertical', 'horizontal'],
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Bar chart component for comparing categorical data.
+
+**Key Features:**
+- Vertical and horizontal orientation
+- Per-bar or uniform color support
+- Optional value labels on bars
+- Configurable grid and axis labels
+- Adjustable bar gap spacing
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
 };
 
 export default meta;

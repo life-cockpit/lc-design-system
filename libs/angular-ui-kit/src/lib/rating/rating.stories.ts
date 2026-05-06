@@ -12,6 +12,24 @@ const meta: Meta<RatingComponent> = {
     showValue: { control: 'boolean' },
     allowHalf: { control: 'boolean' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Rating component for star-based value selection.
+
+**Key Features:**
+- Configurable maximum star count
+- Half-star rating support
+- Multiple size variants (sm, md, lg)
+- Read-only and disabled states
+- Hover preview with visual feedback
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

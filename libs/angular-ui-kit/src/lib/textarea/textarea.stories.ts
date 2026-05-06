@@ -34,6 +34,24 @@ const meta: Meta<TextareaComponent> = {
     disabled: { description: 'Prevents editing' },
     readonly: { description: 'Allows copying but not editing' },
   },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Textarea component for multi-line text input.
+
+**Key Features:**
+- Variant styles (outline, filled)
+- Size presets (xs, sm, md, lg)
+- Auto-resize with configurable min/max rows
+- Character count display with maxLength
+- Validation error message and helper text
+- Disabled and readonly states
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

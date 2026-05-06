@@ -28,6 +28,23 @@ let nextUniqueId = 0;
   styleUrl: './radio.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Radio button component for single-option selection within a group.
+ *
+ * Features:
+ * - Single selection within a named radio group
+ * - Multiple size variants (sm, md, lg)
+ * - Validation error display with error message
+ * - Help text support
+ * - Full accessibility with ARIA attributes
+ * - ControlValueAccessor integration for reactive forms
+ *
+ * @example
+ * ```html
+ * <lc-radio label="Option A" value="a" name="group1" />
+ * <lc-radio label="Option B" value="b" name="group1" />
+ * ```
+ */
 export class RadioComponent implements ControlValueAccessor, OnInit, OnDestroy {
   // Inputs
   readonly id = input<string>(`lc-radio-${nextUniqueId++}`);

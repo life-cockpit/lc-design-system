@@ -15,6 +15,21 @@ export type ProgressRingSize = 'xs' | 'sm' | 'md' | 'lg';
   styleUrls: ['./progress-ring.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Progress ring component for circular progress indication.
+ *
+ * Features:
+ * - Circular SVG progress arc (0–100%)
+ * - Color theme variants (primary, secondary, success, warning, error)
+ * - Size presets (xs, sm, md, lg)
+ * - Optional percentage value display
+ * - Animated stroke transitions
+ *
+ * @example
+ * ```html
+ * <lc-progress-ring [value]="65" color="success" [showValue]="true" />
+ * ```
+ */
 export class ProgressRingComponent {
   /** Value between 0 and 100. */
   value = input<number>(0);

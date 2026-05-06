@@ -33,6 +33,22 @@ const DEFAULT_COLORS = [
   styleUrls: ['./donut-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Donut chart component for proportional data with center content.
+ *
+ * Features:
+ * - Color-coded ring segments
+ * - Configurable ring thickness
+ * - Center label and value display
+ * - Size presets (sm, md, lg)
+ * - Optional legend display
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-donut-chart [segments]="data" centerLabel="Total" centerValue="100" />
+ * ```
+ */
 export class DonutChartComponent {
   /** Segments to render. */
   segments = input.required<DonutSegment[]>();

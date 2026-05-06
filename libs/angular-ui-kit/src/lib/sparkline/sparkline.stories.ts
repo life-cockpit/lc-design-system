@@ -15,6 +15,24 @@ const meta: Meta<SparklineComponent> = {
       options: ['linear', 'smooth'],
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Sparkline component for compact inline trend visualization.
+
+**Key Features:**
+- Linear or smooth curve interpolation
+- Optional area fill below the line
+- Color theme variants (primary, secondary, success, warning, error)
+- Optional end-dot indicator
+- Configurable dimensions and stroke width
+- Lightweight SVG rendering
+`,
+      },
+    },
+  },
 };
 
 export default meta;

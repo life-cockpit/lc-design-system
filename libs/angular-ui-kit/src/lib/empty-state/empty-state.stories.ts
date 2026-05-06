@@ -19,6 +19,23 @@ const meta: Meta<EmptyStateComponent> = {
       description: 'Controls icon size and text sizing',
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Empty state component for "no data" placeholder displays.
+
+**Key Features:**
+- Compact (sm) and page-level (md, lg) size modes
+- Optional icon from Heroicons library
+- Heading and description text
+- Action slot for projected CTA buttons
+- Centered layout with visual hierarchy
+`,
+      },
+    },
+  },
 };
 
 export default meta;

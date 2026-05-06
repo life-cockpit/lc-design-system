@@ -21,20 +21,19 @@ export type HeroSize = 'sm' | 'md' | 'lg';
 /**
  * Hero component for prominent page headers with gradient backgrounds.
  *
- * Use it to display key information at the top of a page, such as a title,
- * description, and optional metadata items.
- *
- * Supports content projection for full flexibility:
- * - Default slot: description/body content
- * - `[hero-footer]`: bottom section for metadata, stats, or CTAs
+ * Features:
+ * - Color gradient variants (primary, secondary, success, warning, error, neutral)
+ * - Size options (sm, md, lg)
+ * - Optional label text above the title
+ * - Configurable border radius
+ * - Content projection for body and footer sections
+ * - Footer slot for metadata, stats, or CTAs
  *
  * @example
  * ```html
- * <lc-hero label="MY APP" title="Welcome to the platform" color="primary">
- *   <p>A short description of what this page is about.</p>
- *   <div hero-footer>
- *     <span>Status: Active</span>
- *   </div>
+ * <lc-hero label="MY APP" title="Welcome" color="primary">
+ *   <p>Description text</p>
+ *   <div hero-footer>Status: Active</div>
  * </lc-hero>
  * ```
  */

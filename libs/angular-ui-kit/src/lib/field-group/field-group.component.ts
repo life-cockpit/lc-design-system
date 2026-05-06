@@ -3,28 +3,19 @@ import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 /**
- * Field Group component for displaying label-value pairs in a consistent format.
- * Useful for read-only data displays like profile pages, detail views, etc.
+ * Field group component for displaying label-value pairs.
  *
- * @example Basic usage
- * ```html
- * <lc-field-group label="Email" value="user@example.com"></lc-field-group>
- * ```
+ * Features:
+ * - Consistent label-value layout for read-only data
+ * - Optional leading icon from Heroicons
+ * - Compact mode for dense layouts
+ * - Content projection for custom value rendering
+ * - Configurable icon size (xs, sm, md)
  *
- * @example With icon
+ * @example
  * ```html
- * <lc-field-group
- *   label="Language"
- *   value="English (US)"
- *   icon="globe-alt">
- * </lc-field-group>
- * ```
- *
- * @example With custom content via projection
- * ```html
- * <lc-field-group label="Status" icon="check-circle">
- *   <span class="status-badge">Active</span>
- * </lc-field-group>
+ * <lc-field-group label="Email" value="user@example.com" />
+ * <lc-field-group label="Language" value="English" icon="globe-alt" />
  * ```
  */
 @Component({

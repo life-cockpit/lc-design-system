@@ -32,6 +32,22 @@ export type FooterVariant = 'default' | 'primary' | 'dark' | 'neutral';
   styleUrls: ['./footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Footer component for application-wide bottom navigation.
+ *
+ * Features:
+ * - Multi-section navigation with link groups
+ * - Copyright text display
+ * - Compact single-row layout option
+ * - Color variants (light, dark)
+ * - Optional top border
+ * - Social media icon links
+ *
+ * @example
+ * ```html
+ * <lc-footer [sections]="navSections" copyright="© 2026 Company" />
+ * ```
+ */
 export class FooterComponent {
   /** Footer navigation sections */
   sections = input<FooterSection[]>([]);

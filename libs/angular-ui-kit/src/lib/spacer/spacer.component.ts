@@ -11,6 +11,19 @@ export type SpacerSize = 'auto' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   styleUrls: ['./spacer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Spacer component for adding vertical or flexible spacing.
+ *
+ * Features:
+ * - Fixed spacing sizes (xs, sm, md, lg, xl, 2xl)
+ * - Auto (flex-grow) mode for filling available space
+ * - Host class binding for layout integration
+ *
+ * @example
+ * ```html
+ * <lc-spacer size="lg" />
+ * ```
+ */
 export class SpacerComponent {
   size = input<SpacerSize>('auto');
 

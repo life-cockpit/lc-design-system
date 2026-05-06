@@ -18,6 +18,22 @@ const meta: Meta<ContainerComponent> = {
     noPadding: { description: 'Removes horizontal padding' },
     paddingY: { description: 'Adds vertical padding' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Container component for responsive max-width content layout.
+
+**Key Features:**
+- Max-width presets (sm, md, lg, xl, full)
+- Optional horizontal padding removal
+- Optional vertical padding
+- Centered content alignment
+`,
+      },
+    },
+  },
 };
 
 export default meta;

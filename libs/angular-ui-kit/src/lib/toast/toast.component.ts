@@ -11,20 +11,19 @@ import { IconComponent } from '../icon/icon.component';
 import type { Toast, ToastVariant } from './toast.service';
 
 /**
- * Toast component for displaying ephemeral notifications.
- * Typically used via ToastService, not directly.
+ * Toast component for displaying ephemeral notification messages.
+ *
+ * Features:
+ * - Semantic variants (success, warning, error, info)
+ * - Auto-dismiss with configurable duration
+ * - Manual dismiss with close button
+ * - Icon display per variant
+ * - Stacked toast positioning via ToastService
+ * - Animated enter/exit transitions
  *
  * @example
  * ```typescript
- * // Use via service
- * constructor(private toastService: ToastService) {}
- *
- * showToast() {
- *   this.toastService.show({
- *     message: 'Success!',
- *     variant: 'success'
- *   });
- * }
+ * this.toastService.show({ message: 'Saved!', variant: 'success' });
  * ```
  */
 @Component({

@@ -16,7 +16,15 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 export type SearchInputSize = 'sm' | 'md' | 'lg';
 
 /**
- * Search input with built-in icon, clear button, and optional debounce.
+ * Search input component with integrated search functionality.
+ *
+ * Features:
+ * - Built-in search icon
+ * - Clear button for resetting input
+ * - RxJS-based configurable debounce
+ * - Multiple size variants (sm, md, lg)
+ * - Disabled state support
+ * - Submit event on Enter key
  *
  * @example
  * ```html

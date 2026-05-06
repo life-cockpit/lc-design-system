@@ -29,6 +29,22 @@ let nextUniqueId = 0;
     },
   ],
 })
+/**
+ * Checkbox component for boolean or indeterminate selections.
+ *
+ * Features:
+ * - Checked, unchecked, and indeterminate states
+ * - Multiple size variants (sm, md, lg)
+ * - Validation error display with error message
+ * - Help text support
+ * - Full accessibility with ARIA attributes
+ * - ControlValueAccessor integration for reactive forms
+ *
+ * @example
+ * ```html
+ * <lc-checkbox label="Accept terms" />
+ * ```
+ */
 export class CheckboxComponent implements ControlValueAccessor {
   // Inputs
   readonly id = input<string>(`lc-checkbox-${nextUniqueId++}`);

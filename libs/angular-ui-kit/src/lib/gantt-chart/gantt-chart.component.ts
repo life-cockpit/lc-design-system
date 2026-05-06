@@ -54,6 +54,23 @@ interface DepLine {
   styleUrls: ['./gantt-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Gantt chart component for project timeline visualization.
+ *
+ * Features:
+ * - Task bars with progress indicators
+ * - Dependency lines with Bézier curves and arrowheads
+ * - Monthly and daily header timeline
+ * - Today marker line
+ * - Weekend highlighting
+ * - Configurable row height, label width, and day width
+ * - Task click event handling
+ *
+ * @example
+ * ```html
+ * <lc-gantt-chart [tasks]="tasks" [dependencies]="deps" [showToday]="true" />
+ * ```
+ */
 export class GanttChartComponent {
   /** Tasks to display. */
   tasks = input.required<GanttTask[]>();

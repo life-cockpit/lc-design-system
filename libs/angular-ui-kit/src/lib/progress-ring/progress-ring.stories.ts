@@ -9,6 +9,23 @@ const meta: Meta<ProgressRingComponent> = {
     color: { control: 'select', options: ['primary', 'secondary', 'success', 'warning', 'error', 'info'] },
     size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'] },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Progress ring component for circular progress indication.
+
+**Key Features:**
+- Circular SVG progress arc (0–100%)
+- Color theme variants (primary, secondary, success, warning, error)
+- Size presets (xs, sm, md, lg)
+- Optional percentage value display
+- Animated stroke transitions
+`,
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<ProgressRingComponent>;

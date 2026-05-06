@@ -19,6 +19,23 @@ const meta: Meta<StatTrendComponent> = {
       options: [undefined, 'up', 'down', 'neutral'],
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Stat trend component for displaying KPI values with change indicators.
+
+**Key Features:**
+- Value display with label and optional icon
+- Change percentage with auto-detected trend direction (up/down/neutral)
+- Color-coded trend indicator (green for up, red for down)
+- Optional embedded sparkline chart
+- Configurable sparkline color theme
+`,
+      },
+    },
+  },
 };
 
 export default meta;

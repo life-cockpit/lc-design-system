@@ -31,6 +31,26 @@ const meta: Meta<SidenavComponent> = {
     activeRouteInput: { description: 'The currently active route (highlights matching item)' },
     widthInput: { description: 'Custom width (CSS value, e.g. "280px")' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Sidenav component for application navigation sidebar.
+
+**Key Features:**
+- Drawer (overlay) and docked (persistent) modes
+- Hierarchical navigation with collapsible groups
+- Section headlines for item grouping
+- Active route highlighting
+- Keyboard navigation support
+- Configurable width and position (left/right)
+- Optional backdrop overlay
+- Accessible with ARIA navigation role
+`,
+      },
+    },
+  },
 };
 
 export default meta;

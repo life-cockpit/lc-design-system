@@ -31,6 +31,21 @@ const DEFAULT_COLORS = [
   styleUrls: ['./pie-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Pie chart component for displaying proportional data.
+ *
+ * Features:
+ * - Color-coded segments with automatic arc calculation
+ * - Size presets (sm, md, lg)
+ * - Optional legend display
+ * - Hover state support
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-pie-chart [segments]="data" size="md" [showLegend]="true" />
+ * ```
+ */
 export class PieChartComponent {
   segments = input.required<PieSegment[]>();
   size = input<PieChartSize>('md');

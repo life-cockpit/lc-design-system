@@ -23,6 +23,22 @@ const meta: Meta<SectionComponent> = {
     noPaddingX: { description: 'Removes horizontal padding' },
     noPaddingY: { description: 'Removes vertical padding' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Section component for page content grouping with spacing and background.
+
+**Key Features:**
+- Configurable vertical spacing (none, sm, md, lg, xl)
+- Background color options (none, subtle, muted)
+- Independent horizontal and vertical padding control
+- Content projection via ng-content
+`,
+      },
+    },
+  },
 };
 
 export default meta;

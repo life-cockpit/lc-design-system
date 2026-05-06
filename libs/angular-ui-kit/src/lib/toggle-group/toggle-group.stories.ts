@@ -16,6 +16,24 @@ const meta: Meta<ToggleGroupComponent> = {
       description: 'Controls button height and font size',
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Toggle group component for single-option selection from a set.
+
+**Key Features:**
+- Multiple segmented toggle buttons
+- Active state highlighting
+- Size variants (sm, md, lg)
+- Two-way selected value binding
+- Per-option disabled state
+- Dark mode support via CSS custom properties
+`,
+      },
+    },
+  },
 };
 
 export default meta;

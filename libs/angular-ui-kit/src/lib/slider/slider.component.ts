@@ -23,6 +23,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
+/**
+ * Slider component for selecting a numeric value within a range.
+ *
+ * Features:
+ * - Configurable min, max, and step values
+ * - Visual fill track indicating current position
+ * - Optional value label display
+ * - Disabled state support
+ * - ControlValueAccessor integration for reactive forms
+ *
+ * @example
+ * ```html
+ * <lc-slider label="Volume" [min]="0" [max]="100" [showValue]="true" />
+ * ```
+ */
 export class SliderComponent implements ControlValueAccessor {
   /** Minimum value */
   min = input<number>(0);

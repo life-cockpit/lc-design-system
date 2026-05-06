@@ -20,20 +20,22 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 /**
  * Modal dialog component for focused user interactions.
- * Uses FocusTrap for accessibility.
+ *
+ * Features:
+ * - Size presets (sm, md, lg, xl, full)
+ * - Focus trap for keyboard accessibility
+ * - Backdrop click and Escape key to close
+ * - Two-way open binding
+ * - Header, body, and footer content slots
+ * - Optional close button
+ * - Accessible with ARIA dialog role
  *
  * @example
  * ```html
  * <lc-modal [(open)]="isOpen" size="md" [closeOnBackdropClick]="true">
- *   <div slot="header">
- *     <h2>Modal Title</h2>
- *   </div>
- *   <div slot="body">
- *     <p>Modal content goes here</p>
- *   </div>
- *   <div slot="footer">
- *     <lc-button (click)="closeModal()">Close</lc-button>
- *   </div>
+ *   <div slot="header"><h2>Title</h2></div>
+ *   <div slot="body">Content</div>
+ *   <div slot="footer"><lc-button (click)="close()">Close</lc-button></div>
  * </lc-modal>
  * ```
  */

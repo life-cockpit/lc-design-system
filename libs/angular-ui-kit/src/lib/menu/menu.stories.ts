@@ -25,6 +25,26 @@ const meta: Meta<MenuComponent> = {
     },
     minWidth: { description: 'Minimum width of the menu panel (CSS value)' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Menu Component - Dropdown menu for navigation and actions
+
+**Key Features:**
+- Customizable menu items with icons
+- Support for links and buttons
+- Dividers between menu sections
+- Optional subtitle/metadata for items
+- Danger variant for destructive actions
+- Click outside to close
+- Keyboard navigation (Escape to close)
+- OnPush change detection for performance
+`,
+      },
+    },
+  },
 };
 
 export default meta;

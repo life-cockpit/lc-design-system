@@ -16,20 +16,20 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputComponent } from '../input/input.component';
 
 /**
- * Email input component with RFC 5322 validation.
+ * Email input component with built-in RFC 5322 validation.
  *
- * Extends the base input component with email-specific validation
- * and provides visual feedback for valid/invalid email addresses.
+ * Features:
+ * - RFC 5322 regex email format validation
+ * - Real-time validation feedback on input
+ * - Valid/invalid visual indicators
+ * - Size presets (xs, sm, md, lg)
+ * - Helper text and error message display
+ * - Disabled and readonly states
+ * - ControlValueAccessor integration for reactive forms
  *
  * @example
  * ```html
- * <lc-email-input
- *   label="Email Address"
- *   placeholder="you@example.com"
- *   [(ngModel)]="email"
- *   [required]="true"
- *   (validationChange)="handleValidation($event)"
- * ></lc-email-input>
+ * <lc-email-input label="Email" placeholder="you@example.com" [(ngModel)]="email" />
  * ```
  */
 @Component({

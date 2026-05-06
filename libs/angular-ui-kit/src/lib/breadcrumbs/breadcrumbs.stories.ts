@@ -18,6 +18,23 @@ const meta: Meta<BreadcrumbsComponent> = {
     },
     separatorInput: { description: 'Character(s) used between items (default: "/")' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Breadcrumbs component for hierarchical navigation.
+
+**Key Features:**
+- Configurable separator character
+- Ellipsis collapse for long paths with maxItems
+- Multiple size variants (sm, md, lg)
+- Router link support for navigation items
+- Accessible with ARIA breadcrumb landmark
+`,
+      },
+    },
+  },
 };
 
 export default meta;

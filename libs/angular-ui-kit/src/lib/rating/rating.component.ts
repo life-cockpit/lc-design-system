@@ -27,6 +27,22 @@ export type RatingSize = 'sm' | 'md' | 'lg';
     },
   ],
 })
+/**
+ * Rating component for star-based value selection.
+ *
+ * Features:
+ * - Configurable maximum star count
+ * - Half-star rating support
+ * - Multiple size variants (sm, md, lg)
+ * - Read-only and disabled states
+ * - Hover preview with visual feedback
+ * - ControlValueAccessor integration for reactive forms
+ *
+ * @example
+ * ```html
+ * <lc-rating [max]="5" [allowHalf]="true" label="Rate this" />
+ * ```
+ */
 export class RatingComponent implements ControlValueAccessor {
   /** Maximum number of stars */
   max = input<number>(5);

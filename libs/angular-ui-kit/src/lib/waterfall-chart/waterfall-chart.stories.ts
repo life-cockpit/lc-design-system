@@ -1,7 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { WaterfallChartComponent } from './waterfall-chart.component';
 
-const meta: Meta<WaterfallChartComponent> = { title: 'Charts/Waterfall Chart', component: WaterfallChartComponent, tags: ['autodocs'] };
+const meta: Meta<WaterfallChartComponent> = {
+  title: 'Charts/Waterfall Chart',
+  component: WaterfallChartComponent,
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Waterfall chart component for visualizing cumulative value changes.
+
+**Key Features:**
+- Increase, decrease, and total bar types
+- Connector lines between bars
+- Configurable colors for increase, decrease, and total
+- Optional value labels and grid
+- Adjustable bar gap spacing
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
+};
 export default meta;
 type Story = StoryObj<WaterfallChartComponent>;
 

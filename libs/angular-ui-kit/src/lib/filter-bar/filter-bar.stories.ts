@@ -16,6 +16,24 @@ const meta: Meta<FilterBarComponent> = {
       description: 'Controls height of filter inputs',
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Filter bar component for composable data filtering.
+
+**Key Features:**
+- Select dropdowns, toggle groups, and search inputs
+- Declarative filter configuration via FilterConfig array
+- Two-way filter values binding
+- Responsive horizontal flex layout
+- Size variants (sm, md)
+- Dark mode support
+`,
+      },
+    },
+  },
 };
 
 export default meta;

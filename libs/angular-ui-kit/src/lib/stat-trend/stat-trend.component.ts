@@ -17,6 +17,21 @@ export type StatTrendDirection = 'up' | 'down' | 'neutral';
   styleUrls: ['./stat-trend.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Stat trend component for displaying KPI values with change indicators.
+ *
+ * Features:
+ * - Value display with label and optional icon
+ * - Change percentage with auto-detected trend direction (up/down/neutral)
+ * - Color-coded trend indicator (green for up, red for down)
+ * - Optional embedded sparkline chart
+ * - Configurable sparkline color theme
+ *
+ * @example
+ * ```html
+ * <lc-stat-trend label="Revenue" value="$42,350" change="+12.5%" [sparklineData]="data" />
+ * ```
+ */
 export class StatTrendComponent {
   /** Main KPI label. */
   label = input<string>('');

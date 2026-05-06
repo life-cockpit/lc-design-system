@@ -18,16 +18,21 @@ import { OverlayModule } from '@angular/cdk/overlay';
 export type DateValue = Date | string | null;
 
 /**
- * DatePicker component for date selection with calendar.
+ * Datepicker component for date selection with calendar overlay.
+ *
+ * Features:
+ * - Calendar popup with month and year navigation
+ * - Min/max date constraints
+ * - Disabled specific dates and weekends
+ * - Configurable date format string
+ * - Variant styles (outline, filled)
+ * - Size presets (xs, sm, md, lg)
+ * - Disabled and readonly states
+ * - ControlValueAccessor integration for reactive forms
  *
  * @example
  * ```html
- * <lc-datepicker
- *   variant="outline"
- *   size="md"
- *   placeholder="Select a date"
- *   [(ngModel)]="selectedDate"
- * ></lc-datepicker>
+ * <lc-datepicker placeholder="Select date" [(ngModel)]="selectedDate" />
  * ```
  */
 /* eslint-disable @typescript-eslint/member-ordering */

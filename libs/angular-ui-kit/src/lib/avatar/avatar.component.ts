@@ -5,21 +5,19 @@ export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
 
 /**
- * Avatar Component
+ * Avatar component for circular user representation.
  *
- * A circular user representation component displaying images or initials.
- * Supports status indicators and multiple sizes.
+ * Features:
+ * - Image display with fallback to initials
+ * - Auto-generated initials from user name
+ * - Status indicator (online, offline, busy, away)
+ * - Multiple size variants (xs, sm, md, lg, xl)
+ * - Accessible with alt text support
  *
  * @example
  * ```html
- * <!-- With image -->
  * <lc-avatar src="https://example.com/avatar.jpg" alt="John Doe" />
- *
- * <!-- With initials -->
- * <lc-avatar name="John Doe" />
- *
- * <!-- With status indicator -->
- * <lc-avatar name="Jane Smith" status="online" size="lg" />
+ * <lc-avatar name="John Doe" status="online" size="lg" />
  * ```
  */
 @Component({

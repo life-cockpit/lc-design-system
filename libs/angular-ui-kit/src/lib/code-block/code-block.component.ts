@@ -176,6 +176,21 @@ function highlightCode(code: string, language: string): string {
   styleUrls: ['./code-block.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Code block component for displaying syntax-highlighted source code.
+ *
+ * Features:
+ * - Syntax highlighting for 10+ languages (TypeScript, Python, Java, etc.)
+ * - Optional line numbers
+ * - Copy-to-clipboard button
+ * - Optional header with filename and language label
+ * - Dark-mode compatible color scheme
+ *
+ * @example
+ * ```html
+ * <lc-code-block [code]="source" language="typescript" [showLineNumbers]="true" />
+ * ```
+ */
 export class CodeBlockComponent {
   /** Code content to display */
   code = input.required<string>();

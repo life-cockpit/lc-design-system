@@ -6,15 +6,18 @@ export type ChipVariant = 'default' | 'primary' | 'success' | 'warning' | 'error
 export type ChipSize = 'sm' | 'md' | 'lg';
 
 /**
- * Chip Component
+ * Chip component for displaying tags, filters, or selections.
  *
- * A pill-shaped removable tag component for displaying selections, filters, or tags.
- * Supports icons, color variants, and optional delete functionality.
+ * Features:
+ * - Color variants (primary, secondary, success, warning, error, info, neutral)
+ * - Multiple size options (sm, md, lg)
+ * - Optional leading icon
+ * - Removable with close button and remove event
+ * - Disabled state support
  *
  * @example
  * ```html
- * <lc-chip variant="primary" size="md" [removable]="true" (remove)="handleRemove()">
- *   <span lcChipIcon>🏷️</span>
+ * <lc-chip variant="primary" [removable]="true" (remove)="onRemove()">
  *   Tag Name
  * </lc-chip>
  * ```

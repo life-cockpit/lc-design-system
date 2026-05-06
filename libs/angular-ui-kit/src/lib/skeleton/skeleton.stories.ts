@@ -19,6 +19,23 @@ const meta: Meta<SkeletonComponent> = {
     height: { description: 'Custom height (CSS value)' },
     borderRadius: { description: 'Custom border radius for the rect variant' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Skeleton loader component for placeholder loading states.
+
+**Key Features:**
+- Variant shapes (text, rect, circle)
+- Shimmer animation effect
+- Custom width, height, and border radius
+- Composable for building complex loading layouts
+- Dark mode compatible
+`,
+      },
+    },
+  },
 };
 
 export default meta;

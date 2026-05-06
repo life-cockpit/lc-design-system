@@ -11,6 +11,24 @@ const meta: Meta<DonutChartComponent> = {
       options: ['sm', 'md', 'lg'],
     },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Donut chart component for proportional data with center content.
+
+**Key Features:**
+- Color-coded ring segments
+- Configurable ring thickness
+- Center label and value display
+- Size presets (sm, md, lg)
+- Optional legend display
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
 };
 
 export default meta;

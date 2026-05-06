@@ -27,6 +27,21 @@ const DEFAULT_COLORS = [
   styleUrls: ['./line-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Line chart component for visualizing data trends.
+ *
+ * Features:
+ * - Multiple data series support
+ * - Smooth or linear curve interpolation
+ * - Optional area fill below lines
+ * - Configurable grid, axis labels, dots, and legend
+ * - Responsive SVG rendering with configurable dimensions
+ *
+ * @example
+ * ```html
+ * <lc-line-chart [series]="data" [labels]="months" [smooth]="true" />
+ * ```
+ */
 export class LineChartComponent {
   /** One or more data series. */
   series = input.required<LineChartSeries[]>();

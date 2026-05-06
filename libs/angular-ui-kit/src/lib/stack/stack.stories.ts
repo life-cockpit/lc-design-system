@@ -33,6 +33,23 @@ const meta: Meta<StackComponent> = {
     wrap: { description: 'Whether items wrap to the next line' },
     fullWidth: { description: 'Whether the stack takes full width of its parent' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Stack component for flexbox-based layout composition.
+
+**Key Features:**
+- Vertical and horizontal direction
+- Configurable gap spacing (none, xs, sm, md, lg, xl)
+- Alignment and justification options
+- Optional wrapping and full-width modes
+- Content projection via ng-content
+`,
+      },
+    },
+  },
 };
 
 export default meta;

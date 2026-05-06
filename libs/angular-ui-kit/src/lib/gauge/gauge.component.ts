@@ -15,6 +15,22 @@ export type GaugeSize = 'sm' | 'md' | 'lg';
   styleUrls: ['./gauge.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Gauge component for displaying a value on a semicircular scale.
+ *
+ * Features:
+ * - Semicircle arc with value and track segments
+ * - Color theme variants (primary, secondary, success, warning, error)
+ * - Size presets (sm, md, lg)
+ * - Configurable max value and suffix
+ * - Optional numeric value display
+ * - Responsive SVG rendering
+ *
+ * @example
+ * ```html
+ * <lc-gauge [value]="75" [max]="100" color="primary" label="CPU" suffix="%" />
+ * ```
+ */
 export class GaugeComponent {
   /** Value between 0 and max. */
   value = input<number>(0);

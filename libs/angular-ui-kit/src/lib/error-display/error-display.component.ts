@@ -42,24 +42,19 @@ const COGNITO_ERROR_MESSAGES: Record<string, string> = {
 export type ErrorSeverity = 'error' | 'warning' | 'info';
 
 /**
- * Error display component for authentication error messages.
+ * Error display component for authentication and application error messages.
  *
- * Automatically maps Cognito error codes to user-friendly messages
- * and displays them with appropriate severity styling.
+ * Features:
+ * - Automatic Cognito error code mapping to user-friendly messages
+ * - Severity levels (error, warning, info)
+ * - Custom error message override
+ * - Dismissible with close button
+ * - Accepts Error objects or custom error shapes
  *
  * @example
  * ```html
- * <!-- Display Cognito error -->
- * <lc-error-display
- *   [error]="cognitoError"
- *   [dismissible]="true"
- * ></lc-error-display>
- *
- * <!-- Display custom error -->
- * <lc-error-display
- *   message="Invalid credentials"
- *   severity="error"
- * ></lc-error-display>
+ * <lc-error-display [error]="cognitoError" [dismissible]="true" />
+ * <lc-error-display message="Invalid credentials" severity="error" />
  * ```
  */
 @Component({

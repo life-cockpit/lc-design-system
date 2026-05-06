@@ -32,6 +32,23 @@ export type ButtonType = 'button' | 'submit' | 'reset';
   encapsulation: ViewEncapsulation.None, // Required for dynamic variant class styling
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+/**
+ * Button component for user actions and form submissions.
+ *
+ * Features:
+ * - Multiple variants (primary, secondary, outline, ghost, danger, link)
+ * - Size options (xs, sm, md, lg)
+ * - Loading state with spinner
+ * - Icon-only mode
+ * - Full-width layout option
+ * - Keyboard and focus handling
+ * - Accessible with ARIA attributes
+ *
+ * @example
+ * ```html
+ * <lc-button variant="primary" size="md">Save</lc-button>
+ * ```
+ */
 export class ButtonComponent {
   @Input() variant: ButtonVariant = 'primary';
   @Input() size: ButtonSize = 'md';

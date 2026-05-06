@@ -25,6 +25,25 @@ const meta: Meta<PaginationComponent> = {
     },
     showInfoInput: { description: 'Show "Showing X-Y of Z items" text' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Pagination component for navigating through pages of content.
+
+**Key Features:**
+- Configurable page size
+- Previous/Next navigation
+- Direct page number access
+- Ellipsis for large page ranges
+- Size variants (sm, md, lg)
+- Accessible with ARIA attributes
+- Optional item count display
+`,
+      },
+    },
+  },
 };
 
 export default meta;

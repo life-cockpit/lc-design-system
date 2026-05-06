@@ -43,10 +43,15 @@ export interface ListItem {
 }
 
 /**
- * List Component
+ * List component for displaying structured item collections.
  *
- * A flexible list component that supports vertical/horizontal layouts,
- * icons, actions, and dividers.
+ * Features:
+ * - Vertical and horizontal layout orientations
+ * - Variant styles (default, bordered, card)
+ * - Optional dividers between items
+ * - Icon and avatar support per item
+ * - Action buttons with click events
+ * - Accessible with ARIA list role
  *
  * @example
  * ```html
@@ -55,7 +60,6 @@ export interface ListItem {
  *   orientation="vertical"
  *   [showDividers]="true"
  *   (itemClick)="handleItemClick($event)"
- *   (actionClick)="handleActionClick($event)"
  * />
  * ```
  */

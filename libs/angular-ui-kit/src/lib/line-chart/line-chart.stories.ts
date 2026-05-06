@@ -5,6 +5,23 @@ const meta: Meta<LineChartComponent> = {
   title: 'Charts/Line Chart',
   component: LineChartComponent,
   tags: ['autodocs'],
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Line chart component for visualizing data trends.
+
+**Key Features:**
+- Multiple data series support
+- Smooth or linear curve interpolation
+- Optional area fill below lines
+- Configurable grid, axis labels, dots, and legend
+- Responsive SVG rendering with configurable dimensions
+`,
+      },
+    },
+  },
 };
 
 export default meta;

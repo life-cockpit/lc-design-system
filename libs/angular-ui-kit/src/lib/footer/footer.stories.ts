@@ -9,6 +9,24 @@ const meta: Meta<FooterComponent> = {
     compact: { control: 'boolean' },
     variant: { control: 'select', options: ['default', 'primary', 'dark', 'neutral'] },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Footer component for application-wide bottom navigation.
+
+**Key Features:**
+- Multi-section navigation with link groups
+- Copyright text display
+- Compact single-row layout option
+- Color variants (light, dark)
+- Optional top border
+- Social media icon links
+`,
+      },
+    },
+  },
 };
 
 export default meta;

@@ -22,6 +22,24 @@ const meta: Meta<ListComponent> = {
     },
     showDividers: { description: 'Show separator lines between items' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+List component for displaying structured item collections.
+
+**Key Features:**
+- Vertical and horizontal layout orientations
+- Variant styles (default, bordered, card)
+- Optional dividers between items
+- Icon and avatar support per item
+- Action buttons with click events
+- Accessible with ARIA list role
+`,
+      },
+    },
+  },
 };
 
 export default meta;

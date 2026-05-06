@@ -22,6 +22,23 @@ const meta: Meta<AvatarComponent> = {
     name: { description: 'Full name — initials are extracted automatically (e.g. "John Doe" → "JD")' },
     src: { description: 'URL for the avatar image. Falls back to initials if the image fails to load' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Avatar component for circular user representation.
+
+**Key Features:**
+- Image display with fallback to initials
+- Auto-generated initials from user name
+- Status indicator (online, offline, busy, away)
+- Multiple size variants (xs, sm, md, lg, xl)
+- Accessible with alt text support
+`,
+      },
+    },
+  },
 };
 
 export default meta;

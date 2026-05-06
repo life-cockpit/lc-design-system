@@ -10,6 +10,23 @@ const meta: Meta<NumberInputComponent> = {
     step: { control: 'number' },
     disabled: { control: 'boolean' },
   },
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Number input component with increment/decrement controls.
+
+**Key Features:**
+- Increment and decrement buttons
+- Configurable min, max, and step values
+- Value clamping within bounds
+- Disabled state support
+- ControlValueAccessor integration for reactive forms
+`,
+      },
+    },
+  },
 };
 
 export default meta;

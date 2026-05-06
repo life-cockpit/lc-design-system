@@ -17,24 +17,21 @@ export interface StepperStep {
 export type StepState = 'pending' | 'active' | 'completed';
 
 /**
- * Stepper Component
+ * Stepper component for multi-step wizard workflows.
  *
- * Step-by-step wizard with numbered steps, active/completed/pending states.
- * Emits events when user navigates between steps.
+ * Features:
+ * - Horizontal and vertical orientations
+ * - Active, completed, and pending step states
+ * - Numbered step indicators with checkmark on completion
+ * - Optional step descriptions and "optional" labels
+ * - Linear mode restricting navigation to sequential steps
+ * - Two-way active step binding
+ * - Content projection for step body
  *
  * @example
  * ```html
- * <lc-stepper
- *   [steps]="steps"
- *   [(activeStep)]="currentStep"
- *   (stepChange)="onStep($event)"
- * >
- *   @if (currentStep === 0) {
- *     <div class="step-content">Step 1 content</div>
- *   }
- *   @if (currentStep === 1) {
- *     <div class="step-content">Step 2 content</div>
- *   }
+ * <lc-stepper [steps]="steps" [(activeStep)]="currentStep">
+ *   <div>Step content here</div>
  * </lc-stepper>
  * ```
  */

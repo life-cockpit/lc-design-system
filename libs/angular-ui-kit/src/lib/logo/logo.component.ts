@@ -2,11 +2,15 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
- * Logo Component
+ * Logo component for displaying the Life-Cockpit brand identity.
  *
- * Displays the Life-Cockpit logo or emblem.
+ * Features:
+ * - Full logo and emblem-only variants
+ * - Multiple size options (sm, md, lg)
+ * - SVG-based for crisp rendering at any resolution
+ * - Dark mode compatible
  *
- * Usage:
+ * @example
  * ```html
  * <lc-logo variant="full" size="md"></lc-logo>
  * <lc-logo variant="emblem" size="sm"></lc-logo>

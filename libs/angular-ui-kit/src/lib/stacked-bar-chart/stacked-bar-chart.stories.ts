@@ -5,6 +5,24 @@ const meta: Meta<StackedBarChartComponent> = {
   title: 'Charts/Stacked Bar Chart',
   component: StackedBarChartComponent,
   tags: ['autodocs'],
+
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Stacked bar chart component for comparing category compositions.
+
+**Key Features:**
+- Multiple stacked value segments per category
+- Vertical and horizontal orientation
+- Optional legend, grid, value labels, and axis labels
+- Configurable bar gap spacing
+- Color-coded segments with legend mapping
+- Responsive SVG rendering
+`,
+      },
+    },
+  },
 };
 export default meta;
 type Story = StoryObj<StackedBarChartComponent>;
