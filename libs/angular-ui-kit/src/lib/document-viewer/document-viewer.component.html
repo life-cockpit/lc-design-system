@@ -1,0 +1,134 @@
+<!-- Toolbar -->
+@if (showToolbar()) {
+  <div class="doc-viewer__toolbar">
+    <div class="doc-viewer__toolbar-left">
+      <lc-icon [name]="typeIcon()" size="sm" />
+      <span class="doc-viewer__filename">{{ displayName() }}</span>
+      <span class="doc-viewer__badge">{{ typeLabel() }}</span>
+    </div>
+    <div class="doc-viewer__toolbar-right">
+      @if (showZoom()) {
+        <div class="doc-viewer__zoom">
+          <button
+            type="button"
+            class="doc-viewer__btn"
+            aria-label="Zoom out"
+            (click)="zoomOut()"
+          >
+            <lc-icon name="minus" size="xs" />
+          </button>
+          <span class="doc-viewer__zoom-value">{{ zoom() }}%</span>
+          <button
+            type="button"
+            class="doc-viewer__btn"
+            aria-label="Zoom in"
+            (click)="zoomIn()"
+          >
+            <lc-icon name="plus" size="xs" />
+          </button>
+          <button
+            type="button"
+            class="doc-viewer__btn"
+            aria-label="Reset zoom"
+            (click)="resetZoom()"
+          >
+            <lc-icon name="arrows-pointing-out" size="xs" />
+          </button>
+        </div>
+      }
+      @if (showDownload() && src()) {
+        <button
+          type="button"
+          class="doc-viewer__btn"
+          aria-label="Download"
+          (click)="download()"
+        >
+          <lc-icon name="arrow-down-tray" size="sm" />
+        </button>
+      }
+      <button
+        type="button"
+        class="doc-viewer__btn"
+        [attr.aria-label]="isFullscreen() ? 'Exit fullscreen' : 'Fullscreen'"
+        (click)="toggleFullscreen()"
+      >
+        <lc-icon [name]="isFullscreen() ? 'arrows-pointing-in' : 'arrows-pointing-out'" size="sm" />
+      </button>
+    </div>
+  </div>
+}
+
+<!-- Content area -->
+<div class="doc-viewer__content">
+  @if (loading()) {
+    <div class="doc-viewer__loading">
+      <lc-spinner size="lg" />
+      <span>Loading document…</span>
+    </div>
+  }
+
+  @if (error(); as errorMsg) {
+    <div class="doc-viewer__error">
+      <lc-icon name="exclamation-triangle" size="lg" color="var(--color-error-default)" />
+      <span>{{ errorMsg }}</span>
+    </div>
+  }
+
+  @if (!loading() && !error()) {
+    @switch (resolvedType()) {
+      @case ('pdf') {
+        <iframe
+          class="doc-viewer__iframe"
+          [src]="safeSrc()"
+          type="application/pdf"
+          (load)="onIframeLoad()"
+        ></iframe>
+      }
+
+      @case ('image') {
+        <div class="doc-viewer__image-container">
+          <img
+            class="doc-viewer__image"
+            [src]="src()"
+            [alt]="displayName()"
+            [style.transform]="imageTransform()"
+            (load)="onImageLoad()"
+            (error)="onImageError()"
+          />
+        </div>
+      }
+
+      @case ('markdown') {
+        <div class="doc-viewer__markdown" [innerHTML]="renderedMarkdown()"></div>
+      }
+
+      @case ('code') {
+        <lc-code-block
+          [code]="effectiveContent()"
+          [language]="resolvedLanguage()"
+          [filename]="displayName()"
+          [showLineNumbers]="true"
+          [showHeader]="false"
+        />
+      }
+
+      @case ('text') {
+        <pre class="doc-viewer__text">{{ effectiveContent() }}</pre>
+      }
+
+      @default {
+        <div class="doc-viewer__unsupported">
+          <lc-icon name="document" size="lg" />
+          <span class="doc-viewer__unsupported-title">Preview not available</span>
+          <span class="doc-viewer__unsupported-msg">This file type cannot be previewed.</span>
+          @if (src()) {
+            <button type="button" class="doc-viewer__download-btn" (click)="download()">
+              <lc-icon name="arrow-down-tray" size="sm" />
+              Download file
+            </button>
+          }
+        </div>
+      }
+    }
+  }
+</div>

@@ -280,6 +280,9 @@ export * from './lib/gantt-chart/gantt-chart.component';
 // Chat Component
 export * from './lib/chat/chat.component';
 
+// Document Viewer Component
+export * from './lib/document-viewer/document-viewer.component';
+
 // ============================================================================
 // Styles
 // ============================================================================
