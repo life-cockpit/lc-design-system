@@ -8,17 +8,41 @@ const meta: Meta<ScatterPlotComponent> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Scatter plot for visualizing correlations between two variables. ' +
-          'Supports multiple series, variable dot sizes, axis labels, tooltips, and legend.',
+        component: `
+Scatter plot for visualizing correlations between two variables.
+
+**Key Features:**
+- Multiple data series with automatic color assignment
+- Variable dot sizes for bubble-chart style (size property on data points)
+- Configurable axis labels (X / Y)
+- Interactive tooltips on hover
+- Optional legend for multi-series data
+- Grid lines and axis labels toggles
+- Adjustable dot radius
+- Responsive SVG rendering
+        `,
       },
     },
+  },
+  argTypes: {
+    xAxisLabel: { control: 'text', description: 'Label for the horizontal axis' },
+    yAxisLabel: { control: 'text', description: 'Label for the vertical axis' },
+    showLegend: { control: 'boolean', description: 'Show legend for multiple series', table: { defaultValue: { summary: 'false' } } },
+    showGrid: { control: 'boolean', description: 'Show background grid lines', table: { defaultValue: { summary: 'true' } } },
+    showXLabels: { control: 'boolean', description: 'Show X axis labels', table: { defaultValue: { summary: 'true' } } },
+    showYLabels: { control: 'boolean', description: 'Show Y axis labels', table: { defaultValue: { summary: 'true' } } },
+    dotRadius: { control: 'number', description: 'Default dot radius in pixels', table: { defaultValue: { summary: '5' } } },
+    width: { control: 'number', description: 'Chart width in px' },
+    height: { control: 'number', description: 'Chart height in px' },
   },
 };
 export default meta;
 type Story = StoryObj<ScatterPlotComponent>;
 
 export const Basic: Story = {
+  parameters: {
+    docs: { description: { story: 'Basic scatter plot showing the relationship between study hours and test scores.' } },
+  },
   args: {
     series: [
       {
@@ -38,6 +62,9 @@ export const Basic: Story = {
 };
 
 export const MultipleSeries: Story = {
+  parameters: {
+    docs: { description: { story: 'Multiple data series with automatic color differentiation and a legend.' } },
+  },
   args: {
     series: [
       {
@@ -62,6 +89,9 @@ export const MultipleSeries: Story = {
 };
 
 export const BubbleStyle: Story = {
+  parameters: {
+    docs: { description: { story: 'Bubble chart variant using the size property on data points to control dot radius.' } },
+  },
   args: {
     series: [
       {
@@ -81,6 +111,9 @@ export const BubbleStyle: Story = {
 };
 
 export const Compact: Story = {
+  parameters: {
+    docs: { description: { story: 'Compact view with no grid or axis labels, suitable for sparkline-like usage.' } },
+  },
   args: {
     series: [
       {

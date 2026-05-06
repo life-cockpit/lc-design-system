@@ -146,13 +146,16 @@ const preview: Preview = {
     },
     options: {
       storySort: {
+        method: 'alphabetical',
         order: [
           'Installation',
           'Design Tokens',
           ['Colors', 'Spacing', 'Typography', 'Elevation', 'Sizes & Animation'],
           'Components',
+          'Editors',
           'Form',
           'Data Display',
+          'Charts',
           'Feedback',
           'Navigation',
           'Layout',

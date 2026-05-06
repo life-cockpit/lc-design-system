@@ -6,15 +6,33 @@ const meta: Meta<DiffViewerComponent> = {
   component: DiffViewerComponent,
   tags: ['autodocs'],
   argTypes: {
-    mode: { control: 'radio', options: ['side-by-side', 'inline'] },
+    mode: {
+      control: 'radio',
+      options: ['side-by-side', 'inline'],
+      description: 'Display mode for the diff',
+      table: { defaultValue: { summary: 'side-by-side' } },
+    },
+    showLineNumbers: { control: 'boolean', description: 'Show line numbers alongside the diff', table: { defaultValue: { summary: 'true' } } },
+    contextLines: { control: 'number', description: 'Number of surrounding unchanged lines to show (0 = all)', table: { defaultValue: { summary: '0' } } },
+    oldLabel: { control: 'text', description: 'Label for the old/before panel' },
+    newLabel: { control: 'text', description: 'Label for the new/after panel' },
   },
   parameters: {
     docs: {
       description: {
-        component:
-          'Diff viewer for comparing two texts side-by-side or inline. ' +
-          'Shows added, removed, and unchanged lines with line numbers, ' +
-          'change statistics, and configurable context lines.',
+        component: `
+Diff viewer for comparing two texts, highlighting additions and removals.
+
+**Key Features:**
+- Side-by-side and inline display modes
+- LCS-based diff algorithm for accurate change detection
+- Line numbers with synchronized scrolling
+- Change statistics (+additions / −deletions)
+- Configurable context lines (collapse unchanged regions)
+- Custom panel labels (old / new)
+- Color-coded lines (green = added, red = removed)
+- Dark mode compatible
+        `,
       },
     },
   },
@@ -45,6 +63,9 @@ function subtract(a: number, b: number): number {
 }`;
 
 export const SideBySide: Story = {
+  parameters: {
+    docs: { description: { story: 'Side-by-side comparison of JavaScript to TypeScript migration with added function.' } },
+  },
   args: {
     oldText: oldCode,
     newText: newCode,
@@ -55,6 +76,9 @@ export const SideBySide: Story = {
 };
 
 export const Inline: Story = {
+  parameters: {
+    docs: { description: { story: 'Inline mode shows changes in a single column, similar to git diff output.' } },
+  },
   args: {
     oldText: oldCode,
     newText: newCode,
@@ -65,6 +89,9 @@ export const Inline: Story = {
 };
 
 export const NoLineNumbers: Story = {
+  parameters: {
+    docs: { description: { story: 'Line numbers hidden for a cleaner, prose-focused comparison.' } },
+  },
   args: {
     oldText: 'First line\nSecond line\nThird line',
     newText: 'First line\nModified second\nThird line\nFourth line',
@@ -74,6 +101,9 @@ export const NoLineNumbers: Story = {
 };
 
 export const ContextLines: Story = {
+  parameters: {
+    docs: { description: { story: 'Only 2 context lines shown around changes — unchanged regions are collapsed.' } },
+  },
   args: {
     oldText: Array.from({ length: 20 }, (_, i) => `Line ${i + 1}: unchanged content`).join('\n'),
     newText: Array.from({ length: 20 }, (_, i) =>
@@ -85,6 +115,9 @@ export const ContextLines: Story = {
 };
 
 export const Identical: Story = {
+  parameters: {
+    docs: { description: { story: 'When both texts are identical, a clean “no changes” message is shown.' } },
+  },
   args: {
     oldText: 'Same content\non both sides',
     newText: 'Same content\non both sides',

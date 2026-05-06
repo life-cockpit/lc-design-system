@@ -15,16 +15,35 @@ export interface TableColumn {
   key: string;
   label: string;
   sortable?: boolean;
+  filterable?: boolean;
+  editable?: boolean;
   width?: string;
   /** Optional CSS class(es) applied to both th and td cells */
   cssClass?: string;
   /** Optional tooltip shown on hover over the column header */
   tooltip?: string;
+  /** Input type for inline editing (default: text) */
+  editType?: 'text' | 'number' | 'select';
+  /** Options for select edit type */
+  editOptions?: string[];
 }
 
 export interface SortEvent {
   column: string;
   direction: 'asc' | 'desc';
+}
+
+export interface CellEditEvent {
+  row: Record<string, unknown>;
+  column: string;
+  oldValue: unknown;
+  newValue: unknown;
+  rowIndex: number;
+}
+
+export interface SelectionChangeEvent {
+  selected: Record<string, unknown>[];
+  allSelected: boolean;
 }
 
 export type TableVariant = 'default' | 'striped' | 'bordered';
@@ -82,25 +101,133 @@ export class TableComponent {
   /** Text shown when data is empty */
   emptyText = input<string>('No data available');
 
+  // -- Pagination --
+  /** Enable pagination */
+  paginate = input<boolean>(false);
+
+  /** Rows per page */
+  pageSize = input<number>(10);
+
+  /** Available page size options */
+  pageSizeOptions = input<number[]>([5, 10, 25, 50]);
+
+  // -- Selection --
+  /** Enable row selection checkboxes */
+  selectable = input<boolean>(false);
+
+  // -- Column Filters --
+  /** Enable per-column text filters */
+  filterable = input<boolean>(false);
+
+  // -- Inline Editing --
+  /** Enable inline cell editing on double-click */
+  editable = input<boolean>(false);
+
+  // -- Export --
+  /** Show CSV export button */
+  exportable = input<boolean>(false);
+
+  /** Filename for CSV export (without extension) */
+  exportFilename = input<string>('table-export');
+
   /** Emitted when a sortable column header is clicked */
   readonly sort = output<SortEvent>();
 
   /** Emitted when a row is clicked */
   readonly rowClick = output<Record<string, unknown>>();
 
+  /** Emitted when a cell is edited */
+  readonly cellEdit = output<CellEditEvent>();
+
+  /** Emitted when row selection changes */
+  readonly selectionChange = output<SelectionChangeEvent>();
+
+  // -- Internal state --
+  protected currentSort = signal<{ column: string; direction: 'asc' | 'desc' } | null>(null);
+  protected currentPage = signal(0);
+  protected internalPageSize = signal(10);
+  protected selectedRows = signal<Set<number>>(new Set());
+  protected columnFilters = signal<Record<string, string>>({});
+  protected editingCell = signal<{ rowIndex: number; column: string } | null>(null);
+  protected editValue = signal<string>('');
+
+  /**
+   * Filtered data (applies column filters)
+   */
+  protected readonly filteredData = computed(() => {
+    let items = this.data();
+    const filters = this.columnFilters();
+
+    if (this.filterable()) {
+      for (const [key, value] of Object.entries(filters)) {
+        if (value.trim()) {
+          items = items.filter(row =>
+            String(row[key] ?? '').toLowerCase().includes(value.toLowerCase())
+          );
+        }
+      }
+    }
+
+    return items;
+  });
+
+  /**
+   * Sorted data
+   */
+  protected readonly sortedData = computed(() => {
+    const items = [...this.filteredData()];
+    const sortState = this.currentSort();
+    if (!sortState) return items;
+
+    return items.sort((a, b) => {
+      const aVal = a[sortState.column];
+      const bVal = b[sortState.column];
+      let cmp = 0;
+      if (aVal == null && bVal == null) cmp = 0;
+      else if (aVal == null) cmp = -1;
+      else if (bVal == null) cmp = 1;
+      else if (typeof aVal === 'number' && typeof bVal === 'number') cmp = aVal - bVal;
+      else cmp = String(aVal).localeCompare(String(bVal));
+      return sortState.direction === 'asc' ? cmp : -cmp;
+    });
+  });
+
+  /**
+   * Paginated data (or all if pagination disabled)
+   */
+  protected readonly displayData = computed(() => {
+    const items = this.sortedData();
+    if (!this.paginate()) return items;
+    const ps = this.internalPageSize();
+    const start = this.currentPage() * ps;
+    return items.slice(start, start + ps);
+  });
+
+  /** Total pages */
+  protected readonly totalPages = computed(() => {
+    if (!this.paginate()) return 1;
+    return Math.max(1, Math.ceil(this.filteredData().length / this.internalPageSize()));
+  });
+
+  /** Total filtered row count */
+  protected readonly totalRows = computed(() => this.filteredData().length);
+
+  /** Whether all visible rows are selected */
+  protected readonly allSelected = computed(() => {
+    const data = this.displayData();
+    if (data.length === 0) return false;
+    const selected = this.selectedRows();
+    return data.every((_, i) => selected.has(this.getAbsoluteIndex(i)));
+  });
+
   /**
    * Computed CSS classes for the table element
    */
   tableClasses = computed(() => {
     const classes = ['lc-table'];
-
     classes.push(`lc-table--${this.variant()}`);
     classes.push(`lc-table--${this.size()}`);
-
-    if (this.hoverable()) {
-      classes.push('lc-table--hoverable');
-    }
-
+    if (this.hoverable()) classes.push('lc-table--hoverable');
     return classes.join(' ');
   });
 
@@ -109,30 +236,17 @@ export class TableComponent {
    */
   wrapperClasses = computed(() => {
     const classes = ['lc-table-wrapper'];
-
-    if (this.responsive()) {
-      classes.push('lc-table-wrapper--responsive');
-    }
-
+    if (this.responsive()) classes.push('lc-table-wrapper--responsive');
     return classes.join(' ');
   });
 
-  /** Current sort state */
-  protected currentSort = signal<{ column: string; direction: 'asc' | 'desc' } | null>(null);
-
-  /**
-   * Handle click on a sortable column header
-   */
+  // -- Sort --
   handleSort(columnKey: string): void {
     const column = this.columns().find((col) => col.key === columnKey);
-
-    if (!column || !column.sortable) {
-      return;
-    }
+    if (!column || !column.sortable) return;
 
     const current = this.currentSort();
     let direction: 'asc' | 'desc' = 'asc';
-
     if (current && current.column === columnKey) {
       direction = current.direction === 'asc' ? 'desc' : 'asc';
     }
@@ -141,20 +255,12 @@ export class TableComponent {
     this.sort.emit({ column: columnKey, direction });
   }
 
-  /**
-   * Get sort state for a column
-   */
   getSortState(columnKey: string): 'asc' | 'desc' | null {
     const current = this.currentSort();
-    if (current && current.column === columnKey) {
-      return current.direction;
-    }
+    if (current && current.column === columnKey) return current.direction;
     return null;
   }
 
-  /**
-   * Get aria-sort attribute value for a column
-   */
   getAriaSort(columnKey: string): string | null {
     const sortState = this.getSortState(columnKey);
     if (sortState === 'asc') return 'ascending';
@@ -162,49 +268,159 @@ export class TableComponent {
     return null;
   }
 
-  /**
-   * Get CSS classes for a header cell
-   */
   getHeaderClasses(column: TableColumn): string {
     const classes: string[] = [];
-
-    if (column.sortable) {
-      classes.push('sortable');
-    }
-
+    if (column.sortable) classes.push('sortable');
     const sortState = this.getSortState(column.key);
-    if (sortState) {
-      classes.push(`sorted-${sortState}`);
-    }
-
+    if (sortState) classes.push(`sorted-${sortState}`);
     return classes.join(' ');
   }
 
-  /**
-   * Get value from data object by column key
-   */
   getCellValue(row: Record<string, unknown>, columnKey: string): unknown {
     return row[columnKey];
   }
 
-  /**
-   * Get custom template for a column if it exists
-   */
   getCellTemplate(columnKey: string): TableCellDirective | undefined {
     return this.cellTemplates?.find((template) => template.columnKey === columnKey);
   }
 
-  /**
-   * Check if a column has a custom template
-   */
   hasCustomTemplate(columnKey: string): boolean {
     return !!this.getCellTemplate(columnKey);
   }
 
-  /**
-   * Handle row click
-   */
   onRowClick(row: Record<string, unknown>): void {
     this.rowClick.emit(row);
+  }
+
+  // -- Pagination --
+  protected goToPage(page: number): void {
+    if (page >= 0 && page < this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  protected onPageSizeChange(event: Event): void {
+    const newSize = Number((event.target as HTMLSelectElement).value);
+    this.internalPageSize.set(newSize);
+    this.currentPage.set(0);
+  }
+
+  protected get paginationStart(): number {
+    return this.currentPage() * this.internalPageSize() + 1;
+  }
+
+  protected get paginationEnd(): number {
+    return Math.min((this.currentPage() + 1) * this.internalPageSize(), this.totalRows());
+  }
+
+  // -- Selection --
+  protected toggleSelectAll(): void {
+    const selected = new Set(this.selectedRows());
+    const data = this.displayData();
+    const allSelected = this.allSelected();
+
+    data.forEach((_, i) => {
+      const absIdx = this.getAbsoluteIndex(i);
+      if (allSelected) selected.delete(absIdx);
+      else selected.add(absIdx);
+    });
+
+    this.selectedRows.set(selected);
+    this.emitSelectionChange();
+  }
+
+  protected toggleRowSelect(relativeIndex: number): void {
+    const absIdx = this.getAbsoluteIndex(relativeIndex);
+    const selected = new Set(this.selectedRows());
+    if (selected.has(absIdx)) selected.delete(absIdx);
+    else selected.add(absIdx);
+    this.selectedRows.set(selected);
+    this.emitSelectionChange();
+  }
+
+  protected isRowSelected(relativeIndex: number): boolean {
+    return this.selectedRows().has(this.getAbsoluteIndex(relativeIndex));
+  }
+
+  private getAbsoluteIndex(relativeIndex: number): number {
+    if (!this.paginate()) return relativeIndex;
+    return this.currentPage() * this.internalPageSize() + relativeIndex;
+  }
+
+  private emitSelectionChange(): void {
+    const data = this.data();
+    const selected = Array.from(this.selectedRows()).map(i => data[i]).filter(Boolean);
+    this.selectionChange.emit({ selected, allSelected: this.allSelected() });
+  }
+
+  // -- Column Filters --
+  protected onFilterChange(columnKey: string, event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    const filters = { ...this.columnFilters(), [columnKey]: value };
+    this.columnFilters.set(filters);
+    this.currentPage.set(0);
+  }
+
+  protected getFilterValue(columnKey: string): string {
+    return this.columnFilters()[columnKey] || '';
+  }
+
+  // -- Inline Editing --
+  protected startEdit(rowIndex: number, column: string, currentValue: unknown): void {
+    if (!this.editable()) return;
+    const col = this.columns().find(c => c.key === column);
+    if (col && col.editable === false) return;
+    this.editingCell.set({ rowIndex, column });
+    this.editValue.set(String(currentValue ?? ''));
+  }
+
+  protected isEditing(rowIndex: number, column: string): boolean {
+    const cell = this.editingCell();
+    return cell !== null && cell.rowIndex === rowIndex && cell.column === column;
+  }
+
+  protected commitEdit(rowIndex: number, column: string): void {
+    const absIdx = this.getAbsoluteIndex(rowIndex);
+    const row = this.data()[absIdx];
+    if (!row) return;
+    const oldValue = row[column];
+    const newValue = this.editValue();
+    this.editingCell.set(null);
+    if (String(oldValue ?? '') !== newValue) {
+      this.cellEdit.emit({ row, column, oldValue, newValue, rowIndex: absIdx });
+    }
+  }
+
+  protected cancelEdit(): void {
+    this.editingCell.set(null);
+  }
+
+  protected onEditKeydown(event: KeyboardEvent, rowIndex: number, column: string): void {
+    if (event.key === 'Enter') {
+      this.commitEdit(rowIndex, column);
+    } else if (event.key === 'Escape') {
+      this.cancelEdit();
+    }
+  }
+
+  // -- Export --
+  protected exportCsv(): void {
+    const cols = this.columns();
+    const data = this.filteredData();
+    const header = cols.map(c => `"${c.label}"`).join(',');
+    const rows = data.map(row =>
+      cols.map(c => {
+        const val = String(row[c.key] ?? '').replace(/"/g, '""');
+        return `"${val}"`;
+      }).join(',')
+    );
+    const csv = [header, ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${this.exportFilename()}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   }
 }

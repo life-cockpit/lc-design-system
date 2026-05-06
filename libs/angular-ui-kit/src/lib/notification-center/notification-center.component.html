@@ -1,0 +1,171 @@
+<div class="lc-nc">
+  <!-- Header -->
+  <div class="lc-nc__header">
+    <div class="lc-nc__header-left">
+      <h3 class="lc-nc__title">{{ title() }}</h3>
+      @if (unreadCount() > 0) {
+        <span class="lc-nc__badge">{{ unreadCount() }}</span>
+      }
+    </div>
+    <div class="lc-nc__header-actions">
+      @if (unreadCount() > 0) {
+        <button type="button" class="lc-nc__action-btn" (click)="onMarkAllRead()">Mark all read</button>
+      }
+      @if (notifications().length > 0) {
+        <button type="button" class="lc-nc__action-btn lc-nc__action-btn--danger" (click)="onClearAll()">Clear all</button>
+      }
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="lc-nc__search">
+    <input
+      type="text"
+      class="lc-nc__search-input"
+      placeholder="Search notifications…"
+      [value]="searchQuery()"
+      (input)="onSearch($event)"
+    />
+  </div>
+
+  <!-- Filters -->
+  @if (showFilter()) {
+    <div class="lc-nc__filters">
+      <button
+        type="button"
+        class="lc-nc__filter"
+        [class.lc-nc__filter--active]="activeFilter() === 'all'"
+        (click)="setFilter('all')"
+      >All ({{ filterCounts().all }})</button>
+      @if (filterCounts().error > 0) {
+        <button
+          type="button"
+          class="lc-nc__filter lc-nc__filter--error"
+          [class.lc-nc__filter--active]="activeFilter() === 'error'"
+          (click)="setFilter('error')"
+        >Error ({{ filterCounts().error }})</button>
+      }
+      @if (filterCounts().warning > 0) {
+        <button
+          type="button"
+          class="lc-nc__filter lc-nc__filter--warning"
+          [class.lc-nc__filter--active]="activeFilter() === 'warning'"
+          (click)="setFilter('warning')"
+        >Warning ({{ filterCounts().warning }})</button>
+      }
+      @if (filterCounts().success > 0) {
+        <button
+          type="button"
+          class="lc-nc__filter lc-nc__filter--success"
+          [class.lc-nc__filter--active]="activeFilter() === 'success'"
+          (click)="setFilter('success')"
+        >Success ({{ filterCounts().success }})</button>
+      }
+      @if (filterCounts().info > 0) {
+        <button
+          type="button"
+          class="lc-nc__filter lc-nc__filter--info"
+          [class.lc-nc__filter--active]="activeFilter() === 'info'"
+          (click)="setFilter('info')"
+        >Info ({{ filterCounts().info }})</button>
+      }
+    </div>
+  }
+
+  <!-- Notification list -->
+  <div class="lc-nc__list" [style.max-height]="maxHeight()">
+    @if (!hasNotifications()) {
+      <div class="lc-nc__empty">
+        <lc-icon name="bell" size="lg" class="lc-nc__empty-icon"></lc-icon>
+        <span class="lc-nc__empty-text">{{ emptyMessage() }}</span>
+      </div>
+    } @else if (groupedNotifications(); as groups) {
+      @for (group of groups; track group.category) {
+        <div class="lc-nc__group">
+          <div class="lc-nc__group-header">{{ group.category }}</div>
+          @for (n of group.items; track n.id) {
+            <div
+              class="lc-nc__item"
+              [class.lc-nc__item--unread]="!n.read"
+              [class.lc-nc__item--urgent]="n.priority === 'urgent'"
+              (click)="onClick(n)"
+            >
+              <lc-icon [name]="getTypeIcon(n.type)" size="sm" class="lc-nc__item-icon" [class]="'lc-nc__item-icon lc-nc__item-icon--' + (n.type || 'info')"></lc-icon>
+              <div class="lc-nc__item-body">
+                <div class="lc-nc__item-header">
+                  <span class="lc-nc__item-title">{{ n.title }}</span>
+                  @if (showPriority() && n.priority && n.priority !== 'normal') {
+                    <span [class]="'lc-nc__item-priority lc-nc__item-priority--' + n.priority">
+                      {{ getPriorityLabel(n.priority) }}
+                    </span>
+                  }
+                </div>
+                @if (n.message) {
+                  <p class="lc-nc__item-message">{{ n.message }}</p>
+                }
+                <div class="lc-nc__item-footer">
+                  @if (showTimestamp()) {
+                    <span class="lc-nc__item-time">{{ formatTime(n.timestamp) }}</span>
+                  }
+                  @if (n.category) {
+                    <span class="lc-nc__item-category">{{ n.category }}</span>
+                  }
+                  @if (n.actionLabel) {
+                    <button type="button" class="lc-nc__item-action" (click)="onAction(n, $event)">{{ n.actionLabel }}</button>
+                  }
+                </div>
+              </div>
+              <button
+                type="button"
+                class="lc-nc__item-dismiss"
+                (click)="onDismiss(n.id, $event)"
+                aria-label="Dismiss notification"
+              >×</button>
+            </div>
+          }
+        </div>
+      }
+    } @else {
+      @for (n of filteredNotifications(); track n.id) {
+        <div
+          class="lc-nc__item"
+          [class.lc-nc__item--unread]="!n.read"
+          [class.lc-nc__item--urgent]="n.priority === 'urgent'"
+          (click)="onClick(n)"
+        >
+          <lc-icon [name]="getTypeIcon(n.type)" size="sm" class="lc-nc__item-icon" [class]="'lc-nc__item-icon lc-nc__item-icon--' + (n.type || 'info')"></lc-icon>
+          <div class="lc-nc__item-body">
+            <div class="lc-nc__item-header">
+              <span class="lc-nc__item-title">{{ n.title }}</span>
+              @if (showPriority() && n.priority && n.priority !== 'normal') {
+                <span [class]="'lc-nc__item-priority lc-nc__item-priority--' + n.priority">
+                  {{ getPriorityLabel(n.priority) }}
+                </span>
+              }
+            </div>
+            @if (n.message) {
+              <p class="lc-nc__item-message">{{ n.message }}</p>
+            }
+            <div class="lc-nc__item-footer">
+              @if (showTimestamp()) {
+                <span class="lc-nc__item-time">{{ formatTime(n.timestamp) }}</span>
+              }
+              @if (n.category) {
+                <span class="lc-nc__item-category">{{ n.category }}</span>
+              }
+              @if (n.actionLabel) {
+                <button type="button" class="lc-nc__item-action" (click)="onAction(n, $event)">{{ n.actionLabel }}</button>
+              }
+            </div>
+          </div>
+          <button
+            type="button"
+            class="lc-nc__item-dismiss"
+            (click)="onDismiss(n.id, $event)"
+            aria-label="Dismiss notification"
+          >×</button>
+        </div>
+      }
+    }
+  </div>
+</div>

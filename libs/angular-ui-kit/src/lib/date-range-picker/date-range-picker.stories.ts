@@ -8,18 +8,37 @@ const meta: Meta<DateRangePickerComponent> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Date range picker with calendar dropdown for selecting a start and end date. ' +
-          'Supports min/max date constraints, month navigation, range highlighting, ' +
-          'and ControlValueAccessor for reactive forms.',
+        component: `
+Date range picker with a calendar dropdown for selecting start and end dates.
+
+**Key Features:**
+- Calendar dropdown with month navigation
+- Range highlighting (start, end, in-range states)
+- Min/max date constraints
+- Automatic date swap when end date precedes start date
+- Localised weekday headers (German: Mo–So)
+- ControlValueAccessor for Angular reactive forms
+- Disabled state support
+- Label and placeholder customisation
+        `,
       },
     },
+  },
+  argTypes: {
+    label: { control: 'text', description: 'Label displayed above the input' },
+    placeholder: { control: 'text', description: 'Placeholder when no range is selected' },
+    disabled: { control: 'boolean', description: 'Disable the picker' },
+    minDate: { control: 'date', description: 'Earliest selectable date' },
+    maxDate: { control: 'date', description: 'Latest selectable date' },
   },
 };
 export default meta;
 type Story = StoryObj<DateRangePickerComponent>;
 
 export const Default: Story = {
+  parameters: {
+    docs: { description: { story: 'Default date range picker with label and placeholder.' } },
+  },
   args: {
     label: 'Date range',
     placeholder: 'Select date range',
@@ -27,6 +46,9 @@ export const Default: Story = {
 };
 
 export const WithMinMax: Story = {
+  parameters: {
+    docs: { description: { story: 'Constrained to a 90-day booking window starting today. Dates outside the range are disabled.' } },
+  },
   args: {
     label: 'Booking period',
     minDate: new Date(),
@@ -35,6 +57,9 @@ export const WithMinMax: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: { description: { story: 'Fully disabled state — the calendar cannot be opened.' } },
+  },
   args: {
     label: 'Locked range',
     disabled: true,
@@ -42,6 +67,9 @@ export const Disabled: Story = {
 };
 
 export const NoLabel: Story = {
+  parameters: {
+    docs: { description: { story: 'Picker without a label, using only the placeholder for guidance.' } },
+  },
   args: {
     placeholder: 'Pick dates…',
   },

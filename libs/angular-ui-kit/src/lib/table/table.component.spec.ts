@@ -363,4 +363,253 @@ describe('TableComponent', () => {
       expect(classes).toContain('lc-table-wrapper--responsive');
     });
   });
+
+  describe('Pagination', () => {
+    const bigData = Array.from({ length: 25 }, (_, i) => ({
+      name: `User ${i}`,
+      age: 20 + i,
+      email: `user${i}@test.com`,
+    }));
+
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', bigData);
+      fixture.componentRef.setInput('paginate', true);
+      fixture.componentRef.setInput('pageSize', 10);
+      fixture.detectChanges();
+    });
+
+    it('should show only first page of data', () => {
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      expect(rows.length).toBe(10);
+    });
+
+    it('should render pagination footer', () => {
+      const pagination = fixture.debugElement.query(By.css('.lc-table-pagination'));
+      expect(pagination).toBeTruthy();
+    });
+
+    it('should show correct page info', () => {
+      const info = fixture.debugElement.query(By.css('.lc-table-pagination__info'));
+      expect(info.nativeElement.textContent).toContain('1–10 of 25');
+    });
+
+    it('should navigate to next page', () => {
+      const nextBtn = fixture.debugElement.queryAll(By.css('.lc-table-pagination__btn'))[1];
+      nextBtn.nativeElement.click();
+      fixture.detectChanges();
+
+      const info = fixture.debugElement.query(By.css('.lc-table-pagination__info'));
+      expect(info.nativeElement.textContent).toContain('11–20 of 25');
+    });
+
+    it('should disable prev button on first page', () => {
+      const prevBtn = fixture.debugElement.queryAll(By.css('.lc-table-pagination__btn'))[0];
+      expect(prevBtn.nativeElement.disabled).toBe(true);
+    });
+
+    it('should not show pagination when paginate is false', () => {
+      fixture.componentRef.setInput('paginate', false);
+      fixture.detectChanges();
+
+      const pagination = fixture.debugElement.query(By.css('.lc-table-pagination'));
+      expect(pagination).toBeFalsy();
+    });
+  });
+
+  describe('Selection', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.componentRef.setInput('selectable', true);
+      fixture.detectChanges();
+    });
+
+    it('should render checkboxes when selectable', () => {
+      const checkboxes = fixture.debugElement.queryAll(By.css('.lc-table__checkbox'));
+      // 1 header + 3 rows
+      expect(checkboxes.length).toBe(4);
+    });
+
+    it('should select a row when checkbox is clicked', () => {
+      const rowCheckbox = fixture.debugElement.queryAll(By.css('tbody .lc-table__checkbox'))[0];
+      rowCheckbox.nativeElement.click();
+      fixture.detectChanges();
+
+      const selectedRow = fixture.debugElement.query(By.css('.lc-table__row--selected'));
+      expect(selectedRow).toBeTruthy();
+    });
+
+    it('should emit selectionChange when row is selected', () => {
+      jest.spyOn(component.selectionChange, 'emit');
+      const rowCheckbox = fixture.debugElement.queryAll(By.css('tbody .lc-table__checkbox'))[0];
+      rowCheckbox.nativeElement.click();
+      fixture.detectChanges();
+
+      expect(component.selectionChange.emit).toHaveBeenCalled();
+    });
+
+    it('should select all rows via header checkbox', () => {
+      const headerCheckbox = fixture.debugElement.query(By.css('thead .lc-table__checkbox'));
+      headerCheckbox.nativeElement.click();
+      fixture.detectChanges();
+
+      const selectedRows = fixture.debugElement.queryAll(By.css('.lc-table__row--selected'));
+      expect(selectedRows.length).toBe(3);
+    });
+
+    it('should not render checkboxes when selectable is false', () => {
+      fixture.componentRef.setInput('selectable', false);
+      fixture.detectChanges();
+
+      const checkboxes = fixture.debugElement.queryAll(By.css('.lc-table__checkbox'));
+      expect(checkboxes.length).toBe(0);
+    });
+  });
+
+  describe('Filtering', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.componentRef.setInput('filterable', true);
+      fixture.detectChanges();
+    });
+
+    it('should render filter inputs when filterable', () => {
+      const filters = fixture.debugElement.queryAll(By.css('.lc-table__filter-input'));
+      expect(filters.length).toBe(3);
+    });
+
+    it('should filter rows based on input', () => {
+      const filterInput = fixture.debugElement.queryAll(By.css('.lc-table__filter-input'))[0];
+      filterInput.nativeElement.value = 'Alice';
+      filterInput.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      expect(rows.length).toBe(1);
+    });
+
+    it('should show empty state when filter matches nothing', () => {
+      const filterInput = fixture.debugElement.queryAll(By.css('.lc-table__filter-input'))[0];
+      filterInput.nativeElement.value = 'ZZZ_NO_MATCH';
+      filterInput.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      const empty = fixture.debugElement.query(By.css('.lc-table__empty'));
+      expect(empty).toBeTruthy();
+    });
+
+    it('should not render filter row when filterable is false', () => {
+      fixture.componentRef.setInput('filterable', false);
+      fixture.detectChanges();
+
+      const filterRow = fixture.debugElement.query(By.css('.lc-table__filter-row'));
+      expect(filterRow).toBeFalsy();
+    });
+  });
+
+  describe('Inline Editing', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.componentRef.setInput('editable', true);
+      fixture.detectChanges();
+    });
+
+    it('should show edit input on double-click', () => {
+      const cell = fixture.debugElement.queryAll(By.css('tbody td'))[0];
+      cell.triggerEventHandler('dblclick', {});
+      fixture.detectChanges();
+
+      const editInput = fixture.debugElement.query(By.css('.lc-table__edit-input'));
+      expect(editInput).toBeTruthy();
+    });
+
+    it('should populate edit input with current value', () => {
+      const cell = fixture.debugElement.queryAll(By.css('tbody td'))[0];
+      cell.triggerEventHandler('dblclick', {});
+      fixture.detectChanges();
+
+      const editInput = fixture.debugElement.query(By.css('.lc-table__edit-input'));
+      expect(editInput.nativeElement.value).toBe('Alice');
+    });
+
+    it('should emit cellEdit on blur with changed value', () => {
+      jest.spyOn(component.cellEdit, 'emit');
+      const cell = fixture.debugElement.queryAll(By.css('tbody td'))[0];
+      cell.triggerEventHandler('dblclick', {});
+      fixture.detectChanges();
+
+      const editInput = fixture.debugElement.query(By.css('.lc-table__edit-input'));
+      editInput.nativeElement.value = 'Alice Updated';
+      editInput.nativeElement.dispatchEvent(new Event('input'));
+      editInput.triggerEventHandler('blur', {});
+      fixture.detectChanges();
+
+      expect(component.cellEdit.emit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          column: 'name',
+          oldValue: 'Alice',
+          newValue: 'Alice Updated',
+        })
+      );
+    });
+
+    it('should cancel edit on Escape', () => {
+      const cell = fixture.debugElement.queryAll(By.css('tbody td'))[0];
+      cell.triggerEventHandler('dblclick', {});
+      fixture.detectChanges();
+
+      const editInput = fixture.debugElement.query(By.css('.lc-table__edit-input'));
+      editInput.triggerEventHandler('keydown', { key: 'Escape' });
+      fixture.detectChanges();
+
+      const editInputAfter = fixture.debugElement.query(By.css('.lc-table__edit-input'));
+      expect(editInputAfter).toBeFalsy();
+    });
+  });
+
+  describe('Export', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.componentRef.setInput('exportable', true);
+      fixture.detectChanges();
+    });
+
+    it('should show export button when exportable', () => {
+      const btn = fixture.debugElement.query(By.css('.lc-table-toolbar__export'));
+      expect(btn).toBeTruthy();
+    });
+
+    it('should not show export button when exportable is false', () => {
+      fixture.componentRef.setInput('exportable', false);
+      fixture.detectChanges();
+
+      const btn = fixture.debugElement.query(By.css('.lc-table-toolbar__export'));
+      expect(btn).toBeFalsy();
+    });
+
+    it('should trigger CSV download on click', () => {
+      const createObjectURL = jest.fn().mockReturnValue('blob:test');
+      const revokeObjectURL = jest.fn();
+      global.URL.createObjectURL = createObjectURL;
+      global.URL.revokeObjectURL = revokeObjectURL;
+
+      const clickSpy = jest.fn();
+      jest.spyOn(document, 'createElement').mockReturnValue({
+        href: '',
+        download: '',
+        click: clickSpy,
+      } as unknown as HTMLElement);
+
+      const btn = fixture.debugElement.query(By.css('.lc-table-toolbar__export'));
+      btn.nativeElement.click();
+
+      expect(createObjectURL).toHaveBeenCalled();
+      expect(clickSpy).toHaveBeenCalled();
+      expect(revokeObjectURL).toHaveBeenCalled();
+    });
+  });
 });

@@ -6,6 +6,7 @@ import {
   computed,
   output,
 } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
 
 export interface KanbanCard {
   id: string;
@@ -39,6 +40,7 @@ export interface KanbanMoveEvent {
 @Component({
   selector: 'lc-kanban-board',
   standalone: true,
+  imports: [IconComponent],
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,10 +70,20 @@ export class KanbanBoardComponent {
 
   protected getPriorityIcon(priority?: string): string {
     switch (priority) {
-      case 'critical': return '🔴';
-      case 'high': return '🟠';
-      case 'medium': return '🟡';
-      case 'low': return '🟢';
+      case 'critical': return 'exclamation-circle';
+      case 'high': return 'arrow-up';
+      case 'medium': return 'minus';
+      case 'low': return 'arrow-down';
+      default: return '';
+    }
+  }
+
+  protected getPriorityColor(priority?: string): string {
+    switch (priority) {
+      case 'critical': return 'var(--color-error-default, #ef4444)';
+      case 'high': return 'var(--color-warning-default, #f59e0b)';
+      case 'medium': return 'var(--color-info-default, #3b82f6)';
+      case 'low': return 'var(--color-success-default, #22c55e)';
       default: return '';
     }
   }

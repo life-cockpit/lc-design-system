@@ -86,7 +86,7 @@ export class ChatComponent implements AfterViewChecked {
   protected readonly formattedMessages = computed(() =>
     this.messages().map(m => ({
       ...m,
-      timestamp: m.timestamp instanceof Date ? m.timestamp : m.timestamp ? new Date(m.timestamp) : null,
+      timestamp: m.timestamp instanceof Date ? m.timestamp : m.timestamp ? new Date(m.timestamp) : undefined,
     }))
   );
 
@@ -116,7 +116,7 @@ export class ChatComponent implements AfterViewChecked {
     this.shouldScroll = true;
   }
 
-  protected formatTime(date: Date | null): string {
+  protected formatTime(date: Date | undefined): string {
     if (!date) return '';
     return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }

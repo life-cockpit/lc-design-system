@@ -1,0 +1,107 @@
+<div class="lc-rich-text-editor" [class.lc-rich-text-editor--disabled]="disabled()">
+  <!-- Toolbar -->
+  <div class="lc-rich-text-editor__toolbar">
+    <div class="lc-rich-text-editor__toolbar-actions">
+      @for (action of toolbar().actions; track action) {
+        <button
+          type="button"
+          class="lc-rich-text-editor__toolbar-btn"
+          [title]="getActionTitle(action)"
+          [disabled]="disabled() || readonly()"
+          (click)="onToolbarAction(action)"
+        >
+          {{ getActionLabel(action) }}
+        </button>
+      }
+    </div>
+    <div class="lc-rich-text-editor__toolbar-modes">
+      <button
+        type="button"
+        class="lc-rich-text-editor__mode-btn"
+        [class.active]="activeMode() === 'rich'"
+        (click)="switchMode('rich')"
+        title="Rich Text"
+      >Rich</button>
+      <button
+        type="button"
+        class="lc-rich-text-editor__mode-btn"
+        [class.active]="activeMode() === 'markdown'"
+        (click)="switchMode('markdown')"
+        title="Markdown"
+      >MD</button>
+      <button
+        type="button"
+        class="lc-rich-text-editor__mode-btn"
+        [class.active]="activeMode() === 'split'"
+        (click)="switchMode('split')"
+        title="Split View"
+      >Split</button>
+    </div>
+  </div>
+
+  <!-- Editor area -->
+  <div
+    class="lc-rich-text-editor__content"
+    [style.min-height.px]="minHeight()"
+    [style.max-height.px]="maxHeight() || null"
+  >
+    @switch (activeMode()) {
+      @case ('rich') {
+        <div
+          #richArea
+          class="lc-rich-text-editor__rich"
+          contenteditable="true"
+          [attr.data-placeholder]="placeholder()"
+          [class.lc-rich-text-editor__rich--empty]="!markdown()"
+          (input)="onRichInput()"
+          (blur)="onBlur()"
+          role="textbox"
+          aria-multiline="true"
+          [attr.aria-label]="placeholder()"
+        ></div>
+      }
+      @case ('markdown') {
+        <textarea
+          #editorArea
+          class="lc-rich-text-editor__textarea"
+          [placeholder]="placeholder()"
+          [value]="markdown()"
+          [disabled]="disabled()"
+          [readOnly]="readonly()"
+          (input)="onMarkdownInput($event)"
+          (blur)="onBlur()"
+          spellcheck="false"
+          aria-label="Markdown editor"
+        ></textarea>
+      }
+      @case ('split') {
+        <div class="lc-rich-text-editor__split">
+          <textarea
+            #editorArea
+            class="lc-rich-text-editor__textarea lc-rich-text-editor__split-editor"
+            [placeholder]="placeholder()"
+            [value]="markdown()"
+            [disabled]="disabled()"
+            [readOnly]="readonly()"
+            (input)="onMarkdownInput($event)"
+            (blur)="onBlur()"
+            spellcheck="false"
+            aria-label="Markdown editor"
+          ></textarea>
+          <div
+            class="lc-rich-text-editor__split-preview"
+            [innerHTML]="renderedHtml()"
+          ></div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- Footer -->
+  @if (showWordCount()) {
+    <div class="lc-rich-text-editor__footer">
+      <span>{{ wordCount() }} words</span>
+      <span>{{ charCount() }} characters</span>
+    </div>
+  }
+</div>

@@ -1,7 +1,50 @@
+<!-- Toolbar -->
+@if (exportable()) {
+  <div class="lc-table-toolbar">
+    <button type="button" class="lc-table-toolbar__export" (click)="exportCsv()">
+      Export CSV
+    </button>
+  </div>
+}
+
 <div [class]="wrapperClasses()">
   <table [class]="tableClasses()" role="table">
     <thead>
+      <!-- Filter row -->
+      @if (filterable()) {
+        <tr class="lc-table__filter-row">
+          @if (selectable()) {
+            <th class="lc-table__select-cell"></th>
+          }
+          @for (column of columns(); track column.key) {
+            <th>
+              @if (column.filterable !== false) {
+                <input
+                  type="text"
+                  class="lc-table__filter-input"
+                  [placeholder]="'Filter ' + column.label"
+                  [value]="getFilterValue(column.key)"
+                  (input)="onFilterChange(column.key, $event)"
+                  [attr.aria-label]="'Filter by ' + column.label"
+                />
+              }
+            </th>
+          }
+        </tr>
+      }
+      <!-- Header row -->
       <tr>
+        @if (selectable()) {
+          <th class="lc-table__select-cell" scope="col">
+            <input
+              type="checkbox"
+              class="lc-table__checkbox"
+              [checked]="allSelected()"
+              (change)="toggleSelectAll()"
+              aria-label="Select all rows"
+            />
+          </th>
+        }
         @for (column of columns(); track column.key) {
           <th
             scope="col"
@@ -25,18 +68,46 @@
       </tr>
     </thead>
     <tbody>
-      @if (data().length === 0) {
+      @if (displayData().length === 0) {
         <tr>
-          <td [attr.colspan]="columns().length" class="lc-table__empty">
+          <td [attr.colspan]="columns().length + (selectable() ? 1 : 0)" class="lc-table__empty">
             {{ emptyText() }}
           </td>
         </tr>
       } @else {
-        @for (row of data(); track $index) {
-          <tr (click)="onRowClick(row)">
+        @for (row of displayData(); track $index) {
+          <tr
+            [class.lc-table__row--selected]="selectable() && isRowSelected($index)"
+            (click)="onRowClick(row)"
+          >
+            @if (selectable()) {
+              <td class="lc-table__select-cell">
+                <input
+                  type="checkbox"
+                  class="lc-table__checkbox"
+                  [checked]="isRowSelected($index)"
+                  (change)="toggleRowSelect($index)"
+                  (click)="$event.stopPropagation()"
+                  [attr.aria-label]="'Select row ' + ($index + 1)"
+                />
+              </td>
+            }
             @for (column of columns(); track column.key) {
-              <td [class]="column.cssClass || ''">
-                @if (hasCustomTemplate(column.key)) {
+              <td
+                [class]="column.cssClass || ''"
+                (dblclick)="editable() ? startEdit($index, column.key, getCellValue(row, column.key)) : null"
+              >
+                @if (isEditing($index, column.key)) {
+                  <input
+                    type="text"
+                    class="lc-table__edit-input"
+                    [value]="editValue()"
+                    (input)="editValue.set($any($event.target).value)"
+                    (blur)="commitEdit($index, column.key)"
+                    (keydown)="onEditKeydown($event, $index, column.key)"
+                    autofocus
+                  />
+                } @else if (hasCustomTemplate(column.key)) {
                   <ng-container *ngTemplateOutlet="getCellTemplate(column.key)!.template; context: { $implicit: row }"></ng-container>
                 } @else {
                   {{ getCellValue(row, column.key) }}
@@ -49,3 +120,41 @@
     </tbody>
   </table>
 </div>
+
+<!-- Pagination -->
+@if (paginate()) {
+  <div class="lc-table-pagination">
+    <div class="lc-table-pagination__info">
+      {{ paginationStart }}–{{ paginationEnd }} of {{ totalRows() }}
+    </div>
+    <div class="lc-table-pagination__controls">
+      <select
+        class="lc-table-pagination__size"
+        [value]="internalPageSize()"
+        (change)="onPageSizeChange($event)"
+        aria-label="Rows per page"
+      >
+        @for (opt of pageSizeOptions(); track opt) {
+          <option [value]="opt">{{ opt }} / page</option>
+        }
+      </select>
+      <button
+        type="button"
+        class="lc-table-pagination__btn"
+        [disabled]="currentPage() === 0"
+        (click)="goToPage(currentPage() - 1)"
+        aria-label="Previous page"
+      >‹</button>
+      <span class="lc-table-pagination__page">
+        {{ currentPage() + 1 }} / {{ totalPages() }}
+      </span>
+      <button
+        type="button"
+        class="lc-table-pagination__btn"
+        [disabled]="currentPage() >= totalPages() - 1"
+        (click)="goToPage(currentPage() + 1)"
+        aria-label="Next page"
+      >›</button>
+    </div>
+  </div>
+}

@@ -27,7 +27,7 @@
         @for (card of col.cards; track trackCard($index, card)) {
           <div
             class="lc-kanban__card"
-            [class.lc-kanban__card--dragging]="draggedCard()?.card.id === card.id"
+            [class.lc-kanban__card--dragging]="draggedCard()?.card?.id === card.id"
             [attr.draggable]="!readonly()"
             (dragstart)="onDragStart($event, card, col.id)"
             (dragover)="onDragOver($event, col.id, $index)"
@@ -36,7 +36,7 @@
             (click)="onCardClick(card, col.id)"
           >
             @if (card.priority) {
-              <span class="lc-kanban__card-priority">{{ getPriorityIcon(card.priority) }}</span>
+              <lc-icon [name]="getPriorityIcon(card.priority)" size="xs" [color]="getPriorityColor(card.priority)" class="lc-kanban__card-priority"></lc-icon>
             }
             <span class="lc-kanban__card-title">{{ card.title }}</span>
 

@@ -8,15 +8,19 @@ const meta: Meta<TableComponent> = {
     docs: {
       description: {
         component: `
-The Table component displays structured data in rows and columns.
-Supports sorting, variants, empty states, and responsive sizing.
+The Table component displays structured data in rows and columns with advanced data management capabilities.
 
 **Key Features:**
 - 3 visual variants (default, striped, bordered)
 - 3 sizes (sm, md, lg)
 - Column-level sort configuration
-- Hoverable rows
+- Hoverable rows with click events
 - Empty state with custom message
+- Pagination with configurable page sizes
+- Row selection with select-all checkbox
+- Per-column text filtering
+- Inline cell editing via double-click
+- CSV export of filtered data
         `,
       },
     },
@@ -35,6 +39,13 @@ Supports sorting, variants, empty states, and responsive sizing.
       table: { defaultValue: { summary: 'md' } },
     },
     hoverable: { control: 'boolean', description: 'Highlight rows on hover' },
+    paginate: { control: 'boolean', description: 'Enable pagination' },
+    pageSize: { control: 'number', description: 'Rows per page' },
+    selectable: { control: 'boolean', description: 'Enable row selection checkboxes' },
+    filterable: { control: 'boolean', description: 'Enable per-column text filters' },
+    editable: { control: 'boolean', description: 'Enable inline cell editing (double-click)' },
+    exportable: { control: 'boolean', description: 'Show CSV export button' },
+    exportFilename: { control: 'text', description: 'Filename for CSV export' },
   },
 };
 
@@ -115,5 +126,126 @@ export const ProjectTable: Story = {
     variant: 'default',
     size: 'md',
     hoverable: true,
+  },
+};
+
+// -- Advanced Feature Stories --
+
+const largeDataset = Array.from({ length: 50 }, (_, i) => ({
+  id: i + 1,
+  name: `User ${i + 1}`,
+  email: `user${i + 1}@company.com`,
+  department: ['Engineering', 'Marketing', 'Sales', 'HR', 'Finance'][i % 5],
+  salary: 50000 + Math.floor(Math.random() * 60000),
+}));
+
+const largeColumns = [
+  { key: 'id', label: 'ID', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'email', label: 'Email' },
+  { key: 'department', label: 'Department', sortable: true },
+  { key: 'salary', label: 'Salary', sortable: true },
+];
+
+export const WithPagination: Story = {
+  parameters: {
+    docs: { description: { story: 'Pagination splits large datasets into pages. Configure page size and navigate between pages.' } },
+  },
+  args: {
+    columns: largeColumns,
+    data: largeDataset,
+    paginate: true,
+    pageSize: 10,
+    pageSizeOptions: [5, 10, 25, 50],
+    variant: 'striped',
+    hoverable: true,
+  },
+};
+
+export const WithSelection: Story = {
+  parameters: {
+    docs: { description: { story: 'Row selection adds checkboxes for each row and a select-all checkbox in the header. Selected rows are highlighted.' } },
+  },
+  args: {
+    columns: userColumns,
+    data: userData,
+    selectable: true,
+    hoverable: true,
+    variant: 'default',
+  },
+};
+
+export const WithFiltering: Story = {
+  parameters: {
+    docs: { description: { story: 'Per-column text filters allow users to narrow results. Filters are applied across all columns simultaneously.' } },
+  },
+  args: {
+    columns: largeColumns,
+    data: largeDataset,
+    filterable: true,
+    paginate: true,
+    pageSize: 10,
+    variant: 'default',
+    hoverable: true,
+  },
+};
+
+export const WithInlineEditing: Story = {
+  parameters: {
+    docs: { description: { story: 'Double-click any cell to edit its value inline. Press Enter to confirm or Escape to cancel.' } },
+  },
+  args: {
+    columns: [
+      { key: 'name', label: 'Name', sortable: true, editable: true },
+      { key: 'email', label: 'Email', editable: true },
+      { key: 'role', label: 'Role', editable: true },
+      { key: 'status', label: 'Status', editable: true },
+    ],
+    data: userData,
+    editable: true,
+    hoverable: true,
+    variant: 'bordered',
+  },
+};
+
+export const WithExport: Story = {
+  parameters: {
+    docs: { description: { story: 'CSV export button allows users to download the current (filtered) dataset as a CSV file.' } },
+  },
+  args: {
+    columns: largeColumns,
+    data: largeDataset,
+    exportable: true,
+    exportFilename: 'employees',
+    filterable: true,
+    variant: 'default',
+    hoverable: true,
+  },
+};
+
+export const FullFeatured: Story = {
+  parameters: {
+    docs: { description: { story: 'All advanced features combined: pagination, selection, filtering, inline editing, and CSV export.' } },
+  },
+  args: {
+    columns: [
+      { key: 'id', label: 'ID', sortable: true, editable: false },
+      { key: 'name', label: 'Name', sortable: true, editable: true },
+      { key: 'email', label: 'Email', editable: true },
+      { key: 'department', label: 'Department', sortable: true, editable: true },
+      { key: 'salary', label: 'Salary', sortable: true, editable: true },
+    ],
+    data: largeDataset,
+    paginate: true,
+    pageSize: 10,
+    pageSizeOptions: [5, 10, 25],
+    selectable: true,
+    filterable: true,
+    editable: true,
+    exportable: true,
+    exportFilename: 'full-report',
+    hoverable: true,
+    variant: 'striped',
+    size: 'md',
   },
 };

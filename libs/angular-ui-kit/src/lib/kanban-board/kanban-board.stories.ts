@@ -8,18 +8,36 @@ const meta: Meta<KanbanBoardComponent> = {
   parameters: {
     docs: {
       description: {
-        component:
-          'Kanban board with drag-and-drop card management. ' +
-          'Supports multiple columns, card labels, priorities, assignees, ' +
-          'WIP limits, and card count display.',
+        component: `
+Kanban board with drag-and-drop card management across multiple columns.
+
+**Key Features:**
+- HTML5 drag & drop between columns and within columns
+- Column headers with colour dot, card count, and WIP limit
+- WIP limit enforcement with over-limit highlighting
+- Card priorities (critical, high, medium, low) with \`lc-icon\` indicators
+- Card labels with custom background colours
+- Card assignees and descriptions
+- Readonly mode to disable all drag interactions
+- Card click and move event outputs
+- Dark mode compatible
+        `,
       },
     },
+  },
+  argTypes: {
+    showCardCount: { control: 'boolean', description: 'Display the number of cards in each column header', table: { defaultValue: { summary: 'true' } } },
+    showWipLimit: { control: 'boolean', description: 'Show WIP limit in column header and highlight over-limit columns', table: { defaultValue: { summary: 'true' } } },
+    readonly: { control: 'boolean', description: 'Disable drag-and-drop interactions', table: { defaultValue: { summary: 'false' } } },
   },
 };
 export default meta;
 type Story = StoryObj<KanbanBoardComponent>;
 
 export const Default: Story = {
+  parameters: {
+    docs: { description: { story: 'Full-featured board with priorities, labels, assignees, WIP limits, and colour-coded columns.' } },
+  },
   args: {
     columns: [
       {
@@ -61,6 +79,9 @@ export const Default: Story = {
 };
 
 export const Simple: Story = {
+  parameters: {
+    docs: { description: { story: 'Minimal board without WIP limits or priorities — a simple task list.' } },
+  },
   args: {
     columns: [
       {
@@ -79,6 +100,9 @@ export const Simple: Story = {
 };
 
 export const WithWipOverflow: Story = {
+  parameters: {
+    docs: { description: { story: 'Column exceeding its WIP limit — highlighted with a red background.' } },
+  },
   args: {
     columns: [
       {
@@ -98,6 +122,9 @@ export const WithWipOverflow: Story = {
 };
 
 export const Readonly: Story = {
+  parameters: {
+    docs: { description: { story: 'Readonly mode — cards are not draggable and no drop targets are shown.' } },
+  },
   args: {
     columns: [
       {

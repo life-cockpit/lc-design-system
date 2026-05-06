@@ -196,6 +196,155 @@
   }
 }
 
+// Toolbar
+.lc-table-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: var(--spacing-2) 0;
+  gap: var(--spacing-2);
+
+  &__export {
+    appearance: none;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--border-radius-md);
+    font-size: var(--typography-font-size-sm);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--color-neutral-100);
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+// Filter row
+.lc-table__filter-row {
+  th {
+    padding: var(--spacing-2) var(--spacing-4) !important;
+    background-color: var(--color-background) !important;
+    border-bottom: 1px solid var(--color-divider) !important;
+  }
+}
+
+.lc-table__filter-input {
+  width: 100%;
+  padding: var(--spacing-1) var(--spacing-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--typography-font-size-xs);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb, 59, 130, 246), 0.15);
+  }
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+  }
+}
+
+// Selection
+.lc-table__select-cell {
+  width: 40px;
+  text-align: center !important;
+  padding: var(--spacing-2) !important;
+}
+
+.lc-table__checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
+.lc-table__row--selected {
+  background-color: var(--color-primary-50, rgba(59, 130, 246, 0.08)) !important;
+}
+
+// Inline editing
+.lc-table__edit-input {
+  width: 100%;
+  padding: var(--spacing-1) var(--spacing-2);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  font-size: inherit;
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  outline: none;
+}
+
+// Pagination
+.lc-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-1);
+  font-size: var(--typography-font-size-sm);
+  color: var(--color-text-secondary);
+
+  &__info {
+    white-space: nowrap;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+
+  &__size {
+    appearance: none;
+    padding: var(--spacing-1) var(--spacing-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-size: var(--typography-font-size-xs);
+    cursor: pointer;
+  }
+
+  &__btn {
+    appearance: none;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--typography-font-size-base);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-neutral-100);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &__page {
+    white-space: nowrap;
+    min-width: 60px;
+    text-align: center;
+  }
+}
+
 // Responsive mobile stacking (optional - can be enabled via CSS class)
 @media (max-width: 640px) {
   .lc-table-wrapper--stack {
@@ -228,6 +377,48 @@
           color: var(--color-text-secondary);
         }
       }
+    }
+  }
+}
+
+// Dark theme adjustments for new features
+[data-theme='dark'] .lc-table-toolbar,
+:root[data-theme='dark'] .lc-table-toolbar {
+  &__export {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-700);
+
+    &:hover {
+      background-color: var(--color-neutral-700);
+    }
+  }
+}
+
+[data-theme='dark'] .lc-table__filter-input,
+:root[data-theme='dark'] .lc-table__filter-input {
+  background-color: var(--color-neutral-800);
+  border-color: var(--color-neutral-700);
+}
+
+[data-theme='dark'] .lc-table__edit-input,
+:root[data-theme='dark'] .lc-table__edit-input {
+  background-color: var(--color-neutral-800);
+}
+
+[data-theme='dark'] .lc-table__row--selected,
+:root[data-theme='dark'] .lc-table__row--selected {
+  background-color: rgba(59, 130, 246, 0.12) !important;
+}
+
+[data-theme='dark'] .lc-table-pagination,
+:root[data-theme='dark'] .lc-table-pagination {
+  &__size,
+  &__btn {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-700);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-neutral-700);
     }
   }
 }

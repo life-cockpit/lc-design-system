@@ -6,14 +6,32 @@ const meta: Meta<FunnelChartComponent> = {
   component: FunnelChartComponent,
   tags: ['autodocs'],
   argTypes: {
-    orientation: { control: 'radio', options: ['vertical', 'horizontal'] },
+    orientation: {
+      control: 'radio',
+      options: ['vertical', 'horizontal'],
+      description: 'Layout direction of the funnel',
+      table: { defaultValue: { summary: 'vertical' } },
+    },
+    showPercentage: { control: 'boolean', description: 'Display conversion percentage relative to first step', table: { defaultValue: { summary: 'true' } } },
+    showValues: { control: 'boolean', description: 'Show absolute values on each step', table: { defaultValue: { summary: 'true' } } },
+    width: { control: 'number', description: 'Chart width in px' },
+    height: { control: 'number', description: 'Chart height in px' },
   },
   parameters: {
     docs: {
       description: {
-        component:
-          'Funnel chart for visualizing conversion pipelines and progressive filtering. ' +
-          'Supports vertical and horizontal orientations, percentage display, and custom colors.',
+        component: `
+Funnel chart for visualizing conversion pipelines and progressive filtering.
+
+**Key Features:**
+- Vertical and horizontal orientations
+- Automatic percentage calculation relative to first step
+- Toggleable value and percentage labels
+- Per-step custom colors
+- Smooth trapezoidal step rendering
+- Hover tooltips with step details
+- Responsive SVG rendering
+        `,
       },
     },
   },
@@ -22,6 +40,9 @@ export default meta;
 type Story = StoryObj<FunnelChartComponent>;
 
 export const SalesFunnel: Story = {
+  parameters: {
+    docs: { description: { story: 'Classic sales funnel from website visits through to retained customers.' } },
+  },
   args: {
     steps: [
       { label: 'Website Visits', value: 15000 },
@@ -36,6 +57,9 @@ export const SalesFunnel: Story = {
 };
 
 export const Horizontal: Story = {
+  parameters: {
+    docs: { description: { story: 'Horizontal orientation for side-by-side funnel visualisation.' } },
+  },
   args: {
     steps: [
       { label: 'Leads', value: 500 },
@@ -50,6 +74,9 @@ export const Horizontal: Story = {
 };
 
 export const CustomColors: Story = {
+  parameters: {
+    docs: { description: { story: 'Each step can define its own color for brand-aligned funnels.' } },
+  },
   args: {
     steps: [
       { label: 'Awareness', value: 10000, color: '#6366f1' },
@@ -63,6 +90,9 @@ export const CustomColors: Story = {
 };
 
 export const ValuesOnly: Story = {
+  parameters: {
+    docs: { description: { story: 'Only absolute values displayed, percentages hidden.' } },
+  },
   args: {
     steps: [
       { label: 'Step 1', value: 800 },
@@ -76,6 +106,9 @@ export const ValuesOnly: Story = {
 };
 
 export const PercentagesOnly: Story = {
+  parameters: {
+    docs: { description: { story: 'Only conversion percentages displayed, absolute values hidden.' } },
+  },
   args: {
     steps: [
       { label: 'Total', value: 5000 },

@@ -307,6 +307,12 @@ export * from './lib/diff-viewer/diff-viewer.component';
 // Kanban Board Component
 export * from './lib/kanban-board/kanban-board.component';
 
+// Notification Center Component
+export * from './lib/notification-center/notification-center.component';
+
+// Rich Text Editor Component
+export * from './lib/rich-text-editor/rich-text-editor.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

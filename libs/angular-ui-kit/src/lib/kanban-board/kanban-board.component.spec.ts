@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, signal } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { KanbanBoardComponent, KanbanColumn, KanbanMoveEvent, KanbanCard } from './kanban-board.component';
 
 @Component({
@@ -47,7 +48,7 @@ describe('KanbanBoardComponent', () => {
   let el: HTMLElement;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [TestHost] }).compileComponents();
+    await TestBed.configureTestingModule({ imports: [TestHost], providers: [provideHttpClient()] }).compileComponents();
     fixture = TestBed.createComponent(TestHost);
     host = fixture.componentInstance;
     fixture.detectChanges();
@@ -87,7 +88,8 @@ describe('KanbanBoardComponent', () => {
 
   it('should show priority icon', () => {
     const priority = el.querySelector('.lc-kanban__card-priority');
-    expect(priority?.textContent?.trim()).toBe('🟠'); // high
+    expect(priority).toBeTruthy();
+    expect(priority?.tagName.toLowerCase()).toBe('lc-icon');
   });
 
   it('should show card labels', () => {
