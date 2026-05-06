@@ -1,0 +1,122 @@
+<!-- Filters -->
+@if (showFilters()) {
+  <div class="gallery__filters">
+    <button
+      type="button"
+      class="gallery__filter-btn"
+      [class.gallery__filter-btn--active]="activeFilter() === null"
+      (click)="setFilter(null)"
+    >
+      All
+    </button>
+    @for (cat of categories(); track cat) {
+      <button
+        type="button"
+        class="gallery__filter-btn"
+        [class.gallery__filter-btn--active]="activeFilter() === cat"
+        (click)="setFilter(cat)"
+      >
+        {{ cat }}
+      </button>
+    }
+  </div>
+}
+
+<!-- Grid / Masonry -->
+<div class="gallery__grid" [class.gallery__grid--masonry]="layout() === 'masonry'" [ngStyle]="gridStyle()">
+  @for (item of filteredItems(); track $index) {
+    <div
+      class="gallery__item"
+      [class.gallery__item--loaded]="isLoaded($index)"
+      [class.gallery__item--clickable]="enableLightbox()"
+      [ngStyle]="itemStyle()"
+      (click)="openLightbox($index)"
+      (keydown.enter)="openLightbox($index)"
+      [attr.tabindex]="enableLightbox() ? 0 : null"
+      [attr.role]="enableLightbox() ? 'button' : null"
+      [attr.aria-label]="item.alt || 'Image ' + ($index + 1)"
+    >
+      @if (!isLoaded($index)) {
+        <div class="gallery__placeholder"></div>
+      }
+      <img
+        class="gallery__thumb"
+        [src]="getThumbnail(item)"
+        [alt]="item.alt || ''"
+        loading="lazy"
+        (load)="onImageLoad($index)"
+      />
+      @if (showCaptions() && item.caption) {
+        <div class="gallery__caption">{{ item.caption }}</div>
+      }
+    </div>
+  }
+</div>
+
+<!-- Lightbox overlay -->
+@if (lightboxItem(); as item) {
+  <div class="gallery__lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <!-- Backdrop -->
+    <div class="gallery__lightbox-backdrop" (click)="closeLightbox()"></div>
+
+    <!-- Toolbar -->
+    <div class="gallery__lightbox-toolbar">
+      <div class="gallery__lightbox-counter">{{ lightboxCounter() }}</div>
+      <div class="gallery__lightbox-actions">
+        <button type="button" class="gallery__lightbox-btn" aria-label="Zoom out" (click)="zoomOut()">
+          <lc-icon name="minus" size="sm" />
+        </button>
+        <span class="gallery__lightbox-zoom">{{ lightboxZoom() }}%</span>
+        <button type="button" class="gallery__lightbox-btn" aria-label="Zoom in" (click)="zoomIn()">
+          <lc-icon name="plus" size="sm" />
+        </button>
+        <button type="button" class="gallery__lightbox-btn" aria-label="Reset zoom" (click)="resetZoom()">
+          <lc-icon name="arrows-pointing-out" size="xs" />
+        </button>
+        <button type="button" class="gallery__lightbox-btn" aria-label="Download" (click)="downloadCurrent()">
+          <lc-icon name="arrow-down-tray" size="sm" />
+        </button>
+        <button type="button" class="gallery__lightbox-btn" aria-label="Close" (click)="closeLightbox()">
+          <lc-icon name="x-mark" size="sm" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    @if (canGoPrev()) {
+      <button
+        type="button"
+        class="gallery__lightbox-nav gallery__lightbox-nav--prev"
+        aria-label="Previous image"
+        (click)="goToPrev()"
+      >
+        <lc-icon name="chevron-left" size="lg" />
+      </button>
+    }
+    @if (canGoNext()) {
+      <button
+        type="button"
+        class="gallery__lightbox-nav gallery__lightbox-nav--next"
+        aria-label="Next image"
+        (click)="goToNext()"
+      >
+        <lc-icon name="chevron-right" size="lg" />
+      </button>
+    }
+
+    <!-- Image -->
+    <div class="gallery__lightbox-content">
+      <img
+        class="gallery__lightbox-image"
+        [src]="item.src"
+        [alt]="item.alt || ''"
+        [style.transform]="lightboxTransform()"
+      />
+    </div>
+
+    <!-- Caption -->
+    @if (item.caption) {
+      <div class="gallery__lightbox-caption">{{ item.caption }}</div>
+    }
+  </div>
+}

@@ -283,6 +283,9 @@ export * from './lib/chat/chat.component';
 // Document Viewer Component
 export * from './lib/document-viewer/document-viewer.component';
 
+// Gallery Component
+export * from './lib/gallery/gallery.component';
+
 // ============================================================================
 // Styles
 // ============================================================================
