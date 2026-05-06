@@ -1,0 +1,34 @@
+<footer [class]="footerClasses()" role="contentinfo">
+  @if (sections().length > 0 && !compact()) {
+    <div class="footer__sections">
+      @for (section of sections(); track section.title) {
+        <div class="footer__section">
+          <h4 class="footer__section-title">{{ section.title }}</h4>
+          <ul class="footer__links">
+            @for (link of section.links; track link.href) {
+              <li>
+                <a
+                  class="footer__link"
+                  [href]="link.href"
+                  [target]="link.external ? '_blank' : '_self'"
+                  [rel]="link.external ? 'noopener noreferrer' : null"
+                >
+                  {{ link.label }}
+                  @if (link.external) {
+                    <lc-icon name="arrow-top-right-on-square" size="xs" class="footer__external-icon" />
+                  }
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  }
+  <div class="footer__bottom">
+    <ng-content />
+    @if (copyright()) {
+      <span class="footer__copyright">{{ copyright() }}</span>
+    }
+  </div>
+</footer>

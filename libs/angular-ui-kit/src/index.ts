@@ -217,6 +217,18 @@ export * from './lib/number-input/number-input.component';
 // Callout Component
 export * from './lib/callout/callout.component';
 
+// Rating Component
+export * from './lib/rating/rating.component';
+
+// Color Picker Component
+export * from './lib/color-picker/color-picker.component';
+
+// Code Block Component
+export * from './lib/code-block/code-block.component';
+
+// Footer Component
+export * from './lib/footer/footer.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

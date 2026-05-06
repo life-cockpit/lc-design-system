@@ -1,0 +1,151 @@
+.code-block {
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  font-family: var(--typography-font-family-mono, 'SF Mono', 'Fira Code', 'Fira Mono', monospace);
+  font-size: var(--typography-font-size-sm, 0.875rem);
+  line-height: 1.625;
+  background-color: var(--color-neutral-950);
+  color: var(--color-neutral-100);
+
+  [data-theme='dark'] &,
+  :root[data-theme='dark'] & {
+    border-color: var(--color-neutral-700);
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-neutral-900);
+    border-bottom: 1px solid var(--color-neutral-800);
+
+    [data-theme='dark'] &,
+    :root[data-theme='dark'] & {
+      background-color: var(--color-neutral-800);
+      border-bottom-color: var(--color-neutral-700);
+    }
+  }
+
+  &__language {
+    font-size: var(--typography-font-size-xs, 0.75rem);
+    color: var(--color-neutral-400);
+    text-transform: lowercase;
+    user-select: none;
+  }
+
+  &__copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: var(--color-neutral-400);
+    font-size: var(--typography-font-size-xs, 0.75rem);
+    font-family: inherit;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+
+    &:hover {
+      color: var(--color-neutral-200);
+      background-color: var(--color-neutral-800);
+    }
+  }
+
+  &__body {
+    overflow-x: auto;
+  }
+
+  &__pre {
+    margin: 0;
+    padding: 1rem;
+  }
+
+  &__code {
+    display: block;
+  }
+
+  &__line {
+    display: flex;
+  }
+
+  &__line-number {
+    display: inline-block;
+    min-width: 2.5rem;
+    padding-right: 1rem;
+    text-align: right;
+    color: var(--color-neutral-600);
+    user-select: none;
+    flex-shrink: 0;
+  }
+
+  &__line-content {
+    flex: 1;
+    white-space: pre;
+
+    // Syntax highlighting tokens
+    ::ng-deep .token-keyword {
+      color: #c678dd;
+    }
+
+    ::ng-deep .token-string {
+      color: #98c379;
+    }
+
+    ::ng-deep .token-number {
+      color: #d19a66;
+    }
+
+    ::ng-deep .token-comment {
+      color: #5c6370;
+      font-style: italic;
+    }
+
+    ::ng-deep .token-type {
+      color: #e5c07b;
+    }
+
+    ::ng-deep .token-constant {
+      color: #d19a66;
+    }
+
+    ::ng-deep .token-decorator {
+      color: #61afef;
+    }
+
+    ::ng-deep .token-tag {
+      color: #e06c75;
+    }
+
+    ::ng-deep .token-attr {
+      color: #d19a66;
+    }
+
+    ::ng-deep .token-selector {
+      color: #e06c75;
+    }
+
+    ::ng-deep .token-property {
+      color: #61afef;
+    }
+
+    ::ng-deep .token-unit {
+      color: #d19a66;
+    }
+
+    ::ng-deep .token-variable {
+      color: #e06c75;
+    }
+
+    ::ng-deep .token-builtin {
+      color: #61afef;
+    }
+
+    ::ng-deep .token-flag {
+      color: #56b6c2;
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<div [class]="pickerClasses()">
+  @if (label()) {
+    <label class="color-picker__label">{{ label() }}</label>
+  }
+  <div class="color-picker__preview-row">
+    <input
+      type="color"
+      class="color-picker__native"
+      [value]="value()"
+      [disabled]="disabled() || isDisabled()"
+      (input)="onNativeInput($event)"
+      (blur)="onBlur()"
+      aria-label="Color picker"
+    />
+    <span
+      class="color-picker__swatch-preview"
+      [style.background-color]="value()"
+    ></span>
+    @if (showInput()) {
+      <input
+        type="text"
+        class="color-picker__hex-input"
+        [value]="value()"
+        [disabled]="disabled() || isDisabled()"
+        maxlength="7"
+        (input)="onHexInput($event)"
+        (blur)="onBlur()"
+        aria-label="Hex color value"
+      />
+    }
+  </div>
+  @if (swatches().length > 0) {
+    <div class="color-picker__swatches" role="listbox" aria-label="Color swatches">
+      @for (swatch of swatches(); track swatch) {
+        <button
+          type="button"
+          class="color-picker__swatch"
+          [class.color-picker__swatch--selected]="swatch === value()"
+          [class.color-picker__swatch--light]="swatch === '#ffffff'"
+          [style.background-color]="swatch"
+          [disabled]="disabled() || isDisabled()"
+          [attr.aria-label]="swatch"
+          [attr.aria-selected]="swatch === value()"
+          role="option"
+          (click)="selectSwatch(swatch)"
+        ></button>
+      }
+    </div>
+  }
+</div>

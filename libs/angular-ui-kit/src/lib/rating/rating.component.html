@@ -1,0 +1,30 @@
+<div [class]="ratingClasses()" (mouseleave)="onMouseLeave()">
+  @if (label()) {
+    <span class="rating__label">{{ label() }}</span>
+  }
+  <div class="rating__stars" role="radiogroup" [attr.aria-label]="label() || 'Rating'">
+    @for (star of stars(); track star) {
+      <button
+        type="button"
+        class="rating__star"
+        [class.rating__star--filled]="isStarFilled(star)"
+        [class.rating__star--half]="isStarHalf(star)"
+        [disabled]="readonly() || disabled() || isDisabled()"
+        [attr.aria-label]="star + ' of ' + max() + ' stars'"
+        (click)="onStarClick(star)"
+        (mouseenter)="onStarHover(star)"
+      >
+        @if (isStarFilled(star)) {
+          <lc-icon name="star" [size]="size()" class="rating__icon rating__icon--filled" />
+        } @else if (isStarHalf(star)) {
+          <lc-icon name="star" [size]="size()" class="rating__icon rating__icon--half" />
+        } @else {
+          <lc-icon name="star" [size]="size()" class="rating__icon rating__icon--empty" />
+        }
+      </button>
+    }
+  </div>
+  @if (showValue()) {
+    <span class="rating__value">{{ value() }}/{{ max() }}</span>
+  }
+</div>
