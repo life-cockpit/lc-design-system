@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-05-07
+
+### Added
+
+- **Rich Text Editor** — WYSIWYG/Markdown/Split mode editor with toolbar, ControlValueAccessor, word count
+- **Table (Extended)** — Pagination, row selection, per-column filtering, inline cell editing
+- **Scatter Plot** — Interactive scatter plot chart component
+- **Funnel Chart** — Funnel visualization component
+- **Tag Input** — Tag/chip input with autocomplete and validation
+- **Date Range Picker** — Dual calendar range selection with presets
+- **Diff Viewer** — Side-by-side and inline text diff comparison
+- **Kanban Board** — Drag-and-drop board with columns, WIP limits, and card management
+- **Notification Center** — Grouped notifications with mark-as-read, filtering, and actions
+
+### Changed
+
+- Reorganized Storybook sidebar: moved components to proper sections (Form, Data Display, Feedback, Navigation, Layout)
+- Replaced emoji icons with `lc-icon` in Notification Center and Kanban Board
+- Added comprehensive feature documentation (Key Features, argTypes, story descriptions) to all new component stories
+- Added alphabetical sorting and section icons in Storybook sidebar
+- Raised component style budget to 6kb/12kb (warning/error)
+
+### Fixed
+
+- Duplicate `getPopoverIcon()` method in demo sidebar
+- Optional chaining in Kanban Board (`draggedCard()?.card?.id`)
+- Chat component timestamp type (`null` → `undefined`)
+
 ## [1.0.1] - 2026-04-30
 
 ### Added
