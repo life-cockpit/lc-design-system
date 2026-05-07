@@ -29,6 +29,17 @@ const meta: Meta<HeaderComponent> = {
     showHamburger: { description: 'Shows a hamburger menu button (for mobile/sidebar toggle)' },
     showThemeButton: { description: 'Shows a dark/light theme toggle button' },
     showProfileMenuItem: { description: 'Whether to show a "Profile" item in the user menu' },
+    theme: {
+      control: 'select',
+      options: ['auto', 'light', 'dark'],
+      description: 'Theme variant — sets internal tokens (--lc-header-bg, --lc-header-fg, etc.)',
+    },
+    menuSize: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size of the profile dropdown menu',
+      table: { defaultValue: { summary: 'sm' } },
+    },
   },
 
   parameters: {
@@ -43,7 +54,11 @@ AppHeaderComponent - Global application header for Life-Cockpit shell
 - User profile dropdown with avatar, name, email, optional Profile link, and Logout
 - Optional theme toggle button in header
 - Hamburger menu toggle for mobile sidebar
+- \`theme\` input (\`auto\` | \`light\` | \`dark\`) with internal CSS tokens
+- Logo auto-adapts color to the header's theme
 - OnPush change detection for performance
+
+**Theming Tokens:** \`--lc-header-bg\`, \`--lc-header-fg\`, \`--lc-header-fg-secondary\`, \`--lc-header-border\`, \`--lc-header-hover-bg\`, \`--lc-header-trigger-border\`, \`--lc-header-trigger-fg\`
 `,
       },
     },
@@ -80,4 +95,27 @@ export const Minimal: Story = {
 export const WithLongTitle: Story = {
   name: 'Long Title & Subtitle',
   args: { title: 'Enterprise Resource Management Platform', subtitle: 'Human Resources Department', userName: 'Administrator', userEmail: 'admin@company.com' },
+};
+
+export const DarkTheme: Story = {
+  name: 'Dark Theme',
+  args: {
+    title: 'Life-Cockpit',
+    subtitle: 'Design System',
+    userName: 'Sarah Connor',
+    userEmail: 'sarah@example.com',
+    showThemeButton: true,
+    theme: 'dark',
+  },
+};
+
+export const LightThemeExplicit: Story = {
+  name: 'Light Theme (Explicit)',
+  args: {
+    title: 'Life-Cockpit',
+    subtitle: 'Dashboard',
+    userName: 'Sarah Connor',
+    userEmail: 'sarah@example.com',
+    theme: 'light',
+  },
 };

@@ -14,9 +14,16 @@ Use it for content sections, dashboard widgets, and list items.
 **Key Features:**
 - 3 variants (elevated, outlined, flat)
 - Configurable padding and border radius
-- Optional title and subtitle
+- Structured header: title + badge + right-side action slot
+- Subtitle/description below title
 - Clickable mode with hover effects
 - Content projection for headers, body, and footers
+
+**Header Structure:**
+- \`title\` — Main heading
+- \`badge\` + \`badgeVariant\` — Count/label pill next to title  
+- \`[card-header-action]\` — Projected content on the right (buttons, links)
+- \`subtitle\` — Description text below title
         `,
       },
     },
@@ -42,6 +49,12 @@ Use it for content sections, dashboard widgets, and list items.
     },
     clickable: { control: 'boolean', description: 'Adds hover effects and pointer cursor' },
     selected: { control: 'boolean', description: 'Highlight as selected (when clickable)' },
+    badge: { description: 'Badge text/count shown next to the title' },
+    badgeVariant: {
+      control: 'select',
+      options: ['default', 'primary', 'success', 'warning', 'error'],
+      description: 'Color variant of the badge',
+    },
   },
 };
 
@@ -179,6 +192,94 @@ export const Variants: Story = {
         </lc-card>
         <lc-card variant="flat" title="Flat" padding="md">
           <p style="margin: 0; font-size: 14px; color: #6b7280;">No shadow or border</p>
+        </lc-card>
+      </div>`,
+  }),
+};
+
+export const WithBadge: Story = {
+  name: 'With Badge',
+  parameters: {
+    docs: { description: { story: 'Title with a badge/count pill. Use `badge` input for counts or status labels.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 700px;">
+        <lc-card variant="outlined" title="Members" badge="3" subtitle="People with access to this organization." padding="lg">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <lc-avatar name="Eric Fritzsche" size="sm"></lc-avatar>
+              <div style="flex: 1;">
+                <p style="margin: 0; font-weight: 500; font-size: 14px;">Eric Fritzsche</p>
+                <p style="margin: 0; font-size: 12px; color: #6b7280;">eric@lc-factory.local</p>
+              </div>
+              <lc-chip variant="success" size="sm">owner</lc-chip>
+            </div>
+          </div>
+        </lc-card>
+        <lc-card variant="outlined" title="Notifications" badge="12" badgeVariant="error" subtitle="Unread alerts and updates." padding="lg">
+          <p style="margin: 0; font-size: 14px; color: #6b7280;">You have 12 unread notifications.</p>
+        </lc-card>
+      </div>`,
+  }),
+};
+
+export const WithHeaderAction: Story = {
+  name: 'With Header Action',
+  parameters: {
+    docs: { description: { story: 'Use `[card-header-action]` slot to project buttons or links on the right side of the header.' } },
+  },
+  render: () => ({
+    template: `
+      <lc-card variant="outlined" title="Projects" subtitle="Each project maps to a Git repository the agents can work in." padding="lg" style="max-width: 600px;">
+        <lc-button card-header-action variant="primary" size="sm" iconLeft="plus">New project</lc-button>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+            <div>
+              <p style="margin: 0; font-weight: 600; font-size: 15px;">LC-Factory</p>
+              <p style="margin: 2px 0 0; font-size: 13px; color: #6b7280;">Spec driven project</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <lc-button variant="ghost" size="xs" iconLeft="pencil">Edit</lc-button>
+              <lc-button variant="ghost" size="xs" iconLeft="trash">Delete</lc-button>
+            </div>
+          </div>
+        </div>
+      </lc-card>`,
+  }),
+};
+
+export const SectionCards: Story = {
+  name: 'Section Cards (Dashboard Pattern)',
+  parameters: {
+    docs: { description: { story: 'Common dashboard pattern: outlined cards as content sections with structured headers, badges, and actions.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 900px;">
+        <lc-card variant="outlined" title="Members" badge="1" badgeVariant="primary" subtitle="People with access to this organization." padding="lg">
+          <lc-button card-header-action variant="ghost" size="sm" iconLeft="plus">Invite</lc-button>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <lc-avatar name="Eric Fritzsche" size="sm"></lc-avatar>
+            <div style="flex: 1;">
+              <p style="margin: 0; font-weight: 500; font-size: 14px;">Eric Fritzsche</p>
+              <p style="margin: 0; font-size: 12px; color: #6b7280;">eric@lc-factory.local</p>
+            </div>
+            <lc-chip variant="success" size="sm">owner</lc-chip>
+          </div>
+        </lc-card>
+        <lc-card variant="outlined" title="Projects" badge="2" badgeVariant="primary" subtitle="Each project maps to a Git repository." padding="lg">
+          <lc-button card-header-action variant="primary" size="sm" iconLeft="plus">New project</lc-button>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="padding: 10px 0; border-bottom: 1px solid #f3f4f6;">
+              <p style="margin: 0; font-weight: 500; font-size: 14px;">LC-Factory</p>
+              <p style="margin: 2px 0 0; font-size: 12px; color: #6b7280;">Spec driven project</p>
+            </div>
+            <div style="padding: 10px 0;">
+              <p style="margin: 0; font-weight: 500; font-size: 14px;">Design System</p>
+              <p style="margin: 2px 0 0; font-size: 12px; color: #6b7280;">UI component library</p>
+            </div>
+          </div>
         </lc-card>
       </div>`,
   }),

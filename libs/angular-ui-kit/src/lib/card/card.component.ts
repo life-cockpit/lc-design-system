@@ -44,6 +44,17 @@ export class CardComponent {
   subtitle = input<string | undefined>(undefined);
 
   /**
+   * Optional badge text/count shown next to the title (e.g. item count).
+   */
+  badge = input<string | undefined>(undefined);
+
+  /**
+   * Badge color variant.
+   * @default 'default'
+   */
+  badgeVariant = input<'default' | 'primary' | 'success' | 'warning' | 'error'>('default');
+
+  /**
    * Visual variant of the card
    * - elevated: Box shadow (default)
    * - outlined: Border only

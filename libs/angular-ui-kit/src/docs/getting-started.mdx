@@ -85,6 +85,65 @@ Components use CSS Custom Properties. Choose a theme by setting a CSS class on `
 <html class="dark">
 ```
 
+## 6. Component Theming (Header, Sidenav, Logo)
+
+Some components support an explicit `theme` input, allowing them to have a dark or light appearance **independently** of the global page theme.
+
+### Header
+
+```html
+<!-- Follows global theme (default) -->
+<lc-header [theme]="'auto'" [title]="'My App'"></lc-header>
+
+<!-- Always dark, regardless of page theme -->
+<lc-header [theme]="'dark'" [title]="'My App'"></lc-header>
+
+<!-- Always light -->
+<lc-header [theme]="'light'" [title]="'My App'"></lc-header>
+```
+
+The header sets internal CSS tokens that you can override without touching global neutrals:
+
+| Token | Purpose |
+|---|---|
+| `--lc-header-bg` | Background color |
+| `--lc-header-fg` | Primary text/icon color |
+| `--lc-header-fg-secondary` | Secondary text (subtitle, email) |
+| `--lc-header-border` | Bottom border color |
+| `--lc-header-hover-bg` | Hover background |
+| `--lc-header-trigger-border` | Profile button border |
+| `--lc-header-trigger-fg` | Profile button icon color |
+
+### Sidenav
+
+```html
+<!-- Always dark sidenav with light page -->
+<lc-sidenav [theme]="'dark'" [isOpenInput]="true" modeInput="docked"></lc-sidenav>
+```
+
+Internal tokens:
+
+| Token | Purpose |
+|---|---|
+| `--lc-sidenav-bg` | Background color |
+| `--lc-sidenav-fg` | Item text color |
+| `--lc-sidenav-fg-active` | Active/hover text color |
+| `--lc-sidenav-border` | Border color |
+| `--lc-sidenav-hover-bg` | Item hover background |
+| `--lc-sidenav-section-fg` | Section title color |
+
+### Logo
+
+```html
+<!-- Inverts for dark backgrounds -->
+<lc-logo [colorMode]="'dark'" variant="full" size="md"></lc-logo>
+
+<!-- Follows global dark/light automatically -->
+<lc-logo [colorMode]="'auto'" variant="full" size="md"></lc-logo>
+```
+
+The `colorMode="dark"` applies `filter: invert(1) hue-rotate(180deg)` to maintain detail while adapting to dark backgrounds.
+
 ## Prerequisites
 
 | Dependency | Version |

@@ -21,6 +21,11 @@ const meta: Meta<LogoComponent> = {
     },
     alt: { description: 'Alt text for accessibility' },
     clickable: { description: 'Adds hover effect and cursor pointer (for use as a link)' },
+    colorMode: {
+      control: 'select',
+      options: ['auto', 'light', 'dark'],
+      description: 'Color adaptation — dark inverts the logo for dark backgrounds',
+    },
   },
 
   parameters: {
@@ -113,6 +118,17 @@ export const InHeader: Story = {
         <div style="display: flex; align-items: center; gap: 8px;">
           <span style="font-size: 13px;">Sarah Connor</span>
         </div>
+      </div>`,
+  }),
+};
+
+export const OnDarkBackground: Story = {
+  name: 'On Dark Background',
+  render: () => ({
+    template: `
+      <div style="display: flex; align-items: center; gap: 24px; padding: 24px; background: #18181b; border-radius: 8px;">
+        <lc-logo variant="full" size="md" colorMode="dark"></lc-logo>
+        <lc-logo variant="emblem" size="md" colorMode="dark"></lc-logo>
       </div>`,
   }),
 };

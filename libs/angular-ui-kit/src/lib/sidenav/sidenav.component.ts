@@ -159,6 +159,17 @@ export class SidenavComponent {
     this.collapsed.set(value);
   }
 
+  /** Theme variant for the sidenav */
+  themeMode = signal<'light' | 'dark' | 'auto'>('auto');
+
+  /**
+   * Input setter for theme
+   */
+  @Input('theme')
+  set themeInput(value: 'light' | 'dark' | 'auto') {
+    this.themeMode.set(value);
+  }
+
   /**
    * Event emitted when the sidenav should close
    */
@@ -181,6 +192,9 @@ export class SidenavComponent {
     }
     if (this.collapsed()) {
       classes.push('lc-sidenav--collapsed');
+    }
+    if (this.themeMode() !== 'auto') {
+      classes.push(`lc-sidenav--${this.themeMode()}`);
     }
     return classes.join(' ');
   });

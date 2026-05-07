@@ -7,10 +7,20 @@
 >
   @if (title()) {
     <div class="card__header">
-      <h3 class="card__title">{{ title() }}</h3>
-      @if (subtitle()) {
-        <p class="card__subtitle">{{ subtitle() }}</p>
-      }
+      <div class="card__header-left">
+        <div class="card__title-row">
+          <h3 class="card__title">{{ title() }}</h3>
+          @if (badge()) {
+            <span class="card__badge card__badge--{{ badgeVariant() }}">{{ badge() }}</span>
+          }
+        </div>
+        @if (subtitle()) {
+          <p class="card__subtitle">{{ subtitle() }}</p>
+        }
+      </div>
+      <div class="card__header-action">
+        <ng-content select="[card-header-action]"></ng-content>
+      </div>
     </div>
   }
   <ng-content select="[card-header]"></ng-content>

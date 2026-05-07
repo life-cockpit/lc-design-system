@@ -52,6 +52,14 @@ export class LogoComponent {
    */
   @Input() clickable = false;
 
+  /**
+   * Color mode for different backgrounds
+   * - 'auto': Follows global theme (uses CSS filter in dark mode)
+   * - 'light': Optimized for light backgrounds (default appearance)
+   * - 'dark': Inverted for dark backgrounds (white/light logo)
+   */
+  @Input() colorMode: 'auto' | 'light' | 'dark' = 'auto';
+
   get logoSrc(): string {
     return this.variant === 'emblem'
       ? '/assets/life-cockpit-emblem.svg'
@@ -62,6 +70,11 @@ export class LogoComponent {
     const classes = [`size-${this.size}`];
     if (this.clickable) {
       classes.push('clickable');
+    }
+    if (this.colorMode === 'dark') {
+      classes.push('lc-logo--dark');
+    } else if (this.colorMode === 'auto') {
+      classes.push('lc-logo--auto');
     }
     return classes.join(' ');
   }

@@ -40,10 +40,18 @@
 
 // Sidenav drawer/panel
 .lc-sidenav {
+  // Default (light) token values
+  --lc-sidenav-bg: var(--color-background, #ffffff);
+  --lc-sidenav-fg: var(--color-neutral-700, #374151);
+  --lc-sidenav-fg-active: var(--color-neutral-900, #111827);
+  --lc-sidenav-border: var(--color-border, #e5e7eb);
+  --lc-sidenav-hover-bg: var(--color-neutral-100, #f3f4f6);
+  --lc-sidenav-section-fg: var(--color-neutral-500, #6b7280);
+
   position: fixed;
   top: 0;
   bottom: 0;
-  background-color: var(--color-background);
+  background-color: var(--lc-sidenav-bg);
   box-shadow: var(--elevation-3, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
   z-index: 1001;
   display: flex;
@@ -81,7 +89,7 @@
     z-index: auto;
     height: 100%;
     box-shadow: none;
-    border-right: 1px solid var(--color-border, #e5e7eb);
+    border-right: 1px solid var(--lc-sidenav-border, #e5e7eb);
     transform: translateX(0);
     transition: width 0.3s ease, transform 0.3s ease;
 
@@ -222,7 +230,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-neutral-500);
+  color: var(--lc-sidenav-section-fg);
 }
 
 .lc-sidenav__section-items {
@@ -240,7 +248,7 @@
   gap: var(--spacing-3, 0.75rem);
   padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
   text-decoration: none;
-  color: var(--color-neutral-700);
+  color: var(--lc-sidenav-fg);
   border-radius: var(--radius-md, 0.375rem);
   transition: background-color 0.2s ease, color 0.2s ease;
   font-size: var(--font-size-sm, 0.875rem);
@@ -248,8 +256,8 @@
   cursor: pointer;
 
   &:hover {
-    background-color: var(--color-neutral-100);
-    color: var(--color-neutral-900);
+    background-color: var(--lc-sidenav-hover-bg);
+    color: var(--lc-sidenav-fg-active);
   }
 
   &:focus-visible {
@@ -403,29 +411,24 @@
   }
 }
 
-// Dark mode
-:host-context([data-theme='dark']) {
-  .lc-sidenav__section-title {
-    color: var(--color-neutral-400);
-  }
+// ── Dark theme variant (explicit) ──────────────
+.lc-sidenav--dark {
+  --lc-sidenav-bg: #18181b;
+  --lc-sidenav-fg: #d4d4d8;
+  --lc-sidenav-fg-active: #f5f5f5;
+  --lc-sidenav-border: #3f3f46;
+  --lc-sidenav-hover-bg: #27272a;
+  --lc-sidenav-section-fg: #a1a1aa;
+}
 
-  .lc-sidenav__nav-item {
-    color: var(--color-neutral-300);
-
-    &:hover {
-      background-color: var(--color-neutral-800);
-      color: var(--color-neutral-100);
-    }
-
-    &--active {
-      background-color: rgba(59, 130, 246, 0.15);
-      color: var(--color-primary-400);
-
-      .lc-sidenav__nav-icon {
-        color: var(--color-primary-400);
-      }
-    }
-  }
+// ── Auto dark theme (global context) ───────────
+:host-context([data-theme='dark']) .lc-sidenav:not(.lc-sidenav--light) {
+  --lc-sidenav-bg: #18181b;
+  --lc-sidenav-fg: #d4d4d8;
+  --lc-sidenav-fg-active: #f5f5f5;
+  --lc-sidenav-border: #3f3f46;
+  --lc-sidenav-hover-bg: #27272a;
+  --lc-sidenav-section-fg: #a1a1aa;
 }
 
 // Print styles

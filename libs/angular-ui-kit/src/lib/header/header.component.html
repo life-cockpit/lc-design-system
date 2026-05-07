@@ -1,4 +1,4 @@
-<header class="lc-header">
+<header class="lc-header" [class.lc-header--dark]="theme === 'dark'" [class.lc-header--light]="theme === 'light'">
   <!-- Hamburger menu icon (mobile only) -->
   @if (showHamburger) {
     <lc-button
@@ -17,7 +17,7 @@
   <div class="lc-header__brand">
     @if (logo || title) {
       <a routerLink="/" class="lc-header__logo" aria-label="Go to home">
-        <lc-logo [variant]="logo ? 'full' : 'emblem'" size="md" [clickable]="false" />
+        <lc-logo [variant]="logo ? 'full' : 'emblem'" size="md" [clickable]="false" [colorMode]="theme === 'dark' ? 'dark' : theme === 'light' ? 'light' : 'auto'" />
       </a>
     }
     
@@ -53,6 +53,7 @@
     [isOpen]="isDropdownOpen()"
     position="bottom-right"
     minWidth="220px"
+    [size]="menuSize"
     (itemClick)="onMenuItemClick($event)"
     (closed)="closeDropdown()"
   >

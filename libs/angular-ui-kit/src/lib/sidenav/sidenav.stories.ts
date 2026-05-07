@@ -30,6 +30,11 @@ const meta: Meta<SidenavComponent> = {
     isOpenInput: { description: 'Whether the sidenav is currently visible' },
     activeRouteInput: { description: 'The currently active route (highlights matching item)' },
     widthInput: { description: 'Custom width (CSS value, e.g. "280px")' },
+    themeInput: {
+      control: 'select',
+      options: ['auto', 'light', 'dark'],
+      description: 'Theme variant — sets internal tokens (--lc-sidenav-bg, --lc-sidenav-fg, etc.)',
+    },
   },
 
   parameters: {
@@ -47,7 +52,10 @@ Sidenav component for application navigation sidebar.
 - Keyboard navigation support
 - Configurable width and position (left/right)
 - Optional backdrop overlay
+- \`theme\` input (\`auto\` | \`light\` | \`dark\`) with internal CSS tokens
 - Accessible with ARIA navigation role
+
+**Theming Tokens:** \`--lc-sidenav-bg\`, \`--lc-sidenav-fg\`, \`--lc-sidenav-fg-active\`, \`--lc-sidenav-border\`, \`--lc-sidenav-hover-bg\`, \`--lc-sidenav-section-fg\`
 `,
       },
     },
@@ -203,6 +211,31 @@ export const CollapsedVsExpanded: Story = {
             activeRouteInput="/dashboard">
           </lc-sidenav>
           <div style="padding: 16px; font-size: 13px; color: #999; flex: 1;">Expanded</div>
+        </div>
+      </div>`,
+  }),
+};
+
+export const DarkTheme: Story = {
+  name: 'Dark Theme',
+  parameters: {
+    docs: { description: { story: 'Sidenav with explicit dark theme via `[theme]="dark"`. Uses internal tokens for background, text, and hover colors.' } },
+  },
+  args: {
+    isOpenInput: true,
+    modeInput: 'docked',
+    themeInput: 'dark',
+    itemsInput: standardItems,
+    activeRouteInput: '/dashboard',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; height: 400px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
+        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [theme]="themeInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput"></lc-sidenav>
+        <div style="flex: 1; padding: 24px; background: #f9fafb;">
+          <h3 style="margin: 0 0 8px; font-weight: 600;">Content Area</h3>
+          <p style="color: #666; font-size: 14px;">The sidenav uses its own dark tokens, independent of the page theme.</p>
         </div>
       </div>`,
   }),

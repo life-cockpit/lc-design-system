@@ -70,6 +70,14 @@ import { ThemeService } from '../theme/theme.service';
 })
 export class HeaderComponent {
   /**
+   * Theme variant for the header
+   * - 'light': Light background with dark text (default)
+   * - 'dark': Dark background with light text
+   * - 'auto': Follows the global theme (data-theme attribute)
+   */
+  @Input() theme: 'light' | 'dark' | 'auto' = 'auto';
+
+  /**
    * Logo image source URL
    */
   @Input() logo: string = '';
@@ -104,6 +112,12 @@ export class HeaderComponent {
    * Whether to show theme toggle button in header
    */
   @Input() showThemeButton: boolean = false;
+
+  /**
+   * Size of the profile dropdown menu
+   * @default 'sm'
+   */
+  @Input() menuSize: 'sm' | 'md' | 'lg' = 'sm';
 
   /**
    * Whether to show the Profile menu item in the user dropdown
