@@ -1,4 +1,13 @@
-import { createStorybookMcpHandler } from '@storybook/mcp';
+import { McpServer } from 'tmcp';
+import { HttpTransport } from '@tmcp/transport-http';
+import { ValibotJsonSchemaAdapter } from '@tmcp/adapter-valibot';
+import * as v from 'valibot';
+import {
+  addListAllDocumentationTool,
+  addGetDocumentationTool,
+  addGetStoryDocumentationTool,
+  STORYBOOK_MCP_INSTRUCTIONS,
+} from '@storybook/mcp';
 
 const STORYBOOK_URL = process.env.STORYBOOK_URL || 'https://design.life-cockpit.de';
 
@@ -17,14 +26,138 @@ async function fetchManifest(_request: unknown, path: string) {
   return res.text();
 }
 
-let handler: Awaited<ReturnType<typeof createStorybookMcpHandler>> | null = null;
+let cachedComponents: Record<string, unknown> | null = null;
+
+async function getComponentsManifest(): Promise<Record<string, unknown>> {
+  if (cachedComponents) return cachedComponents;
+  const text = await fetchManifest(undefined, '/manifests/components.json');
+  const parsed = JSON.parse(text);
+  cachedComponents = parsed.components || {};
+  return cachedComponents;
+}
+
+let cachedDocs: Record<string, unknown> | null = null;
+
+async function getDocsManifest(): Promise<Record<string, unknown>> {
+  if (cachedDocs) return cachedDocs;
+  try {
+    const text = await fetchManifest(undefined, '/manifests/docs.json');
+    const parsed = JSON.parse(text);
+    cachedDocs = parsed.docs || {};
+  } catch {
+    cachedDocs = {};
+  }
+  return cachedDocs;
+}
+
+function formatComponent(comp: Record<string, unknown>): string {
+  let text = `## ${comp.name}\n`;
+  if (comp.description) text += `\n${comp.description}\n`;
+  if (comp.summary) text += `\n### Props\n\`\`\`typescript\n${comp.summary}\n\`\`\`\n`;
+  const stories = comp.stories as Array<{ id: string; name: string; snippet?: string }> | undefined;
+  if (stories?.length) {
+    text += `\n### Stories\n`;
+    for (const story of stories) {
+      text += `- **${story.name}** (\`${story.id}\`)`;
+      if (story.snippet) text += `\n  \`\`\`html\n  ${story.snippet}\n  \`\`\``;
+      text += '\n';
+    }
+  }
+  return text;
+}
+
+let handler: ((req: Request, context?: Record<string, unknown>) => Promise<Response>) | null = null;
 
 async function getHandler() {
-  if (!handler) {
-    handler = await createStorybookMcpHandler({
-      manifestProvider: fetchManifest,
-    });
-  }
+  if (handler) return handler;
+
+  const adapter = new ValibotJsonSchemaAdapter();
+  const server = new McpServer(
+    { name: 'lc-design-system', version: '1.0.0' },
+    {
+      adapter,
+      instructions:
+        STORYBOOK_MCP_INSTRUCTIONS +
+        '\n\nTip: Use the `search_component` tool to find a component by name and get its documentation in a single call, instead of listing all components first.',
+      capabilities: { tools: { listChanged: true } },
+    }
+  ).withContext();
+
+  await addListAllDocumentationTool(server);
+  await addGetStoryDocumentationTool(server);
+  await addGetDocumentationTool(server);
+
+  // Custom search tool: find component + return docs in one call
+  server.tool(
+    {
+      name: 'search_component',
+      title: 'Search Component',
+      description:
+        'Search for a component or documentation entry by name and get its full documentation in a single call. ' +
+        'Use this as your FIRST tool when looking for component information — it eliminates the need to list all components first. ' +
+        'Accepts a partial or full name (e.g., "button", "card", "modal", "spacing").',
+      schema: v.object({
+        query: v.pipe(
+          v.string(),
+          v.description('Component or doc name to search for. Case-insensitive partial matching is supported.')
+        ),
+      }),
+    },
+    async (input: { query: string }) => {
+      try {
+        const [components, docs] = await Promise.all([getComponentsManifest(), getDocsManifest()]);
+        const query = input.query.toLowerCase();
+
+        const matchingComponents = Object.values(components).filter((comp: unknown) => {
+          const c = comp as Record<string, unknown>;
+          const name = String(c.name || '').toLowerCase();
+          const id = String(c.id || '').toLowerCase();
+          return name.includes(query) || id.includes(query);
+        });
+
+        const matchingDocs = Object.values(docs).filter((doc: unknown) => {
+          const d = doc as Record<string, unknown>;
+          const name = String(d.name || '').toLowerCase();
+          const id = String(d.id || '').toLowerCase();
+          const title = String(d.title || '').toLowerCase();
+          return name.includes(query) || id.includes(query) || title.includes(query);
+        });
+
+        if (matchingComponents.length === 0 && matchingDocs.length === 0) {
+          return {
+            content: [
+              {
+                type: 'text' as const,
+                text: `No components or docs found matching "${input.query}". Use list-all-documentation to see all available entries.`,
+              },
+            ],
+          };
+        }
+
+        const parts: string[] = [];
+        for (const comp of matchingComponents) {
+          parts.push(formatComponent(comp as Record<string, unknown>));
+        }
+        for (const doc of matchingDocs) {
+          const d = doc as Record<string, unknown>;
+          let text = `## ${d.title || d.name}\n`;
+          if (d.content) text += `\n${d.content}\n`;
+          parts.push(text);
+        }
+
+        return { content: [{ type: 'text' as const, text: parts.join('\n---\n\n') }] };
+      } catch (error) {
+        return {
+          content: [{ type: 'text' as const, text: `Error searching: ${(error as Error).message}` }],
+        };
+      }
+    }
+  );
+
+  const transport = new HttpTransport(server, { path: null });
+  handler = async (req: Request, context?: Record<string, unknown>) => {
+    return transport.respond(req, { manifestProvider: fetchManifest, ...context, request: req });
+  };
   return handler;
 }
 
