@@ -40,13 +40,14 @@
 
 // Sidenav drawer/panel
 .lc-sidenav {
-  // Default (light) token values
+  // Default (light) token values — hardcoded fallbacks ensure correct
+  // rendering even when global dark mode remaps --color-neutral-* variables.
   --lc-sidenav-bg: var(--color-background, #ffffff);
-  --lc-sidenav-fg: var(--color-neutral-700, #374151);
-  --lc-sidenav-fg-active: var(--color-neutral-900, #111827);
+  --lc-sidenav-fg: #374151;
+  --lc-sidenav-fg-active: #111827;
   --lc-sidenav-border: var(--color-border, #e5e7eb);
-  --lc-sidenav-hover-bg: var(--color-neutral-100, #f3f4f6);
-  --lc-sidenav-section-fg: var(--color-neutral-500, #6b7280);
+  --lc-sidenav-hover-bg: #f3f4f6;
+  --lc-sidenav-section-fg: #6b7280;
 
   position: fixed;
   top: 0;
@@ -281,6 +282,7 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
+  color: currentColor;
 }
 
 .lc-sidenav__nav-chevron {

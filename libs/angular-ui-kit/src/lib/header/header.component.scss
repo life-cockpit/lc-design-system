@@ -210,19 +210,23 @@ html.dark .lc-header:not(.lc-header--light),
 .lc-menu__header {
   padding: var(--spacing-3) var(--spacing-4);
   font-size: var(--font-size-sm);
-  color: var(--lc-header-fg-secondary);
-  border-bottom: 1px solid var(--lc-header-border);
+  color: var(--color-text-secondary, #6b7280);
+  border-bottom: 1px solid var(--color-divider, #e5e7eb);
   margin-bottom: var(--spacing-1);
   word-break: break-word;
 }
 
 // Menu header with avatar
+// NOTE: These elements render inside the lc-menu dropdown panel, which has its
+// own background (light or dark via global theme). We must NOT use --lc-header-*
+// tokens here, because dark-header tokens (white fg) would cascade into a
+// white-background dropdown and make text invisible.
 .lc-header__menu-header {
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
   padding: var(--spacing-4);
-  border-bottom: 1px solid var(--lc-header-border);
+  border-bottom: 1px solid var(--color-divider, #e5e7eb);
   margin-bottom: var(--spacing-1);
 }
 
@@ -234,7 +238,7 @@ html.dark .lc-header:not(.lc-header--light),
 .lc-header__menu-user-name {
   font-size: var(--font-size-sm);
   font-weight: 600;
-  color: var(--lc-header-fg);
+  color: var(--color-text, #111827);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -243,7 +247,7 @@ html.dark .lc-header:not(.lc-header--light),
 
 .lc-header__menu-user-email {
   font-size: var(--font-size-xs);
-  color: var(--lc-header-fg-secondary);
+  color: var(--color-text-secondary, #6b7280);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
