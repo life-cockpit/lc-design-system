@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2026-05-07
+
+### Added
+
+- **List (Extended)** — Rich item structure with avatar (image/initials), subtitle, description, trailing badges (5 color variants), metadata text, selected state, and three sizes (sm/md/lg)
+- **Menu Size Variants** — New `size` input (sm/md/lg) for compact, default, and spacious menu layouts
+- **Hero Variants** — Slim (compact) and light (pastel gradients) hero section variants
+- **Sidenav Collapsed Mode** — Icon-rail collapsed state with tooltip labels
+
+### Fixed
+
+- Menu dropdown z-index raised to prevent rendering behind Storybook code blocks
+- Menu story positions changed to `bottom-left` to prevent clipping
+- Menu stories now include `min-height` to ensure dropdown visibility
+- List card variant no longer forces vertical flex layout on items
+
 ## [1.1.0] - 2026-05-07
 
 ### Added
