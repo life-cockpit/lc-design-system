@@ -21,6 +21,7 @@ export type SidenavMode = 'drawer' | 'docked';
  *
  * Features:
  * - Drawer (overlay) and docked (persistent) modes
+ * - Collapsed icon-rail mode (narrow 56px sidebar with icons only)
  * - Hierarchical navigation with collapsible groups
  * - Section headlines for item grouping
  * - Active route highlighting
@@ -31,7 +32,7 @@ export type SidenavMode = 'drawer' | 'docked';
  *
  * @example
  * ```html
- * <lc-sidenav [isOpen]="isOpen" mode="docked" [items]="navItems"
+ * <lc-sidenav [isOpen]="isOpen" mode="docked" [collapsed]="isCollapsed" [items]="navItems"
  *   (closed)="isOpen = false" (itemClicked)="navigate($event)" />
  * ```
  */
@@ -49,6 +50,9 @@ export type SidenavMode = 'drawer' | 'docked';
   },
 })
 export class SidenavComponent {
+  /** Whether the sidenav is collapsed to icon-only rail */
+  collapsed = signal<boolean>(false);
+
   /** Whether the sidenav is open */
   isOpen = signal<boolean>(false);
 
@@ -148,6 +152,14 @@ export class SidenavComponent {
   }
 
   /**
+   * Input setter for collapsed
+   */
+  @Input()
+  set collapsedInput(value: boolean) {
+    this.collapsed.set(value);
+  }
+
+  /**
    * Event emitted when the sidenav should close
    */
   @Output() readonly closed = new EventEmitter<void>();
@@ -167,6 +179,9 @@ export class SidenavComponent {
     if (this.isOpen()) {
       classes.push('lc-sidenav--open');
     }
+    if (this.collapsed()) {
+      classes.push('lc-sidenav--collapsed');
+    }
     return classes.join(' ');
   });
 
@@ -174,8 +189,15 @@ export class SidenavComponent {
    * Computed inline styles for the sidenav
    */
   sidenavStyles = computed(() => ({
-    width: this.width(),
+    width: this.collapsed() ? '56px' : this.width(),
   }));
+
+  /**
+   * Toggle collapsed state
+   */
+  toggleCollapsed(): void {
+    this.collapsed.set(!this.collapsed());
+  }
 
   /**
    * Handle close action

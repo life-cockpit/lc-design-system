@@ -79,6 +79,12 @@ export class MenuComponent {
   @Input() position: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' = 'bottom-right';
 
   /**
+   * Size of menu items
+   * @default 'md'
+   */
+  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+
+  /**
    * Minimum width of menu dropdown
    * @default '220px'
    */

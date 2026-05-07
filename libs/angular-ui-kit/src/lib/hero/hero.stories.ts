@@ -13,6 +13,7 @@ Use it at the top of pages to introduce content, highlight key information, or s
 
 **Key Features:**
 - 9 gradient color themes (primary, secondary, neutral, success, info, warning, accent-orange, accent-purple, accent-violet)
+- 3 visual variants: default (dark gradient), slim (compact banner), light (soft pastel with dark text)
 - 3 size variants (sm, md, lg) with mobile-first responsive padding and typography
 - Content projection for body text and a footer slot for metadata / stats
 - Configurable border radius
@@ -56,6 +57,12 @@ Use it at the top of pages to introduce content, highlight key information, or s
       options: ['none', 'sm', 'md', 'lg'],
       description: 'Corner rounding',
       table: { defaultValue: { summary: 'lg' } },
+    },
+    variant: {
+      control: 'select',
+      options: ['default', 'slim', 'light'],
+      description: 'Visual variant: default (dark gradient), slim (compact), light (pastel)',
+      table: { defaultValue: { summary: 'default' } },
     },
   },
 };
@@ -221,6 +228,88 @@ export const AllColors: Story = {
         <lc-hero title="Accent Violet" color="accent-violet" size="sm" borderRadius="md">
           <p style="margin: 0;">Gradient preview</p>
         </lc-hero>
+      </div>`,
+  }),
+};
+
+export const Slim: Story = {
+  parameters: {
+    docs: { description: { story: 'Slim variant — a compact banner with reduced padding and smaller typography.' } },
+  },
+  args: {
+    label: 'DASHBOARD',
+    title: 'Quick Stats',
+    color: 'primary',
+    size: 'md',
+    borderRadius: 'md',
+    variant: 'slim',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <lc-hero [label]="label" [title]="title" [color]="color" [size]="size" [borderRadius]="borderRadius" [variant]="variant">
+        <p style="margin: 0;">A compact hero for secondary page sections or dashboards.</p>
+      </lc-hero>`,
+  }),
+};
+
+export const Light: Story = {
+  parameters: {
+    docs: { description: { story: 'Light variant — soft pastel gradient with dark text, ideal for less prominent headers.' } },
+  },
+  args: {
+    label: 'GETTING STARTED',
+    title: 'Welcome to your workspace',
+    color: 'primary',
+    size: 'md',
+    borderRadius: 'lg',
+    variant: 'light',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <lc-hero [label]="label" [title]="title" [color]="color" [size]="size" [borderRadius]="borderRadius" [variant]="variant">
+        <p style="margin: 0;">A softer, lighter hero that blends well with content-heavy pages.</p>
+      </lc-hero>`,
+  }),
+};
+
+export const LightSlim: Story = {
+  parameters: {
+    docs: { description: { story: 'Combining slim and light for a subtle, compact section header.' } },
+  },
+  args: {
+    title: 'Note',
+    color: 'info',
+    size: 'sm',
+    borderRadius: 'md',
+    variant: 'light',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <lc-hero [title]="title" [color]="color" [size]="size" [borderRadius]="borderRadius" variant="slim light">
+        <p style="margin: 0;">A very compact, pastel-colored callout-style hero.</p>
+      </lc-hero>`,
+  }),
+};
+
+export const AllLightColors: Story = {
+  parameters: {
+    docs: { description: { story: 'All light variant color themes side by side.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <lc-hero title="Primary Light" color="primary" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Secondary Light" color="secondary" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Neutral Light" color="neutral" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Success Light" color="success" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Info Light" color="info" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Warning Light" color="warning" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Accent Orange Light" color="accent-orange" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Accent Purple Light" color="accent-purple" size="sm" borderRadius="md" variant="light"></lc-hero>
+        <lc-hero title="Accent Violet Light" color="accent-violet" size="sm" borderRadius="md" variant="light"></lc-hero>
       </div>`,
   }),
 };

@@ -40,6 +40,7 @@ Sidenav component for application navigation sidebar.
 
 **Key Features:**
 - Drawer (overlay) and docked (persistent) modes
+- Collapsed icon-rail mode (56px narrow sidebar with icons only and hover tooltips)
 - Hierarchical navigation with collapsible groups
 - Section headlines for item grouping
 - Active route highlighting
@@ -139,6 +140,69 @@ export const FullApplication: Story = {
         <div style="flex: 1; padding: 24px;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Tasks</h3>
           <p style="color: #666; font-size: 14px;">Main content area next to the sidenav.</p>
+        </div>
+      </div>`,
+  }),
+};
+
+export const CollapsedIconRail: Story = {
+  name: 'Collapsed Icon Rail',
+  parameters: {
+    docs: { description: { story: 'Collapsed mode shows only icons in a narrow 56px rail. Hover over an icon to see the label tooltip.' } },
+  },
+  args: {
+    isOpenInput: true,
+    modeInput: 'docked',
+    collapsedInput: true,
+    itemsInput: standardItems,
+    activeRouteInput: '/dashboard',
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [collapsedInput]="collapsedInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput"></lc-sidenav>
+        <div style="flex: 1; padding: 24px;">
+          <h3 style="margin: 0 0 8px; font-weight: 600;">Dashboard</h3>
+          <p style="color: #666; font-size: 14px;">The sidenav is collapsed to a narrow icon rail. Hover icons for labels.</p>
+        </div>
+      </div>`,
+  }),
+};
+
+export const CollapsedVsExpanded: Story = {
+  name: 'Collapsed vs Expanded',
+  parameters: {
+    docs: { description: { story: 'Side-by-side comparison of collapsed icon rail and full expanded sidenav.' } },
+  },
+  render: () => ({
+    template: `
+      <div style="display: flex; gap: 24px;">
+        <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; flex: 0 0 auto;">
+          <lc-sidenav [isOpenInput]="true" modeInput="docked" [collapsedInput]="true"
+            [itemsInput]="[
+              { id: '1', icon: 'home', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
+              { id: '2', icon: 'folder', label: 'Projects', route: '/projects', displayOrder: 2 },
+              { id: '3', icon: 'users', label: 'Team', route: '/team', displayOrder: 3 },
+              { id: '4', icon: 'chart-bar', label: 'Analytics', route: '/analytics', displayOrder: 4 },
+              { id: '5', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 5 }
+            ]"
+            activeRouteInput="/dashboard">
+          </lc-sidenav>
+          <div style="padding: 16px; font-size: 13px; color: #999;">Collapsed</div>
+        </div>
+        <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; flex: 1;">
+          <lc-sidenav [isOpenInput]="true" modeInput="docked" [collapsedInput]="false" widthInput="240px"
+            [itemsInput]="[
+              { id: '1', icon: 'home', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
+              { id: '2', icon: 'folder', label: 'Projects', route: '/projects', displayOrder: 2 },
+              { id: '3', icon: 'users', label: 'Team', route: '/team', displayOrder: 3 },
+              { id: '4', icon: 'chart-bar', label: 'Analytics', route: '/analytics', displayOrder: 4 },
+              { id: '5', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 5 }
+            ]"
+            activeRouteInput="/dashboard">
+          </lc-sidenav>
+          <div style="padding: 16px; font-size: 13px; color: #999; flex: 1;">Expanded</div>
         </div>
       </div>`,
   }),

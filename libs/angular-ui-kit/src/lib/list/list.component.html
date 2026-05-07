@@ -9,20 +9,49 @@
       @if (itemTemplate) {
         <ng-container *ngTemplateOutlet="itemTemplate.template; context: { $implicit: item }"></ng-container>
       } @else {
-        @if (item.icon) {
+        <!-- Leading: Avatar or Icon -->
+        @if (item.avatar) {
+          <div class="lc-list__avatar">
+            @if (item.avatar.startsWith('http') || item.avatar.startsWith('/') || item.avatar.startsWith('data:')) {
+              <img [src]="item.avatar" [alt]="item.label" class="lc-list__avatar-img" />
+            } @else {
+              <span class="lc-list__avatar-initials">{{ item.avatar }}</span>
+            }
+          </div>
+        } @else if (item.icon) {
           <lc-icon [name]="item.icon" class="lc-list__icon" size="sm" />
         }
-        <span class="lc-list__label">{{ item.label }}</span>
-        @if (item.action) {
-          <lc-button
-            variant="ghost"
-            size="xs"
-            class="lc-list__action"
-            (clicked)="onActionClick(item)"
-          >
-            {{ item.action }}
-          </lc-button>
-        }
+
+        <!-- Content: Label, Subtitle, Description -->
+        <div class="lc-list__content">
+          <span class="lc-list__label">{{ item.label }}</span>
+          @if (item.subtitle) {
+            <span class="lc-list__subtitle">{{ item.subtitle }}</span>
+          }
+          @if (item.description) {
+            <span class="lc-list__description">{{ item.description }}</span>
+          }
+        </div>
+
+        <!-- Trailing: Badge, Metadata, Action -->
+        <div class="lc-list__trailing">
+          @if (item.badge) {
+            <span class="lc-list__badge lc-list__badge--{{ item.badgeVariant || 'default' }}">{{ item.badge }}</span>
+          }
+          @if (item.metadata) {
+            <span class="lc-list__metadata">{{ item.metadata }}</span>
+          }
+          @if (item.action) {
+            <lc-button
+              variant="ghost"
+              size="xs"
+              class="lc-list__action"
+              (clicked)="onActionClick(item)"
+            >
+              {{ item.action }}
+            </lc-button>
+          }
+        </div>
       }
     </div>
   }

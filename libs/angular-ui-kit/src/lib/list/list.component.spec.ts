@@ -274,4 +274,233 @@ describe('ListComponent', () => {
       expect(listItem?.getAttribute('aria-disabled')).toBe('true');
     });
   });
+
+  describe('Subtitles', () => {
+    it('should render subtitle when provided', () => {
+      const items = [{ label: 'Title', subtitle: 'Subtitle text' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const subtitle = listElement.querySelector('.lc-list__subtitle');
+      expect(subtitle).toBeTruthy();
+      expect(subtitle?.textContent?.trim()).toBe('Subtitle text');
+    });
+
+    it('should not render subtitle when not provided', () => {
+      const items = [{ label: 'Title' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const subtitle = listElement.querySelector('.lc-list__subtitle');
+      expect(subtitle).toBeFalsy();
+    });
+  });
+
+  describe('Description', () => {
+    it('should render description when provided', () => {
+      const items = [{ label: 'Title', description: 'Description text' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const description = listElement.querySelector('.lc-list__description');
+      expect(description).toBeTruthy();
+      expect(description?.textContent?.trim()).toBe('Description text');
+    });
+
+    it('should not render description when not provided', () => {
+      const items = [{ label: 'Title' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const description = listElement.querySelector('.lc-list__description');
+      expect(description).toBeFalsy();
+    });
+  });
+
+  describe('Avatar', () => {
+    it('should render avatar initials when provided as text', () => {
+      const items = [{ label: 'Anna Schmidt', avatar: 'AS' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const avatar = listElement.querySelector('.lc-list__avatar');
+      expect(avatar).toBeTruthy();
+      const initials = listElement.querySelector('.lc-list__avatar-initials');
+      expect(initials).toBeTruthy();
+      expect(initials?.textContent?.trim()).toBe('AS');
+    });
+
+    it('should render avatar image when URL provided', () => {
+      const items = [{ label: 'User', avatar: 'https://example.com/photo.jpg' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const img = listElement.querySelector('.lc-list__avatar-img') as HTMLImageElement;
+      expect(img).toBeTruthy();
+      expect(img.src).toBe('https://example.com/photo.jpg');
+    });
+
+    it('should render avatar image for data URLs', () => {
+      const items = [{ label: 'User', avatar: 'data:image/png;base64,abc' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const img = listElement.querySelector('.lc-list__avatar-img');
+      expect(img).toBeTruthy();
+    });
+
+    it('should prefer avatar over icon', () => {
+      const items = [{ label: 'User', avatar: 'AB', icon: 'user' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const avatar = listElement.querySelector('.lc-list__avatar');
+      const icon = listElement.querySelector('.lc-list__icon');
+      expect(avatar).toBeTruthy();
+      expect(icon).toBeFalsy();
+    });
+  });
+
+  describe('Badge', () => {
+    it('should render badge when provided', () => {
+      const items = [{ label: 'Inbox', badge: '24' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const badge = listElement.querySelector('.lc-list__badge');
+      expect(badge).toBeTruthy();
+      expect(badge?.textContent?.trim()).toBe('24');
+    });
+
+    it('should apply default badge variant', () => {
+      const items = [{ label: 'Item', badge: '5' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const badge = listElement.querySelector('.lc-list__badge');
+      expect(badge?.className).toContain('lc-list__badge--default');
+    });
+
+    it('should apply specified badge variant', () => {
+      const items = [
+        { label: 'Item', badge: 'Error', badgeVariant: 'error' as const },
+      ];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const badge = listElement.querySelector('.lc-list__badge');
+      expect(badge?.className).toContain('lc-list__badge--error');
+    });
+
+    it('should not render badge when not provided', () => {
+      const items = [{ label: 'Item' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const badge = listElement.querySelector('.lc-list__badge');
+      expect(badge).toBeFalsy();
+    });
+  });
+
+  describe('Metadata', () => {
+    it('should render metadata when provided', () => {
+      const items = [{ label: 'File.pdf', metadata: '2.4 MB' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const metadata = listElement.querySelector('.lc-list__metadata');
+      expect(metadata).toBeTruthy();
+      expect(metadata?.textContent?.trim()).toBe('2.4 MB');
+    });
+
+    it('should not render metadata when not provided', () => {
+      const items = [{ label: 'Item' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const metadata = listElement.querySelector('.lc-list__metadata');
+      expect(metadata).toBeFalsy();
+    });
+  });
+
+  describe('Selected State', () => {
+    it('should apply selected class', () => {
+      const items = [{ label: 'Item 1', selected: true }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const listItem = listElement.querySelector('.lc-list__item');
+      expect(listItem?.className).toContain('lc-list__item--selected');
+    });
+
+    it('should not apply selected class when false', () => {
+      const items = [{ label: 'Item 1', selected: false }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const listItem = listElement.querySelector('.lc-list__item');
+      expect(listItem?.className).not.toContain('lc-list__item--selected');
+    });
+  });
+
+  describe('Size', () => {
+    it('should default to md size', () => {
+      const list = listElement.querySelector('.lc-list');
+      expect(list?.className).toContain('lc-list--md');
+    });
+
+    it('should apply sm size class', () => {
+      fixture.componentRef.setInput('size', 'sm');
+      fixture.detectChanges();
+
+      const list = listElement.querySelector('.lc-list');
+      expect(list?.className).toContain('lc-list--sm');
+    });
+
+    it('should apply lg size class', () => {
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.detectChanges();
+
+      const list = listElement.querySelector('.lc-list');
+      expect(list?.className).toContain('lc-list--lg');
+    });
+  });
+
+  describe('Content Section', () => {
+    it('should render content wrapper for label', () => {
+      const items = [{ label: 'Item' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const content = listElement.querySelector('.lc-list__content');
+      expect(content).toBeTruthy();
+    });
+
+    it('should render all three text lines together', () => {
+      const items = [{
+        label: 'Title',
+        subtitle: 'Sub',
+        description: 'Desc',
+      }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const content = listElement.querySelector('.lc-list__content');
+      expect(content?.querySelector('.lc-list__label')).toBeTruthy();
+      expect(content?.querySelector('.lc-list__subtitle')).toBeTruthy();
+      expect(content?.querySelector('.lc-list__description')).toBeTruthy();
+    });
+  });
+
+  describe('Trailing Section', () => {
+    it('should render trailing section with badge and metadata', () => {
+      const items = [{ label: 'Item', badge: '3', metadata: 'Today' }];
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+
+      const trailing = listElement.querySelector('.lc-list__trailing');
+      expect(trailing?.querySelector('.lc-list__badge')).toBeTruthy();
+      expect(trailing?.querySelector('.lc-list__metadata')).toBeTruthy();
+    });
+  });
 });

@@ -17,12 +17,14 @@ export type HeroColor =
   | 'accent-violet';
 
 export type HeroSize = 'sm' | 'md' | 'lg';
+export type HeroVariant = 'default' | 'slim' | 'light';
 
 /**
  * Hero component for prominent page headers with gradient backgrounds.
  *
  * Features:
- * - Color gradient variants (primary, secondary, success, warning, error, neutral)
+ * - Color gradient variants (primary, secondary, success, warning, info, neutral, accent-orange, accent-purple, accent-violet)
+ * - 3 visual variants: default (dark gradient), slim (compact banner), light (pastel gradient with dark text)
  * - Size options (sm, md, lg)
  * - Optional label text above the title
  * - Configurable border radius
@@ -31,7 +33,7 @@ export type HeroSize = 'sm' | 'md' | 'lg';
  *
  * @example
  * ```html
- * <lc-hero label="MY APP" title="Welcome" color="primary">
+ * <lc-hero label="MY APP" title="Welcome" color="primary" variant="slim">
  *   <p>Description text</p>
  *   <div hero-footer>Status: Active</div>
  * </lc-hero>
@@ -73,12 +75,22 @@ export class HeroComponent {
    */
   borderRadius = input<'none' | 'sm' | 'md' | 'lg'>('lg');
 
+  /**
+   * Visual variant.
+   * - `default`: dark gradient with white text
+   * - `slim`: compact single-line banner
+   * - `light`: softer pastel gradient with dark text
+   * @default 'default'
+   */
+  variant = input<HeroVariant>('default');
+
   protected heroClasses = computed(() => {
     return [
       'hero',
       `hero--${this.color()}`,
       `hero--${this.size()}`,
       `hero--radius-${this.borderRadius()}`,
+      `hero--${this.variant()}`,
     ].join(' ');
   });
 }

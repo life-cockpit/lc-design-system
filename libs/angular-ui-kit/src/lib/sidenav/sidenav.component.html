@@ -116,7 +116,8 @@
               [routerLinkActiveOptions]="{ exact: item.route === '/' }"
               class="lc-sidenav__nav-item"
               (click)="handleItemClick(item)"
-              [attr.aria-current]="isItemActive(item) ? 'page' : null">
+              [attr.aria-current]="isItemActive(item) ? 'page' : null"
+              [title]="collapsed() ? item.label : ''">
               <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
               <span class="lc-sidenav__nav-label">{{ item.label }}</span>
             </a>

@@ -27,20 +27,39 @@ export type ListVariant = 'default' | 'card';
  * List item interface
  */
 export interface ListItem {
-  /** Item label text */
+  /** Item label text (primary line) */
   label: string;
+  /** Secondary text shown below the label */
+  subtitle?: string;
+  /** Description text shown below subtitle (third line) */
+  description?: string;
   /** Optional icon identifier */
   icon?: string;
+  /** Avatar URL or initials (renders a circular avatar instead of icon) */
+  avatar?: string;
+  /** Badge text (e.g. count, status label) shown on the trailing side */
+  badge?: string;
+  /** Badge color variant */
+  badgeVariant?: 'default' | 'primary' | 'success' | 'warning' | 'error';
+  /** Metadata text shown on the trailing side (e.g. date, size) */
+  metadata?: string;
   /** Optional action label */
   action?: string;
   /** Item identifier */
   id?: string;
   /** Whether the item is disabled */
   disabled?: boolean;
+  /** Whether the item is selected / highlighted */
+  selected?: boolean;
   /** Any additional data */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
+
+/**
+ * List item size
+ */
+export type ListSize = 'sm' | 'md' | 'lg';
 
 /**
  * List component for displaying structured item collections.
@@ -84,6 +103,9 @@ export class ListComponent {
   /** Visual variant */
   variant = input<ListVariant>('default');
 
+  /** Size of list items */
+  size = input<ListSize>('md');
+
   /** Whether to show dividers between items */
   showDividers = input<boolean>(false);
 
@@ -101,6 +123,7 @@ export class ListComponent {
 
     classes.push(`lc-list--${this.orientation()}`);
     classes.push(`lc-list--${this.variant()}`);
+    classes.push(`lc-list--${this.size()}`);
 
     if (this.showDividers()) {
       classes.push('lc-list--with-dividers');
@@ -117,6 +140,10 @@ export class ListComponent {
 
     if (item.disabled) {
       classes.push('lc-list__item--disabled');
+    }
+
+    if (item.selected) {
+      classes.push('lc-list__item--selected');
     }
 
     return classes.join(' ');

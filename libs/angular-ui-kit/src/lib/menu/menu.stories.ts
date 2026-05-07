@@ -24,6 +24,11 @@ const meta: Meta<MenuComponent> = {
       description: 'Anchor position relative to the trigger element',
     },
     minWidth: { description: 'Minimum width of the menu panel (CSS value)' },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size of menu items — sm is compact, md is default, lg is spacious',
+    },
   },
 
   parameters: {
@@ -53,7 +58,7 @@ type Story = StoryObj<MenuComponent>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    position: 'bottom-right',
+    position: 'bottom-left',
     items: [
       { id: 'profile', label: 'Profile', icon: 'user' },
       { id: 'settings', label: 'Settings', icon: 'cog-6-tooth' },
@@ -64,7 +69,7 @@ export const Default: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="position: relative; display: inline-block; padding: 20px;">
+      <div style="position: relative; display: inline-block; padding: 20px; min-height: 280px;">
         <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
           <button trigger style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer;">Account ▾</button>
         </lc-menu>
@@ -76,7 +81,7 @@ export const WithDividers: Story = {
   name: 'With Dividers & Danger',
   args: {
     isOpen: true,
-    position: 'bottom-right',
+    position: 'bottom-left',
     items: [
       { id: 'edit', label: 'Edit', icon: 'pencil' },
       { id: 'duplicate', label: 'Duplicate', icon: 'document-duplicate' },
@@ -88,7 +93,7 @@ export const WithDividers: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="position: relative; display: inline-block; padding: 20px;">
+      <div style="position: relative; display: inline-block; padding: 20px; min-height: 300px;">
         <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
           <button trigger style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer;">Actions ▾</button>
         </lc-menu>
@@ -100,7 +105,7 @@ export const WithDisabled: Story = {
   name: 'With Disabled Items',
   args: {
     isOpen: true,
-    position: 'bottom-right',
+    position: 'bottom-left',
     items: [
       { id: 'view', label: 'View Details', icon: 'eye' },
       { id: 'share', label: 'Share', icon: 'share' },
@@ -111,7 +116,7 @@ export const WithDisabled: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="position: relative; display: inline-block; padding: 20px;">
+      <div style="position: relative; display: inline-block; padding: 20px; min-height: 260px;">
         <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
           <button trigger style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer;">More ▾</button>
         </lc-menu>
@@ -134,9 +139,34 @@ export const FileMenu: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="position: relative; display: inline-block; padding: 20px;">
+      <div style="position: relative; display: inline-block; padding: 20px; min-height: 260px;">
         <lc-menu [items]="items" [isOpen]="isOpen" [position]="position">
           <button trigger style="padding: 6px 10px; border-radius: 4px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 18px;">⋮</button>
+        </lc-menu>
+      </div>`,
+  }),
+};
+
+export const CompactSize: Story = {
+  name: 'Compact (sm)',
+  args: {
+    isOpen: true,
+    position: 'bottom-left',
+    size: 'sm',
+    minWidth: '180px',
+    items: [
+      { id: 'cut', label: 'Cut', icon: 'scissors' },
+      { id: 'copy', label: 'Copy', icon: 'document-duplicate' },
+      { id: 'paste', label: 'Paste', icon: 'clipboard-document', dividerAfter: true },
+      { id: 'delete', label: 'Delete', icon: 'trash', variant: 'danger' },
+    ],
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <div style="position: relative; display: inline-block; padding: 20px; min-height: 220px;">
+        <lc-menu [items]="items" [isOpen]="isOpen" [position]="position" [size]="size" [minWidth]="minWidth">
+          <button trigger style="padding: 4px 8px; border-radius: 4px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 14px;">Edit ▾</button>
         </lc-menu>
       </div>`,
   }),
