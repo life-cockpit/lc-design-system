@@ -170,15 +170,19 @@ html.dark .lc-header:not(.lc-header--light),
 :root.dark .lc-header:not(.lc-header--light),
 .dark .lc-header:not(.lc-header--light) {
   .lc-header__theme-toggle,
+  .lc-header__hamburger,
   .lc-header__profile-trigger {
     lc-icon, .lc-icon, svg {
       color: var(--lc-header-trigger-fg);
     }
   }
 
+  // Map header tokens onto ghost-button tokens so .btn-ghost picks them up
   lc-button {
     --lc-button-ghost-fg: var(--lc-header-trigger-fg);
-    color: var(--lc-header-trigger-fg);
+    --lc-button-ghost-hover-bg: var(--lc-header-hover-bg);
+    --lc-button-ghost-hover-fg: var(--lc-header-fg);
+    --lc-button-ghost-active-bg: var(--lc-header-hover-bg);
   }
 }
 
