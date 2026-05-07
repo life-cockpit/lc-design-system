@@ -17,8 +17,11 @@ Use it for confirmations, forms, and important user interactions that require at
 - Backdrop click to close
 - Keyboard escape support
 - Focus trapping for accessibility
+
+Click the **Open Modal** button in each story to see the modal in action.
         `,
       },
+      story: { inline: false, height: '120px' },
     },
   },
   argTypes: {
@@ -36,20 +39,21 @@ export default meta;
 type Story = StoryObj<ModalComponent>;
 
 export const Default: Story = {
-  args: { open: true, size: 'md' },
+  args: { open: false, size: 'md' },
   render: (args) => ({
-    props: args,
+    props: { ...args, isOpen: false },
     template: `
-      <lc-modal [open]="open" [size]="size">
-        <div slot="header"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Confirm Action</h2></div>
+      <lc-button variant="primary" (click)="isOpen = true">Open Modal</lc-button>
+      <lc-modal [open]="isOpen" (openChange)="isOpen = $event" [size]="size">
+        <div slot="header"><h2>Confirm Action</h2></div>
         <div slot="body">
           <p style="margin: 0; color: #4b5563; line-height: 1.5;">
             Are you sure you want to proceed? This action will update your billing settings and cannot be undone.
           </p>
         </div>
         <div slot="footer" style="display: flex; gap: 8px; justify-content: flex-end;">
-          <lc-button variant="outline">Cancel</lc-button>
-          <lc-button variant="primary">Confirm</lc-button>
+          <lc-button variant="outline" (click)="isOpen = false">Cancel</lc-button>
+          <lc-button variant="primary" (click)="isOpen = false">Confirm</lc-button>
         </div>
       </lc-modal>`,
   }),
@@ -59,18 +63,19 @@ export const Small: Story = {
   parameters: {
     docs: { description: { story: 'Small modals for quick confirmations.' } },
   },
-  args: { open: true, size: 'sm' },
+  args: { open: false, size: 'sm' },
   render: (args) => ({
-    props: args,
+    props: { ...args, isOpen: false },
     template: `
-      <lc-modal [open]="open" [size]="size">
-        <div slot="header"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Delete Item?</h2></div>
+      <lc-button variant="outline" (click)="isOpen = true">Open Small Modal</lc-button>
+      <lc-modal [open]="isOpen" (openChange)="isOpen = $event" [size]="size">
+        <div slot="header"><h2>Delete Item?</h2></div>
         <div slot="body">
           <p style="margin: 0; color: #4b5563;">This item will be permanently removed.</p>
         </div>
         <div slot="footer" style="display: flex; gap: 8px; justify-content: flex-end;">
-          <lc-button variant="ghost" size="sm">Keep</lc-button>
-          <lc-button variant="danger" size="sm">Delete</lc-button>
+          <lc-button variant="ghost" size="sm" (click)="isOpen = false">Keep</lc-button>
+          <lc-button variant="danger" size="sm" (click)="isOpen = false">Delete</lc-button>
         </div>
       </lc-modal>`,
   }),
@@ -80,12 +85,13 @@ export const Large: Story = {
   parameters: {
     docs: { description: { story: 'Large modals for forms and detailed content.' } },
   },
-  args: { open: true, size: 'lg' },
+  args: { open: false, size: 'lg' },
   render: (args) => ({
-    props: args,
+    props: { ...args, isOpen: false },
     template: `
-      <lc-modal [open]="open" [size]="size">
-        <div slot="header"><h2 style="margin: 0; font-size: 18px; font-weight: 600;">Edit Profile</h2></div>
+      <lc-button variant="outline" (click)="isOpen = true">Open Large Modal</lc-button>
+      <lc-modal [open]="isOpen" (openChange)="isOpen = $event" [size]="size">
+        <div slot="header"><h2>Edit Profile</h2></div>
         <div slot="body">
           <div style="display: flex; flex-direction: column; gap: 16px;">
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
@@ -97,8 +103,8 @@ export const Large: Story = {
           </div>
         </div>
         <div slot="footer" style="display: flex; gap: 8px; justify-content: flex-end;">
-          <lc-button variant="ghost">Cancel</lc-button>
-          <lc-button variant="primary">Save Changes</lc-button>
+          <lc-button variant="ghost" (click)="isOpen = false">Cancel</lc-button>
+          <lc-button variant="primary" (click)="isOpen = false">Save Changes</lc-button>
         </div>
       </lc-modal>`,
   }),
@@ -108,15 +114,16 @@ export const DestructiveConfirmation: Story = {
   parameters: {
     docs: { description: { story: 'Pattern for confirming destructive actions with a danger button.' } },
   },
-  args: { open: true, size: 'sm' },
+  args: { open: false, size: 'sm' },
   render: (args) => ({
-    props: args,
+    props: { ...args, isOpen: false },
     template: `
-      <lc-modal [open]="open" [size]="size">
+      <lc-button variant="danger" (click)="isOpen = true">Delete Account...</lc-button>
+      <lc-modal [open]="isOpen" (openChange)="isOpen = $event" [size]="size">
         <div slot="header">
           <div style="display: flex; align-items: center; gap: 8px;">
             <lc-icon name="exclamation-triangle" size="md" color="var(--color-error-default)"></lc-icon>
-            <h2 style="margin: 0; font-size: 18px; font-weight: 600; color: #991b1b;">Delete Account</h2>
+            <h2 style="color: #991b1b;">Delete Account</h2>
           </div>
         </div>
         <div slot="body">
@@ -130,8 +137,8 @@ export const DestructiveConfirmation: Story = {
           </ul>
         </div>
         <div slot="footer" style="display: flex; gap: 8px; justify-content: flex-end;">
-          <lc-button variant="outline">Cancel</lc-button>
-          <lc-button variant="danger">Delete Forever</lc-button>
+          <lc-button variant="outline" (click)="isOpen = false">Cancel</lc-button>
+          <lc-button variant="danger" (click)="isOpen = false">Delete Forever</lc-button>
         </div>
       </lc-modal>`,
   }),

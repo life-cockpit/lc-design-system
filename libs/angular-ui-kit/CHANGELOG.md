@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-05-08
+
+### Added
+
+- **Component Theming API** — Header, Sidenav, and Logo now support a `theme` input (`auto`/`light`/`dark`) with internal CSS custom property tokens for fully independent theming
+- **Card (Extended)** — Badge pill with 5 color variants (`info`/`success`/`warning`/`error`/`neutral`), `[card-header-action]` projection slot, header divider, larger title
+- **Header `menuSize`** — New `menuSize` input (`sm`/`md`/`lg`) passed through to internal profile dropdown menu
+- **MCP Server `search_component` Tool** — Custom tool for single-call component lookup by fuzzy name match, eliminating the 3-call pattern for LLM consumers
+- **Component Theming Documentation** — New Section 6 in Getting Started docs with usage examples and token reference tables
+
+### Fixed
+
+- Dark header logo rendering (switched from `brightness(0) invert(1)` to `invert(1) hue-rotate(180deg)` to preserve detail)
+- Dark header toggle icon visibility (explicit color inheritance for `lc-icon`/`svg` in dark scope)
+- Dark header profile trigger border contrast
+- Modal flickering in Storybook (template now uses internal `_open` signal; stories use trigger button pattern)
+- Modal docs page rendering (stories use `inline: false` to prevent `position: fixed` clipping in docs canvas)
+- Modal header/footer padding reduced for a more compact, polished appearance
+- Modal header titles (`h1`–`h6`) now have scoped font-size/weight styling
+
 ## [1.1.1] - 2026-05-07
 
 ### Added
