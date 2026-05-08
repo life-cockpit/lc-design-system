@@ -181,6 +181,16 @@ const manifest = {
 mkdirSync(MANIFESTS_DIR, { recursive: true });
 writeFileSync(OUTPUT_PATH, JSON.stringify(manifest));
 
+// Copy CHANGELOG.md into manifests so the MCP server can serve it
+const CHANGELOG_SRC = join(ROOT, 'libs/angular-ui-kit/CHANGELOG.md');
+if (existsSync(CHANGELOG_SRC)) {
+  const changelogDest = join(MANIFESTS_DIR, 'CHANGELOG.md');
+  writeFileSync(changelogDest, readFileSync(CHANGELOG_SRC, 'utf-8'));
+  console.log('Copied CHANGELOG.md to manifests/');
+} else {
+  console.warn('Warning: CHANGELOG.md not found, skipping copy');
+}
+
 // Stats
 let totalSnippets = 0;
 let totalWithProps = 0;

@@ -154,6 +154,43 @@ async function getHandler() {
     }
   );
 
+  // Changelog tool: return full or version-filtered changelog
+  server.tool(
+    {
+      name: 'get_changelog',
+      title: 'Get Changelog',
+      description:
+        'Returns the design system changelog. Optionally filter by version. ' +
+        'Use this to find out what changed recently, which components are new, or what was fixed.',
+      schema: v.object({
+        version: v.optional(
+          v.pipe(v.string(), v.description('Optional version to filter for, e.g. "1.3.1". Omit to get the full changelog.'))
+        ),
+      }),
+    },
+    async (input: { version?: string }) => {
+      try {
+        const text = await fetchManifest(undefined, '/manifests/CHANGELOG.md');
+        if (input.version) {
+          const escaped = input.version.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(`(## \\[${escaped}\\][\\s\\S]*?)(?=\\n## \\[|$)`);
+          const match = text.match(regex);
+          return {
+            content: [{
+              type: 'text' as const,
+              text: match ? match[1].trim() : `No entry found for version ${input.version}.`,
+            }],
+          };
+        }
+        return { content: [{ type: 'text' as const, text }] };
+      } catch (error) {
+        return {
+          content: [{ type: 'text' as const, text: `Error fetching changelog: ${(error as Error).message}` }],
+        };
+      }
+    }
+  );
+
   const transport = new HttpTransport(server, { path: null });
   handler = async (req: Request, context?: Record<string, unknown>) => {
     return transport.respond(req, { manifestProvider: fetchManifest, ...context, request: req });
