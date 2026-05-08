@@ -32,7 +32,14 @@
           @if (msg.name && msg.role !== 'user') {
             <div class="lc-chat__name">{{ msg.name }}</div>
           }
-          <div class="lc-chat__content">{{ msg.content }}<span class="lc-chat__cursor" [class.lc-chat__cursor--visible]="msg.streaming"></span></div>
+          <div class="lc-chat__content">
+            @if (messageTemplate) {
+              <ng-container *ngTemplateOutlet="messageTemplate; context: { $implicit: msg }" />
+            } @else {
+              {{ msg.content }}
+            }
+            <span class="lc-chat__cursor" [class.lc-chat__cursor--visible]="msg.streaming"></span>
+          </div>
           @if (showTimestamps() && msg.timestamp) {
             <div class="lc-chat__time">{{ formatTime(msg.timestamp) }}</div>
           }

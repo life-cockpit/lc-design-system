@@ -8,7 +8,10 @@ import {
   ElementRef,
   ViewChild,
   AfterViewChecked,
+  TemplateRef,
+  ContentChild,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 
 export type ChatMessageRole = 'user' | 'agent' | 'system';
 
@@ -20,6 +23,8 @@ export interface ChatMessage {
   avatar?: string;
   name?: string;
   streaming?: boolean;
+  /** Arbitrary data passed to a custom messageTemplate. */
+  data?: Record<string, unknown>;
 }
 
 export interface ChatSendEvent {
@@ -29,6 +34,7 @@ export interface ChatSendEvent {
 @Component({
   selector: 'lc-chat',
   standalone: true,
+  imports: [NgTemplateOutlet],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -77,6 +83,9 @@ export class ChatComponent implements AfterViewChecked {
 
   /** Emits when user sends a message. */
   messageSend = output<ChatSendEvent>();
+
+  /** Custom template for rendering message content. Context: { $implicit: ChatMessage } */
+  @ContentChild('messageTemplate') messageTemplate?: TemplateRef<{ $implicit: ChatMessage }>;
 
   protected readonly inputValue = signal('');
   private shouldScroll = false;

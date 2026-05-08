@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { ChatComponent, ChatMessage } from './chat.component';
+import { DiffViewerComponent } from '../diff-viewer/diff-viewer.component';
+import { MarkdownComponent } from '../markdown/markdown.component';
 
 const now = new Date();
 const t = (min: number) => new Date(now.getTime() - min * 60000);
@@ -122,4 +124,164 @@ export const NoHeader: Story = {
     props: { messages: conversationMessages.slice(1) },
     moduleMetadata: { imports: [ChatComponent] },
   }),
+};
+
+// --- Rich content stories ---
+
+const specOld = `## Ziel\n\n_TBD_\n\n## Zielgruppe\n\n_TBD_`;
+const specNew = `## Ziel\n\nEine Plattform für automatisiertes Onboarding neuer Mitarbeiter.\n\n## Zielgruppe\n\nHR-Teams in mittelständischen B2B-SaaS-Unternehmen.`;
+
+const diffMessages: ChatMessage[] = [
+  { id: '1', role: 'system', content: 'Spec-Authoring gestartet', timestamp: t(5) },
+  { id: '2', role: 'user', content: 'Wir bauen eine Plattform für automatisiertes Onboarding. Zielgruppe sind HR-Teams in mittelständischen B2B-SaaS-Firmen.', name: 'Eric', timestamp: t(4) },
+  {
+    id: '3', role: 'agent',
+    content: 'Ich habe Ziel und Zielgruppe im Template ausgefüllt:',
+    name: 'Spec Author',
+    timestamp: t(3),
+    data: {
+      diff: true,
+      oldText: specOld,
+      newText: specNew,
+    },
+  },
+  { id: '4', role: 'user', content: 'Passt! Kannst du noch die Akzeptanzkriterien ergänzen?', name: 'Eric', timestamp: t(2) },
+  {
+    id: '5', role: 'agent',
+    content: 'Akzeptanzkriterien hinzugefügt:',
+    name: 'Spec Author',
+    timestamp: t(1),
+    data: {
+      diff: true,
+      oldText: specNew,
+      newText: specNew + `\n\n## Akzeptanzkriterien\n\n- [ ] Neuer Mitarbeiter kann Onboarding-Prozess starten\n- [ ] HR-Manager sieht Fortschritt in Echtzeit\n- [ ] E-Mail-Benachrichtigungen bei abgeschlossenen Schritten`,
+    },
+  },
+];
+
+const markdownMessages: ChatMessage[] = [
+  { id: '1', role: 'user', content: 'Zeig mir eine Zusammenfassung des API-Designs.', name: 'Eric', timestamp: t(3) },
+  {
+    id: '2', role: 'agent',
+    content: '',
+    name: 'AI Assistant',
+    timestamp: t(2),
+    data: {
+      markdown: true,
+      markdownContent: `### API Endpoints\n\n| Method | Path | Beschreibung |\n|--------|------|-------------|\n| \`GET\` | \`/api/users\` | Alle Benutzer |\n| \`POST\` | \`/api/users\` | Benutzer erstellen |\n| \`DELETE\` | \`/api/users/:id\` | Benutzer löschen |\n\n> **Hinweis:** Alle Endpoints erfordern einen gültigen JWT-Token.\n\n- Rate Limit: **100 req/min**\n- Response-Format: \`application/json\``,
+    },
+  },
+  { id: '3', role: 'user', content: 'Danke, kannst du den DELETE-Endpoint auf soft-delete umstellen?', name: 'Eric', timestamp: t(1) },
+];
+
+export const WithDiffViewer: Story = {
+  name: 'With Diff Viewer',
+  render: () => ({
+    template: `
+      <div style="height: 600px;">
+        <lc-chat title="Spec Author" [messages]="messages">
+          <ng-template #messageTemplate let-msg>
+            {{ msg.content }}
+            @if (msg.data?.diff) {
+              <div style="margin-top: 8px;">
+                <lc-diff-viewer
+                  [oldText]="msg.data.oldText"
+                  [newText]="msg.data.newText"
+                  mode="inline"
+                  [showLineNumbers]="false"
+                  [contextLines]="3"
+                />
+              </div>
+            }
+          </ng-template>
+        </lc-chat>
+      </div>
+    `,
+    props: { messages: diffMessages },
+    moduleMetadata: { imports: [ChatComponent, DiffViewerComponent] },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Agent-Nachrichten können einen eingebetteten Diff-Viewer enthalten, um Änderungen am Dokument direkt im Chat sichtbar zu machen. Nutze `data.diff`, `data.oldText` und `data.newText` auf der ChatMessage zusammen mit einem custom `#messageTemplate`.',
+      },
+    },
+  },
+};
+
+export const WithMarkdown: Story = {
+  name: 'With Markdown',
+  render: () => ({
+    template: `
+      <div style="height: 600px;">
+        <lc-chat title="AI Assistant" [messages]="messages">
+          <ng-template #messageTemplate let-msg>
+            @if (msg.data?.markdown) {
+              <lc-markdown [content]="msg.data.markdownContent" variant="compact" />
+            } @else {
+              {{ msg.content }}
+            }
+          </ng-template>
+        </lc-chat>
+      </div>
+    `,
+    props: { messages: markdownMessages },
+    moduleMetadata: { imports: [ChatComponent, MarkdownComponent] },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Agent-Nachrichten können Markdown rendern — Tabellen, Listen, Codeblöcke und mehr. Nutze `data.markdown` und `data.markdownContent` zusammen mit `#messageTemplate`.',
+      },
+    },
+  },
+};
+
+export const SpecAuthor: Story = {
+  name: 'Spec Author (Split Screen)',
+  render: () => ({
+    template: `
+      <div style="display: flex; height: 600px; gap: 0; border: 1px solid var(--color-divider, #e5e7eb); border-radius: 8px; overflow: hidden;">
+        <div style="flex: 1; min-width: 0;">
+          <lc-chat title="Spec Author" [messages]="messages" [showTimestamps]="false">
+            <ng-template #messageTemplate let-msg>
+              {{ msg.content }}
+              @if (msg.data?.diff) {
+                <div style="margin-top: 8px;">
+                  <lc-diff-viewer
+                    [oldText]="msg.data.oldText"
+                    [newText]="msg.data.newText"
+                    mode="inline"
+                    [showLineNumbers]="false"
+                    [contextLines]="3"
+                  />
+                </div>
+              }
+            </ng-template>
+          </lc-chat>
+        </div>
+        <div style="width: 1px; background: var(--color-divider, #e5e7eb);"></div>
+        <div style="flex: 1; min-width: 0; display: flex; flex-direction: column;">
+          <div style="padding: 12px 16px; font-weight: 600; font-size: 14px; border-bottom: 1px solid var(--color-divider, #e5e7eb); color: var(--color-text, #111827);">
+            📄 Epic: Onboarding-Plattform
+          </div>
+          <div style="flex: 1; overflow: auto; padding: 16px;">
+            <lc-markdown [content]="specContent" />
+          </div>
+        </div>
+      </div>
+    `,
+    props: {
+      messages: diffMessages,
+      specContent: specNew + `\n\n## Akzeptanzkriterien\n\n- [ ] Neuer Mitarbeiter kann Onboarding-Prozess starten\n- [ ] HR-Manager sieht Fortschritt in Echtzeit\n- [ ] E-Mail-Benachrichtigungen bei abgeschlossenen Schritten`,
+    },
+    moduleMetadata: { imports: [ChatComponent, DiffViewerComponent, MarkdownComponent] },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Vollständiges Spec-Authoring-Layout: Links der Chat mit dem Spec Author Agent (inklusive Diff-Viewer in Nachrichten), rechts die Live-Vorschau des aktuellen Spec-Dokuments als Markdown.',
+      },
+    },
+  },
 };
