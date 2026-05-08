@@ -1,0 +1,14 @@
+<div [class]="containerClasses()" (click)="onLinkClick($event)">
+  @for (part of renderParts(); track part.index) {
+    @if (part.type === 'html') {
+      <div [innerHTML]="part.safeHtml"></div>
+    } @else {
+      <lc-code-block
+        [code]="part.code!"
+        [language]="$any(part.lang)"
+        [showLineNumbers]="true"
+        [showCopy]="true"
+      />
+    }
+  }
+</div>

@@ -313,6 +313,19 @@ export * from './lib/notification-center/notification-center.component';
 // Rich Text Editor Component
 export * from './lib/rich-text-editor/rich-text-editor.component';
 
+// Markdown Component
+export * from './lib/markdown/markdown.component';
+
+// Log Viewer Component
+export * from './lib/log-viewer/log-viewer.component';
+
+// Confirm Dialog Component & Service
+export * from './lib/confirm-dialog/confirm-dialog.component';
+export * from './lib/confirm-dialog/confirm.service';
+
+// Combobox Component
+export * from './lib/combobox/combobox.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

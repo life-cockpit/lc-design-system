@@ -1,0 +1,144 @@
+<div
+  [class]="containerClasses()"
+  [style.height]="height()"
+  tabindex="0"
+  (keydown)="onKeydown($event)"
+>
+  <!-- Toolbar -->
+  <div class="lc-log-viewer__toolbar">
+    <div class="lc-log-viewer__toolbar-left">
+      @if (stream$()) {
+        <button
+          type="button"
+          class="lc-log-viewer__tool-btn"
+          [class.lc-log-viewer__tool-btn--active]="paused()"
+          (click)="togglePause()"
+          [title]="paused() ? 'Resume' : 'Pause'"
+        >
+          <lc-icon [name]="paused() ? 'play' : 'pause'" size="xs" />
+        </button>
+      }
+      <button
+        type="button"
+        class="lc-log-viewer__tool-btn"
+        (click)="clearBuffer()"
+        title="Clear"
+      >
+        <lc-icon name="trash" size="xs" />
+      </button>
+      <button
+        type="button"
+        class="lc-log-viewer__tool-btn"
+        (click)="onCopyAll()"
+        title="Copy all"
+      >
+        <lc-icon name="clipboard-document" size="xs" />
+      </button>
+      <button
+        type="button"
+        class="lc-log-viewer__tool-btn"
+        [class.lc-log-viewer__tool-btn--active]="showSearch()"
+        (click)="toggleSearch()"
+        title="Search (/)"
+      >
+        <lc-icon name="magnifying-glass" size="xs" />
+      </button>
+    </div>
+
+    <div class="lc-log-viewer__toolbar-right">
+      <!-- Level filter pills -->
+      @if (levelCounts().error > 0) {
+        <button
+          type="button"
+          class="lc-log-viewer__level-pill lc-log-viewer__level-pill--error"
+          [class.lc-log-viewer__level-pill--active]="internalLevelFilter().has('error')"
+          (click)="toggleLevelFilter('error')"
+        >
+          {{ levelCounts().error }} errors
+        </button>
+      }
+      @if (levelCounts().warn > 0) {
+        <button
+          type="button"
+          class="lc-log-viewer__level-pill lc-log-viewer__level-pill--warn"
+          [class.lc-log-viewer__level-pill--active]="internalLevelFilter().has('warn')"
+          (click)="toggleLevelFilter('warn')"
+        >
+          {{ levelCounts().warn }} warnings
+        </button>
+      }
+      <span class="lc-log-viewer__line-count">{{ filteredLines().length }} lines</span>
+    </div>
+  </div>
+
+  <!-- Search bar -->
+  @if (showSearch()) {
+    <div class="lc-log-viewer__search">
+      <lc-icon name="magnifying-glass" size="xs" />
+      <input
+        type="text"
+        class="lc-log-viewer__search-input"
+        placeholder="Search logs..."
+        [value]="internalSearch()"
+        (input)="internalSearch.set($any($event.target).value)"
+        autofocus
+      />
+    </div>
+  }
+
+  <!-- Log content (virtualized) -->
+  <div
+    #scrollContainer
+    class="lc-log-viewer__content"
+  >
+    <div
+      class="lc-log-viewer__spacer"
+      [style.height.px]="visibleRange().totalHeight"
+    >
+      <div
+        class="lc-log-viewer__window"
+        [style.transform]="'translateY(' + (visibleRange().start * LINE_HEIGHT) + 'px)'"
+      >
+        @for (line of visibleLines(); track line._index) {
+          <div
+            class="lc-log-viewer__line"
+            [class.lc-log-viewer__line--debug]="line.level === 'debug'"
+            [class.lc-log-viewer__line--info]="line.level === 'info'"
+            [class.lc-log-viewer__line--warn]="line.level === 'warn'"
+            [class.lc-log-viewer__line--error]="line.level === 'error'"
+            (click)="onLineClick(line)"
+          >
+            @if (showLineNumbers()) {
+              <span class="lc-log-viewer__line-num">{{ line._index + 1 }}</span>
+            }
+            @if (showTimestamps() && line.timestamp) {
+              <span class="lc-log-viewer__timestamp">{{ formatTimestamp(line.timestamp) }}</span>
+            }
+            @if (line.level) {
+              <span class="lc-log-viewer__level">{{ line.level.toUpperCase().padEnd(5) }}</span>
+            }
+            @if (line.source) {
+              <span class="lc-log-viewer__source">[{{ line.source }}]</span>
+            }
+            <span
+              class="lc-log-viewer__text"
+              [innerHTML]="highlightSearch(parseAnsi(line.text))"
+            ></span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Jump to bottom button -->
+  @if (!atBottom()) {
+    <button
+      type="button"
+      class="lc-log-viewer__jump-bottom"
+      (click)="scrollToBottom()"
+    >
+      <lc-icon name="arrow-down" size="xs" />
+      Jump to bottom
+    </button>
+  }
+</div>

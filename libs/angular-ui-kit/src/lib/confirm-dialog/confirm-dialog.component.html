@@ -1,0 +1,49 @@
+<lc-modal
+  [open]="open()"
+  size="sm"
+  [showCloseButton]="true"
+  (openChange)="$event ? null : onModalClose()"
+  (keydown)="onKeydown($event)"
+>
+  <div slot="header">
+    <div class="lc-confirm__header">
+      <lc-icon
+        [name]="resolvedIcon()"
+        size="md"
+        [color]="iconColor()"
+      />
+      <h2>{{ title() }}</h2>
+    </div>
+  </div>
+
+  <div slot="body">
+    <p class="lc-confirm__message">{{ message() }}</p>
+
+    @if (requireText(); as req) {
+      <div class="lc-confirm__require-text">
+        <label class="lc-confirm__require-label">{{ req.prompt }}</label>
+        <lc-input
+          #confirmInput
+          [placeholder]="req.expected"
+          (valueChange)="onInputChange($event)"
+        />
+      </div>
+    }
+  </div>
+
+  <div slot="footer" class="lc-confirm__footer">
+    <lc-button
+      variant="ghost"
+      (clicked)="onCancel()"
+    >
+      {{ cancelLabel() }}
+    </lc-button>
+    <lc-button
+      [variant]="confirmButtonVariant()"
+      [disabled]="!confirmAllowed()"
+      (clicked)="onConfirm()"
+    >
+      {{ confirmLabel() }}
+    </lc-button>
+  </div>
+</lc-modal>
