@@ -52,8 +52,10 @@ export class MyComponent {}
 | Accordion | `lc-accordion` | Expandable/collapsible content panels |
 | Button | `lc-button` | Primary, secondary, and text buttons |
 | Card | `lc-card` | Content container with elevation |
+| Chat | `lc-chat` | Conversational UI with streaming, custom message templates |
 | Icon | `lc-icon` | SVG icon display |
 | Logo | `lc-logo` | Life Cockpit logo |
+| Markdown | `lc-markdown` | GFM markdown renderer with code block highlighting |
 | Menu | `lc-menu` | Dropdown menu |
 | Typography | `lc-typography` | Text with preset styles |
 
@@ -62,6 +64,7 @@ export class MyComponent {}
 | Component | Selector | Description |
 |-----------|----------|-------------|
 | Checkbox | `lc-checkbox` | Checkbox input |
+| Combobox | `lc-combobox` | Async autocomplete with single/multiple selection |
 | Datepicker | `lc-datepicker` | Date selection |
 | Email Input | `lc-email-input` | Email-specific input |
 | Input | `lc-input` | Text input field |
@@ -103,6 +106,7 @@ export class MyComponent {}
 | Field Group | `lc-field-group` | Grouped form fields |
 | Filter Bar | `lc-filter-bar` | Filter controls |
 | List | `lc-list` | List display |
+| Log Viewer | `lc-log-viewer` | Streaming log/terminal viewer with virtualization |
 | Metric Card | `lc-metric-card` | KPI/metric display |
 | Skeleton | `lc-skeleton` | Loading placeholder |
 | Spinner | `lc-spinner` | Loading indicator |
@@ -115,14 +119,22 @@ export class MyComponent {}
 | Component | Selector | Description |
 |-----------|----------|-------------|
 | Alert | `lc-alert` | Inline alert message |
+| Confirm Dialog | `lc-confirm-dialog` | Confirmation dialog with text-match support |
 | Error Display | `lc-error-display` | Error state display |
 | Modal | `lc-modal` | Dialog/modal window |
 | Toast | `lc-toast` | Notification toast |
 | Tooltip | `lcTooltip` | Tooltip directive |
 
+### Services
+
+| Service | Description |
+|---------|-------------|
+| `ConfirmService` | Imperative confirm/destructive/warning dialogs returning `Promise<boolean>` |
+| `ThemeService` | Toggle light/dark theme |
+
 ## Theming
 
-The library supports light and dark themes. Use the `ThemeService` to switch themes:
+The library supports light and dark themes:
 
 ```typescript
 import { ThemeService } from '@life-cockpit/angular-ui-kit';
@@ -134,6 +146,38 @@ export class AppComponent {
   toggleTheme() {
     this.themeService.toggleTheme();
   }
+}
+```
+
+## Chat with Rich Content
+
+The Chat component supports custom message templates for embedding any component inside chat bubbles:
+
+```typescript
+import { ChatComponent, ChatMessage, DiffViewerComponent } from '@life-cockpit/angular-ui-kit';
+
+@Component({
+  imports: [ChatComponent, DiffViewerComponent],
+  template: `
+    <lc-chat [messages]="messages" title="Spec Author">
+      <ng-template #messageTemplate let-msg>
+        {{ msg.content }}
+        @if (msg.data?.diff) {
+          <lc-diff-viewer
+            [oldText]="msg.data.oldText"
+            [newText]="msg.data.newText"
+            mode="inline"
+          />
+        }
+      </ng-template>
+    </lc-chat>
+  `,
+})
+export class SpecAuthorComponent {
+  messages: ChatMessage[] = [
+    { id: '1', role: 'agent', content: 'Ziel ausgefüllt:', name: 'Agent',
+      data: { diff: true, oldText: '## Ziel\n\n_TBD_', newText: '## Ziel\n\nOnboarding-Plattform' } },
+  ];
 }
 ```
 
