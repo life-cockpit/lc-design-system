@@ -9,6 +9,7 @@ import {
   inject,
   OnDestroy,
   SecurityContext,
+  ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
@@ -57,6 +58,7 @@ export interface RenderPart {
   templateUrl: './markdown.component.html',
   styleUrls: ['./markdown.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class MarkdownComponent implements OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);

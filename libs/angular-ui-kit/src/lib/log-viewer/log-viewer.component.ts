@@ -12,6 +12,7 @@ import {
   ViewChild,
   AfterViewInit,
   NgZone,
+  ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
@@ -47,6 +48,7 @@ export interface LogLine {
   templateUrl: './log-viewer.component.html',
   styleUrls: ['./log-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class LogViewerComponent implements AfterViewInit, OnDestroy {
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLElement>;
