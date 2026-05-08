@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { MarkdownComponent } from './markdown.component';
 
 const meta: Meta<MarkdownComponent> = {
-  title: 'Content/Markdown',
+  title: 'Components/Markdown',
   component: MarkdownComponent,
   parameters: {
     docs: {

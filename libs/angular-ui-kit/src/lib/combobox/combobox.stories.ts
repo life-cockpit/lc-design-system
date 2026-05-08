@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { ComboboxComponent, ComboboxOption } from './combobox.component';
 
 const meta: Meta<ComboboxComponent> = {
-  title: 'Forms/Combobox',
+  title: 'Form/Combobox',
   component: ComboboxComponent,
   parameters: {
     docs: {
