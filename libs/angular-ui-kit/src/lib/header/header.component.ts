@@ -114,6 +114,18 @@ export class HeaderComponent {
   @Input() showThemeButton: boolean = false;
 
   /**
+   * Contextual name displayed in the header (e.g. tenant, organization, project)
+   * @example 'Acme Corp'
+   */
+  @Input() contextName: string = '';
+
+  /**
+   * Label displayed above the context name (e.g. 'Tenant', 'Organization', 'Project')
+   * @example 'Tenant'
+   */
+  @Input() contextLabel: string = '';
+
+  /**
    * Size of the profile dropdown menu
    * @default 'sm'
    */
@@ -144,6 +156,11 @@ export class HeaderComponent {
    * Emitted when Profile menu item is clicked
    */
   @Output() readonly profileClick = new EventEmitter<void>();
+
+  /**
+   * Emitted when the context info area is clicked
+   */
+  @Output() readonly contextClick = new EventEmitter<void>();
 
   protected readonly themeService = inject(ThemeService);
 

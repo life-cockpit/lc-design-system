@@ -47,6 +47,22 @@
     </lc-button>
   }
 
+  <!-- Context info (e.g. tenant, organization, project) -->
+  @if (contextName) {
+    <button
+      type="button"
+      class="lc-header__context-info"
+      [attr.title]="contextName"
+      aria-label="Context info"
+      (click)="contextClick.emit()"
+    >
+      @if (contextLabel) {
+        <span class="lc-header__context-label">{{ contextLabel }}</span>
+      }
+      <span class="lc-header__context-name">{{ contextName }}</span>
+    </button>
+  }
+
   <!-- User profile menu -->
   <lc-menu
     [items]="menuItems()"

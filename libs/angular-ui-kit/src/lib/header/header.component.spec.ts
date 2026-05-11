@@ -96,6 +96,28 @@ describe('HeaderComponent', () => {
       expect(hamburger).toBeFalsy();
     });
 
+    it('should render context info when contextName is set', () => {
+      fixture.componentRef.setInput('contextName', 'Acme Corp');
+      fixture.detectChanges();
+      const contextInfo = fixture.nativeElement.querySelector('.lc-header__context-info');
+      expect(contextInfo).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('.lc-header__context-name')?.textContent).toContain('Acme Corp');
+    });
+
+    it('should render context label when contextLabel is set', () => {
+      fixture.componentRef.setInput('contextName', 'Acme Corp');
+      fixture.componentRef.setInput('contextLabel', 'Tenant');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('.lc-header__context-label')?.textContent).toContain('Tenant');
+    });
+
+    it('should not render context info when contextName is empty', () => {
+      fixture.componentRef.setInput('contextName', '');
+      fixture.detectChanges();
+      const contextInfo = fixture.nativeElement.querySelector('.lc-header__context-info');
+      expect(contextInfo).toBeFalsy();
+    });
+
     it('should render user email in menu header when dropdown is open', () => {
       component.userEmail = 'test@example.com';
       component.toggleDropdown();

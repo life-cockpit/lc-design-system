@@ -29,6 +29,8 @@ const meta: Meta<HeaderComponent> = {
     showHamburger: { description: 'Shows a hamburger menu button (for mobile/sidebar toggle)' },
     showThemeButton: { description: 'Shows a dark/light theme toggle button' },
     showProfileMenuItem: { description: 'Whether to show a "Profile" item in the user menu' },
+    contextName: { description: 'Contextual name displayed in the header (e.g. tenant, organization, project)' },
+    contextLabel: { description: 'Label displayed above the context name (e.g. "Tenant", "Organization", "Project")' },
     theme: {
       control: 'select',
       options: ['auto', 'light', 'dark'],
@@ -84,7 +86,7 @@ export const WithThemeToggle: Story = {
 
 export const FullFeatured: Story = {
   name: 'All Options Enabled',
-  args: { title: 'Life-Cockpit', subtitle: 'Project Dashboard', userName: 'Sarah Connor', userEmail: 'sarah@example.com', showHamburger: true, showThemeButton: true, showProfileMenuItem: true },
+  args: { title: 'Life-Cockpit', subtitle: 'Project Dashboard', userName: 'Sarah Connor', userEmail: 'sarah@example.com', showHamburger: true, showThemeButton: true, showProfileMenuItem: true, contextName: 'Acme Corp', contextLabel: 'Tenant' },
 };
 
 export const Minimal: Story = {
@@ -117,5 +119,39 @@ export const LightThemeExplicit: Story = {
     userName: 'Sarah Connor',
     userEmail: 'sarah@example.com',
     theme: 'light',
+  },
+};
+
+export const WithOrgInfo: Story = {
+  name: 'With Context Info (Organization)',
+  args: {
+    title: 'Life-Cockpit',
+    subtitle: 'Dashboard',
+    userName: 'Sarah Connor',
+    userEmail: 'sarah@example.com',
+    contextName: 'Acme Corporation',
+    contextLabel: 'Organization',
+  },
+};
+
+export const WithTenantInfo: Story = {
+  name: 'With Context Info (Tenant)',
+  args: {
+    title: 'Life-Cockpit',
+    userName: 'Sarah Connor',
+    userEmail: 'sarah@example.com',
+    contextName: 'Production',
+    contextLabel: 'Tenant',
+    showThemeButton: true,
+  },
+};
+
+export const WithOrgNameOnly: Story = {
+  name: 'Context Name Without Label',
+  args: {
+    title: 'Life-Cockpit',
+    userName: 'Sarah Connor',
+    userEmail: 'sarah@example.com',
+    contextName: 'Acme Corp',
   },
 };
