@@ -46,4 +46,26 @@ export interface NavigationItem {
    * Children are displayed beneath it with the label as a group title.
    */
   isSection?: boolean;
+
+  /**
+   * Optional action button displayed on the right side of the item.
+   * Emits `itemAction` when clicked (e.g. to open a modal or context menu).
+   */
+  action?: {
+    /** Icon name from lc-icons library (e.g., 'plus', 'ellipsis-horizontal') */
+    icon: string;
+    /** Accessible label for the action button */
+    ariaLabel?: string;
+  };
+
+  /**
+   * Optional badge displayed on the right side of the item (e.g. count).
+   * Rendered as a small pill badge.
+   */
+  badge?: {
+    /** Text or number to display inside the badge */
+    value: string | number;
+    /** Badge color variant */
+    variant?: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
+  };
 }

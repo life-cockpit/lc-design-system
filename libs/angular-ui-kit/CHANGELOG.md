@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2026-05-11
+
+### Added
+
+- **Sidenav `action`** — Optional action button on navigation items and section headers (visible on hover), emits `itemAction` event; supports sections, collapsible parents, and simple items
+- **Sidenav `badge`** — Optional badge on navigation items for displaying counts or labels with color variants; positioned as overlay in collapsed icon-rail mode
+- **Sidenav nested section children** — Section children can now be collapsible parents with their own children and actions (3-level nesting)
+- **Sidenav collapsed tooltips** — Fixed tooltips for all item types in collapsed icon-rail mode
+
 ## [1.4.0] - 2026-05-11
 
 ### Added

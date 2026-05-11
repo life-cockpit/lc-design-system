@@ -258,6 +258,20 @@ describe('SidenavComponent', () => {
     });
   });
 
+  describe('Item Actions', () => {
+    it('should emit itemAction when handleItemAction is called', () => {
+      const actionSpy = jest.spyOn(component.itemAction, 'emit');
+      const item = { id: '1', icon: 'folder', label: 'Test', route: '/test', displayOrder: 1, action: { icon: 'plus' } };
+      const event = new MouseEvent('click');
+      jest.spyOn(event, 'stopPropagation');
+
+      component.handleItemAction(event, item);
+
+      expect(event.stopPropagation).toHaveBeenCalled();
+      expect(actionSpy).toHaveBeenCalledWith(item);
+    });
+  });
+
   describe('Edge Cases', () => {
     it('should handle rapid open/close toggles', () => {
       component.isOpen.set(true);

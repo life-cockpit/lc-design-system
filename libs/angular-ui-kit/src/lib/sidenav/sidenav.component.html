@@ -58,23 +58,102 @@
           <!-- Section headline -->
           @if (item.isSection) {
             <div class="lc-sidenav__section">
-              <h2 class="lc-sidenav__section-title">{{ item.label }}</h2>
+              <div class="lc-sidenav__section-header">
+                <h2 class="lc-sidenav__section-title">{{ item.label }}</h2>
+                @if (item.action) {
+                  <button
+                    type="button"
+                    class="lc-sidenav__action-btn"
+                    [attr.aria-label]="item.action.ariaLabel || item.label + ' action'"
+                    (click)="handleItemAction($event, item)">
+                    <lc-icon [name]="item.action.icon" size="xs" [decorative]="true" />
+                  </button>
+                }
+              </div>
               @if (item.children?.length) {
                 <ul class="lc-sidenav__section-items">
                   @for (child of item.children; track child.id) {
                     <li>
-                      <a
-                        [routerLink]="child.route"
-                        routerLinkActive="lc-sidenav__nav-item--active"
-                        [routerLinkActiveOptions]="{ exact: child.route === '/' }"
-                        class="lc-sidenav__nav-item lc-sidenav__nav-item--child"
-                        (click)="handleItemClick(child)"
-                        [attr.aria-current]="isItemActive(child) ? 'page' : null">
-                        @if (child.icon) {
-                          <lc-icon [name]="child.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                      @if (child.children?.length) {
+                        <!-- Section child with nested children (collapsible) -->
+                        <div class="lc-sidenav__nav-item-row">
+                          <button
+                            type="button"
+                            class="lc-sidenav__nav-item lc-sidenav__nav-item--parent"
+                            [class.lc-sidenav__nav-item--expanded]="isExpanded(child)"
+                            [class.lc-sidenav__nav-item--active]="hasActiveChild(child)"
+                            (click)="toggleExpanded(child)"
+                            [attr.aria-expanded]="isExpanded(child)"
+                            [title]="collapsed() ? child.label : ''">
+                            @if (child.icon) {
+                              <lc-icon [name]="child.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                            }
+                            <span class="lc-sidenav__nav-label">{{ child.label }}</span>
+                            @if (child.badge) {
+                              <lc-badge [variant]="child.badge.variant || 'default'" size="xs" [rounded]="true" class="lc-sidenav__nav-badge">{{ child.badge.value }}</lc-badge>
+                            }
+                            <lc-icon name="chevron-down" size="xs" [decorative]="true" class="lc-sidenav__nav-chevron" />
+                          </button>
+                          @if (child.action) {
+                            <button
+                              type="button"
+                              class="lc-sidenav__action-btn"
+                              [attr.aria-label]="child.action.ariaLabel || child.label + ' action'"
+                              (click)="handleItemAction($event, child)">
+                              <lc-icon [name]="child.action.icon" size="xs" [decorative]="true" />
+                            </button>
+                          }
+                        </div>
+                        @if (isExpanded(child)) {
+                          <div class="lc-sidenav__nav-children">
+                            @for (grandchild of child.children; track grandchild.id) {
+                              <a
+                                [routerLink]="grandchild.route"
+                                routerLinkActive="lc-sidenav__nav-item--active"
+                                class="lc-sidenav__nav-item lc-sidenav__nav-item--child"
+                                (click)="handleItemClick(grandchild)"
+                                [attr.aria-current]="isItemActive(grandchild) ? 'page' : null">
+                                @if (grandchild.icon) {
+                                  <lc-icon [name]="grandchild.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                                }
+                                <span class="lc-sidenav__nav-label">{{ grandchild.label }}</span>
+                                @if (grandchild.badge) {
+                                  <lc-badge [variant]="grandchild.badge.variant || 'default'" size="xs" [rounded]="true" class="lc-sidenav__nav-badge">{{ grandchild.badge.value }}</lc-badge>
+                                }
+                              </a>
+                            }
+                          </div>
                         }
-                        <span class="lc-sidenav__nav-label">{{ child.label }}</span>
-                      </a>
+                      } @else {
+                        <!-- Section child (simple link) -->
+                        <div class="lc-sidenav__nav-item-row">
+                          <a
+                            [routerLink]="child.route"
+                            routerLinkActive="lc-sidenav__nav-item--active"
+                            [routerLinkActiveOptions]="{ exact: child.route === '/' }"
+                            class="lc-sidenav__nav-item lc-sidenav__nav-item--child"
+                            (click)="handleItemClick(child)"
+                            [attr.aria-current]="isItemActive(child) ? 'page' : null"
+                            [title]="collapsed() ? child.label : ''">
+                            @if (child.icon) {
+                              <lc-icon [name]="child.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                            }
+                            <span class="lc-sidenav__nav-label">{{ child.label }}</span>
+                            @if (child.badge) {
+                              <lc-badge [variant]="child.badge.variant || 'default'" size="xs" [rounded]="true" class="lc-sidenav__nav-badge">{{ child.badge.value }}</lc-badge>
+                            }
+                          </a>
+                          @if (child.action) {
+                            <button
+                              type="button"
+                              class="lc-sidenav__action-btn"
+                              [attr.aria-label]="child.action.ariaLabel || child.label + ' action'"
+                              (click)="handleItemAction($event, child)">
+                              <lc-icon [name]="child.action.icon" size="xs" [decorative]="true" />
+                            </button>
+                          }
+                        </div>
+                      }
                     </li>
                   }
                 </ul>
@@ -82,17 +161,32 @@
             </div>
           } @else if (item.children?.length) {
             <!-- Parent item with children (collapsible group) -->
-            <button
-              type="button"
-              class="lc-sidenav__nav-item lc-sidenav__nav-item--parent"
-              [class.lc-sidenav__nav-item--expanded]="isExpanded(item)"
-              [class.lc-sidenav__nav-item--active]="hasActiveChild(item)"
-              (click)="toggleExpanded(item)"
-              [attr.aria-expanded]="isExpanded(item)">
-              <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
-              <span class="lc-sidenav__nav-label">{{ item.label }}</span>
-              <lc-icon name="chevron-down" size="xs" [decorative]="true" class="lc-sidenav__nav-chevron" />
-            </button>
+            <div class="lc-sidenav__nav-item-row">
+              <button
+                type="button"
+                class="lc-sidenav__nav-item lc-sidenav__nav-item--parent"
+                [class.lc-sidenav__nav-item--expanded]="isExpanded(item)"
+                [class.lc-sidenav__nav-item--active]="hasActiveChild(item)"
+                (click)="toggleExpanded(item)"
+                [attr.aria-expanded]="isExpanded(item)"
+                [title]="collapsed() ? item.label : ''">
+                <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                <span class="lc-sidenav__nav-label">{{ item.label }}</span>
+                @if (item.badge) {
+                  <lc-badge [variant]="item.badge.variant || 'default'" size="xs" [rounded]="true" class="lc-sidenav__nav-badge">{{ item.badge.value }}</lc-badge>
+                }
+                <lc-icon name="chevron-down" size="xs" [decorative]="true" class="lc-sidenav__nav-chevron" />
+              </button>
+              @if (item.action) {
+                <button
+                  type="button"
+                  class="lc-sidenav__action-btn"
+                  [attr.aria-label]="item.action.ariaLabel || item.label + ' action'"
+                  (click)="handleItemAction($event, item)">
+                  <lc-icon [name]="item.action.icon" size="xs" [decorative]="true" />
+                </button>
+              }
+            </div>
             @if (isExpanded(item)) {
               <div class="lc-sidenav__nav-children">
                 @for (child of item.children; track child.id) {
@@ -104,23 +198,40 @@
                     [attr.aria-current]="isItemActive(child) ? 'page' : null">
                     <lc-icon [name]="child.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
                     <span class="lc-sidenav__nav-label">{{ child.label }}</span>
+                    @if (child.badge) {
+                      <lc-badge [variant]="child.badge.variant || 'default'" size="xs" [rounded]="true" class="lc-sidenav__nav-badge">{{ child.badge.value }}</lc-badge>
+                    }
                   </a>
                 }
               </div>
             }
           } @else {
             <!-- Simple item without children -->
-            <a
-              [routerLink]="item.route"
-              routerLinkActive="lc-sidenav__nav-item--active"
-              [routerLinkActiveOptions]="{ exact: item.route === '/' }"
-              class="lc-sidenav__nav-item"
-              (click)="handleItemClick(item)"
-              [attr.aria-current]="isItemActive(item) ? 'page' : null"
-              [title]="collapsed() ? item.label : ''">
-              <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
-              <span class="lc-sidenav__nav-label">{{ item.label }}</span>
-            </a>
+            <div class="lc-sidenav__nav-item-row">
+              <a
+                [routerLink]="item.route"
+                routerLinkActive="lc-sidenav__nav-item--active"
+                [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+                class="lc-sidenav__nav-item"
+                (click)="handleItemClick(item)"
+                [attr.aria-current]="isItemActive(item) ? 'page' : null"
+                [title]="collapsed() ? item.label : ''">
+                <lc-icon [name]="item.icon" size="sm" [decorative]="true" class="lc-sidenav__nav-icon" />
+                <span class="lc-sidenav__nav-label">{{ item.label }}</span>
+                @if (item.badge) {
+                  <lc-badge [variant]="item.badge.variant || 'default'" size="xs" [rounded]="true" class="lc-sidenav__nav-badge">{{ item.badge.value }}</lc-badge>
+                }
+              </a>
+              @if (item.action) {
+                <button
+                  type="button"
+                  class="lc-sidenav__action-btn"
+                  [attr.aria-label]="item.action.ariaLabel || item.label + ' action'"
+                  (click)="handleItemAction($event, item)">
+                  <lc-icon [name]="item.action.icon" size="xs" [decorative]="true" />
+                </button>
+              }
+            </div>
           }
         }
       </nav>

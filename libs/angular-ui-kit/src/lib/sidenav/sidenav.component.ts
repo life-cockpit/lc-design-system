@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationItem } from '../models/navigation-item.interface';
 import { IconComponent } from '../icon/icon.component';
+import { BadgeComponent } from '../badge/badge.component';
 
 export type SidenavPosition = 'left' | 'right';
 export type SidenavMode = 'drawer' | 'docked';
@@ -39,7 +40,7 @@ export type SidenavMode = 'drawer' | 'docked';
 @Component({
   selector: 'lc-sidenav',
   standalone: true,
-  imports: [CommonModule, RouterModule, IconComponent],
+  imports: [CommonModule, RouterModule, IconComponent, BadgeComponent],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -181,6 +182,11 @@ export class SidenavComponent {
   @Output() readonly itemClicked = new EventEmitter<NavigationItem>();
 
   /**
+   * Event emitted when an item's action button is clicked
+   */
+  @Output() readonly itemAction = new EventEmitter<NavigationItem>();
+
+  /**
    * Computed CSS classes for the sidenav
    */
   sidenavClasses = computed(() => {
@@ -225,6 +231,14 @@ export class SidenavComponent {
    */
   handleItemClick(item: NavigationItem): void {
     this.itemClicked.emit(item);
+  }
+
+  /**
+   * Handle action button click on a navigation item
+   */
+  handleItemAction(event: Event, item: NavigationItem): void {
+    event.stopPropagation();
+    this.itemAction.emit(item);
   }
 
   /**
