@@ -83,6 +83,13 @@ export class HeaderComponent {
   @Input() logo: string = '';
 
   /**
+   * Whether to show the logo in the header.
+   * Set to false when the sidenav owns the logo (sidebar-first layout).
+   * @default true
+   */
+  @Input() showLogo: boolean = true;
+
+  /**
    * Optional title to display next to logo
    */
   @Input() title: string = '';

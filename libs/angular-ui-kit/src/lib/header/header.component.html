@@ -15,7 +15,7 @@
 
   <!-- Logo (clickable, navigates to home) -->
   <div class="lc-header__brand">
-    @if (logo || title) {
+    @if (showLogo && (logo || title)) {
       <a routerLink="/" class="lc-header__logo" aria-label="Go to home">
         <lc-logo [variant]="logo ? 'full' : 'emblem'" size="md" [clickable]="false" [colorMode]="theme === 'dark' ? 'dark' : theme === 'light' ? 'light' : 'auto'" />
       </a>

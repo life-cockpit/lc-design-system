@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { NavigationItem } from '../models/navigation-item.interface';
 import { IconComponent } from '../icon/icon.component';
 import { BadgeComponent } from '../badge/badge.component';
+import { LogoComponent } from '../logo/logo.component';
 
 export type SidenavPosition = 'left' | 'right';
 export type SidenavMode = 'drawer' | 'docked';
@@ -40,7 +41,7 @@ export type SidenavMode = 'drawer' | 'docked';
 @Component({
   selector: 'lc-sidenav',
   standalone: true,
-  imports: [CommonModule, RouterModule, IconComponent, BadgeComponent],
+  imports: [CommonModule, RouterModule, IconComponent, BadgeComponent, LogoComponent],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,6 +54,9 @@ export type SidenavMode = 'drawer' | 'docked';
 export class SidenavComponent {
   /** Whether the sidenav is collapsed to icon-only rail */
   collapsed = signal<boolean>(false);
+
+  /** Whether to show the logo at the top of the sidenav */
+  showLogo = signal<boolean>(false);
 
   /** Whether the sidenav is open */
   isOpen = signal<boolean>(false);
@@ -160,6 +164,14 @@ export class SidenavComponent {
     this.collapsed.set(value);
   }
 
+  /**
+   * Input setter for showLogo
+   */
+  @Input()
+  set showLogoInput(value: boolean) {
+    this.showLogo.set(value);
+  }
+
   /** Theme variant for the sidenav */
   themeMode = signal<'light' | 'dark' | 'auto'>('auto');
 
@@ -257,9 +269,18 @@ export class SidenavComponent {
   }
 
   /**
-   * Toggle expansion of a parent item
+   * Toggle expansion of a parent item.
+   * If the sidenav is collapsed, expand it first.
    */
   toggleExpanded(item: NavigationItem): void {
+    if (this.collapsed()) {
+      this.collapsed.set(false);
+      // Expand the clicked item after uncollapsing
+      const expanded = new Set(this.expandedItems());
+      expanded.add(item.id);
+      this.expandedItems.set(expanded);
+      return;
+    }
     const expanded = new Set(this.expandedItems());
     if (expanded.has(item.id)) {
       expanded.delete(item.id);

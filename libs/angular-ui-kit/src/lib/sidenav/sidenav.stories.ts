@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/angular';
 import { fn, expect, userEvent, within } from 'storybook/test';
 import { SidenavComponent } from './sidenav.component';
+import { HeaderComponent } from '../header/header.component';
 
 /**
  * Sidenav provides a vertical navigation panel for application-level routing.
  * Supports docked (always visible) and drawer (overlay) modes with left/right
- * positioning. Items can have icons, nested children, and active state highlighting.
+ * positioning. Items can have icons, nested children, active state highlighting,
+ * action buttons, badges, and an integrated logo header.
  */
 const meta: Meta<SidenavComponent> = {
   title: 'Navigation/Sidenav',
@@ -32,6 +34,7 @@ const meta: Meta<SidenavComponent> = {
     isOpenInput: { description: 'Whether the sidenav is currently visible' },
     activeRouteInput: { description: 'The currently active route (highlights matching item)' },
     widthInput: { description: 'Custom width (CSS value, e.g. "280px")' },
+    showLogoInput: { description: 'Show the logo at the top of the sidenav (for sidebar-first layouts)' },
     themeInput: {
       control: 'select',
       options: ['auto', 'light', 'dark'],
@@ -373,6 +376,119 @@ export const CollapsedWithGroups: Story = {
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Project Alpha</h3>
           <p style="color: #666; font-size: 14px;">Collapsed sidenav with section groups. Hover icons for labels.</p>
+        </div>
+      </div>`,
+  }),
+};
+
+export const SidebarFirstLayout: Story = {
+  name: 'Sidebar-First Layout',
+  parameters: {
+    docs: { description: { story: 'The sidenav takes full height beside the header. Logo is shown at the top of the sidenav (full when expanded, emblem when collapsed). The header sits only above the content area.' } },
+    layout: 'fullscreen',
+  },
+  render: () => ({
+    moduleMetadata: { imports: [HeaderComponent] },
+    template: `
+      <div style="display: flex; height: 500px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
+        <lc-sidenav
+          [isOpenInput]="true"
+          modeInput="docked"
+          [showLogoInput]="true"
+          theme="dark"
+          widthInput="240px"
+          [itemsInput]="[
+            { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
+            { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
+            {
+              id: 'projects', icon: '', label: 'Projects', route: '', displayOrder: 3,
+              isSection: true,
+              action: { icon: 'plus', ariaLabel: 'Add project' },
+              children: [
+                { id: 'p1', icon: 'folder', label: 'Project Alpha', route: '/projects/alpha', displayOrder: 1,
+                  action: { icon: 'ellipsis-horizontal', ariaLabel: 'Options' },
+                  children: [
+                    { id: 'p1a', icon: 'clipboard-document-list', label: 'Specs & Epics', route: '/projects/alpha/specs', displayOrder: 1 },
+                    { id: 'p1b', icon: 'building-library', label: 'ADRs', route: '/projects/alpha/adrs', displayOrder: 2 },
+                    { id: 'p1c', icon: 'document-text', label: 'Policies', route: '/projects/alpha/policies', displayOrder: 3 }
+                  ]
+                },
+                { id: 'p2', icon: 'folder', label: 'Project Beta', route: '/projects/beta', displayOrder: 2,
+                  action: { icon: 'ellipsis-horizontal', ariaLabel: 'Options' } },
+                { id: 'p3', icon: 'folder', label: 'Project Gamma', route: '/projects/gamma', displayOrder: 3,
+                  action: { icon: 'ellipsis-horizontal', ariaLabel: 'Options' } }
+              ]
+            },
+            { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 }
+          ]"
+          activeRouteInput="/projects/alpha/specs">
+        </lc-sidenav>
+        <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+          <lc-header
+            title="Life-Cockpit"
+            subtitle="Specs & Epics"
+            userName="Sarah Connor"
+            userEmail="sarah@example.com"
+            contextName="Acme Corp"
+            contextLabel="Organization"
+            [showThemeButton]="true"
+            [showLogo]="false"
+          ></lc-header>
+          <main style="flex: 1; padding: 24px; overflow-y: auto; background: #f9fafb;">
+            <h2 style="margin: 0 0 12px; font-weight: 600; font-size: 1.25rem;">Specs & Epics</h2>
+            <p style="color: #666; font-size: 14px;">Content area with header above. The sidenav owns the full height and logo. Click the logo to toggle collapsed state.</p>
+          </main>
+        </div>
+      </div>`,
+  }),
+};
+
+export const SidebarFirstCollapsed: Story = {
+  name: 'Sidebar-First Layout (Collapsed)',
+  parameters: {
+    docs: { description: { story: 'Same sidebar-first layout but with the sidenav collapsed to an icon rail. The logo switches to the emblem automatically.' } },
+    layout: 'fullscreen',
+  },
+  render: () => ({
+    moduleMetadata: { imports: [HeaderComponent] },
+    template: `
+      <div style="display: flex; height: 500px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
+        <lc-sidenav
+          [isOpenInput]="true"
+          modeInput="docked"
+          [showLogoInput]="true"
+          [collapsedInput]="true"
+          theme="dark"
+          [itemsInput]="[
+            { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
+            { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
+            {
+              id: 'projects', icon: '', label: 'Projects', route: '', displayOrder: 3,
+              isSection: true,
+              children: [
+                { id: 'p1', icon: 'folder', label: 'Project Alpha', route: '/projects/alpha', displayOrder: 1 },
+                { id: 'p2', icon: 'folder', label: 'Project Beta', route: '/projects/beta', displayOrder: 2 },
+                { id: 'p3', icon: 'folder', label: 'Project Gamma', route: '/projects/gamma', displayOrder: 3 }
+              ]
+            },
+            { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 }
+          ]"
+          activeRouteInput="/projects/alpha">
+        </lc-sidenav>
+        <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+          <lc-header
+            title="Life-Cockpit"
+            userName="Sarah Connor"
+            userEmail="sarah@example.com"
+            contextName="Acme Corp"
+            contextLabel="Organization"
+            [showThemeButton]="true"
+            [showLogo]="false"
+          ></lc-header>
+          <main style="flex: 1; padding: 24px; overflow-y: auto; background: #f9fafb;">
+            <h2 style="margin: 0 0 12px; font-weight: 600; font-size: 1.25rem;">Project Alpha</h2>
+            <p style="color: #666; font-size: 14px;">Collapsed sidebar with emblem logo. Click the emblem to expand. Header sits beside the sidenav.</p>
+          </main>
         </div>
       </div>`,
   }),

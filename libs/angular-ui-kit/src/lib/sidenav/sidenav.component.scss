@@ -191,6 +191,38 @@
     .lc-sidenav__content {
       display: none;
     }
+
+    .lc-sidenav__logo {
+      padding: var(--spacing-3);
+      justify-content: center;
+    }
+  }
+}
+
+// Logo area at top of sidenav
+.lc-sidenav__logo {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--lc-sidenav-border);
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.lc-sidenav__logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--lc-sidenav-fg);
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm, 0.25rem);
   }
 }
 
