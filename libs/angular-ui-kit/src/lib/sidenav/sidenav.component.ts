@@ -7,6 +7,8 @@ import {
   Output,
   EventEmitter,
   HostListener,
+  OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -47,11 +49,11 @@ export type SidenavMode = 'drawer' | 'docked';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.lc-sidenav-container]': 'true',
-    '[class.lc-sidenav-container--docked]': "mode() === 'docked'",
+    '[class.lc-sidenav-container--docked]': "effectiveMode() === 'docked'",
     '[class.lc-sidenav-container--open]': 'isOpen()',
   },
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit, OnDestroy {
   /** Whether the sidenav is collapsed to icon-only rail */
   collapsed = signal<boolean>(false);
 
@@ -63,6 +65,23 @@ export class SidenavComponent {
 
   /** Display mode: 'drawer' (overlay) or 'docked' (persistent sidebar) */
   mode = signal<SidenavMode>('drawer');
+
+  /** Mobile breakpoint in pixels. Below this width, docked mode switches to drawer. */
+  mobileBreakpoint = signal<number>(768);
+
+  /** Whether the viewport is below the mobile breakpoint */
+  isMobile = signal<boolean>(false);
+
+  /** Effective mode: switches docked → drawer on mobile */
+  effectiveMode = computed(() => {
+    if (this.isMobile() && this.mode() === 'docked') {
+      return 'drawer' as SidenavMode;
+    }
+    return this.mode();
+  });
+
+  private mediaQuery: MediaQueryList | null = null;
+  private mediaHandler = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
 
   /** Position of the sidenav (left or right) */
   position = signal<SidenavPosition>('left');
@@ -172,6 +191,15 @@ export class SidenavComponent {
     this.showLogo.set(value);
   }
 
+  /**
+   * Input setter for mobileBreakpoint
+   */
+  @Input()
+  set mobileBreakpointInput(value: number) {
+    this.mobileBreakpoint.set(value);
+    this.setupMediaQuery();
+  }
+
   /** Theme variant for the sidenav */
   themeMode = signal<'light' | 'dark' | 'auto'>('auto');
 
@@ -198,17 +226,38 @@ export class SidenavComponent {
    */
   @Output() readonly itemAction = new EventEmitter<NavigationItem>();
 
+  ngOnInit(): void {
+    this.setupMediaQuery();
+  }
+
+  ngOnDestroy(): void {
+    this.teardownMediaQuery();
+  }
+
+  private setupMediaQuery(): void {
+    if (typeof window === 'undefined') return;
+    this.teardownMediaQuery();
+    this.mediaQuery = window.matchMedia(`(max-width: ${this.mobileBreakpoint()}px)`);
+    this.isMobile.set(this.mediaQuery.matches);
+    this.mediaQuery.addEventListener('change', this.mediaHandler);
+  }
+
+  private teardownMediaQuery(): void {
+    this.mediaQuery?.removeEventListener('change', this.mediaHandler);
+    this.mediaQuery = null;
+  }
+
   /**
    * Computed CSS classes for the sidenav
    */
   sidenavClasses = computed(() => {
     const classes = ['lc-sidenav'];
     classes.push(`lc-sidenav--${this.position()}`);
-    classes.push(`lc-sidenav--${this.mode()}`);
+    classes.push(`lc-sidenav--${this.effectiveMode()}`);
     if (this.isOpen()) {
       classes.push('lc-sidenav--open');
     }
-    if (this.collapsed()) {
+    if (this.collapsed() && !this.isMobile()) {
       classes.push('lc-sidenav--collapsed');
     }
     if (this.themeMode() !== 'auto') {
@@ -221,7 +270,7 @@ export class SidenavComponent {
    * Computed inline styles for the sidenav
    */
   sidenavStyles = computed(() => ({
-    width: this.collapsed() ? '56px' : this.width(),
+    width: this.isMobile() ? this.width() : (this.collapsed() ? '56px' : this.width()),
   }));
 
   /**
@@ -243,6 +292,10 @@ export class SidenavComponent {
    */
   handleItemClick(item: NavigationItem): void {
     this.itemClicked.emit(item);
+    // Auto-close drawer on mobile after navigation
+    if (this.isMobile()) {
+      this.handleClose();
+    }
   }
 
   /**

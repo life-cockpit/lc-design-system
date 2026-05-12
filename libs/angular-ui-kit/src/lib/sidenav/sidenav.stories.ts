@@ -493,3 +493,61 @@ export const SidebarFirstCollapsed: Story = {
       </div>`,
   }),
 };
+
+export const ResponsiveMobile: Story = {
+  name: 'Responsive (Mobile View)',
+  parameters: {
+    docs: { description: { story: 'On narrow screens (below 768px), the docked sidenav automatically switches to drawer mode with overlay. The hamburger button in the header toggles it. Resize the browser or use Storybook viewport controls to test.' } },
+    layout: 'fullscreen',
+    viewport: { defaultViewport: 'mobile1' },
+  },
+  render: () => ({
+    moduleMetadata: { imports: [HeaderComponent] },
+    props: {
+      sidebarOpen: false,
+      toggleSidebar() { this['sidebarOpen'] = !this['sidebarOpen']; },
+    },
+    template: `
+      <div style="display: flex; height: 100vh; overflow: hidden;">
+        <lc-sidenav
+          [isOpenInput]="sidebarOpen"
+          modeInput="docked"
+          [mobileBreakpointInput]="9999"
+          [showLogoInput]="true"
+          theme="dark"
+          widthInput="280px"
+          [itemsInput]="[
+            { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
+            { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
+            {
+              id: 'projects', icon: '', label: 'Projects', route: '', displayOrder: 3,
+              isSection: true,
+              action: { icon: 'plus', ariaLabel: 'Add project' },
+              children: [
+                { id: 'p1', icon: 'folder', label: 'Project Alpha', route: '/projects/alpha', displayOrder: 1 },
+                { id: 'p2', icon: 'folder', label: 'Project Beta', route: '/projects/beta', displayOrder: 2 },
+                { id: 'p3', icon: 'folder', label: 'Project Gamma', route: '/projects/gamma', displayOrder: 3 }
+              ]
+            },
+            { id: '10', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 10 }
+          ]"
+          activeRouteInput="/dashboard"
+          (closed)="sidebarOpen = false">
+        </lc-sidenav>
+        <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+          <lc-header
+            title="Life-Cockpit"
+            userName="Sarah Connor"
+            userEmail="sarah@example.com"
+            [showHamburger]="true"
+            [showLogo]="false"
+            (hamburgerClick)="toggleSidebar()"
+          ></lc-header>
+          <main style="flex: 1; padding: 16px; overflow-y: auto; background: #f9fafb;">
+            <h2 style="margin: 0 0 12px; font-weight: 600; font-size: 1.25rem;">Dashboard</h2>
+            <p style="color: #666; font-size: 14px;">On mobile, the sidenav becomes a drawer overlay. Use the hamburger menu to open it. Resize to desktop to see it dock.</p>
+          </main>
+        </div>
+      </div>`,
+  }),
+};

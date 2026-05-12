@@ -1,5 +1,5 @@
 <!-- Drawer mode: render with overlay and conditional visibility -->
-@if (mode() === 'drawer') {
+@if (effectiveMode() === 'drawer') {
   @if (isOpen()) {
     <!-- Overlay backdrop -->
     @if (hasOverlay()) {
@@ -15,7 +15,7 @@
 }
 
 <!-- Docked mode: always render, visibility controlled by CSS -->
-@if (mode() === 'docked') {
+@if (effectiveMode() === 'docked') {
   <ng-container *ngTemplateOutlet="sidenavPanel" />
 }
 
@@ -37,7 +37,7 @@
     }
 
     <!-- Close button (drawer mode only) -->
-    @if (mode() === 'drawer') {
+    @if (effectiveMode() === 'drawer') {
       <button
         type="button"
         class="lc-sidenav__close"
@@ -62,7 +62,7 @@
 
     <!-- Navigation items (if provided) -->
     @if (items().length > 0) {
-      <nav class="lc-sidenav__nav" [class.lc-sidenav__nav--docked]="mode() === 'docked'">
+      <nav class="lc-sidenav__nav" [class.lc-sidenav__nav--docked]="effectiveMode() === 'docked'">
         @for (item of sortedItems(); track item.id) {
           <!-- Section headline -->
           @if (item.isSection) {
