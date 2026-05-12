@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2026-05-12
+
+### Added
+
+- **Sidenav responsive mobile mode** — Docked sidenav automatically switches to drawer mode below a configurable breakpoint (`mobileBreakpointInput`, default 768px); viewport changes detected via `matchMedia` listener; auto-closes drawer after item navigation on mobile
+- **Sidenav `showLogo` with collapse toggle** — Optional logo area at the top of the sidenav (`showLogoInput`); displays full logo when expanded, emblem when collapsed; clicking the logo toggles collapsed state
+- **Sidenav accordion expands collapsed sidebar** — Clicking a collapsible parent item in icon-rail mode automatically expands the sidebar and opens the group
+- **Header `showLogo` input** — Allows hiding the logo in sidebar-first layouts where the logo lives in the sidenav
+- **Header `showHamburger` + `hamburgerClick`** — Hamburger menu button for toggling the mobile drawer sidenav
+- **Responsive story** — New "Responsive (Mobile View)" Storybook story demonstrating the mobile drawer behavior with hamburger toggle
+
 ## [1.5.0] - 2026-05-11
 
 ### Added
