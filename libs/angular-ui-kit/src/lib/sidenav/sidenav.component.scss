@@ -338,7 +338,7 @@
     outline-offset: 2px;
   }
 
-  // Active state
+  // Active state (direct match)
   &--active {
     background-color: var(--color-primary-50, rgba(59, 130, 246, 0.1));
     color: var(--color-primary-700, #1d4ed8);
@@ -351,6 +351,16 @@
     &:hover {
       background-color: var(--color-primary-50, rgba(59, 130, 246, 0.1));
       color: var(--color-primary-700, #1d4ed8);
+    }
+  }
+
+  // Parent has an active child — subtle text color only, no background
+  &--has-active-child {
+    color: var(--lc-sidenav-fg-active);
+    font-weight: 600;
+
+    .lc-sidenav__nav-icon {
+      color: var(--lc-sidenav-fg-active);
     }
   }
 }
@@ -567,6 +577,14 @@
     &:hover {
       background-color: var(--lc-sidenav-active-bg);
       color: var(--lc-sidenav-active-fg);
+    }
+  }
+
+  .lc-sidenav__nav-item--has-active-child {
+    color: var(--lc-sidenav-fg-active);
+
+    .lc-sidenav__nav-icon {
+      color: var(--lc-sidenav-fg-active);
     }
   }
 }

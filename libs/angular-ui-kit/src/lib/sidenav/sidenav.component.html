@@ -90,7 +90,7 @@
                             type="button"
                             class="lc-sidenav__nav-item lc-sidenav__nav-item--parent"
                             [class.lc-sidenav__nav-item--expanded]="isExpanded(child)"
-                            [class.lc-sidenav__nav-item--active]="hasActiveChild(child)"
+                            [class.lc-sidenav__nav-item--has-active-child]="hasActiveChild(child)"
                             (click)="toggleExpanded(child)"
                             [attr.aria-expanded]="isExpanded(child)"
                             [title]="collapsed() ? child.label : ''">
@@ -175,7 +175,7 @@
                 type="button"
                 class="lc-sidenav__nav-item lc-sidenav__nav-item--parent"
                 [class.lc-sidenav__nav-item--expanded]="isExpanded(item)"
-                [class.lc-sidenav__nav-item--active]="hasActiveChild(item)"
+                [class.lc-sidenav__nav-item--has-active-child]="hasActiveChild(item)"
                 (click)="toggleExpanded(item)"
                 [attr.aria-expanded]="isExpanded(item)"
                 [title]="collapsed() ? item.label : ''">

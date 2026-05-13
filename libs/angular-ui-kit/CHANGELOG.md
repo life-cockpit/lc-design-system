@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.2] - 2026-05-13
+
+### Fixed
+
+- **Sidenav parent active style** — Parent accordion items with an active child no longer receive the full active highlight (teal background); they now only show bold text, keeping the full active style exclusively on the directly active child item
+
 ## [1.6.1] - 2026-05-13
 
 ### Fixed
