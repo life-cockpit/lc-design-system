@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.0] - 2026-05-13
+
+### Changed
+
+- **Button migrated to signal APIs** — All `@Input()` decorators replaced with `input()`, `@Output() EventEmitter` replaced with `output()`, `isDisabled` getter replaced with `computed()`; removed duplicate `isLoading` input
+- **Markdown `RenderPart.lang` typed** — Changed from `string` to `CodeBlockLanguage`, removing `$any()` cast in template
+
+### Fixed
+
+- **`track $index` → proper identity tracking** — Gallery (`track item.src`), Tag Input (`track tag`), Stepper (`track step.label`), Pagination (`track page`), Date Range Picker (`track day.date.getTime()`); improves re-render performance on list changes
+- **`$any()` casts removed** — 6 templates (Table, Datepicker, Textarea, Filter Bar, Log Viewer, Markdown) now use typed `getInputValue()` helper instead of bypassing strict type checks
+
 ## [1.6.3] - 2026-05-13
 
 ### Fixed

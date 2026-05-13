@@ -11,7 +11,7 @@
             <select
               class="lc-filter-bar__select"
               [value]="getValue(filter.key)"
-              (change)="onFilterChange(filter.key, $any($event.target).value)"
+              (change)="onFilterChange(filter.key, getInputValue($event))"
             >
               @if (filter.placeholder) {
                 <option value="">{{ filter.placeholder }}</option>

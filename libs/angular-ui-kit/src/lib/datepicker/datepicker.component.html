@@ -14,7 +14,7 @@
       [attr.disabled]="disabled ? true : null"
       [attr.placeholder]="placeholder"
       [value]="formattedDate()"
-      (input)="onInputChange($any($event.target).value)"
+      (input)="onInputChange(getInputValue($event))"
       (click)="toggle()"
       (keydown)="onKeyDown($event)"
       (blur)="onBlur()"

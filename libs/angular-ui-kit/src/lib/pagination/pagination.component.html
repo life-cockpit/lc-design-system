@@ -17,7 +17,7 @@
 
       <!-- Page Numbers -->
       <div class="lc-pagination__pages">
-        @for (page of visiblePages(); track $index) {
+        @for (page of visiblePages(); track page) {
           @if (isEllipsis(page)) {
             <span class="lc-pagination__ellipsis" aria-hidden="true">
               &hellip;

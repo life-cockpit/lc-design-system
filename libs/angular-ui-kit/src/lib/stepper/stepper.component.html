@@ -5,10 +5,10 @@
 >
   <!-- Step indicators -->
   <div class="lc-stepper__header">
-    @for (step of steps(); track $index; let last = $last) {
-      <div [class]="getStepClasses($index)" (click)="goToStep($index)">
+    @for (step of steps(); track step.label; let i = $index; let last = $last) {
+      <div [class]="getStepClasses(i)" (click)="goToStep(i)">
         <div class="lc-stepper__indicator">
-          @if (getStepState($index) === 'completed') {
+          @if (getStepState(i) === 'completed') {
             <!-- Checkmark for completed -->
             <svg class="lc-stepper__check" viewBox="0 0 20 20" fill="currentColor">
               <path
@@ -18,7 +18,7 @@
               />
             </svg>
           } @else {
-            <span class="lc-stepper__number">{{ $index + 1 }}</span>
+            <span class="lc-stepper__number">{{ i + 1 }}</span>
           }
         </div>
         <div class="lc-stepper__label">
@@ -33,7 +33,7 @@
       </div>
 
       @if (!last) {
-        <div [class]="getConnectorClasses($index)"></div>
+        <div [class]="getConnectorClasses(i)"></div>
       }
     }
   </div>

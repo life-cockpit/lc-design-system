@@ -22,7 +22,7 @@
       [attr.aria-label]="ariaLabel"
       [attr.aria-required]="required"
       [attr.aria-invalid]="error"
-      (input)="onInput($any($event.target).value)"
+      (input)="onInput(getInputValue($event))"
       (blur)="onBlur()"
     ></textarea>
   </div>

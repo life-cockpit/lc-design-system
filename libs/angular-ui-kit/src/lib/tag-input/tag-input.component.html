@@ -8,7 +8,7 @@
   [class.lc-tag-input__container--disabled]="disabled()"
   (click)="focusInput()"
 >
-  @for (tag of tags(); track $index) {
+  @for (tag of tags(); track tag) {
     <span class="lc-tag-input__tag">
       <span class="lc-tag-input__tag-text">{{ tag }}</span>
       @if (removable() && !disabled()) {

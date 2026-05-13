@@ -298,4 +298,8 @@ export class TextareaComponent implements ControlValueAccessor, AfterViewInit {
 
     return lineHeight * this.maxRows + paddingTop + paddingBottom;
   }
+
+  protected getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
 }

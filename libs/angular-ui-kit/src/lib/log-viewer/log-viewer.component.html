@@ -80,7 +80,7 @@
         class="lc-log-viewer__search-input"
         placeholder="Search logs..."
         [value]="internalSearch()"
-        (input)="internalSearch.set($any($event.target).value)"
+        (input)="internalSearch.set(getInputValue($event))"
         autofocus
       />
     </div>

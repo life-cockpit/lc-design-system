@@ -113,4 +113,8 @@ export class FilterBarComponent {
     }
     return classes.join(' ');
   }
+
+  protected getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
 }

@@ -27,7 +27,7 @@
     </div>
 
     <div class="lc-drp__grid">
-      @for (day of calendarDays(); track $index) {
+      @for (day of calendarDays(); track day.date.getTime()) {
         <button
           type="button"
           class="lc-drp__day"

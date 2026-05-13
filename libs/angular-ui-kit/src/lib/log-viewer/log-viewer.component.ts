@@ -352,4 +352,8 @@ export class LogViewerComponent implements AfterViewInit, OnDestroy {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
   }
+
+  protected getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
 }

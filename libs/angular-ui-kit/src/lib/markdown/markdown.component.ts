@@ -14,7 +14,7 @@ import {
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { CodeBlockComponent } from '../code-block/code-block.component';
+import { CodeBlockComponent, CodeBlockLanguage } from '../code-block/code-block.component';
 
 export interface MarkdownHeading {
   level: number;
@@ -36,7 +36,7 @@ export interface RenderPart {
   index: number;
   safeHtml?: SafeHtml;
   code?: string;
-  lang?: string;
+  lang?: CodeBlockLanguage;
 }
 
 /**
@@ -241,7 +241,7 @@ export class MarkdownComponent implements OnDestroy {
       /```(\w*)\n([\s\S]*?)```/g,
       (_match, lang: string, code: string) => {
         const idx = blocks.length;
-        blocks.push({ lang: lang || 'text', code: code.trimEnd() });
+        blocks.push({ lang: (lang || 'text') as CodeBlockLanguage, code: code.trimEnd() });
         return `<!--CODE_BLOCK_${idx}-->`;
       }
     );

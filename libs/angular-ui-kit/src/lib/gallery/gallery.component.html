@@ -24,19 +24,19 @@
 
 <!-- Grid / Masonry -->
 <div class="gallery__grid" [class.gallery__grid--masonry]="layout() === 'masonry'" [ngStyle]="gridStyle()">
-  @for (item of filteredItems(); track $index) {
+  @for (item of filteredItems(); track item.src; let i = $index) {
     <div
       class="gallery__item"
-      [class.gallery__item--loaded]="isLoaded($index)"
+      [class.gallery__item--loaded]="isLoaded(i)"
       [class.gallery__item--clickable]="enableLightbox()"
       [ngStyle]="itemStyle()"
-      (click)="openLightbox($index)"
-      (keydown.enter)="openLightbox($index)"
+      (click)="openLightbox(i)"
+      (keydown.enter)="openLightbox(i)"
       [attr.tabindex]="enableLightbox() ? 0 : null"
       [attr.role]="enableLightbox() ? 'button' : null"
-      [attr.aria-label]="item.alt || 'Image ' + ($index + 1)"
+      [attr.aria-label]="item.alt || 'Image ' + (i + 1)"
     >
-      @if (!isLoaded($index)) {
+      @if (!isLoaded(i)) {
         <div class="gallery__placeholder"></div>
       }
       <img
@@ -44,7 +44,7 @@
         [src]="getThumbnail(item)"
         [alt]="item.alt || ''"
         loading="lazy"
-        (load)="onImageLoad($index)"
+        (load)="onImageLoad(i)"
       />
       @if (showCaptions() && item.caption) {
         <div class="gallery__caption">{{ item.caption }}</div>

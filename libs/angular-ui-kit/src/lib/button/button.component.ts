@@ -1,8 +1,8 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
+  computed,
   ViewChild,
   ElementRef,
   ChangeDetectionStrategy,
@@ -50,28 +50,25 @@ export type ButtonType = 'button' | 'submit' | 'reset';
  * ```
  */
 export class ButtonComponent {
-  @Input() variant: ButtonVariant = 'primary';
-  @Input() size: ButtonSize = 'md';
-  @Input() disabled = false;
-  @Input() loading = false;
-  @Input() isLoading = false; // Alias for loading
-  @Input() iconOnly = false; // Icon-only button (no text, square shape)
-  @Input() fullWidth = false;
-  @Input() ariaLabel = '';
-  @Input() type: ButtonType = 'button';
+  readonly variant = input<ButtonVariant>('primary');
+  readonly size = input<ButtonSize>('md');
+  readonly disabled = input(false);
+  readonly loading = input(false);
+  readonly iconOnly = input(false);
+  readonly fullWidth = input(false);
+  readonly ariaLabel = input('');
+  readonly type = input<ButtonType>('button');
 
-  @Output() readonly clicked = new EventEmitter<void>();
-  @Output() readonly focused = new EventEmitter<void>();
-  @Output() readonly blurred = new EventEmitter<void>();
+  readonly clicked = output<void>();
+  readonly focused = output<void>();
+  readonly blurred = output<void>();
 
   @ViewChild('buttonElement') buttonElement!: ElementRef<HTMLButtonElement>;
 
-  get isDisabled(): boolean {
-    return this.disabled || this.loading || this.isLoading;
-  }
+  readonly isDisabled = computed(() => this.disabled() || this.loading());
 
   handleClick(): void {
-    if (!this.isDisabled) {
+    if (!this.isDisabled()) {
       this.clicked.emit();
     }
   }

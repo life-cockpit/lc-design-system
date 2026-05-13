@@ -66,9 +66,9 @@
           </td>
         </tr>
       } @else {
-        @for (row of displayData(); track $index) {
+        @for (row of displayData(); track $index; let i = $index) {
           <tr
-            [class.lc-table__row--selected]="selectable() && isRowSelected($index)"
+            [class.lc-table__row--selected]="selectable() && isRowSelected(i)"
             (click)="onRowClick(row)"
           >
             @if (selectable()) {
@@ -93,7 +93,7 @@
                     type="text"
                     class="lc-table__edit-input"
                     [value]="editValue()"
-                    (input)="editValue.set($any($event.target).value)"
+                    (input)="editValue.set(getInputValue($event))"
                     (blur)="commitEdit($index, column.key)"
                     (keydown)="onEditKeydown($event, $index, column.key)"
                     autofocus

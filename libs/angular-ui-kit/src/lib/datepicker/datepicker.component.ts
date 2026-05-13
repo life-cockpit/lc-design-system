@@ -567,4 +567,8 @@ export class DatepickerComponent implements ControlValueAccessor {
 
     return new Date(year, month, day);
   }
+
+  protected getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
 }

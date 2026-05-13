@@ -395,4 +395,8 @@ export class TableComponent {
       this.cancelEdit();
     }
   }
+
+  protected getInputValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
 }
