@@ -25,19 +25,34 @@ export type SidenavMode = 'drawer' | 'docked';
  *
  * Features:
  * - Drawer (overlay) and docked (persistent) modes
- * - Collapsed icon-rail mode (narrow 56px sidebar with icons only)
- * - Hierarchical navigation with collapsible groups
- * - Section headlines for item grouping
- * - Active route highlighting
- * - Keyboard navigation support
+ * - Responsive mobile mode — docked automatically switches to drawer below a configurable breakpoint
+ * - Collapsed icon-rail mode (narrow 56px sidebar with icons only and hover tooltips)
+ * - Integrated logo area with collapse-toggle (sidebar-first layouts)
+ * - Hierarchical navigation with collapsible groups (up to 3 levels)
+ * - Section headlines for item grouping with optional action buttons
+ * - Action buttons on any item (hover-reveal)
+ * - Badge support on items (count / status indicator)
+ * - Active route highlighting (no hover color change on active items)
+ * - Keyboard navigation support (Escape closes drawer)
  * - Configurable width and position (left/right)
  * - Optional backdrop overlay
+ * - Theme variants: auto, light, dark (with teal accent for dark mode)
  * - Accessible with ARIA navigation role
  *
  * @example
  * ```html
- * <lc-sidenav [isOpen]="isOpen" mode="docked" [collapsed]="isCollapsed" [items]="navItems"
- *   (closed)="isOpen = false" (itemClicked)="navigate($event)" />
+ * <lc-sidenav
+ *   [isOpenInput]="isOpen"
+ *   modeInput="docked"
+ *   [collapsedInput]="isCollapsed"
+ *   [showLogoInput]="true"
+ *   [mobileBreakpointInput]="768"
+ *   [itemsInput]="navItems"
+ *   activeRouteInput="/dashboard"
+ *   theme="dark"
+ *   (closed)="isOpen = false"
+ *   (itemClicked)="navigate($event)"
+ *   (itemAction)="onAction($event)" />
  * ```
  */
 @Component({

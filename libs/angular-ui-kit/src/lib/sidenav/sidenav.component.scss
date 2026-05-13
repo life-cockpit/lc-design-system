@@ -203,9 +203,9 @@
 .lc-sidenav__logo {
   display: flex;
   align-items: center;
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-4);
   border-bottom: 1px solid var(--lc-sidenav-border);
-  height: 64px;
+  min-height: 64px;
   flex-shrink: 0;
 }
 
@@ -291,17 +291,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: var(--spacing-2, 0.5rem);
+  padding-right: 0;
+  margin-bottom: var(--spacing-1, 0.25rem);
 }
 
 .lc-sidenav__section-title {
   padding: 0 var(--spacing-3, 0.75rem);
-  margin-bottom: var(--spacing-2, 0.5rem);
+  margin-bottom: 0;
   font-size: var(--font-size-xs, 0.75rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--lc-sidenav-section-fg);
+  line-height: 28px;
 }
 
 .lc-sidenav__section-items {
@@ -344,6 +346,11 @@
 
     .lc-sidenav__nav-icon {
       color: var(--color-primary-600, #2563eb);
+    }
+
+    &:hover {
+      background-color: var(--color-primary-50, rgba(59, 130, 246, 0.1));
+      color: var(--color-primary-700, #1d4ed8);
     }
   }
 }
@@ -425,8 +432,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   background: transparent;
   border: none;
@@ -537,24 +544,41 @@
   }
 }
 
-// ── Dark theme variant (explicit) ──────────────
-.lc-sidenav--dark {
-  --lc-sidenav-bg: #18181b;
+// ── Dark theme shared tokens ───────────────────
+@mixin sidenav-dark-tokens {
+  --lc-sidenav-bg: #1e1e22;
   --lc-sidenav-fg: #d4d4d8;
   --lc-sidenav-fg-active: #f5f5f5;
   --lc-sidenav-border: #3f3f46;
-  --lc-sidenav-hover-bg: #27272a;
+  --lc-sidenav-hover-bg: #2a2a2f;
   --lc-sidenav-section-fg: #a1a1aa;
+  --lc-sidenav-active-bg: rgba(45, 212, 191, 0.12);
+  --lc-sidenav-active-fg: #5eead4;
+  --lc-sidenav-active-icon: #2dd4bf;
+
+  .lc-sidenav__nav-item--active {
+    background-color: var(--lc-sidenav-active-bg);
+    color: var(--lc-sidenav-active-fg);
+
+    .lc-sidenav__nav-icon {
+      color: var(--lc-sidenav-active-icon);
+    }
+
+    &:hover {
+      background-color: var(--lc-sidenav-active-bg);
+      color: var(--lc-sidenav-active-fg);
+    }
+  }
+}
+
+// ── Dark theme variant (explicit) ──────────────
+.lc-sidenav--dark {
+  @include sidenav-dark-tokens;
 }
 
 // ── Auto dark theme (global context) ───────────
 :host-context([data-theme='dark']) .lc-sidenav:not(.lc-sidenav--light) {
-  --lc-sidenav-bg: #18181b;
-  --lc-sidenav-fg: #d4d4d8;
-  --lc-sidenav-fg-active: #f5f5f5;
-  --lc-sidenav-border: #3f3f46;
-  --lc-sidenav-hover-bg: #27272a;
-  --lc-sidenav-section-fg: #a1a1aa;
+  @include sidenav-dark-tokens;
 }
 
 // Print styles

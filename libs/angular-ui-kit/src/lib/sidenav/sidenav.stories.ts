@@ -6,8 +6,11 @@ import { HeaderComponent } from '../header/header.component';
 /**
  * Sidenav provides a vertical navigation panel for application-level routing.
  * Supports docked (always visible) and drawer (overlay) modes with left/right
- * positioning. Items can have icons, nested children, active state highlighting,
- * action buttons, badges, and an integrated logo header.
+ * positioning. Automatically switches to drawer on narrow viewports.
+ *
+ * Items can have icons, nested children, section headlines, action buttons,
+ * badges, active-route highlighting, and an integrated logo header for
+ * sidebar-first layouts.
  */
 const meta: Meta<SidenavComponent> = {
   title: 'Navigation/Sidenav',
@@ -32,9 +35,14 @@ const meta: Meta<SidenavComponent> = {
       description: 'Which side of the viewport the nav appears on',
     },
     isOpenInput: { description: 'Whether the sidenav is currently visible' },
+    collapsedInput: { description: 'Collapse to 56px icon-rail mode' },
     activeRouteInput: { description: 'The currently active route (highlights matching item)' },
     widthInput: { description: 'Custom width (CSS value, e.g. "280px")' },
     showLogoInput: { description: 'Show the logo at the top of the sidenav (for sidebar-first layouts)' },
+    mobileBreakpointInput: {
+      control: 'number',
+      description: 'Viewport width (px) below which docked mode switches to drawer',
+    },
     themeInput: {
       control: 'select',
       options: ['auto', 'light', 'dark'],
@@ -49,18 +57,62 @@ const meta: Meta<SidenavComponent> = {
 Sidenav component for application navigation sidebar.
 
 **Key Features:**
-- Drawer (overlay) and docked (persistent) modes
-- Collapsed icon-rail mode (56px narrow sidebar with icons only and hover tooltips)
-- Hierarchical navigation with collapsible groups
-- Section headlines for item grouping
-- Active route highlighting
-- Keyboard navigation support
-- Configurable width and position (left/right)
-- Optional backdrop overlay
-- \`theme\` input (\`auto\` | \`light\` | \`dark\`) with internal CSS tokens
-- Accessible with ARIA navigation role
+- **Drawer** (overlay) and **docked** (persistent) modes
+- **Responsive mobile mode** — docked automatically switches to drawer below \`mobileBreakpointInput\` (default 768px); auto-closes after navigation
+- **Collapsed icon-rail** mode (56px narrow sidebar with icons only and hover tooltips); clicking a collapsible parent auto-expands the sidebar
+- **Integrated logo** area (\`showLogoInput\`) with full logo / emblem toggle; click to collapse/expand (sidebar-first layouts)
+- **Hierarchical navigation** with collapsible groups (up to 3 levels deep)
+- **Section headlines** for item grouping with optional action buttons (\`item.action\`)
+- **Action buttons** on any item — hover-reveal icon buttons that emit \`itemAction\`
+- **Badges** on items (\`item.badge\`) for counts or status indicators with color variants
+- **Active route highlighting** — active items keep their color on hover
+- **Keyboard navigation** — Escape closes drawer mode
+- Configurable **width** and **position** (left/right)
+- Optional **backdrop overlay**
+- **Theme** input (\`auto\` | \`light\` | \`dark\`) — dark mode uses teal accent for active items
+- Accessible with ARIA \`navigation\` role
 
-**Theming Tokens:** \`--lc-sidenav-bg\`, \`--lc-sidenav-fg\`, \`--lc-sidenav-fg-active\`, \`--lc-sidenav-border\`, \`--lc-sidenav-hover-bg\`, \`--lc-sidenav-section-fg\`
+**Inputs:**
+| Input | Type | Default | Description |
+|---|---|---|---|
+| \`isOpenInput\` | \`boolean\` | \`false\` | Whether the sidenav is visible |
+| \`modeInput\` | \`'drawer' \| 'docked'\` | \`'drawer'\` | Overlay or persistent sidebar |
+| \`positionInput\` | \`'left' \| 'right'\` | \`'left'\` | Side of viewport |
+| \`widthInput\` | \`string\` | \`'320px'\` | CSS width |
+| \`collapsedInput\` | \`boolean\` | \`false\` | Icon-rail mode |
+| \`showLogoInput\` | \`boolean\` | \`false\` | Show logo area at top |
+| \`mobileBreakpointInput\` | \`number\` | \`768\` | Viewport width (px) below which docked → drawer |
+| \`itemsInput\` | \`NavigationItem[]\` | \`[]\` | Navigation items |
+| \`activeRouteInput\` | \`string\` | \`''\` | Currently active route |
+| \`hasOverlayInput\` | \`boolean\` | \`true\` | Show backdrop in drawer mode |
+| \`ariaLabelInput\` | \`string\` | \`'Side navigation'\` | ARIA label |
+| \`theme\` | \`'auto' \| 'light' \| 'dark'\` | \`'auto'\` | Theme variant |
+
+**Outputs:**
+| Output | Payload | Description |
+|---|---|---|
+| \`closed\` | \`void\` | Sidenav close requested (overlay click, Escape) |
+| \`itemClicked\` | \`NavigationItem\` | Item navigated |
+| \`itemAction\` | \`NavigationItem\` | Item action button clicked |
+
+**NavigationItem shape:**
+\`\`\`ts
+interface NavigationItem {
+  id: string;
+  icon: string;
+  label: string;
+  route: string;
+  displayOrder: number;
+  isSection?: boolean;           // renders as section headline
+  children?: NavigationItem[];   // nested items
+  action?: { icon: string; ariaLabel?: string };  // hover-reveal button
+  badge?: { value: string | number; variant?: BadgeVariant };  // count badge
+}
+\`\`\`
+
+**Theming tokens:** \`--lc-sidenav-bg\`, \`--lc-sidenav-fg\`, \`--lc-sidenav-fg-active\`, \`--lc-sidenav-border\`, \`--lc-sidenav-hover-bg\`, \`--lc-sidenav-section-fg\`
+
+Dark mode adds: \`--lc-sidenav-active-bg\`, \`--lc-sidenav-active-fg\`, \`--lc-sidenav-active-icon\`
 `,
       },
     },

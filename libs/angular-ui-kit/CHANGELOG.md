@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.1] - 2026-05-13
+
+### Fixed
+
+- **Sidenav dark theme contrast** — Lightened dark background (`#1e1e22`), hover (`#2a2a2f`), and added teal accent for active items (`--lc-sidenav-active-bg/fg/icon`) for better readability
+- **Sidenav active item hover** — Active items no longer change color on hover (both light and dark themes)
+- **Sidenav icon alignment** — Section action button (plus) and accordion action button (ellipsis) are now vertically aligned; section title line-height matches button height
+- **Sidenav logo sizing** — Logo uses `md` size (48px) when expanded instead of `sm` (32px); logo area uses flexible min-height
+
+### Changed
+
+- **Sidenav documentation** — Comprehensive Storybook docs with full inputs/outputs table, `NavigationItem` interface shape, and theming token reference
+
 ## [1.6.0] - 2026-05-12
 
 ### Added
