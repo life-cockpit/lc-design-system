@@ -203,9 +203,9 @@
 .lc-sidenav__logo {
   display: flex;
   align-items: center;
-  padding: var(--spacing-4) var(--spacing-4);
+  padding: 0 var(--spacing-4);
   border-bottom: 1px solid var(--lc-sidenav-border);
-  min-height: 64px;
+  height: 64px;
   flex-shrink: 0;
 }
 

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.3] - 2026-05-13
+
+### Fixed
+
+- **Sidenav logo area height** — Fixed `height: 64px` to match the header; logo uses `sm` size (32px) so it fits without overflow; horizontal-only padding for clean alignment
+
 ## [1.6.2] - 2026-05-13
 
 ### Fixed

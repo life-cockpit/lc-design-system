@@ -31,7 +31,7 @@
     @if (showLogo()) {
       <div class="lc-sidenav__logo">
         <button type="button" class="lc-sidenav__logo-link" aria-label="Toggle sidebar" (click)="toggleCollapsed()">
-          <lc-logo [variant]="collapsed() ? 'emblem' : 'full'" [size]="collapsed() ? 'sm' : 'md'" [clickable]="false" [colorMode]="themeMode() === 'dark' ? 'dark' : themeMode() === 'light' ? 'light' : 'auto'" />
+          <lc-logo [variant]="collapsed() ? 'emblem' : 'full'" size="sm" [clickable]="false" [colorMode]="themeMode() === 'dark' ? 'dark' : themeMode() === 'light' ? 'light' : 'auto'" />
         </button>
       </div>
     }
