@@ -24,8 +24,8 @@
       </lc-button>
 
       <lc-sidenav
-        [isOpenInput]="basicLeftOpen()"
-        positionInput="left"
+        [isOpen]="basicLeftOpen()"
+        position="left"
         (closed)="closeBasicLeft()">
         <div class="p-6">
           <h3 class="text-xl font-semibold mb-4">Navigation Menu</h3>
@@ -41,8 +41,8 @@
     </div>
 
     <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav
-  [isOpenInput]="isOpen"
-  positionInput="left"
+  [isOpen]="isOpen"
+  position="left"
   (closed)="handleClose()"&gt;
   &lt;!-- Your navigation content --&gt;
 &lt;/lc-sidenav&gt;</code></pre>
@@ -63,8 +63,8 @@
       </lc-button>
 
       <lc-sidenav
-        [isOpenInput]="basicRightOpen()"
-        positionInput="right"
+        [isOpen]="basicRightOpen()"
+        position="right"
         (closed)="closeBasicRight()">
         <div class="p-6">
           <h3 class="text-xl font-semibold mb-4">Settings Panel</h3>
@@ -101,7 +101,7 @@
       </lc-sidenav>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav positionInput="right" ...&gt;
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav position="right" ...&gt;
   &lt;!-- Settings panel content --&gt;
 &lt;/lc-sidenav&gt;</code></pre>
   </section>
@@ -121,9 +121,9 @@
       </lc-button>
 
       <lc-sidenav
-        [isOpenInput]="noOverlayOpen()"
-        positionInput="left"
-        [hasOverlayInput]="false"
+        [isOpen]="noOverlayOpen()"
+        position="left"
+        [hasOverlay]="false"
         (closed)="closeNoOverlay()">
         <div class="p-6">
           <h3 class="text-xl font-semibold mb-4">Menu</h3>
@@ -136,7 +136,7 @@
       </lc-sidenav>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav [hasOverlayInput]="false" ...&gt;
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav [hasOverlay]="false" ...&gt;
   &lt;!-- Content --&gt;
 &lt;/lc-sidenav&gt;</code></pre>
   </section>
@@ -156,9 +156,9 @@
       </lc-button>
 
       <lc-sidenav
-        [isOpenInput]="customWidthOpen()"
-        positionInput="left"
-        widthInput="500px"
+        [isOpen]="customWidthOpen()"
+        position="left"
+        width="500px"
         (closed)="closeCustomWidth()">
         <div class="p-6">
           <h3 class="text-xl font-semibold mb-4">Wide Navigation</h3>
@@ -174,7 +174,7 @@
       </lc-sidenav>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav widthInput="500px" ...&gt;
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav width="500px" ...&gt;
   &lt;!-- Content --&gt;
 &lt;/lc-sidenav&gt;</code></pre>
   </section>
@@ -194,10 +194,10 @@
       </lc-button>
 
       <lc-sidenav
-        [isOpenInput]="withNavItemsOpen()"
-        positionInput="left"
-        [itemsInput]="navItems"
-        [activeRouteInput]="activeRoute()"
+        [isOpen]="withNavItemsOpen()"
+        position="left"
+        [items]="navItems"
+        [activeRoute]="activeRoute()"
         (closed)="closeWithNavItems()"
         (itemClicked)="handleNavItemClick($event)">
       </lc-sidenav>
@@ -226,8 +226,8 @@
 ];
 
 &lt;lc-sidenav
-  [itemsInput]="navItems"
-  [activeRouteInput]="activeRoute"
+  [items]="navItems"
+  [activeRoute]="activeRoute"
   (itemClicked)="handleNavItemClick($event)"&gt;
 &lt;/lc-sidenav&gt;</code></pre>
   </section>
@@ -247,10 +247,10 @@
       </lc-button>
 
       <lc-sidenav
-        [isOpenInput]="withContentOpen()"
-        positionInput="right"
-        widthInput="400px"
-        ariaLabelInput="Shopping cart"
+        [isOpen]="withContentOpen()"
+        position="right"
+        width="400px"
+        ariaLabel="Shopping cart"
         (closed)="closeWithContent()">
         <div class="p-6">
           <h3 class="text-xl font-semibold mb-4">Shopping Cart</h3>
@@ -301,7 +301,7 @@
       </lc-sidenav>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav ariaLabelInput="Shopping cart" ...&gt;
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-sidenav ariaLabel="Shopping cart" ...&gt;
   &lt;!-- Rich content like shopping cart --&gt;
 &lt;/lc-sidenav&gt;</code></pre>
   </section>

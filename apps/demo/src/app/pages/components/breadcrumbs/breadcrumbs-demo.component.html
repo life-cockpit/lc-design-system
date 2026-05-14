@@ -14,10 +14,10 @@
     </p>
 
     <div class="bg-neutral-50 dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 mb-6">
-      <lc-breadcrumbs [itemsInput]="basicItems"></lc-breadcrumbs>
+      <lc-breadcrumbs [items]="basicItems"></lc-breadcrumbs>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [itemsInput]="items"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [items]="items"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
   </section>
 
   <!-- Size Variants -->
@@ -31,23 +31,23 @@
       <div class="space-y-6">
         <div>
           <h3 class="text-lg font-medium mb-2">Small (sm)</h3>
-          <lc-breadcrumbs [itemsInput]="basicItems" [sizeInput]="'sm'"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="basicItems" [size]="'sm'"></lc-breadcrumbs>
         </div>
 
         <div>
           <h3 class="text-lg font-medium mb-2">Medium (md) - Default</h3>
-          <lc-breadcrumbs [itemsInput]="basicItems" [sizeInput]="'md'"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="basicItems" [size]="'md'"></lc-breadcrumbs>
         </div>
 
         <div>
           <h3 class="text-lg font-medium mb-2">Large (lg)</h3>
-          <lc-breadcrumbs [itemsInput]="basicItems" [sizeInput]="'lg'"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="basicItems" [size]="'lg'"></lc-breadcrumbs>
         </div>
       </div>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [itemsInput]="items" [sizeInput]="'sm'"&gt;&lt;/lc-breadcrumbs&gt;
-&lt;lc-breadcrumbs [itemsInput]="items" [sizeInput]="'lg'"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [items]="items" [size]="'sm'"&gt;&lt;/lc-breadcrumbs&gt;
+&lt;lc-breadcrumbs [items]="items" [size]="'lg'"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
   </section>
 
   <!-- Custom Separators -->
@@ -61,28 +61,28 @@
       <div class="space-y-6">
         <div>
           <h3 class="text-lg font-medium mb-2">Default Separator (/)</h3>
-          <lc-breadcrumbs [itemsInput]="customSeparatorItems"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="customSeparatorItems"></lc-breadcrumbs>
         </div>
 
         <div>
           <h3 class="text-lg font-medium mb-2">Greater Than (&gt;)</h3>
-          <lc-breadcrumbs [itemsInput]="customSeparatorItems" [separatorInput]="'>'"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="customSeparatorItems" [separator]="'>'"></lc-breadcrumbs>
         </div>
 
         <div>
           <h3 class="text-lg font-medium mb-2">Arrow (→)</h3>
-          <lc-breadcrumbs [itemsInput]="customSeparatorItems" [separatorInput]="'→'"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="customSeparatorItems" [separator]="'→'"></lc-breadcrumbs>
         </div>
 
         <div>
           <h3 class="text-lg font-medium mb-2">Dot (•)</h3>
-          <lc-breadcrumbs [itemsInput]="customSeparatorItems" [separatorInput]="'•'"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="customSeparatorItems" [separator]="'•'"></lc-breadcrumbs>
         </div>
       </div>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [separatorInput]="'>'"&gt;&lt;/lc-breadcrumbs&gt;
-&lt;lc-breadcrumbs [separatorInput]="'→'"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [separator]="'>'"&gt;&lt;/lc-breadcrumbs&gt;
+&lt;lc-breadcrumbs [separator]="'→'"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
   </section>
 
   <!-- Max Items with Ellipsis -->
@@ -96,17 +96,17 @@
       <div class="space-y-6">
         <div>
           <h3 class="text-lg font-medium mb-2">All Items (maxItems = 0 - Default)</h3>
-          <lc-breadcrumbs [itemsInput]="deepItems" [maxItemsInput]="0"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="deepItems" [maxItems]="0"></lc-breadcrumbs>
         </div>
 
         <div>
           <h3 class="text-lg font-medium mb-2">Max 3 Items</h3>
-          <lc-breadcrumbs [itemsInput]="deepItems" [maxItemsInput]="3"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="deepItems" [maxItems]="3"></lc-breadcrumbs>
         </div>
       </div>
     </div>
 
-    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [itemsInput]="deepItems" [maxItemsInput]="3"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
+    <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 rounded-lg text-sm"><code>&lt;lc-breadcrumbs [items]="deepItems" [maxItems]="3"&gt;&lt;/lc-breadcrumbs&gt;</code></pre>
   </section>
 
   <!-- Props API -->
