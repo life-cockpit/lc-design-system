@@ -5,7 +5,7 @@
     } @else {
       <lc-code-block
         [code]="part.code!"
-        [language]="part.lang"
+        [language]="part.lang ?? 'text'"
         [showLineNumbers]="true"
         [showCopy]="true"
       />

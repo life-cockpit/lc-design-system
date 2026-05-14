@@ -205,7 +205,7 @@ export class MarkdownComponent implements OnDestroy {
         type: 'code',
         index: partIndex++,
         code: blocks[blockIdx].code,
-        lang: blocks[blockIdx].lang,
+        lang: blocks[blockIdx].lang as CodeBlockLanguage,
       });
       lastIndex = match.index + match[0].length;
     }
