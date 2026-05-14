@@ -14,7 +14,6 @@ import {
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Observable, Subscription } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 
@@ -44,7 +43,7 @@ export interface LogLine {
 @Component({
   selector: 'lc-log-viewer',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './log-viewer.component.html',
   styleUrls: ['./log-viewer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

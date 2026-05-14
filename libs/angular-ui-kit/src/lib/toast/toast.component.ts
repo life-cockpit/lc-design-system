@@ -6,7 +6,6 @@ import {
   computed,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import type { Toast, ToastVariant } from './toast.service';
 
@@ -29,7 +28,7 @@ import type { Toast, ToastVariant } from './toast.service';
 @Component({
   selector: 'lc-toast',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
   // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation

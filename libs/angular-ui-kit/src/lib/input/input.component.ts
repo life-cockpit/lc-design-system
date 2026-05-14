@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   forwardRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IconComponent } from '../icon/icon.component';
 
@@ -33,7 +32,7 @@ import { IconComponent } from '../icon/icon.component';
  */
 @Component({
   selector: 'lc-input',
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

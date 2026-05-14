@@ -15,15 +15,15 @@ const meta: Meta<PaginationComponent> = {
   },
   argTypes: {
     pageChange: { action: 'pageChange', description: 'Emitted with the new page number when navigation occurs' },
-    currentPageInput: { description: 'The currently active page (1-based)' },
-    totalItemsInput: { description: 'Total number of items across all pages' },
-    pageSizeInput: { description: 'Number of items displayed per page' },
-    sizeInput: {
+    currentPage: { description: 'The currently active page (1-based)' },
+    totalItems: { description: 'Total number of items across all pages' },
+    pageSize: { description: 'Number of items displayed per page' },
+    size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
       description: 'Controls button dimensions and spacing',
     },
-    showInfoInput: { description: 'Show "Showing X-Y of Z items" text' },
+    showInfo: { description: 'Show "Showing X-Y of Z items" text' },
   },
 
   parameters: {
@@ -50,7 +50,7 @@ export default meta;
 type Story = StoryObj<PaginationComponent>;
 
 export const Default: Story = {
-  args: { currentPageInput: 1, totalItemsInput: 100, pageSizeInput: 10, sizeInput: 'md' },
+  args: { currentPage: 1, totalItems: 100, pageSize: 10, size: 'md' },
   play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement);
     const nextBtn = canvas.getByRole('button', { name: /next/i });
@@ -61,27 +61,27 @@ export const Default: Story = {
 
 export const MiddlePage: Story = {
   name: 'Middle Page',
-  args: { currentPageInput: 5, totalItemsInput: 100, pageSizeInput: 10, sizeInput: 'md' },
+  args: { currentPage: 5, totalItems: 100, pageSize: 10, size: 'md' },
 };
 
 export const LastPage: Story = {
   name: 'Last Page',
-  args: { currentPageInput: 10, totalItemsInput: 100, pageSizeInput: 10, sizeInput: 'md' },
+  args: { currentPage: 10, totalItems: 100, pageSize: 10, size: 'md' },
 };
 
 export const WithInfo: Story = {
   name: 'With Item Count',
-  args: { currentPageInput: 3, totalItemsInput: 247, pageSizeInput: 25, sizeInput: 'md', showInfoInput: true },
+  args: { currentPage: 3, totalItems: 247, pageSize: 25, size: 'md', showInfo: true },
 };
 
 export const FewPages: Story = {
   name: 'Few Pages (No Ellipsis)',
-  args: { currentPageInput: 2, totalItemsInput: 30, pageSizeInput: 10, sizeInput: 'md' },
+  args: { currentPage: 2, totalItems: 30, pageSize: 10, size: 'md' },
 };
 
 export const ManyPages: Story = {
   name: 'Many Pages (With Ellipsis)',
-  args: { currentPageInput: 15, totalItemsInput: 500, pageSizeInput: 10, sizeInput: 'md', showInfoInput: true },
+  args: { currentPage: 15, totalItems: 500, pageSize: 10, size: 'md', showInfo: true },
 };
 
 export const Sizes: Story = {
@@ -91,15 +91,15 @@ export const Sizes: Story = {
       <div style="display: flex; flex-direction: column; gap: 24px;">
         <div>
           <div style="font-size: 12px; color: #666; margin-bottom: 8px;">Small</div>
-          <lc-pagination [currentPageInput]="3" [totalItemsInput]="100" [pageSizeInput]="10" sizeInput="sm"></lc-pagination>
+          <lc-pagination [currentPage]="3" [totalItems]="100" [pageSize]="10" size="sm"></lc-pagination>
         </div>
         <div>
           <div style="font-size: 12px; color: #666; margin-bottom: 8px;">Medium (default)</div>
-          <lc-pagination [currentPageInput]="3" [totalItemsInput]="100" [pageSizeInput]="10" sizeInput="md"></lc-pagination>
+          <lc-pagination [currentPage]="3" [totalItems]="100" [pageSize]="10" size="md"></lc-pagination>
         </div>
         <div>
           <div style="font-size: 12px; color: #666; margin-bottom: 8px;">Large</div>
-          <lc-pagination [currentPageInput]="3" [totalItemsInput]="100" [pageSizeInput]="10" sizeInput="lg"></lc-pagination>
+          <lc-pagination [currentPage]="3" [totalItems]="100" [pageSize]="10" size="lg"></lc-pagination>
         </div>
       </div>`,
   }),
@@ -126,7 +126,7 @@ export const InTableContext: Story = {
         </table>
         <div style="padding: 12px 16px; border-top: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
           <span style="font-size: 12px; color: #666;">Showing 1-3 of 47 members</span>
-          <lc-pagination [currentPageInput]="1" [totalItemsInput]="47" [pageSizeInput]="3" sizeInput="sm"></lc-pagination>
+          <lc-pagination [currentPage]="1" [totalItems]="47" [pageSize]="3" size="sm"></lc-pagination>
         </div>
       </div>`,
   }),

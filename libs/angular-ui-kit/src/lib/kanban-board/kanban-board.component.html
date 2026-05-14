@@ -1,5 +1,5 @@
 <div class="lc-kanban">
-  @for (col of displayColumns(); track trackColumn($index, col)) {
+  @for (col of displayColumns(); track col.id) {
     <div
       class="lc-kanban__column"
       [class.lc-kanban__column--drop-target]="dropTargetColumn() === col.id"
@@ -24,7 +24,7 @@
       </div>
 
       <div class="lc-kanban__cards">
-        @for (card of col.cards; track trackCard($index, card)) {
+        @for (card of col.cards; track card.id) {
           <div
             class="lc-kanban__card"
             [class.lc-kanban__card--dragging]="draggedCard()?.card?.id === card.id"

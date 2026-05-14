@@ -1,5 +1,5 @@
-import { Component, Input, signal, computed, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 export interface BreadcrumbItem {
@@ -11,7 +11,7 @@ export type BreadcrumbSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'lc-breadcrumbs',
-  imports: [CommonModule, RouterModule],
+  imports: [NgClass, RouterModule],
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,12 +32,11 @@ export type BreadcrumbSize = 'sm' | 'md' | 'lg';
  * ```
  */
 export class BreadcrumbsComponent {
-  // Signals for reactive state
-  items = signal<BreadcrumbItem[]>([]);
-  separator = signal<string>('/');
-  maxItems = signal<number>(0); // 0 = show all
-  size = signal<BreadcrumbSize>('md');
-  ariaLabel = signal<string>('Breadcrumbs');
+  readonly items = input<BreadcrumbItem[]>([]);
+  readonly separator = input('/');
+  readonly maxItems = input(0);
+  readonly size = input<BreadcrumbSize>('md');
+  readonly ariaLabel = input('Breadcrumbs');
 
   // Computed CSS classes
   breadcrumbClasses = computed(() => {
@@ -71,32 +70,6 @@ export class BreadcrumbsComponent {
 
     return result;
   });
-
-  // Input setters for @Input binding
-  @Input()
-  set itemsInput(value: BreadcrumbItem[]) {
-    this.items.set(value);
-  }
-
-  @Input()
-  set separatorInput(value: string) {
-    this.separator.set(value);
-  }
-
-  @Input()
-  set maxItemsInput(value: number) {
-    this.maxItems.set(value);
-  }
-
-  @Input()
-  set sizeInput(value: BreadcrumbSize) {
-    this.size.set(value);
-  }
-
-  @Input()
-  set ariaLabelInput(value: string) {
-    this.ariaLabel.set(value);
-  }
 
   // Helper to check if item is last
   isLastItem(index: number): boolean {

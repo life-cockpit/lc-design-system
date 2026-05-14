@@ -1,5 +1,4 @@
 import { Component, input, computed, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type StackDirection = 'vertical' | 'horizontal';
 export type StackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
@@ -9,7 +8,7 @@ export type StackJustify = 'start' | 'center' | 'end' | 'between' | 'around' | '
 @Component({
   selector: 'lc-stack',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './stack.component.html',
   styleUrls: ['./stack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

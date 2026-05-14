@@ -7,7 +7,6 @@ import {
   computed,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 export type AlertVariant = 'success' | 'error' | 'warning' | 'info';
@@ -33,7 +32,7 @@ export type AlertVariant = 'success' | 'error' | 'warning' | 'info';
 @Component({
   selector: 'lc-alert',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
   // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation

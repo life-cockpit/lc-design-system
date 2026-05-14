@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 /**
@@ -21,7 +20,7 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'lc-field-group',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './field-group.component.html',
   styleUrls: ['./field-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

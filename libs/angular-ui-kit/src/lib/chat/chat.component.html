@@ -9,7 +9,7 @@
   }
 
   <div class="lc-chat__messages" #scrollContainer>
-    @for (msg of formattedMessages(); track trackById($index, msg)) {
+    @for (msg of formattedMessages(); track msg.id) {
       <div
         class="lc-chat__message"
         [class.lc-chat__message--user]="msg.role === 'user'"

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
 export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -22,7 +21,7 @@ export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-badge',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './badge.component.html',
   styleUrl: './badge.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

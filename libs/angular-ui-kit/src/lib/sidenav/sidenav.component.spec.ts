@@ -39,7 +39,7 @@ describe('SidenavComponent', () => {
 
   describe('Basic Structure', () => {
     it('should render aside element when open', () => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const aside = fixture.debugElement.query(By.css('aside'));
@@ -47,7 +47,7 @@ describe('SidenavComponent', () => {
     });
 
     it('should not render when closed', () => {
-      component.isOpen.set(false);
+      fixture.componentRef.setInput('isOpen', false);
       fixture.detectChanges();
 
       const aside = fixture.debugElement.query(By.css('aside'));
@@ -55,7 +55,7 @@ describe('SidenavComponent', () => {
     });
 
     it('should render overlay when open', () => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const overlay = fixture.debugElement.query(By.css('.lc-sidenav__overlay'));
@@ -63,7 +63,7 @@ describe('SidenavComponent', () => {
     });
 
     it('should have lc-sidenav CSS class', () => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const sidenav = fixture.debugElement.query(By.css('.lc-sidenav'));
@@ -73,8 +73,8 @@ describe('SidenavComponent', () => {
 
   describe('Position Variants', () => {
     it('should apply left position class', () => {
-      component.isOpen.set(true);
-      component.position.set('left');
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('position', 'left');
       fixture.detectChanges();
 
       const sidenav = fixture.debugElement.query(By.css('.lc-sidenav--left'));
@@ -82,8 +82,8 @@ describe('SidenavComponent', () => {
     });
 
     it('should apply right position class', () => {
-      component.isOpen.set(true);
-      component.position.set('right');
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('position', 'right');
       fixture.detectChanges();
 
       const sidenav = fixture.debugElement.query(By.css('.lc-sidenav--right'));
@@ -94,7 +94,7 @@ describe('SidenavComponent', () => {
   describe('Open/Close State', () => {
     it('should emit close event when overlay is clicked', () => {
       const closeSpy = jest.spyOn(component.closed, 'emit');
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const overlay = fixture.debugElement.query(By.css('.lc-sidenav__overlay'));
@@ -105,7 +105,7 @@ describe('SidenavComponent', () => {
 
     it('should emit close event when close button is clicked', () => {
       const closeSpy = jest.spyOn(component.closed, 'emit');
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const closeButton = fixture.debugElement.query(By.css('.lc-sidenav__close'));
@@ -116,7 +116,7 @@ describe('SidenavComponent', () => {
 
     it('should call handleClose method when overlay clicked', () => {
       const handleCloseSpy = jest.spyOn(component, 'handleClose');
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const overlay = fixture.debugElement.query(By.css('.lc-sidenav__overlay'));
@@ -128,15 +128,15 @@ describe('SidenavComponent', () => {
 
   describe('Width Configuration', () => {
     it('should use default width when not specified', () => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       expect(component.width()).toBe('320px');
     });
 
     it('should use custom width when specified', () => {
-      component.isOpen.set(true);
-      component.width.set('400px');
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('width', '400px');
       fixture.detectChanges();
 
       const _sidenav = fixture.debugElement.query(By.css('.lc-sidenav'));
@@ -146,7 +146,7 @@ describe('SidenavComponent', () => {
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
     });
 
@@ -161,7 +161,7 @@ describe('SidenavComponent', () => {
     });
 
     it('should use custom aria-label when provided', () => {
-      component.ariaLabel.set('Custom navigation');
+      fixture.componentRef.setInput('ariaLabel', 'Custom navigation');
       fixture.detectChanges();
 
       const aside = fixture.debugElement.query(By.css('aside'));
@@ -177,7 +177,7 @@ describe('SidenavComponent', () => {
   describe('Keyboard Navigation', () => {
     it('should close on Escape key', () => {
       const closeSpy = jest.spyOn(component.closed, 'emit');
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const event = new KeyboardEvent('keydown', { key: 'Escape' });
@@ -188,7 +188,7 @@ describe('SidenavComponent', () => {
 
     it('should not close on other keys', () => {
       const closeSpy = jest.spyOn(component.closed, 'emit');
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const event = new KeyboardEvent('keydown', { key: 'Enter' });
@@ -200,7 +200,7 @@ describe('SidenavComponent', () => {
 
   describe('Content Projection', () => {
     it('should project content into sidenav drawer', () => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const content = fixture.debugElement.query(By.css('.lc-sidenav__content'));
@@ -210,35 +210,35 @@ describe('SidenavComponent', () => {
 
   describe('Input Bindings', () => {
     it('should update isOpen via Input', () => {
-      component.isOpenInput = true;
+      fixture.componentRef.setInput('isOpen', true);
       expect(component.isOpen()).toBe(true);
     });
 
     it('should update position via Input', () => {
-      component.positionInput = 'right';
+      fixture.componentRef.setInput('position', 'right');
       expect(component.position()).toBe('right');
     });
 
     it('should update width via Input', () => {
-      component.widthInput = '500px';
+      fixture.componentRef.setInput('width', '500px');
       expect(component.width()).toBe('500px');
     });
 
     it('should update ariaLabel via Input', () => {
-      component.ariaLabelInput = 'Menu navigation';
+      fixture.componentRef.setInput('ariaLabel', 'Menu navigation');
       expect(component.ariaLabel()).toBe('Menu navigation');
     });
 
     it('should update hasOverlay via Input', () => {
-      component.hasOverlayInput = false;
+      fixture.componentRef.setInput('hasOverlay', false);
       expect(component.hasOverlay()).toBe(false);
     });
   });
 
   describe('Overlay Behavior', () => {
     it('should render overlay when hasOverlay is true', () => {
-      component.isOpen.set(true);
-      component.hasOverlay.set(true);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('hasOverlay', true);
       fixture.detectChanges();
 
       const overlay = fixture.debugElement.query(By.css('.lc-sidenav__overlay'));
@@ -246,8 +246,8 @@ describe('SidenavComponent', () => {
     });
 
     it('should not render overlay when hasOverlay is false', () => {
-      component.isOpen.set(true);
-      component.hasOverlay.set(false);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('hasOverlay', false);
       fixture.detectChanges();
 
       const overlay = fixture.debugElement.query(By.css('.lc-sidenav__overlay'));
@@ -257,7 +257,7 @@ describe('SidenavComponent', () => {
 
   describe('Computed Classes', () => {
     it('should compute correct CSS classes for left position', () => {
-      component.position.set('left');
+      fixture.componentRef.setInput('position', 'left');
       const classes = component.sidenavClasses();
 
       expect(classes).toContain('lc-sidenav');
@@ -265,7 +265,7 @@ describe('SidenavComponent', () => {
     });
 
     it('should compute correct CSS classes for right position', () => {
-      component.position.set('right');
+      fixture.componentRef.setInput('position', 'right');
       const classes = component.sidenavClasses();
 
       expect(classes).toContain('lc-sidenav');
@@ -289,11 +289,11 @@ describe('SidenavComponent', () => {
 
   describe('Edge Cases', () => {
     it('should handle rapid open/close toggles', () => {
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
-      component.isOpen.set(false);
+      fixture.componentRef.setInput('isOpen', false);
       fixture.detectChanges();
-      component.isOpen.set(true);
+      fixture.componentRef.setInput('isOpen', true);
       fixture.detectChanges();
 
       const aside = fixture.debugElement.query(By.css('aside'));
@@ -302,7 +302,7 @@ describe('SidenavComponent', () => {
 
     it('should handle close event when already closed', () => {
       const closeSpy = jest.spyOn(component.closed, 'emit');
-      component.isOpen.set(false);
+      fixture.componentRef.setInput('isOpen', false);
       component.handleClose();
 
       expect(closeSpy).toHaveBeenCalled();
@@ -329,13 +329,13 @@ describe('SidenavComponent', () => {
     ];
 
     it('should accept NavigationItem[] input', () => {
-      component.items.set(mockNavItems);
+      fixture.componentRef.setInput('items', mockNavItems);
       expect(component.items()).toEqual(mockNavItems);
     });
 
     it('should render navigation items when provided', () => {
-      component.isOpen.set(true);
-      component.items.set(mockNavItems);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', mockNavItems);
       fixture.detectChanges();
 
       const navLinks = fixture.debugElement.queryAll(By.css('.lc-sidenav__nav-item'));
@@ -343,8 +343,8 @@ describe('SidenavComponent', () => {
     });
 
     it('should display item labels', () => {
-      component.isOpen.set(true);
-      component.items.set(mockNavItems);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', mockNavItems);
       fixture.detectChanges();
 
       const labels = fixture.nativeElement.querySelectorAll('.lc-sidenav__nav-label');
@@ -353,8 +353,8 @@ describe('SidenavComponent', () => {
     });
 
     it('should render item icons', () => {
-      component.isOpen.set(true);
-      component.items.set(mockNavItems);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', mockNavItems);
       fixture.detectChanges();
 
       const icons = fixture.nativeElement.querySelectorAll('.lc-sidenav__nav-icon');
@@ -362,9 +362,9 @@ describe('SidenavComponent', () => {
     });
 
     it('should identify active route via isItemActive', () => {
-      component.isOpen.set(true);
-      component.items.set(mockNavItems);
-      component.activeRoute.set('/');
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', mockNavItems);
+      fixture.componentRef.setInput('activeRoute', '/');
       fixture.detectChanges();
 
       expect(component.isItemActive(mockNavItems[0])).toBe(true);
@@ -372,14 +372,14 @@ describe('SidenavComponent', () => {
     });
 
     it('should update active state when activeRoute changes', () => {
-      component.isOpen.set(true);
-      component.items.set(mockNavItems);
-      component.activeRoute.set('/');
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', mockNavItems);
+      fixture.componentRef.setInput('activeRoute', '/');
       fixture.detectChanges();
 
       expect(component.isItemActive(mockNavItems[0])).toBe(true);
 
-      component.activeRoute.set('/trading');
+      fixture.componentRef.setInput('activeRoute', '/trading');
       fixture.detectChanges();
 
       expect(component.isItemActive(mockNavItems[1])).toBe(true);
@@ -388,8 +388,8 @@ describe('SidenavComponent', () => {
 
     it('should emit item click events', () => {
       const clickSpy = jest.spyOn(component.itemClicked, 'emit');
-      component.isOpen.set(true);
-      component.items.set(mockNavItems);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', mockNavItems);
       fixture.detectChanges();
 
       const firstLink = fixture.nativeElement.querySelector('.lc-sidenav__nav-item');
@@ -403,8 +403,8 @@ describe('SidenavComponent', () => {
         { ...mockNavItems[1], displayOrder: 1 },
         { ...mockNavItems[0], displayOrder: 2 },
       ];
-      component.isOpen.set(true);
-      component.items.set(unsortedItems);
+      fixture.componentRef.setInput('isOpen', true);
+      fixture.componentRef.setInput('items', unsortedItems);
       fixture.detectChanges();
 
       const labels = fixture.nativeElement.querySelectorAll('.lc-sidenav__nav-label');

@@ -24,18 +24,18 @@ describe('HeaderComponent', () => {
 
   describe('Inputs', () => {
     it('should accept logo input', () => {
-      component.logo = '/assets/logo.svg';
-      expect(component.logo).toBe('/assets/logo.svg');
+      fixture.componentRef.setInput('logo', '/assets/logo.svg');
+      expect(component.logo()).toBe('/assets/logo.svg');
     });
 
     it('should accept userEmail input', () => {
-      component.userEmail = 'test@example.com';
-      expect(component.userEmail).toBe('test@example.com');
+      fixture.componentRef.setInput('userEmail', 'test@example.com');
+      expect(component.userEmail()).toBe('test@example.com');
     });
 
     it('should accept showHamburger input', () => {
-      component.showHamburger = true;
-      expect(component.showHamburger).toBe(true);
+      fixture.componentRef.setInput('showHamburger', true);
+      expect(component.showHamburger()).toBe(true);
     });
   });
 
@@ -119,7 +119,7 @@ describe('HeaderComponent', () => {
     });
 
     it('should render user email in menu header when dropdown is open', () => {
-      component.userEmail = 'test@example.com';
+      fixture.componentRef.setInput('userEmail', 'test@example.com');
       component.toggleDropdown();
       fixture.detectChanges();
       const email = fixture.nativeElement.querySelector('.lc-header__menu-user-email');

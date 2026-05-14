@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, output, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 export type ChipVariant = 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
@@ -25,7 +24,7 @@ export type ChipSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-chip',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

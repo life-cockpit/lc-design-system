@@ -6,7 +6,7 @@ import {
   output,
   ContentChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { ButtonComponent } from '../button/button.component';
 import { ListItemTemplateDirective } from './list-item-template.directive';
@@ -85,7 +85,7 @@ export type ListSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-list',
   standalone: true,
-  imports: [CommonModule, IconComponent, ButtonComponent],
+  imports: [NgTemplateOutlet, IconComponent, ButtonComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

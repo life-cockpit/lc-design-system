@@ -10,7 +10,6 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -23,7 +22,7 @@ let nextUniqueId = 0;
 @Component({
   selector: 'lc-radio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './radio.component.html',
   styleUrl: './radio.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

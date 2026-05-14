@@ -7,7 +7,6 @@ import {
   ChangeDetectionStrategy,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 
@@ -51,7 +50,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 @Component({
   selector: 'lc-icon',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

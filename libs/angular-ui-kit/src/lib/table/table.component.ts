@@ -8,7 +8,7 @@ import {
   ContentChildren,
   QueryList,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { TableCellDirective } from './table-cell.directive';
 
 export interface TableColumn {
@@ -71,7 +71,7 @@ export type TableSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgTemplateOutlet],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -274,7 +274,7 @@ export class TableComponent {
   }
 
   getCellTemplate(columnKey: string): TableCellDirective | undefined {
-    return this.cellTemplates?.find((template) => template.columnKey === columnKey);
+    return this.cellTemplates?.find((template) => template.columnKey() === columnKey);
   }
 
   hasCustomTemplate(columnKey: string): boolean {

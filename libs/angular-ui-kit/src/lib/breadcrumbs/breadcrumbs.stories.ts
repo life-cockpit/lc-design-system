@@ -10,13 +10,13 @@ const meta: Meta<BreadcrumbsComponent> = {
   title: 'Navigation/Breadcrumbs',
   component: BreadcrumbsComponent,
   argTypes: {
-    itemsInput: { description: 'Array of breadcrumb items with label and optional url' },
-    sizeInput: {
+    items: { description: 'Array of breadcrumb items with label and optional url' },
+    size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
       description: 'Controls font size and spacing',
     },
-    separatorInput: { description: 'Character(s) used between items (default: "/")' },
+    separator: { description: 'Character(s) used between items (default: "/")' },
   },
 
   parameters: {
@@ -42,33 +42,33 @@ type Story = StoryObj<BreadcrumbsComponent>;
 
 export const Default: Story = {
   args: {
-    itemsInput: [
+    items: [
       { label: 'Home', url: '/' },
       { label: 'Products', url: '/products' },
       { label: 'Shoes', url: '/products/shoes' },
       { label: 'Running' },
     ],
-    sizeInput: 'md',
-    separatorInput: '/',
+    size: 'md',
+    separator: '/',
   },
 };
 
 export const TwoLevels: Story = {
   name: 'Two Levels',
   args: {
-    itemsInput: [
+    items: [
       { label: 'Dashboard', url: '/' },
       { label: 'Settings' },
     ],
-    sizeInput: 'md',
-    separatorInput: '/',
+    size: 'md',
+    separator: '/',
   },
 };
 
 export const DeepHierarchy: Story = {
   name: 'Deep Hierarchy',
   args: {
-    itemsInput: [
+    items: [
       { label: 'Home', url: '/' },
       { label: 'Organization', url: '/org' },
       { label: 'Teams', url: '/org/teams' },
@@ -76,34 +76,34 @@ export const DeepHierarchy: Story = {
       { label: 'Frontend', url: '/org/teams/engineering/frontend' },
       { label: 'Members' },
     ],
-    sizeInput: 'md',
-    separatorInput: '/',
+    size: 'md',
+    separator: '/',
   },
 };
 
 export const ChevronSeparator: Story = {
   name: 'Chevron Separator',
   args: {
-    itemsInput: [
+    items: [
       { label: 'Home', url: '/' },
       { label: 'Projects', url: '/projects' },
       { label: 'Life-Cockpit' },
     ],
-    sizeInput: 'md',
-    separatorInput: '›',
+    size: 'md',
+    separator: '›',
   },
 };
 
 export const ArrowSeparator: Story = {
   name: 'Arrow Separator',
   args: {
-    itemsInput: [
+    items: [
       { label: 'Account', url: '/account' },
       { label: 'Billing', url: '/account/billing' },
       { label: 'Invoices' },
     ],
-    sizeInput: 'md',
-    separatorInput: '→',
+    size: 'md',
+    separator: '→',
   },
 };
 
@@ -114,15 +114,15 @@ export const Sizes: Story = {
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <div>
           <div style="font-size: 11px; color: #666; margin-bottom: 4px;">Small</div>
-          <lc-breadcrumbs [itemsInput]="items" sizeInput="sm"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="items" size="sm"></lc-breadcrumbs>
         </div>
         <div>
           <div style="font-size: 11px; color: #666; margin-bottom: 4px;">Medium (default)</div>
-          <lc-breadcrumbs [itemsInput]="items" sizeInput="md"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="items" size="md"></lc-breadcrumbs>
         </div>
         <div>
           <div style="font-size: 11px; color: #666; margin-bottom: 4px;">Large</div>
-          <lc-breadcrumbs [itemsInput]="items" sizeInput="lg"></lc-breadcrumbs>
+          <lc-breadcrumbs [items]="items" size="lg"></lc-breadcrumbs>
         </div>
       </div>`,
     props: {
@@ -141,8 +141,8 @@ export const InPageHeader: Story = {
     template: `
       <div style="max-width: 600px; border-bottom: 1px solid #eee; padding-bottom: 16px;">
         <lc-breadcrumbs
-          [itemsInput]="items"
-          sizeInput="sm"
+          [items]="items"
+          size="sm"
         ></lc-breadcrumbs>
         <h2 style="margin: 8px 0 4px; font-size: 22px; font-weight: 600;">Project Settings</h2>
         <p style="margin: 0; font-size: 13px; color: #666;">Manage your project configuration and team members.</p>

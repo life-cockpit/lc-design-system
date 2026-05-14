@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, computed, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AlertComponent, AlertVariant } from '../alert/alert.component';
 
 /**
@@ -59,7 +58,7 @@ export type ErrorSeverity = 'error' | 'warning' | 'info';
  */
 @Component({
   selector: 'lc-error-display',
-  imports: [CommonModule, AlertComponent],
+  imports: [AlertComponent],
   templateUrl: './error-display.component.html',
   styleUrl: './error-display.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { Overlay, OverlayRef, ConnectedPosition } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { CommonModule } from '@angular/common';
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
@@ -23,7 +22,7 @@ export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 @Component({
   selector: 'lc-tooltip-content',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `<div class="lc-tooltip-inner">{{ content }}</div>`,
   styles: [
     `

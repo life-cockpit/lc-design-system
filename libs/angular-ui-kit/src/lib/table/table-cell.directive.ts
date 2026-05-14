@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, inject } from '@angular/core';
+import { Directive, input, TemplateRef, inject } from '@angular/core';
 
 /**
  * Directive for defining custom cell templates in the Table component.
@@ -18,7 +18,7 @@ import { Directive, Input, TemplateRef, inject } from '@angular/core';
 })
 export class TableCellDirective {
   /** The column key this template applies to */
-  @Input('lcTableCell') columnKey = '';
+  readonly columnKey = input('', { alias: 'lcTableCell' });
 
   public template = inject(TemplateRef<{ $implicit: Record<string, unknown> }>);
 }

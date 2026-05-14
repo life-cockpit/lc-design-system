@@ -24,26 +24,26 @@ const meta: Meta<SidenavComponent> = {
     closed: { action: 'closed', description: 'Emitted when the sidenav is closed (drawer mode)' },
     itemClicked: { action: 'itemClicked', description: 'Emitted with the NavigationItem when an item is clicked' },
     itemAction: { action: 'itemAction', description: 'Emitted with the NavigationItem when an action button is clicked' },
-    modeInput: {
+    mode: {
       control: 'select',
       options: ['drawer', 'docked'],
       description: 'Docked stays visible, drawer overlays content',
     },
-    positionInput: {
+    position: {
       control: 'select',
       options: ['left', 'right'],
       description: 'Which side of the viewport the nav appears on',
     },
-    isOpenInput: { description: 'Whether the sidenav is currently visible' },
-    collapsedInput: { description: 'Collapse to 56px icon-rail mode' },
-    activeRouteInput: { description: 'The currently active route (highlights matching item)' },
-    widthInput: { description: 'Custom width (CSS value, e.g. "280px")' },
-    showLogoInput: { description: 'Show the logo at the top of the sidenav (for sidebar-first layouts)' },
-    mobileBreakpointInput: {
+    isOpen: { description: 'Whether the sidenav is currently visible' },
+    collapsed: { description: 'Collapse to 56px icon-rail mode' },
+    activeRoute: { description: 'The currently active route (highlights matching item)' },
+    width: { description: 'Custom width (CSS value, e.g. "280px")' },
+    showLogo: { description: 'Show the logo at the top of the sidenav (for sidebar-first layouts)' },
+    mobileBreakpoint: {
       control: 'number',
       description: 'Viewport width (px) below which docked mode switches to drawer',
     },
-    themeInput: {
+    themeValue: {
       control: 'select',
       options: ['auto', 'light', 'dark'],
       description: 'Theme variant — sets internal tokens (--lc-sidenav-bg, --lc-sidenav-fg, etc.)',
@@ -58,9 +58,9 @@ Sidenav component for application navigation sidebar.
 
 **Key Features:**
 - **Drawer** (overlay) and **docked** (persistent) modes
-- **Responsive mobile mode** — docked automatically switches to drawer below \`mobileBreakpointInput\` (default 768px); auto-closes after navigation
+- **Responsive mobile mode** — docked automatically switches to drawer below \`mobileBreakpoint\` (default 768px); auto-closes after navigation
 - **Collapsed icon-rail** mode (56px narrow sidebar with icons only and hover tooltips); clicking a collapsible parent auto-expands the sidebar
-- **Integrated logo** area (\`showLogoInput\`) with full logo / emblem toggle; click to collapse/expand (sidebar-first layouts)
+- **Integrated logo** area (\`showLogo\`) with full logo / emblem toggle; click to collapse/expand (sidebar-first layouts)
 - **Hierarchical navigation** with collapsible groups (up to 3 levels deep)
 - **Section headlines** for item grouping with optional action buttons (\`item.action\`)
 - **Action buttons** on any item — hover-reveal icon buttons that emit \`itemAction\`
@@ -75,17 +75,17 @@ Sidenav component for application navigation sidebar.
 **Inputs:**
 | Input | Type | Default | Description |
 |---|---|---|---|
-| \`isOpenInput\` | \`boolean\` | \`false\` | Whether the sidenav is visible |
-| \`modeInput\` | \`'drawer' \| 'docked'\` | \`'drawer'\` | Overlay or persistent sidebar |
-| \`positionInput\` | \`'left' \| 'right'\` | \`'left'\` | Side of viewport |
-| \`widthInput\` | \`string\` | \`'320px'\` | CSS width |
-| \`collapsedInput\` | \`boolean\` | \`false\` | Icon-rail mode |
-| \`showLogoInput\` | \`boolean\` | \`false\` | Show logo area at top |
-| \`mobileBreakpointInput\` | \`number\` | \`768\` | Viewport width (px) below which docked → drawer |
-| \`itemsInput\` | \`NavigationItem[]\` | \`[]\` | Navigation items |
-| \`activeRouteInput\` | \`string\` | \`''\` | Currently active route |
-| \`hasOverlayInput\` | \`boolean\` | \`true\` | Show backdrop in drawer mode |
-| \`ariaLabelInput\` | \`string\` | \`'Side navigation'\` | ARIA label |
+| \`isOpen\` | \`boolean\` | \`false\` | Whether the sidenav is visible |
+| \`mode\` | \`'drawer' \| 'docked'\` | \`'drawer'\` | Overlay or persistent sidebar |
+| \`position\` | \`'left' \| 'right'\` | \`'left'\` | Side of viewport |
+| \`width\` | \`string\` | \`'320px'\` | CSS width |
+| \`collapsed\` | \`boolean\` | \`false\` | Icon-rail mode |
+| \`showLogo\` | \`boolean\` | \`false\` | Show logo area at top |
+| \`mobileBreakpoint\` | \`number\` | \`768\` | Viewport width (px) below which docked → drawer |
+| \`items\` | \`NavigationItem[]\` | \`[]\` | Navigation items |
+| \`activeRoute\` | \`string\` | \`''\` | Currently active route |
+| \`hasOverlay\` | \`boolean\` | \`true\` | Show backdrop in drawer mode |
+| \`ariaLabel\` | \`string\` | \`'Side navigation'\` | ARIA label |
 | \`theme\` | \`'auto' \| 'light' \| 'dark'\` | \`'auto'\` | Theme variant |
 
 **Outputs:**
@@ -133,40 +133,40 @@ const standardItems = [
 export const Docked: Story = {
   name: 'Docked Mode',
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    itemsInput: standardItems,
-    activeRouteInput: '/dashboard',
+    isOpen: true,
+    mode: 'docked',
+    items: standardItems,
+    activeRoute: '/dashboard',
   },
 };
 
 export const DrawerMode: Story = {
   name: 'Drawer Mode',
   args: {
-    isOpenInput: true,
-    modeInput: 'drawer',
-    itemsInput: standardItems,
-    activeRouteInput: '/projects',
+    isOpen: true,
+    mode: 'drawer',
+    items: standardItems,
+    activeRoute: '/projects',
   },
 };
 
 export const RightPosition: Story = {
   name: 'Right Position',
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    positionInput: 'right',
-    itemsInput: standardItems,
-    activeRouteInput: '/team',
+    isOpen: true,
+    mode: 'docked',
+    position: 'right',
+    items: standardItems,
+    activeRoute: '/team',
   },
 };
 
 export const WithNestedItems: Story = {
   name: 'With Nested Children',
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    itemsInput: [
+    isOpen: true,
+    mode: 'docked',
+    items: [
       { id: '1', icon: 'home', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
       { id: '2', icon: 'folder', label: 'Projects', route: '/projects', displayOrder: 2, children: [
         { id: '2a', icon: 'document', label: 'Active', route: '/projects/active', displayOrder: 1 },
@@ -178,16 +178,16 @@ export const WithNestedItems: Story = {
       ]},
       { id: '4', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 4 },
     ],
-    activeRouteInput: '/projects/active',
+    activeRoute: '/projects/active',
   },
 };
 
 export const FullApplication: Story = {
   name: 'Full App Layout (Composition)',
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    itemsInput: [
+    isOpen: true,
+    mode: 'docked',
+    items: [
       { id: '1', icon: 'home', label: 'Home', route: '/', displayOrder: 1 },
       { id: '2', icon: 'clipboard-document-list', label: 'Tasks', route: '/tasks', displayOrder: 2 },
       { id: '3', icon: 'calendar', label: 'Calendar', route: '/calendar', displayOrder: 3 },
@@ -195,13 +195,13 @@ export const FullApplication: Story = {
       { id: '5', icon: 'bell', label: 'Notifications', route: '/notifications', displayOrder: 5 },
       { id: '6', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 6 },
     ],
-    activeRouteInput: '/tasks',
+    activeRoute: '/tasks',
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [items]="items" [activeRoute]="activeRoute"></lc-sidenav>
         <div style="flex: 1; padding: 24px;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Tasks</h3>
           <p style="color: #666; font-size: 14px;">Main content area next to the sidenav.</p>
@@ -216,17 +216,17 @@ export const CollapsedIconRail: Story = {
     docs: { description: { story: 'Collapsed mode shows only icons in a narrow 56px rail. Hover over an icon to see the label tooltip.' } },
   },
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    collapsedInput: true,
-    itemsInput: standardItems,
-    activeRouteInput: '/dashboard',
+    isOpen: true,
+    mode: 'docked',
+    collapsed: true,
+    items: standardItems,
+    activeRoute: '/dashboard',
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [collapsedInput]="collapsedInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [collapsed]="collapsed" [items]="items" [activeRoute]="activeRoute"></lc-sidenav>
         <div style="flex: 1; padding: 24px;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Dashboard</h3>
           <p style="color: #666; font-size: 14px;">The sidenav is collapsed to a narrow icon rail. Hover icons for labels.</p>
@@ -244,28 +244,28 @@ export const CollapsedVsExpanded: Story = {
     template: `
       <div style="display: flex; gap: 24px;">
         <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; flex: 0 0 auto;">
-          <lc-sidenav [isOpenInput]="true" modeInput="docked" [collapsedInput]="true"
-            [itemsInput]="[
+          <lc-sidenav [isOpen]="true" mode="docked" [collapsed]="true"
+            [items]="[
               { id: '1', icon: 'home', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
               { id: '2', icon: 'folder', label: 'Projects', route: '/projects', displayOrder: 2 },
               { id: '3', icon: 'users', label: 'Team', route: '/team', displayOrder: 3 },
               { id: '4', icon: 'chart-bar', label: 'Analytics', route: '/analytics', displayOrder: 4 },
               { id: '5', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 5 }
             ]"
-            activeRouteInput="/dashboard">
+            activeRoute="/dashboard">
           </lc-sidenav>
           <div style="padding: 16px; font-size: 13px; color: #999;">Collapsed</div>
         </div>
         <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; flex: 1;">
-          <lc-sidenav [isOpenInput]="true" modeInput="docked" [collapsedInput]="false" widthInput="240px"
-            [itemsInput]="[
+          <lc-sidenav [isOpen]="true" mode="docked" [collapsed]="false" width="240px"
+            [items]="[
               { id: '1', icon: 'home', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
               { id: '2', icon: 'folder', label: 'Projects', route: '/projects', displayOrder: 2 },
               { id: '3', icon: 'users', label: 'Team', route: '/team', displayOrder: 3 },
               { id: '4', icon: 'chart-bar', label: 'Analytics', route: '/analytics', displayOrder: 4 },
               { id: '5', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 5 }
             ]"
-            activeRouteInput="/dashboard">
+            activeRoute="/dashboard">
           </lc-sidenav>
           <div style="padding: 16px; font-size: 13px; color: #999; flex: 1;">Expanded</div>
         </div>
@@ -279,17 +279,17 @@ export const DarkTheme: Story = {
     docs: { description: { story: 'Sidenav with explicit dark theme via `[theme]="dark"`. Uses internal tokens for background, text, and hover colors.' } },
   },
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    themeInput: 'dark',
-    itemsInput: standardItems,
-    activeRouteInput: '/dashboard',
+    isOpen: true,
+    mode: 'docked',
+    themeValue: 'dark',
+    items: standardItems,
+    activeRoute: '/dashboard',
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [theme]="themeInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [theme]="themeValue" [items]="items" [activeRoute]="activeRoute"></lc-sidenav>
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Content Area</h3>
           <p style="color: #666; font-size: 14px;">The sidenav uses its own dark tokens, independent of the page theme.</p>
@@ -304,10 +304,10 @@ export const WithGroupsAndActions: Story = {
     docs: { description: { story: 'Section headers and collapsible items can have action buttons (visible on hover). Useful for "Add project", context menus, etc.' } },
   },
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    themeInput: 'dark',
-    itemsInput: [
+    isOpen: true,
+    mode: 'docked',
+    themeValue: 'dark',
+    items: [
       { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
       { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2 },
       {
@@ -344,13 +344,13 @@ export const WithGroupsAndActions: Story = {
       },
       { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 },
     ],
-    activeRouteInput: '/projects/alpha/specs',
+    activeRoute: '/projects/alpha/specs',
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; height: 500px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [theme]="themeInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput" (itemAction)="itemAction($event)"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [theme]="themeValue" [items]="items" [activeRoute]="activeRoute" (itemAction)="itemAction($event)"></lc-sidenav>
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Specs &amp; Epics</h3>
           <p style="color: #666; font-size: 14px;">Hover over section headers or items to see action buttons.</p>
@@ -365,9 +365,9 @@ export const WithBadges: Story = {
     docs: { description: { story: 'Navigation items can display a badge with a count or label on the right side. Badges support all color variants.' } },
   },
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    itemsInput: [
+    isOpen: true,
+    mode: 'docked',
+    items: [
       { id: '1', icon: 'home', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
       { id: '2', icon: 'clipboard-document-list', label: 'Tasks', route: '/tasks', displayOrder: 2, badge: { value: 12, variant: 'primary' } },
       { id: '3', icon: 'bell', label: 'Notifications', route: '/notifications', displayOrder: 3, badge: { value: 3, variant: 'error' } },
@@ -378,13 +378,13 @@ export const WithBadges: Story = {
       ]},
       { id: '6', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 6 },
     ],
-    activeRouteInput: '/tasks',
+    activeRoute: '/tasks',
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [items]="items" [activeRoute]="activeRoute"></lc-sidenav>
         <div style="flex: 1; padding: 24px;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Tasks</h3>
           <p style="color: #666; font-size: 14px;">Items can show badges for counts, status, or labels.</p>
@@ -399,11 +399,11 @@ export const CollapsedWithGroups: Story = {
     docs: { description: { story: 'Collapsed icon rail with section groups, collapsible items, actions, and badges. Groups are separated by dividers, labels/chevrons/children are hidden.' } },
   },
   args: {
-    isOpenInput: true,
-    modeInput: 'docked',
-    collapsedInput: true,
-    themeInput: 'dark',
-    itemsInput: [
+    isOpen: true,
+    mode: 'docked',
+    collapsed: true,
+    themeValue: 'dark',
+    items: [
       { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
       { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
       {
@@ -418,13 +418,13 @@ export const CollapsedWithGroups: Story = {
       },
       { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 },
     ],
-    activeRouteInput: '/projects/alpha',
+    activeRoute: '/projects/alpha',
   },
   render: (args) => ({
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpenInput]="isOpenInput" [modeInput]="modeInput" [collapsedInput]="collapsedInput" [theme]="themeInput" [itemsInput]="itemsInput" [activeRouteInput]="activeRouteInput" (itemAction)="itemAction($event)"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [collapsed]="collapsed" [theme]="themeValue" [items]="items" [activeRoute]="activeRoute" (itemAction)="itemAction($event)"></lc-sidenav>
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Project Alpha</h3>
           <p style="color: #666; font-size: 14px;">Collapsed sidenav with section groups. Hover icons for labels.</p>
@@ -444,12 +444,12 @@ export const SidebarFirstLayout: Story = {
     template: `
       <div style="display: flex; height: 500px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
         <lc-sidenav
-          [isOpenInput]="true"
-          modeInput="docked"
-          [showLogoInput]="true"
+          [isOpen]="true"
+          mode="docked"
+          [showLogo]="true"
           theme="dark"
-          widthInput="240px"
-          [itemsInput]="[
+          width="240px"
+          [items]="[
             { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
             { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
             {
@@ -473,7 +473,7 @@ export const SidebarFirstLayout: Story = {
             },
             { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 }
           ]"
-          activeRouteInput="/projects/alpha/specs">
+          activeRoute="/projects/alpha/specs">
         </lc-sidenav>
         <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
           <lc-header
@@ -506,12 +506,12 @@ export const SidebarFirstCollapsed: Story = {
     template: `
       <div style="display: flex; height: 500px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
         <lc-sidenav
-          [isOpenInput]="true"
-          modeInput="docked"
-          [showLogoInput]="true"
-          [collapsedInput]="true"
+          [isOpen]="true"
+          mode="docked"
+          [showLogo]="true"
+          [collapsed]="true"
           theme="dark"
-          [itemsInput]="[
+          [items]="[
             { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
             { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
             {
@@ -525,7 +525,7 @@ export const SidebarFirstCollapsed: Story = {
             },
             { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 }
           ]"
-          activeRouteInput="/projects/alpha">
+          activeRoute="/projects/alpha">
         </lc-sidenav>
         <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
           <lc-header
@@ -562,13 +562,13 @@ export const ResponsiveMobile: Story = {
     template: `
       <div style="display: flex; height: 100vh; overflow: hidden;">
         <lc-sidenav
-          [isOpenInput]="sidebarOpen"
-          modeInput="docked"
-          [mobileBreakpointInput]="9999"
-          [showLogoInput]="true"
+          [isOpen]="sidebarOpen"
+          mode="docked"
+          [mobileBreakpoint]="9999"
+          [showLogo]="true"
           theme="dark"
-          widthInput="280px"
-          [itemsInput]="[
+          width="280px"
+          [items]="[
             { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
             { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
             {
@@ -583,7 +583,7 @@ export const ResponsiveMobile: Story = {
             },
             { id: '10', icon: 'cog-6-tooth', label: 'Settings', route: '/settings', displayOrder: 10 }
           ]"
-          activeRouteInput="/dashboard"
+          activeRoute="/dashboard"
           (closed)="sidebarOpen = false">
         </lc-sidenav>
         <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">

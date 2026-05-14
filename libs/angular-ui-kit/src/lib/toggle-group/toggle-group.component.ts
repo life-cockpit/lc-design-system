@@ -6,7 +6,7 @@ import {
   computed,
   model,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 export interface ToggleOption {
   readonly value: string;
@@ -36,7 +36,7 @@ export interface ToggleOption {
 @Component({
   selector: 'lc-toggle-group',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass],
   templateUrl: './toggle-group.component.html',
   styleUrl: './toggle-group.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

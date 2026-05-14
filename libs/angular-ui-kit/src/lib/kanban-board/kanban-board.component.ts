@@ -155,6 +155,4 @@ export class KanbanBoardComponent {
     this.cardClick.emit({ card, columnId });
   }
 
-  protected trackColumn(_: number, col: KanbanColumn): string { return col.id; }
-  protected trackCard(_: number, card: KanbanCard): string { return card.id; }
 }

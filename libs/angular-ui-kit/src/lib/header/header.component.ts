@@ -1,15 +1,13 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   signal,
   computed,
   inject,
   ChangeDetectionStrategy,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from '../button/button.component';
 import { LogoComponent } from '../logo/logo.component';
@@ -51,7 +49,6 @@ import { ThemeService } from '../theme/theme.service';
   selector: 'lc-header',
   standalone: true,
   imports: [
-    CommonModule,
     RouterModule,
     ButtonComponent,
     LogoComponent,
@@ -69,105 +66,25 @@ import { ThemeService } from '../theme/theme.service';
   },
 })
 export class HeaderComponent {
-  /**
-   * Theme variant for the header
-   * - 'light': Light background with dark text (default)
-   * - 'dark': Dark background with light text
-   * - 'auto': Follows the global theme (data-theme attribute)
-   */
-  @Input() theme: 'light' | 'dark' | 'auto' = 'auto';
+  readonly theme = input<'light' | 'dark' | 'auto'>('auto');
+  readonly logo = input('');
+  readonly showLogo = input(true);
+  readonly title = input('');
+  readonly subtitle = input('');
+  readonly userEmail = input('');
+  readonly userName = input('');
+  readonly showHamburger = input(false);
+  readonly showThemeButton = input(false);
+  readonly contextName = input('');
+  readonly contextLabel = input('');
+  readonly menuSize = input<'sm' | 'md' | 'lg'>('sm');
+  readonly showProfileMenuItem = input(true);
 
-  /**
-   * Logo image source URL
-   */
-  @Input() logo: string = '';
-
-  /**
-   * Whether to show the logo in the header.
-   * Set to false when the sidenav owns the logo (sidebar-first layout).
-   * @default true
-   */
-  @Input() showLogo: boolean = true;
-
-  /**
-   * Optional title to display next to logo
-   */
-  @Input() title: string = '';
-
-  /**
-   * Optional subtitle to display under title
-   */
-  @Input() subtitle: string = '';
-
-  /**
-   * User email to display in profile dropdown
-   */
-  @Input() userEmail: string = '';
-
-  /**
-   * User full name for avatar initials
-   * @example 'John Doe'
-   */
-  @Input() userName: string = '';
-
-  /**
-   * Whether to show hamburger menu icon (for mobile sidebar toggle)
-   */
-  @Input() showHamburger: boolean = false;
-
-  /**
-   * Whether to show theme toggle button in header
-   */
-  @Input() showThemeButton: boolean = false;
-
-  /**
-   * Contextual name displayed in the header (e.g. tenant, organization, project)
-   * @example 'Acme Corp'
-   */
-  @Input() contextName: string = '';
-
-  /**
-   * Label displayed above the context name (e.g. 'Tenant', 'Organization', 'Project')
-   * @example 'Tenant'
-   */
-  @Input() contextLabel: string = '';
-
-  /**
-   * Size of the profile dropdown menu
-   * @default 'sm'
-   */
-  @Input() menuSize: 'sm' | 'md' | 'lg' = 'sm';
-
-  /**
-   * Whether to show the Profile menu item in the user dropdown
-   * @default true
-   */
-  @Input() showProfileMenuItem: boolean = true;
-
-  /**
-   * Emitted when hamburger menu icon is clicked
-   */
-  @Output() readonly hamburgerClick = new EventEmitter<void>();
-
-  /**
-   * Emitted when theme toggle is clicked
-   */
-  @Output() readonly themeToggleClick = new EventEmitter<void>();
-
-  /**
-   * Emitted when Logout is clicked in profile dropdown
-   */
-  @Output() readonly logoutClick = new EventEmitter<void>();
-
-  /**
-   * Emitted when Profile menu item is clicked
-   */
-  @Output() readonly profileClick = new EventEmitter<void>();
-
-  /**
-   * Emitted when the context info area is clicked
-   */
-  @Output() readonly contextClick = new EventEmitter<void>();
+  readonly hamburgerClick = output<void>();
+  readonly themeToggleClick = output<void>();
+  readonly logoutClick = output<void>();
+  readonly profileClick = output<void>();
+  readonly contextClick = output<void>();
 
   protected readonly themeService = inject(ThemeService);
 
@@ -178,7 +95,7 @@ export class HeaderComponent {
     const items: MenuItem[] = [];
 
     // Add profile link if enabled
-    if (this.showProfileMenuItem) {
+    if (this.showProfileMenuItem()) {
       items.push({
         id: 'profile',
         label: 'Profile',

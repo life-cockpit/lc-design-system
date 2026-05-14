@@ -12,7 +12,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { A11yModule, FocusTrap, ConfigurableFocusTrapFactory } from '@angular/cdk/a11y';
 import { IconComponent } from '../icon/icon.component';
 
@@ -42,7 +41,7 @@ export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 @Component({
   selector: 'lc-modal',
   standalone: true,
-  imports: [CommonModule, A11yModule, IconComponent],
+  imports: [A11yModule, IconComponent],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -3,14 +3,14 @@ import {
   ChangeDetectionStrategy,
   signal,
   computed,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
+  model,
+  effect,
   HostListener,
-  OnInit,
   OnDestroy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet, NgStyle } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavigationItem } from '../models/navigation-item.interface';
 import { IconComponent } from '../icon/icon.component';
@@ -58,7 +58,7 @@ export type SidenavMode = 'drawer' | 'docked';
 @Component({
   selector: 'lc-sidenav',
   standalone: true,
-  imports: [CommonModule, RouterModule, IconComponent, BadgeComponent, LogoComponent],
+  imports: [NgTemplateOutlet, NgStyle, RouterModule, IconComponent, BadgeComponent, LogoComponent],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,27 +68,27 @@ export type SidenavMode = 'drawer' | 'docked';
     '[class.lc-sidenav-container--open]': 'isOpen()',
   },
 })
-export class SidenavComponent implements OnInit, OnDestroy {
-  /** Whether the sidenav is collapsed to icon-only rail */
-  collapsed = signal<boolean>(false);
+export class SidenavComponent implements OnDestroy {
+  /** Whether the sidenav is collapsed to icon-only rail (two-way bindable) */
+  readonly collapsed = model(false);
 
   /** Whether to show the logo at the top of the sidenav */
-  showLogo = signal<boolean>(false);
+  readonly showLogo = input(false);
 
   /** Whether the sidenav is open */
-  isOpen = signal<boolean>(false);
+  readonly isOpen = input(false);
 
   /** Display mode: 'drawer' (overlay) or 'docked' (persistent sidebar) */
-  mode = signal<SidenavMode>('drawer');
+  readonly mode = input<SidenavMode>('drawer');
 
   /** Mobile breakpoint in pixels. Below this width, docked mode switches to drawer. */
-  mobileBreakpoint = signal<number>(768);
+  readonly mobileBreakpoint = input(768);
 
   /** Whether the viewport is below the mobile breakpoint */
-  isMobile = signal<boolean>(false);
+  readonly isMobile = signal(false);
 
   /** Effective mode: switches docked → drawer on mobile */
-  effectiveMode = computed(() => {
+  readonly effectiveMode = computed(() => {
     if (this.isMobile() && this.mode() === 'docked') {
       return 'drawer' as SidenavMode;
     }
@@ -99,150 +99,57 @@ export class SidenavComponent implements OnInit, OnDestroy {
   private mediaHandler = (e: MediaQueryListEvent) => this.isMobile.set(e.matches);
 
   /** Position of the sidenav (left or right) */
-  position = signal<SidenavPosition>('left');
+  readonly position = input<SidenavPosition>('left');
 
   /** Width of the sidenav drawer */
-  width = signal<string>('320px');
+  readonly width = input('320px');
 
   /** ARIA label for the sidenav */
-  ariaLabel = signal<string>('Side navigation');
+  readonly ariaLabel = input('Side navigation');
 
   /** Whether to show the overlay backdrop */
-  hasOverlay = signal<boolean>(true);
+  readonly hasOverlay = input(true);
 
   /** Navigation items to display */
-  items = signal<NavigationItem[]>([]);
+  readonly items = input<NavigationItem[]>([]);
 
   /** Current active route for highlighting */
-  activeRoute = signal<string>('');
+  readonly activeRoute = input('');
+
+  /** Theme variant for the sidenav */
+  readonly theme = input<'light' | 'dark' | 'auto'>('auto');
 
   /** Track which parent items are expanded */
-  expandedItems = signal<Set<string>>(new Set());
+  readonly expandedItems = signal<Set<string>>(new Set());
 
   /**
    * Computed sorted navigation items by displayOrder
    */
-  sortedItems = computed(() => {
+  readonly sortedItems = computed(() => {
     return [...this.items()].sort((a, b) => a.displayOrder - b.displayOrder);
   });
 
   /**
-   * Input setter for isOpen
-   */
-  @Input()
-  set isOpenInput(value: boolean) {
-    this.isOpen.set(value);
-  }
-
-  /**
-   * Input setter for mode
-   */
-  @Input()
-  set modeInput(value: SidenavMode) {
-    this.mode.set(value);
-  }
-
-  /**
-   * Input setter for position
-   */
-  @Input()
-  set positionInput(value: SidenavPosition) {
-    this.position.set(value);
-  }
-
-  /**
-   * Input setter for width
-   */
-  @Input()
-  set widthInput(value: string) {
-    this.width.set(value);
-  }
-
-  /**
-   * Input setter for ariaLabel
-   */
-  @Input()
-  set ariaLabelInput(value: string) {
-    this.ariaLabel.set(value);
-  }
-
-  /**
-   * Input setter for hasOverlay
-   */
-  @Input()
-  set hasOverlayInput(value: boolean) {
-    this.hasOverlay.set(value);
-  }
-
-  /**
-   * Input setter for navigation items
-   */
-  @Input()
-  set itemsInput(value: NavigationItem[]) {
-    this.items.set(value);
-  }
-
-  /**
-   * Input setter for active route
-   */
-  @Input()
-  set activeRouteInput(value: string) {
-    this.activeRoute.set(value);
-  }
-
-  /**
-   * Input setter for collapsed
-   */
-  @Input()
-  set collapsedInput(value: boolean) {
-    this.collapsed.set(value);
-  }
-
-  /**
-   * Input setter for showLogo
-   */
-  @Input()
-  set showLogoInput(value: boolean) {
-    this.showLogo.set(value);
-  }
-
-  /**
-   * Input setter for mobileBreakpoint
-   */
-  @Input()
-  set mobileBreakpointInput(value: number) {
-    this.mobileBreakpoint.set(value);
-    this.setupMediaQuery();
-  }
-
-  /** Theme variant for the sidenav */
-  themeMode = signal<'light' | 'dark' | 'auto'>('auto');
-
-  /**
-   * Input setter for theme
-   */
-  @Input('theme')
-  set themeInput(value: 'light' | 'dark' | 'auto') {
-    this.themeMode.set(value);
-  }
-
-  /**
    * Event emitted when the sidenav should close
    */
-  @Output() readonly closed = new EventEmitter<void>();
+  readonly closed = output<void>();
 
   /**
    * Event emitted when a navigation item is clicked
    */
-  @Output() readonly itemClicked = new EventEmitter<NavigationItem>();
+  readonly itemClicked = output<NavigationItem>();
 
   /**
    * Event emitted when an item's action button is clicked
    */
-  @Output() readonly itemAction = new EventEmitter<NavigationItem>();
+  readonly itemAction = output<NavigationItem>();
 
-  ngOnInit(): void {
-    this.setupMediaQuery();
+  constructor() {
+    // React to mobileBreakpoint changes
+    effect(() => {
+      this.mobileBreakpoint(); // track dependency
+      this.setupMediaQuery();
+    });
   }
 
   ngOnDestroy(): void {
@@ -275,8 +182,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
     if (this.collapsed() && !this.isMobile()) {
       classes.push('lc-sidenav--collapsed');
     }
-    if (this.themeMode() !== 'auto') {
-      classes.push(`lc-sidenav--${this.themeMode()}`);
+    if (this.theme() !== 'auto') {
+      classes.push(`lc-sidenav--${this.theme()}`);
     }
     return classes.join(' ');
   });

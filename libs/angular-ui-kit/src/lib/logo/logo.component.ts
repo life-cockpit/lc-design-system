@@ -1,5 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * Logo component for displaying the Life-Cockpit brand identity.
@@ -19,7 +18,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'lc-logo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,7 +29,7 @@ export class LogoComponent {
    * - 'full': Full logo with text
    * - 'emblem': Just the emblem/icon
    */
-  @Input() variant: 'full' | 'emblem' = 'full';
+  readonly variant = input<'full' | 'emblem'>('full');
 
   /**
    * Size of the logo
@@ -40,17 +39,17 @@ export class LogoComponent {
    * - 'lg': 64px height
    * - 'xl': 96px height
    */
-  @Input() size: 'xs' | 'sm' | 'md' | 'lg' | 'xl' = 'md';
+  readonly size = input<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md');
 
   /**
    * Alt text for accessibility
    */
-  @Input() alt = 'Life-Cockpit';
+  readonly alt = input('Life-Cockpit');
 
   /**
    * Makes the logo appear clickable
    */
-  @Input() clickable = false;
+  readonly clickable = input(false);
 
   /**
    * Color mode for different backgrounds
@@ -58,24 +57,24 @@ export class LogoComponent {
    * - 'light': Optimized for light backgrounds (default appearance)
    * - 'dark': Inverted for dark backgrounds (white/light logo)
    */
-  @Input() colorMode: 'auto' | 'light' | 'dark' = 'auto';
+  readonly colorMode = input<'auto' | 'light' | 'dark'>('auto');
 
-  get logoSrc(): string {
-    return this.variant === 'emblem'
+  readonly logoSrc = computed(() => {
+    return this.variant() === 'emblem'
       ? '/assets/life-cockpit-emblem.svg'
       : '/assets/life-cockpit-logo.svg';
-  }
+  });
 
-  get logoClasses(): string {
-    const classes = [`size-${this.size}`];
-    if (this.clickable) {
+  readonly logoClasses = computed(() => {
+    const classes = [`size-${this.size()}`];
+    if (this.clickable()) {
       classes.push('clickable');
     }
-    if (this.colorMode === 'dark') {
+    if (this.colorMode() === 'dark') {
       classes.push('lc-logo--dark');
-    } else if (this.colorMode === 'auto') {
+    } else if (this.colorMode() === 'auto') {
       classes.push('lc-logo--auto');
     }
     return classes.join(' ');
-  }
+  });
 }

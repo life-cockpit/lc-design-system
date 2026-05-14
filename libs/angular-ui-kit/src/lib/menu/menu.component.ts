@@ -1,14 +1,12 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ChangeDetectionStrategy,
   HostListener,
   ElementRef,
   inject,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 export interface MenuItem {
@@ -56,49 +54,20 @@ export interface MenuItem {
 @Component({
   selector: 'lc-menu',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent {
-  /**
-   * Menu items to display
-   */
-  @Input() items: MenuItem[] = [];
+  readonly items = input<MenuItem[]>([]);
+  readonly isOpen = input(false);
+  readonly position = input<'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'>('bottom-right');
+  readonly size = input<'sm' | 'md' | 'lg'>('md');
+  readonly minWidth = input('220px');
 
-  /**
-   * Whether the menu is open
-   */
-  @Input() isOpen = false;
-
-  /**
-   * Menu position relative to trigger
-   * @default 'bottom-right'
-   */
-  @Input() position: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' = 'bottom-right';
-
-  /**
-   * Size of menu items
-   * @default 'md'
-   */
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
-
-  /**
-   * Minimum width of menu dropdown
-   * @default '220px'
-   */
-  @Input() minWidth = '220px';
-
-  /**
-   * Emitted when a menu item is clicked
-   */
-  @Output() readonly itemClick = new EventEmitter<MenuItem>();
-
-  /**
-   * Emitted when the menu should be closed (e.g., click outside, Escape key)
-   */
-  @Output() readonly closed = new EventEmitter<void>();
+  readonly itemClick = output<MenuItem>();
+  readonly closed = output<void>();
 
   private elementRef = inject(ElementRef<HTMLElement>);
 
@@ -134,7 +103,7 @@ export class MenuComponent {
    */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
-    if (!this.isOpen) {
+    if (!this.isOpen()) {
       return;
     }
 
@@ -153,7 +122,7 @@ export class MenuComponent {
    */
   @HostListener('document:keydown.escape')
   onEscapeKey(): void {
-    if (this.isOpen) {
+    if (this.isOpen()) {
       this.close();
     }
   }

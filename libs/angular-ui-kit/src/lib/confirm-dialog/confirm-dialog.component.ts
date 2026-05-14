@@ -9,7 +9,6 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IconComponent } from '../icon/icon.component';
 import { ButtonComponent } from '../button/button.component';
@@ -44,7 +43,7 @@ export interface RequireTextConfig {
 @Component({
   selector: 'lc-confirm-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, IconComponent, ButtonComponent, ModalComponent, InputComponent],
+  imports: [FormsModule, IconComponent, ButtonComponent, ModalComponent, InputComponent],
   templateUrl: './confirm-dialog.component.html',
   styleUrls: ['./confirm-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

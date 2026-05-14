@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, input, computed, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
@@ -23,7 +22,7 @@ export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
 @Component({
   selector: 'lc-avatar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

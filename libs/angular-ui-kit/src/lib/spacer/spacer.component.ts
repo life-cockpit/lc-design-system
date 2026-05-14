@@ -1,12 +1,11 @@
 import { Component, input, computed, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type SpacerSize = 'auto' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 @Component({
   selector: 'lc-spacer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './spacer.component.html',
   styleUrls: ['./spacer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

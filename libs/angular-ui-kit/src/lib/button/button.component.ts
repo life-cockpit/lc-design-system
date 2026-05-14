@@ -8,7 +8,7 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 export type ButtonVariant =
   | 'primary'
@@ -25,7 +25,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 @Component({
   selector: 'lc-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
   // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation

@@ -1,13 +1,11 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  signal,
+  input,
+  output,
   computed,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 export type PaginationSize = 'sm' | 'md' | 'lg';
 
@@ -36,23 +34,21 @@ export type PaginationSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-pagination',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass],
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
-  // Signals for reactive state
-  currentPage = signal<number>(1);
-  totalItems = signal<number>(0);
-  pageSize = signal<number>(10);
-  size = signal<PaginationSize>('md');
-  maxVisiblePages = signal<number>(7);
-  ariaLabel = signal<string>('Pagination');
-  showInfo = signal<boolean>(false);
+  readonly currentPage = input(1);
+  readonly totalItems = input(0);
+  readonly pageSize = input(10);
+  readonly size = input<PaginationSize>('md');
+  readonly maxVisiblePages = input(7);
+  readonly ariaLabel = input('Pagination');
+  readonly showInfo = input(false);
 
-  // Event emitters
-  @Output() readonly pageChange = new EventEmitter<number>();
+  readonly pageChange = output<number>();
 
   // Computed properties
   totalPages = computed(() => {
@@ -132,42 +128,6 @@ export class PaginationComponent {
 
     return pages;
   });
-
-  // Input setters for @Input binding
-  @Input()
-  set currentPageInput(value: number) {
-    this.currentPage.set(value);
-  }
-
-  @Input()
-  set totalItemsInput(value: number) {
-    this.totalItems.set(value);
-  }
-
-  @Input()
-  set pageSizeInput(value: number) {
-    this.pageSize.set(value);
-  }
-
-  @Input()
-  set sizeInput(value: PaginationSize) {
-    this.size.set(value);
-  }
-
-  @Input()
-  set maxVisiblePagesInput(value: number) {
-    this.maxVisiblePages.set(value);
-  }
-
-  @Input()
-  set ariaLabelInput(value: string) {
-    this.ariaLabel.set(value);
-  }
-
-  @Input()
-  set showInfoInput(value: boolean) {
-    this.showInfo.set(value);
-  }
 
   // Navigation methods
   goToPreviousPage(): void {

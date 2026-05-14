@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.0] - 2026-05-14
+
+### Changed
+
+- **Signal API migration** — Header, Tabs, Menu, Logo, Breadcrumbs, Pagination, Sidenav, and Table-cell directive migrated from `@Input()`/`@Output()` to `input()`/`output()`/`model()`/`computed()`; Sidenav input names simplified (removed `*Input` suffix)
+- **CommonModule removed** — 25 components no longer import `CommonModule`; 8 components replaced with standalone `NgClass`, `NgTemplateOutlet`, or `NgStyle` imports
+- **Track expressions simplified** — Chat (`track msg.id`), Kanban Board (`track col.id`/`track card.id`); removed unused `trackBy` helper methods
+- **Pagination duplicate key fix** — Changed `track page` to `track $index` to avoid NG0955 warning with ellipsis entries
+
 ## [1.7.0] - 2026-05-13
 
 ### Changed

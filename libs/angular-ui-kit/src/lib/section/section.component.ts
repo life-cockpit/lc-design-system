@@ -1,5 +1,4 @@
 import { Component, input, computed, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type SectionSpacing = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 export type SectionBackground = 'none' | 'gray' | 'primary' | 'secondary';
@@ -7,7 +6,7 @@ export type SectionBackground = 'none' | 'gray' | 'primary' | 'secondary';
 @Component({
   selector: 'lc-section',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './section.component.html',
   styleUrls: ['./section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -130,10 +130,6 @@ export class ChatComponent implements AfterViewChecked {
     return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
   }
 
-  protected trackById(_: number, msg: ChatMessage): string {
-    return msg.id;
-  }
-
   private scrollToBottom(): void {
     if (this.scrollContainer) {
       const el = this.scrollContainer.nativeElement;

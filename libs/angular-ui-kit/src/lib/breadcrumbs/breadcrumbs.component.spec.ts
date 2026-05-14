@@ -31,7 +31,7 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Basic Structure', () => {
     it('should render nav element with aria-label', () => {
-      component.items.set(mockItems);
+      fixture.componentRef.setInput('items', mockItems);
       fixture.detectChanges();
       const nav = fixture.debugElement.query(By.css('nav'));
       expect(nav).toBeTruthy();
@@ -39,7 +39,7 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should render ol element with lc-breadcrumbs CSS class', () => {
-      component.items.set(mockItems);
+      fixture.componentRef.setInput('items', mockItems);
       fixture.detectChanges();
       const ol = fixture.debugElement.query(By.css('ol'));
       expect(ol).toBeTruthy();
@@ -47,7 +47,7 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should not render when items are empty', () => {
-      component.items.set([]);
+      fixture.componentRef.setInput('items', []);
       fixture.detectChanges();
       const nav = fixture.debugElement.query(By.css('nav'));
       expect(nav).toBeFalsy();
@@ -56,7 +56,7 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Breadcrumb Items', () => {
     beforeEach(() => {
-      component.items.set(mockItems);
+      fixture.componentRef.setInput('items', mockItems);
       fixture.detectChanges();
     });
 
@@ -100,7 +100,7 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Separators', () => {
     beforeEach(() => {
-      component.items.set(mockItems);
+      fixture.componentRef.setInput('items', mockItems);
       fixture.detectChanges();
     });
 
@@ -116,7 +116,7 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should use custom separator when provided', () => {
-      component.separator.set('>');
+      fixture.componentRef.setInput('separator', '>');
       fixture.detectChanges();
       const separators = fixture.debugElement.queryAll(By.css('.lc-breadcrumbs__separator'));
       expect(separators[0]?.nativeElement.textContent.trim()).toBe('>');
@@ -130,16 +130,16 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Max Items', () => {
     it('should show all items when maxItems is 0', () => {
-      component.items.set(mockItems);
-      component.maxItems.set(0);
+      fixture.componentRef.setInput('items', mockItems);
+      fixture.componentRef.setInput('maxItems', 0);
       fixture.detectChanges();
       const listItems = fixture.debugElement.queryAll(By.css('.lc-breadcrumbs__item'));
       expect(listItems.length).toBe(4);
     });
 
     it('should collapse middle items when exceeding maxItems', () => {
-      component.items.set(mockItems);
-      component.maxItems.set(3);
+      fixture.componentRef.setInput('items', mockItems);
+      fixture.componentRef.setInput('maxItems', 3);
       fixture.detectChanges();
       const listItems = fixture.debugElement.queryAll(By.css('.lc-breadcrumbs__item'));
       // First + ellipsis + last = 3
@@ -147,8 +147,8 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should show ellipsis when items are collapsed', () => {
-      component.items.set(mockItems);
-      component.maxItems.set(3);
+      fixture.componentRef.setInput('items', mockItems);
+      fixture.componentRef.setInput('maxItems', 3);
       fixture.detectChanges();
       const ellipsis = fixture.debugElement.query(By.css('.lc-breadcrumbs__ellipsis'));
       expect(ellipsis).toBeTruthy();
@@ -156,8 +156,8 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should keep first and last items visible when collapsed', () => {
-      component.items.set(mockItems);
-      component.maxItems.set(3);
+      fixture.componentRef.setInput('items', mockItems);
+      fixture.componentRef.setInput('maxItems', 3);
       fixture.detectChanges();
       const links = fixture.debugElement.queryAll(By.css('.lc-breadcrumbs__link'));
       const currentPage = fixture.debugElement.query(By.css('.lc-breadcrumbs__current'));
@@ -168,7 +168,7 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Size Variants', () => {
     beforeEach(() => {
-      component.items.set(mockItems);
+      fixture.componentRef.setInput('items', mockItems);
     });
 
     it('should default to md size', () => {
@@ -176,21 +176,21 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should apply sm size class', () => {
-      component.size.set('sm');
+      fixture.componentRef.setInput('size', 'sm');
       fixture.detectChanges();
       const ol = fixture.debugElement.query(By.css('ol'));
       expect(ol.nativeElement.classList.contains('lc-breadcrumbs--sm')).toBe(true);
     });
 
     it('should apply md size class', () => {
-      component.size.set('md');
+      fixture.componentRef.setInput('size', 'md');
       fixture.detectChanges();
       const ol = fixture.debugElement.query(By.css('ol'));
       expect(ol.nativeElement.classList.contains('lc-breadcrumbs--md')).toBe(true);
     });
 
     it('should apply lg size class', () => {
-      component.size.set('lg');
+      fixture.componentRef.setInput('size', 'lg');
       fixture.detectChanges();
       const ol = fixture.debugElement.query(By.css('ol'));
       expect(ol.nativeElement.classList.contains('lc-breadcrumbs--lg')).toBe(true);
@@ -199,23 +199,23 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Computed Properties', () => {
     it('should compute breadcrumbClasses with size', () => {
-      component.size.set('sm');
+      fixture.componentRef.setInput('size', 'sm');
       const classes = component.breadcrumbClasses();
       expect(classes).toContain('lc-breadcrumbs');
       expect(classes).toContain('lc-breadcrumbs--sm');
     });
 
     it('should compute visibleItems when maxItems is 0', () => {
-      component.items.set(mockItems);
-      component.maxItems.set(0);
+      fixture.componentRef.setInput('items', mockItems);
+      fixture.componentRef.setInput('maxItems', 0);
       const visible = component.visibleItems();
       expect(visible.length).toBe(4);
       expect(visible).toEqual(mockItems);
     });
 
     it('should compute visibleItems with ellipsis when exceeding maxItems', () => {
-      component.items.set(mockItems);
-      component.maxItems.set(3);
+      fixture.componentRef.setInput('items', mockItems);
+      fixture.componentRef.setInput('maxItems', 3);
       const visible = component.visibleItems();
       expect(visible.length).toBe(3);
       expect(visible[0]?.label).toBe('Home');
@@ -225,37 +225,37 @@ describe('BreadcrumbsComponent', () => {
   });
 
   describe('Input Setters', () => {
-    it('should accept itemsInput and update items signal', () => {
+    it('should accept items input', () => {
       const testItems: BreadcrumbItem[] = [{ label: 'A', url: '/a' }, { label: 'B' }];
-      component.itemsInput = testItems;
+      fixture.componentRef.setInput('items', testItems);
       fixture.detectChanges();
       expect(component.items()).toEqual(testItems);
     });
 
-    it('should accept separatorInput and update separator signal', () => {
-      component.separatorInput = '>';
+    it('should accept separator input', () => {
+      fixture.componentRef.setInput('separator', '>');
       expect(component.separator()).toBe('>');
     });
 
-    it('should accept maxItemsInput and update maxItems signal', () => {
-      component.maxItemsInput = 5;
+    it('should accept maxItems input', () => {
+      fixture.componentRef.setInput('maxItems', 5);
       expect(component.maxItems()).toBe(5);
     });
 
-    it('should accept sizeInput and update size signal', () => {
-      component.sizeInput = 'lg';
+    it('should accept size input', () => {
+      fixture.componentRef.setInput('size', 'lg');
       expect(component.size()).toBe('lg');
     });
 
-    it('should accept ariaLabelInput and update ariaLabel signal', () => {
-      component.ariaLabelInput = 'Custom Navigation';
+    it('should accept ariaLabel input', () => {
+      fixture.componentRef.setInput('ariaLabel', 'Custom Navigation');
       expect(component.ariaLabel()).toBe('Custom Navigation');
     });
   });
 
   describe('Accessibility', () => {
     beforeEach(() => {
-      component.items.set(mockItems);
+      fixture.componentRef.setInput('items', mockItems);
       fixture.detectChanges();
     });
 
@@ -274,7 +274,7 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should allow custom aria-label', () => {
-      component.ariaLabel.set('Site Navigation');
+      fixture.componentRef.setInput('ariaLabel', 'Site Navigation');
       fixture.detectChanges();
       const nav = fixture.debugElement.query(By.css('nav'));
       expect(nav.nativeElement.getAttribute('aria-label')).toBe('Site Navigation');
@@ -286,7 +286,7 @@ describe('BreadcrumbsComponent', () => {
       standalone: true,
       imports: [BreadcrumbsComponent],
       template: `
-        <lc-breadcrumbs [itemsInput]="items">
+        <lc-breadcrumbs [items]="items">
           <div class="custom-content">Custom Content</div>
         </lc-breadcrumbs>
       `,
@@ -306,7 +306,7 @@ describe('BreadcrumbsComponent', () => {
 
   describe('Edge Cases', () => {
     it('should handle single item', () => {
-      component.items.set([{ label: 'Home' }]);
+      fixture.componentRef.setInput('items', [{ label: 'Home' }]);
       fixture.detectChanges();
       const listItems = fixture.debugElement.queryAll(By.css('.lc-breadcrumbs__item'));
       expect(listItems.length).toBe(1);
@@ -315,7 +315,7 @@ describe('BreadcrumbsComponent', () => {
     });
 
     it('should handle items with special characters', () => {
-      component.items.set([
+      fixture.componentRef.setInput('items', [
         { label: 'Home & Garden', url: '/home-garden' },
         { label: 'Tools <&> Equipment' },
       ]);
@@ -328,7 +328,7 @@ describe('BreadcrumbsComponent', () => {
 
     it('should handle very long labels gracefully', () => {
       const longLabel = 'A'.repeat(100);
-      component.items.set([{ label: longLabel, url: '/' }, { label: 'Short' }]);
+      fixture.componentRef.setInput('items', [{ label: longLabel, url: '/' }, { label: 'Short' }]);
       fixture.detectChanges();
       const link = fixture.debugElement.query(By.css('.lc-breadcrumbs__link'));
       expect(link.nativeElement.textContent.trim()).toBe(longLabel);

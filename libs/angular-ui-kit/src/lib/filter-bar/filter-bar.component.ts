@@ -8,7 +8,6 @@ import {
   QueryList,
   AfterContentInit,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 /**
  * Configuration for a single filter in the FilterBar.
@@ -59,7 +58,7 @@ export interface FilterValues {
 @Component({
   selector: 'lc-filter-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './filter-bar.component.html',
   styleUrl: './filter-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

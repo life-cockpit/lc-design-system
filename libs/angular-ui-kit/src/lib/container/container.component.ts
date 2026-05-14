@@ -1,12 +1,11 @@
 import { Component, input, computed, HostBinding, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export type ContainerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
 @Component({
   selector: 'lc-container',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

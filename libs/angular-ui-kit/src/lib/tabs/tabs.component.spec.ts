@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TabsComponent, TabComponent } from './tabs.component';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 @Component({
@@ -14,7 +14,6 @@ import { By } from '@angular/platform-browser';
       <lc-tab label="Tab 3">Content 3</lc-tab>
     </lc-tabs>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestTabsComponent {
   orientation: 'horizontal' | 'vertical' = 'horizontal';
@@ -33,9 +32,22 @@ class TestTabsComponent {
       <lc-tab label="Tab 3">Content 3</lc-tab>
     </lc-tabs>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class TestTabsDisabledComponent {}
+
+@Component({
+  selector: 'lc-test-tabs-vertical',
+  standalone: true,
+  imports: [TabsComponent, TabComponent],
+  template: `
+    <lc-tabs orientation="vertical">
+      <lc-tab label="Tab 1">Content 1</lc-tab>
+      <lc-tab label="Tab 2">Content 2</lc-tab>
+      <lc-tab label="Tab 3">Content 3</lc-tab>
+    </lc-tabs>
+  `,
+})
+class TestTabsVerticalComponent {}
 
 describe('TabsComponent - Basic Tests', () => {
   let component: TabsComponent;
@@ -57,18 +69,18 @@ describe('TabsComponent - Basic Tests', () => {
 
   describe('Orientation', () => {
     it('should default to horizontal orientation', () => {
-      expect(component.orientation).toBe('horizontal');
+      expect(component.orientation()).toBe('horizontal');
     });
 
     it('should apply horizontal orientation class', () => {
-      component.orientation = 'horizontal';
+      fixture.componentRef.setInput('orientation', 'horizontal');
       fixture.detectChanges();
       const tabList = fixture.debugElement.query(By.css('[role="tablist"]'));
       expect(tabList.nativeElement.classList.contains('lc-tabs--horizontal')).toBe(true);
     });
 
     it('should apply vertical orientation class', () => {
-      component.orientation = 'vertical';
+      fixture.componentRef.setInput('orientation', 'vertical');
       fixture.detectChanges();
       const tabList = fixture.debugElement.query(By.css('[role="tablist"]'));
       expect(tabList.nativeElement.classList.contains('lc-tabs--vertical')).toBe(true);
@@ -82,7 +94,7 @@ describe('TabsComponent - Basic Tests', () => {
     });
 
     it('should have correct ARIA orientation', () => {
-      component.orientation = 'vertical';
+      fixture.componentRef.setInput('orientation', 'vertical');
       fixture.detectChanges();
       const tabList = fixture.debugElement.query(By.css('[role="tablist"]'));
       expect(tabList.nativeElement.getAttribute('aria-orientation')).toBe('vertical');
@@ -143,20 +155,22 @@ describe('TabsComponent - With Tab Children', () => {
       expect(tabsComponent.selectedIndex()).toBe(0);
     });
 
-    it('should move to next tab on ArrowDown in vertical mode', () => {
-      tabsComponent.orientation = 'vertical';
-      testFixture.detectChanges();
-      tabsComponent.selectedIndex.set(0);
-      tabsComponent.handleKeyDown(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
-      expect(tabsComponent.selectedIndex()).toBe(1);
+    it('should move to next tab on ArrowDown in vertical mode', async () => {
+      const vertFixture = TestBed.createComponent(TestTabsVerticalComponent);
+      vertFixture.detectChanges();
+      const vertTabs = vertFixture.debugElement.query(By.directive(TabsComponent)).componentInstance as TabsComponent;
+      vertTabs.selectedIndex.set(0);
+      vertTabs.handleKeyDown(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+      expect(vertTabs.selectedIndex()).toBe(1);
     });
 
-    it('should move to previous tab on ArrowUp in vertical mode', () => {
-      tabsComponent.orientation = 'vertical';
-      testFixture.detectChanges();
-      tabsComponent.selectedIndex.set(1);
-      tabsComponent.handleKeyDown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
-      expect(tabsComponent.selectedIndex()).toBe(0);
+    it('should move to previous tab on ArrowUp in vertical mode', async () => {
+      const vertFixture = TestBed.createComponent(TestTabsVerticalComponent);
+      vertFixture.detectChanges();
+      const vertTabs = vertFixture.debugElement.query(By.directive(TabsComponent)).componentInstance as TabsComponent;
+      vertTabs.selectedIndex.set(1);
+      vertTabs.handleKeyDown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+      expect(vertTabs.selectedIndex()).toBe(0);
     });
 
     it('should wrap to first tab when at end', () => {
@@ -196,7 +210,6 @@ describe('TabComponent', () => {
     `,
     standalone: true,
     imports: [TabsComponent, TabComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class TestHostComponent {}
 

@@ -5,7 +5,6 @@ import {
   model,
   computed,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 /**
@@ -28,7 +27,7 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'lc-accordion',
   standalone: true,
-  imports: [CommonModule, IconComponent],
+  imports: [IconComponent],
   templateUrl: './accordion.component.html',
   styleUrl: './accordion.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

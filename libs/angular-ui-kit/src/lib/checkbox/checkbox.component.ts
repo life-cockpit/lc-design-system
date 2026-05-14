@@ -7,7 +7,6 @@ import {
   ChangeDetectionStrategy,
   forwardRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export type CheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -17,7 +16,7 @@ let nextUniqueId = 0;
 @Component({
   selector: 'lc-checkbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './checkbox.component.html',
   styleUrl: './checkbox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

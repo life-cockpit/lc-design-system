@@ -6,7 +6,6 @@ import {
   model,
   computed,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 export interface StepperStep {
   readonly label: string;
@@ -38,7 +37,7 @@ export type StepState = 'pending' | 'active' | 'completed';
 @Component({
   selector: 'lc-stepper',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

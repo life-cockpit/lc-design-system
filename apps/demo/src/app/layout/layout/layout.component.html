@@ -14,11 +14,11 @@
   <div class="flex flex-1 pt-16 overflow-hidden">
     <!-- Docked Sidenav from angular-ui-kit -->
     <lc-sidenav
-      [isOpenInput]="sidebarOpen()"
-      [modeInput]="'docked'"
-      [widthInput]="'16rem'"
-      [itemsInput]="navItems"
-      [hasOverlayInput]="false"
+      [isOpen]="sidebarOpen()"
+      [mode]="'docked'"
+      [width]="'16rem'"
+      [items]="navItems"
+      [hasOverlay]="false"
       ariaLabelInput="Design System Navigation"
       (itemClicked)="onNavItemClick()"
       (closed)="sidebarOpen.set(false)"

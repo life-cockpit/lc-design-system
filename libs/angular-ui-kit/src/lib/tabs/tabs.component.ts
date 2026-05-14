@@ -1,8 +1,7 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
+  input,
+  output,
   ContentChildren,
   QueryList,
   AfterContentInit,
@@ -14,7 +13,7 @@ import {
   ViewChild,
   TemplateRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 
 let nextUniqueId = 0;
 
@@ -26,7 +25,7 @@ export type TabOrientation = 'horizontal' | 'vertical';
 @Component({
   selector: 'lc-tab',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     <ng-template>
       <ng-content></ng-content>
@@ -38,18 +37,18 @@ export class TabComponent {
   /**
    * Tab label displayed in tab button
    */
-  @Input() label = '';
+  readonly label = input('');
 
   /**
    * Whether the tab is disabled
    * @default false
    */
-  @Input() disabled = false;
+  readonly disabled = input(false);
 
   /**
    * Optional icon name (Heroicons)
    */
-  @Input() icon?: string;
+  readonly icon = input<string | undefined>();
 
   /**
    * Unique ID for accessibility
@@ -89,7 +88,7 @@ export class TabComponent {
 @Component({
   selector: 'lc-tabs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgClass, NgTemplateOutlet],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation
@@ -101,27 +100,26 @@ export class TabComponent {
 })
 export class TabsComponent implements AfterContentInit {
   /**
-   * Orientation input property
+   * Orientation of tabs
    * @default 'horizontal'
    */
-  @Input()
-  set orientation(value: TabOrientation) {
-    this._orientation.set(value);
-  }
-  get orientation(): TabOrientation {
-    return this._orientation();
-  }
+  readonly orientation = input<TabOrientation>('horizontal');
 
   /**
-   * Currently selected tab index
+   * Currently selected tab index (external input)
    * @default 0
+   */
+  readonly selectedIndexInput = input(0);
+
+  /**
+   * Currently selected tab index (internal writable signal)
    */
   readonly selectedIndex = signal(0);
 
   /**
    * Emitted when selected tab changes
    */
-  @Output() readonly selectedIndexChange = new EventEmitter<number>();
+  readonly selectedIndexChange = output<number>();
 
   /**
    * Tab components
@@ -138,30 +136,20 @@ export class TabsComponent implements AfterContentInit {
    */
   readonly tabListClasses = computed(() => ({
     'lc-tabs__list': true,
-    'lc-tabs--horizontal': this._orientation() === 'horizontal',
-    'lc-tabs--vertical': this._orientation() === 'vertical',
+    'lc-tabs--horizontal': this.orientation() === 'horizontal',
+    'lc-tabs--vertical': this.orientation() === 'vertical',
   }));
-
-  /**
-   * Orientation of tabs (internal signal)
-   * @default 'horizontal'
-   */
-  private readonly _orientation = signal<TabOrientation>('horizontal');
 
   /**
    * Track tab registration
    */
   private registeredTabs: Array<{ label: string; disabled: boolean }> = [];
 
-  /**
-   * Set selected index input
-   */
-  @Input()
-  set selectedIndexInput(value: number) {
-    this.selectedIndex.set(value);
-  }
-
   constructor() {
+    // Sync external selectedIndexInput to internal selectedIndex
+    effect(() => {
+      this.selectedIndex.set(this.selectedIndexInput());
+    });
     // Emit when selection changes
     effect(() => {
       const index = this.selectedIndex();
@@ -172,14 +160,14 @@ export class TabsComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     // Register all tabs
     this.tabs.forEach((tab) => {
-      this.registerTab({ label: tab.label, disabled: tab.disabled });
+      this.registerTab({ label: tab.label(), disabled: tab.disabled() });
     });
 
     // Listen for tab changes
     this.tabs.changes.subscribe(() => {
       this.registeredTabs = [];
       this.tabs.forEach((tab) => {
-        this.registerTab({ label: tab.label, disabled: tab.disabled });
+        this.registerTab({ label: tab.label(), disabled: tab.disabled() });
       });
     });
   }
@@ -197,7 +185,7 @@ export class TabsComponent implements AfterContentInit {
   selectTab(index: number): void {
     const tabs = this.tabList();
     const tab = tabs[index];
-    if (index >= 0 && index < tabs.length && tab && !tab.disabled) {
+    if (index >= 0 && index < tabs.length && tab && !tab.disabled()) {
       this.selectedIndex.set(index);
     }
   }
@@ -216,7 +204,7 @@ export class TabsComponent implements AfterContentInit {
     const currentIndex = this.selectedIndex();
     let nextIndex = currentIndex;
 
-    const isHorizontal = this._orientation() === 'horizontal';
+    const isHorizontal = this.orientation() === 'horizontal';
     const nextKey = isHorizontal ? 'ArrowRight' : 'ArrowDown';
     const prevKey = isHorizontal ? 'ArrowLeft' : 'ArrowUp';
 
@@ -265,7 +253,7 @@ export class TabsComponent implements AfterContentInit {
     let nextIndex = (currentIndex + 1) % tabs.length;
     const startIndex = nextIndex;
 
-    while (tabs[nextIndex]?.disabled) {
+    while (tabs[nextIndex]?.disabled()) {
       nextIndex = (nextIndex + 1) % tabs.length;
       if (nextIndex === startIndex) {
         return currentIndex; // No enabled tabs found
@@ -286,7 +274,7 @@ export class TabsComponent implements AfterContentInit {
     }
     const startIndex = prevIndex;
 
-    while (tabs[prevIndex]?.disabled) {
+    while (tabs[prevIndex]?.disabled()) {
       prevIndex = prevIndex - 1;
       if (prevIndex < 0) {
         prevIndex = tabs.length - 1;
@@ -306,7 +294,7 @@ export class TabsComponent implements AfterContentInit {
     const tabs = this.tabList();
     for (let i = 0; i < tabs.length; i++) {
       const tab = tabs[i];
-      if (tab && !tab.disabled) {
+      if (tab && !tab.disabled()) {
         return i;
       }
     }
@@ -320,7 +308,7 @@ export class TabsComponent implements AfterContentInit {
     const tabs = this.tabList();
     for (let i = tabs.length - 1; i >= 0; i--) {
       const tab = tabs[i];
-      if (tab && !tab.disabled) {
+      if (tab && !tab.disabled()) {
         return i;
       }
     }
