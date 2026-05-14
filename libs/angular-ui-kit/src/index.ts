@@ -33,6 +33,7 @@ export * from './lib/models/navigation-item.interface';
 // ============================================================================
 // Accordion Component
 export * from './lib/accordion/accordion.component';
+export * from './lib/accordion/accordion-group.component';
 
 // Button Component
 export * from './lib/button/button.component';

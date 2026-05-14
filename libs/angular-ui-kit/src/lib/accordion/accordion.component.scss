@@ -5,15 +5,24 @@
 }
 
 .lc-accordion {
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: box-shadow 200ms ease, border-color 200ms ease;
 
   // Variants
   &--outlined {
     border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+
+    &:hover:not(.lc-accordion--disabled) {
+      box-shadow: 0 2px 6px 0 rgb(0 0 0 / 0.06);
+    }
   }
 
   &--flat {
     border: none;
+    background: transparent;
   }
 
   // Disabled
@@ -28,14 +37,16 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+    padding: 0.875rem 1.125rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
     color: var(--color-text);
-    background: var(--color-surface);
+    background: transparent;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0;
     cursor: pointer;
-    transition: background-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease;
 
     &:hover {
       background-color: var(--color-surface-hover);
@@ -44,6 +55,7 @@
     &:focus-visible {
       outline: 2px solid var(--color-primary);
       outline-offset: -2px;
+      border-radius: 0.5rem;
     }
 
     &:disabled {
@@ -53,18 +65,18 @@
 
   // Size variants
   &--sm &__header {
-    padding: 0.5rem 0.75rem;
+    padding: 0.625rem 0.875rem;
     font-size: 0.8125rem;
   }
 
   &--md &__header {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.9375rem;
   }
 
   &--lg &__header {
-    padding: 1rem 1.25rem;
-    font-size: 1rem;
+    padding: 1.125rem 1.375rem;
+    font-size: 1.0625rem;
   }
 
   // Title
@@ -73,34 +85,68 @@
     text-align: left;
   }
 
-  // Chevron icon
+  // Chevron icon — smooth rotation
   &__icon {
     flex-shrink: 0;
     color: var(--color-text-secondary);
-    transition: transform 150ms ease;
+    transition: transform 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94), color 200ms ease;
   }
 
-  // When expanded, header has no bottom radius
-  &--expanded &__header {
-    border-radius: 0.5rem 0.5rem 0 0;
+  &__header:hover &__icon {
+    color: var(--color-text);
+  }
+
+  &--expanded &__icon {
+    transform: rotate(-180deg);
+  }
+
+  // Panel wrapper — CSS grid for smooth height animation
+  &__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+  }
+
+  &--expanded &__panel {
+    grid-template-rows: 1fr;
   }
 
   // Body
   &__body {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    border-top: 1px solid var(--color-border);
-    padding: 1rem;
-    background: var(--color-surface);
-    border-radius: 0 0 0.5rem 0.5rem;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 1.125rem;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 200ms ease 50ms, transform 200ms ease 50ms, padding 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  &--expanded &__body {
+    padding: 0 1.125rem 1rem;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 250ms ease 80ms, transform 250ms ease 80ms, padding 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   &--sm &__body {
-    padding: 0.5rem 0.75rem;
+    padding: 0 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  &--sm#{&}--expanded &__body {
+    padding: 0 0.875rem 0.75rem;
   }
 
   &--lg &__body {
-    padding: 1.25rem;
+    padding: 0 1.375rem;
+    font-size: 0.9375rem;
+  }
+
+  &--lg#{&}--expanded &__body {
+    padding: 0 1.375rem 1.25rem;
   }
 }

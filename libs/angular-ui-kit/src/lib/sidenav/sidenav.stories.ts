@@ -43,7 +43,7 @@ const meta: Meta<SidenavComponent> = {
       control: 'number',
       description: 'Viewport width (px) below which docked mode switches to drawer',
     },
-    themeValue: {
+    theme: {
       control: 'select',
       options: ['auto', 'light', 'dark'],
       description: 'Theme variant — sets internal tokens (--lc-sidenav-bg, --lc-sidenav-fg, etc.)',
@@ -281,7 +281,7 @@ export const DarkTheme: Story = {
   args: {
     isOpen: true,
     mode: 'docked',
-    themeValue: 'dark',
+    theme: 'dark',
     items: standardItems,
     activeRoute: '/dashboard',
   },
@@ -289,7 +289,7 @@ export const DarkTheme: Story = {
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [theme]="themeValue" [items]="items" [activeRoute]="activeRoute"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [theme]="theme" [items]="items" [activeRoute]="activeRoute"></lc-sidenav>
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Content Area</h3>
           <p style="color: #666; font-size: 14px;">The sidenav uses its own dark tokens, independent of the page theme.</p>
@@ -306,7 +306,7 @@ export const WithGroupsAndActions: Story = {
   args: {
     isOpen: true,
     mode: 'docked',
-    themeValue: 'dark',
+    theme: 'dark',
     items: [
       { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
       { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2 },
@@ -350,7 +350,7 @@ export const WithGroupsAndActions: Story = {
     props: args,
     template: `
       <div style="display: flex; height: 500px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [theme]="themeValue" [items]="items" [activeRoute]="activeRoute" (itemAction)="itemAction($event)"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [theme]="theme" [items]="items" [activeRoute]="activeRoute" (itemAction)="itemAction($event)"></lc-sidenav>
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Specs &amp; Epics</h3>
           <p style="color: #666; font-size: 14px;">Hover over section headers or items to see action buttons.</p>
@@ -402,7 +402,7 @@ export const CollapsedWithGroups: Story = {
     isOpen: true,
     mode: 'docked',
     collapsed: true,
-    themeValue: 'dark',
+    theme: 'dark',
     items: [
       { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
       { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
@@ -424,7 +424,7 @@ export const CollapsedWithGroups: Story = {
     props: args,
     template: `
       <div style="display: flex; height: 400px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
-        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [collapsed]="collapsed" [theme]="themeValue" [items]="items" [activeRoute]="activeRoute" (itemAction)="itemAction($event)"></lc-sidenav>
+        <lc-sidenav [isOpen]="isOpen" [mode]="mode" [collapsed]="collapsed" [theme]="theme" [items]="items" [activeRoute]="activeRoute" (itemAction)="itemAction($event)"></lc-sidenav>
         <div style="flex: 1; padding: 24px; background: #f9fafb;">
           <h3 style="margin: 0 0 8px; font-weight: 600;">Project Alpha</h3>
           <p style="color: #666; font-size: 14px;">Collapsed sidenav with section groups. Hover icons for labels.</p>

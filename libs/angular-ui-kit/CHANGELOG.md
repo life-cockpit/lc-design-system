@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.0] - 2026-05-15
+
+### Added
+
+- **AccordionGroupComponent** — Wrapper component that coordinates multiple `<lc-accordion>` children; supports single-expand (default) and multi-expand modes via `[multi]` input; includes `collapseAll()` / `expandAll()` programmatic API
+
+### Changed
+
+- **Accordion styling refresh** — Smoother 300ms cubic-bezier transitions for expand/collapse; CSS grid-based height animation (content always in DOM); chevron rotates instead of swapping icons; staggered opacity/translateY fade-in for body content; subtle box-shadow on outlined variant with elevated hover state; refined spacing and border-radius
+
+### Fixed
+
+- **Sidenav stories** — Replaced invalid `themeValue` arg with correct `theme` input name
+- **Demo app bindings** — Updated breadcrumbs, pagination, and sidenav demo templates to use new signal input names (removed `*Input` suffix)
+
 ## [1.8.0] - 2026-05-14
 
 ### Changed

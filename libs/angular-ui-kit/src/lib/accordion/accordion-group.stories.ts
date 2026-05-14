@@ -1,0 +1,152 @@
+import type { Meta, StoryObj } from '@storybook/angular';
+import { AccordionGroupComponent } from './accordion-group.component';
+import { AccordionComponent } from './accordion.component';
+
+/**
+ * Accordion Group manages multiple accordion panels, supporting exclusive
+ * (single-open) or multi-open mode. Wrap `<lc-accordion>` children inside
+ * `<lc-accordion-group>` for coordinated expand/collapse behavior.
+ */
+const meta: Meta<AccordionGroupComponent> = {
+  title: 'Components/Accordion Group',
+  component: AccordionGroupComponent,
+  argTypes: {
+    multi: {
+      control: 'boolean',
+      description:
+        'When false (default), only one accordion can be open at a time. When true, multiple can be open simultaneously.',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: `
+Accordion Group wraps multiple \`<lc-accordion>\` components and coordinates their expand/collapse behavior.
+
+**Key Features:**
+- Single-expand mode (default): opening one closes the others
+- Multi-expand mode: all panels can be open independently
+- \`collapseAll()\` / \`expandAll()\` programmatic API
+- Works with all accordion variants and sizes
+`,
+      },
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<AccordionGroupComponent>;
+
+export const Default: Story = {
+  name: 'Single Expand (Default)',
+  args: { multi: false },
+  render: (args) => ({
+    props: args,
+    moduleMetadata: { imports: [AccordionGroupComponent, AccordionComponent] },
+    template: `
+      <lc-accordion-group [multi]="multi">
+        <lc-accordion title="Section 1" [expanded]="true">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">Content of section 1. Opening another section will close this one.</p>
+        </lc-accordion>
+        <lc-accordion title="Section 2">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">Content of section 2.</p>
+        </lc-accordion>
+        <lc-accordion title="Section 3">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">Content of section 3.</p>
+        </lc-accordion>
+      </lc-accordion-group>`,
+  }),
+};
+
+export const MultiExpand: Story = {
+  name: 'Multi Expand',
+  args: { multi: true },
+  render: (args) => ({
+    props: args,
+    moduleMetadata: { imports: [AccordionGroupComponent, AccordionComponent] },
+    template: `
+      <lc-accordion-group [multi]="multi">
+        <lc-accordion title="Section 1" [expanded]="true">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">This panel can stay open while others open too.</p>
+        </lc-accordion>
+        <lc-accordion title="Section 2" [expanded]="true">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">Multiple panels open simultaneously.</p>
+        </lc-accordion>
+        <lc-accordion title="Section 3">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">Click to expand — others stay open.</p>
+        </lc-accordion>
+      </lc-accordion-group>`,
+  }),
+};
+
+export const FAQ: Story = {
+  name: 'FAQ (Single Expand)',
+  render: () => ({
+    moduleMetadata: { imports: [AccordionGroupComponent, AccordionComponent] },
+    template: `
+      <div style="max-width: 640px;">
+        <h3 style="margin: 0 0 16px; font-size: 18px; font-weight: 600;">Frequently Asked Questions</h3>
+        <lc-accordion-group>
+          <lc-accordion title="How do I reset my password?">
+            <p style="margin: 0; color: var(--lc-color-neutral-600);">Go to Settings → Security → Change Password. You'll receive a confirmation email with a reset link valid for 24 hours.</p>
+          </lc-accordion>
+          <lc-accordion title="Can I export my data?">
+            <p style="margin: 0; color: var(--lc-color-neutral-600);">Yes! Navigate to Settings → Data → Export. You can export as CSV, JSON, or PDF.</p>
+          </lc-accordion>
+          <lc-accordion title="What payment methods do you accept?">
+            <p style="margin: 0; color: var(--lc-color-neutral-600);">We accept Visa, Mastercard, American Express, and PayPal. Annual plans also support bank transfer.</p>
+          </lc-accordion>
+          <lc-accordion title="Is there a free plan?">
+            <p style="margin: 0; color: var(--lc-color-neutral-600);">Yes — the Starter plan is free forever with up to 3 projects and 10 tasks per project.</p>
+          </lc-accordion>
+        </lc-accordion-group>
+      </div>`,
+  }),
+};
+
+export const FlatVariant: Story = {
+  name: 'Flat Variant',
+  render: () => ({
+    moduleMetadata: { imports: [AccordionGroupComponent, AccordionComponent] },
+    template: `
+      <div style="max-width: 480px;">
+        <lc-accordion-group>
+          <lc-accordion title="Notifications" variant="flat" [expanded]="true">
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 4px 0;">
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" checked /> Email notifications
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" /> Push notifications
+              </label>
+            </div>
+          </lc-accordion>
+          <lc-accordion title="Privacy" variant="flat">
+            <p style="margin: 0; color: var(--lc-color-neutral-600);">Control who can see your profile and activity.</p>
+          </lc-accordion>
+          <lc-accordion title="Appearance" variant="flat">
+            <p style="margin: 0; color: var(--lc-color-neutral-600);">Customize theme, font size, and layout.</p>
+          </lc-accordion>
+        </lc-accordion-group>
+      </div>`,
+  }),
+};
+
+export const WithDisabled: Story = {
+  name: 'With Disabled Panel',
+  render: () => ({
+    moduleMetadata: { imports: [AccordionGroupComponent, AccordionComponent] },
+    template: `
+      <lc-accordion-group>
+        <lc-accordion title="Available Section" [expanded]="true">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">This section is accessible.</p>
+        </lc-accordion>
+        <lc-accordion title="Locked Section (Upgrade Required)" [disabled]="true">
+          <p style="margin: 0;">This content requires a premium plan.</p>
+        </lc-accordion>
+        <lc-accordion title="Another Section">
+          <p style="margin: 0; color: var(--lc-color-neutral-600);">Click to expand.</p>
+        </lc-accordion>
+      </lc-accordion-group>`,
+  }),
+};
