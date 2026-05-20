@@ -1,6 +1,15 @@
 # @life-cockpit/angular-ui-kit
 
-Angular UI component library for the Life Cockpit Design System.
+Angular UI component library for the **Life Cockpit Design System** — 60+ accessible, themeable Angular 21 standalone components with signal-based inputs, OnPush change detection, light/dark themes, and a full density token system (`compact` / `cosy` / `comfortable`).
+
+## Resources
+
+| | |
+|---|---|
+| 📖 **Live documentation & Storybook** | https://design.life-cockpit.de |
+| 🤖 **MCP server for AI agents** | https://design.life-cockpit.de/mcp |
+| 📦 **npm package** | https://www.npmjs.com/package/@life-cockpit/angular-ui-kit |
+| 🐙 **Source code** | https://github.com/Life-Cockpit/lc-design-system |
 
 ## Installation
 
@@ -188,6 +197,63 @@ Design tokens for colors, spacing, typography, elevation, and more are available
 ```typescript
 import { ColorTokens, SpacingTokens } from '@life-cockpit/angular-ui-kit';
 ```
+
+### Density
+
+All components react to a density token cascade. Set the density on any ancestor element (or `<html>`) and every descendant component adapts paddings, gaps and font sizes:
+
+```html
+<div data-density="compact"> <!-- 'compact' | 'cosy' (default) | 'comfortable' -->
+  <lc-card>...</lc-card>
+</div>
+```
+
+See the *Design Tokens → Density* section on https://design.life-cockpit.de for the full token reference.
+
+## MCP Server for AI Agents
+
+The design system ships with a hosted **Model Context Protocol** server that lets AI coding agents (Copilot, Claude, Cursor, etc.) discover components, props, variants and usage examples without hallucinating.
+
+**Endpoint:** `https://design.life-cockpit.de/mcp`
+
+### VS Code / GitHub Copilot
+
+Add to your `.vscode/mcp.json` (or workspace `settings.json`):
+
+```json
+{
+  "servers": {
+    "lc-design-sys": {
+      "type": "http",
+      "url": "https://design.life-cockpit.de/mcp"
+    }
+  }
+}
+```
+
+### Claude Desktop / Cursor
+
+```json
+{
+  "mcpServers": {
+    "lc-design-sys": {
+      "url": "https://design.life-cockpit.de/mcp"
+    }
+  }
+}
+```
+
+### Available tools
+
+| Tool | Description |
+|---|---|
+| `list-all-documentation` | Lists every component and docs page with its IDs |
+| `search_component` | Finds a component by name and returns full docs in one call |
+| `get-documentation` | Returns props, variants, usage examples and stories for a given ID |
+| `get-documentation-for-story` | Retrieves docs for a specific Storybook story variant |
+| `get_changelog` | Returns the changelog for the latest releases |
+
+With the MCP server connected, your agent will *never invent props or variants* — it always grounds answers in the published component documentation.
 
 ## Development
 
