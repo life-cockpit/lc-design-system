@@ -32,7 +32,26 @@ jobs:
       - name: Build angular-ui-kit
         run: npx nx build angular-ui-kit --configuration=production
 
+      - name: Verify build output
+        run: |
+          test -f dist/libs/angular-ui-kit/package.json || { echo "::error::dist/libs/angular-ui-kit/package.json missing"; exit 1; }
+          echo "Publishing version:"
+          node -p "require('./dist/libs/angular-ui-kit/package.json').version"
+
       - name: Publish
-        run: cd dist/libs/angular-ui-kit && npm publish --access public || echo "Version already published, skipping."
+        run: |
+          cd dist/libs/angular-ui-kit
+          set -o pipefail
+          if npm publish --access public 2>&1 | tee /tmp/npm-publish.log; then
+            echo "Published successfully."
+          else
+            status=$?
+            if grep -q -E "EPUBLISHCONFLICT|cannot publish over the previously published versions|You cannot publish over the previously published versions" /tmp/npm-publish.log; then
+              echo "::warning::Version already published, skipping."
+              exit 0
+            fi
+            echo "::error::npm publish failed with exit code $status"
+            exit $status
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
