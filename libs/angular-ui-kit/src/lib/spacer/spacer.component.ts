@@ -44,13 +44,12 @@ export class SpacerComponent {
   classes = computed(() => {
     const classes: string[] = [];
 
-    // Add semantic size class
+    // Semantic size class — sizes are defined in spacer.component.scss
     classes.push(`spacer-${this.size()}`);
 
     if (this.size() === 'auto') {
-      classes.push('flex-1');
+      classes.push('spacer-grow');
     }
-    // Note: spacer-xs, spacer-sm, etc. are defined in SCSS
 
     return classes.join(' ');
   });

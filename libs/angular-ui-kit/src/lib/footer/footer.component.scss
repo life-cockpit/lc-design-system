@@ -1,5 +1,5 @@
 .footer {
-  padding: 2rem 1.5rem 1.5rem;
+  padding: var(--lc-density-padding-xl, 2rem) var(--lc-density-padding-lg, 1.5rem) var(--lc-density-padding-lg, 1.5rem);
   color: var(--color-neutral-600);
   font-size: var(--typography-font-size-sm, 0.875rem);
 
@@ -20,8 +20,8 @@
   &__sections {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: var(--lc-density-gap-xl, 2rem);
+    margin-bottom: var(--lc-density-padding-xl, 2rem);
   }
 
   &__section-title {

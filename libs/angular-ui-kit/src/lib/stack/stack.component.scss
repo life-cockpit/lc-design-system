@@ -1,2 +1,40 @@
-// Stack component relies entirely on Tailwind utilities
-// No custom styles needed
+// lc-stack
+//
+// Pure CSS — no Tailwind dependency. Gap values come from the
+// --lc-density-gap-* tokens so an ancestor `data-density` rescales the
+// rhythm of every stack on the page.
+
+:host {
+  display: flex;
+}
+
+// ── Direction ────────────────────────────────────────────────────────────
+:host(.stack-direction-vertical)   { flex-direction: column; }
+:host(.stack-direction-horizontal) { flex-direction: row; }
+
+// ── Gap (density-driven) ─────────────────────────────────────────────────
+:host(.stack-gap-none) { gap: var(--lc-density-gap-none, 0); }
+:host(.stack-gap-xs)   { gap: var(--lc-density-gap-xs, 0.25rem); }
+:host(.stack-gap-sm)   { gap: var(--lc-density-gap-sm, 0.5rem); }
+:host(.stack-gap-md)   { gap: var(--lc-density-gap-md, 1rem); }
+:host(.stack-gap-lg)   { gap: var(--lc-density-gap-lg, 1.5rem); }
+:host(.stack-gap-xl)   { gap: var(--lc-density-gap-xl, 2rem); }
+
+// ── Alignment ────────────────────────────────────────────────────────────
+:host(.stack-align-start)    { align-items: flex-start; }
+:host(.stack-align-center)   { align-items: center; }
+:host(.stack-align-end)      { align-items: flex-end; }
+:host(.stack-align-stretch)  { align-items: stretch; }
+:host(.stack-align-baseline) { align-items: baseline; }
+
+// ── Justification ────────────────────────────────────────────────────────
+:host(.stack-justify-start)   { justify-content: flex-start; }
+:host(.stack-justify-center)  { justify-content: center; }
+:host(.stack-justify-end)     { justify-content: flex-end; }
+:host(.stack-justify-between) { justify-content: space-between; }
+:host(.stack-justify-around)  { justify-content: space-around; }
+:host(.stack-justify-evenly)  { justify-content: space-evenly; }
+
+// ── Modifiers ────────────────────────────────────────────────────────────
+:host(.stack-wrap)       { flex-wrap: wrap; }
+:host(.stack-full-width) { width: 100%; }

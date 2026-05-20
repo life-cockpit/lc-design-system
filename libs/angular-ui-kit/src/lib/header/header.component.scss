@@ -21,8 +21,8 @@
 
   display: flex;
   align-items: center;
-  gap: var(--spacing-4);
-  padding: var(--spacing-3) var(--spacing-6);
+  gap: var(--lc-density-gap-md, var(--spacing-4));
+  padding: var(--spacing-3) var(--lc-density-padding-lg, var(--spacing-6));
   background-color: var(--lc-header-bg);
   border-bottom: 1px solid var(--lc-header-border);
   height: 64px;
@@ -31,7 +31,7 @@
   z-index: 1000;
 
   @media (max-width: 768px) {
-    padding: var(--spacing-3) var(--spacing-4);
+    padding: var(--spacing-3) var(--lc-density-padding-md, var(--spacing-4));
   }
 }
 
@@ -75,7 +75,7 @@ html.dark .lc-header:not(.lc-header--light),
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-2);
+  padding: var(--lc-density-padding-xs, var(--spacing-2));
   background: transparent;
   border: none;
   cursor: pointer;
@@ -243,8 +243,8 @@ html.dark .lc-header:not(.lc-header--light),
 .lc-header__profile-trigger {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2) var(--spacing-3);
+  gap: var(--lc-density-gap-sm, var(--spacing-2));
+  padding: var(--lc-density-padding-xs, var(--spacing-2)) var(--spacing-3);
   background: transparent;
   border: 1px solid var(--lc-header-trigger-border);
   border-radius: var(--radius-full);
@@ -282,7 +282,7 @@ html.dark .lc-header:not(.lc-header--light),
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
-  padding: var(--spacing-4);
+  padding: var(--lc-density-padding-md, var(--spacing-4));
   border-bottom: 1px solid var(--color-divider, #e5e7eb);
   margin-bottom: var(--spacing-1);
 }

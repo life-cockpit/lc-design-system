@@ -18,18 +18,25 @@ export type StackJustify = 'start' | 'center' | 'end' | 'between' | 'around' | '
  *
  * Features:
  * - Vertical and horizontal direction
- * - Configurable gap spacing (none, xs, sm, md, lg, xl)
+ * - Configurable gap spacing (none, xs, sm, md, lg, xl) — defaults to `md`
+ * - Density-aware: when any ancestor sets `data-density="compact|cosy|comfortable"`,
+ *   the gap is driven by the `--lc-density-gap-*` tokens, so one attribute
+ *   on the page root rescales the rhythm of every Stack inside.
  * - Alignment and justification options
  * - Optional wrapping and full-width modes
  * - Content projection via ng-content
  *
  * @example
  * ```html
- * <lc-stack direction="horizontal" gap="md" align="center">content</lc-stack>
+ * <!-- Single setting on the page root rescales all stacks below -->
+ * <main data-density="compact">
+ *   <lc-stack gap="md">…</lc-stack>
+ * </main>
  * ```
  */
 export class StackComponent {
   direction = input<StackDirection>('vertical');
+  /** Spacing between children. Maps to `--lc-density-gap-*` when an ancestor sets `data-density`. */
   gap = input<StackGap>('md');
   align = input<StackAlign>('stretch');
   justify = input<StackJustify>('start');
@@ -42,61 +49,27 @@ export class StackComponent {
   }
 
   classes = computed(() => {
-    const classes: string[] = ['flex'];
+    const classes: string[] = ['lc-stack'];
 
     // Semantic direction class
     classes.push(`stack-${this.direction()}`);
+    classes.push(`stack-direction-${this.direction()}`);
 
-    // Direction
-    if (this.direction() === 'horizontal') {
-      classes.push('flex-row');
-    } else {
-      classes.push('flex-col');
-    }
-
-    // Semantic gap class
+    // Semantic gap class — drives density via [data-density] ancestor
     classes.push(`stack-gap-${this.gap()}`);
 
-    // Gap
-    const gapMap: Record<StackGap, string> = {
-      none: 'gap-0',
-      xs: 'gap-1',
-      sm: 'gap-2',
-      md: 'gap-4',
-      lg: 'gap-6',
-      xl: 'gap-8',
-    };
-    classes.push(gapMap[this.gap()]);
-
     // Alignment
-    const alignMap: Record<StackAlign, string> = {
-      start: 'items-start',
-      center: 'items-center',
-      end: 'items-end',
-      stretch: 'items-stretch',
-      baseline: 'items-baseline',
-    };
-    classes.push(alignMap[this.align()]);
+    classes.push(`stack-align-${this.align()}`);
 
     // Justification
-    const justifyMap: Record<StackJustify, string> = {
-      start: 'justify-start',
-      center: 'justify-center',
-      end: 'justify-end',
-      between: 'justify-between',
-      around: 'justify-around',
-      evenly: 'justify-evenly',
-    };
-    classes.push(justifyMap[this.justify()]);
+    classes.push(`stack-justify-${this.justify()}`);
 
-    // Wrap
     if (this.wrap()) {
-      classes.push('flex-wrap');
+      classes.push('stack-wrap');
     }
 
-    // Full width
     if (this.fullWidth()) {
-      classes.push('w-full');
+      classes.push('stack-full-width');
     }
 
     return classes.join(' ');

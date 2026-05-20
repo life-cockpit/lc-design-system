@@ -20,7 +20,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-3);
-  padding: var(--spacing-4);
+  padding: var(--lc-density-padding-md, var(--spacing-4));
 }
 
 .lc-alert__icon {

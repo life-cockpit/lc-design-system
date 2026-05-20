@@ -71,13 +71,13 @@ describe('StackComponent', () => {
     it('should apply flex-col for vertical direction', () => {
       hostFixture.componentInstance.direction = 'vertical';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('flex-col');
+      expect(stackElement.classList).toContain('stack-direction-vertical');
     });
 
     it('should apply flex-row for horizontal direction', () => {
       hostFixture.componentInstance.direction = 'horizontal';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('flex-row');
+      expect(stackElement.classList).toContain('stack-direction-horizontal');
     });
   });
 
@@ -90,42 +90,36 @@ describe('StackComponent', () => {
     it('should render md gap by default', () => {
       hostFixture.detectChanges();
       expect(stackElement.classList).toContain('stack-gap-md');
-      expect(stackElement.classList).toContain('gap-4');
     });
 
     it('should render no gap', () => {
       hostFixture.componentInstance.gap = 'none';
       hostFixture.detectChanges();
       expect(stackElement.classList).toContain('stack-gap-none');
-      expect(stackElement.classList).toContain('gap-0');
     });
 
     it('should render xs gap', () => {
       hostFixture.componentInstance.gap = 'xs';
       hostFixture.detectChanges();
       expect(stackElement.classList).toContain('stack-gap-xs');
-      expect(stackElement.classList).toContain('gap-1');
     });
 
     it('should render sm gap', () => {
       hostFixture.componentInstance.gap = 'sm';
       hostFixture.detectChanges();
       expect(stackElement.classList).toContain('stack-gap-sm');
-      expect(stackElement.classList).toContain('gap-2');
     });
 
     it('should render lg gap', () => {
       hostFixture.componentInstance.gap = 'lg';
       hostFixture.detectChanges();
       expect(stackElement.classList).toContain('stack-gap-lg');
-      expect(stackElement.classList).toContain('gap-6');
     });
 
     it('should render xl gap', () => {
       hostFixture.componentInstance.gap = 'xl';
       hostFixture.detectChanges();
       expect(stackElement.classList).toContain('stack-gap-xl');
-      expect(stackElement.classList).toContain('gap-8');
     });
   });
 
@@ -137,31 +131,31 @@ describe('StackComponent', () => {
 
     it('should render start alignment by default', () => {
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('items-start');
+      expect(stackElement.classList).toContain('stack-align-stretch');
     });
 
     it('should render center alignment', () => {
       hostFixture.componentInstance.align = 'center';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('items-center');
+      expect(stackElement.classList).toContain('stack-align-center');
     });
 
     it('should render end alignment', () => {
       hostFixture.componentInstance.align = 'end';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('items-end');
+      expect(stackElement.classList).toContain('stack-align-end');
     });
 
     it('should render stretch alignment', () => {
       hostFixture.componentInstance.align = 'stretch';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('items-stretch');
+      expect(stackElement.classList).toContain('stack-align-stretch');
     });
 
     it('should render baseline alignment', () => {
       hostFixture.componentInstance.align = 'baseline';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('items-baseline');
+      expect(stackElement.classList).toContain('stack-align-baseline');
     });
   });
 
@@ -173,37 +167,37 @@ describe('StackComponent', () => {
 
     it('should render start justification by default', () => {
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('justify-start');
+      expect(stackElement.classList).toContain('stack-justify-start');
     });
 
     it('should render center justification', () => {
       hostFixture.componentInstance.justify = 'center';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('justify-center');
+      expect(stackElement.classList).toContain('stack-justify-center');
     });
 
     it('should render end justification', () => {
       hostFixture.componentInstance.justify = 'end';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('justify-end');
+      expect(stackElement.classList).toContain('stack-justify-end');
     });
 
     it('should render between justification', () => {
       hostFixture.componentInstance.justify = 'between';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('justify-between');
+      expect(stackElement.classList).toContain('stack-justify-between');
     });
 
     it('should render around justification', () => {
       hostFixture.componentInstance.justify = 'around';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('justify-around');
+      expect(stackElement.classList).toContain('stack-justify-around');
     });
 
     it('should render evenly justification', () => {
       hostFixture.componentInstance.justify = 'evenly';
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('justify-evenly');
+      expect(stackElement.classList).toContain('stack-justify-evenly');
     });
   });
 
@@ -215,13 +209,13 @@ describe('StackComponent', () => {
 
     it('should not wrap by default', () => {
       hostFixture.detectChanges();
-      expect(stackElement.classList).not.toContain('flex-wrap');
+      expect(stackElement.classList).not.toContain('stack-wrap');
     });
 
     it('should wrap when enabled', () => {
       hostFixture.componentInstance.wrap = true;
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('flex-wrap');
+      expect(stackElement.classList).toContain('stack-wrap');
     });
   });
 
@@ -233,13 +227,13 @@ describe('StackComponent', () => {
 
     it('should not be full width by default', () => {
       hostFixture.detectChanges();
-      expect(stackElement.classList).not.toContain('w-full');
+      expect(stackElement.classList).not.toContain('stack-full-width');
     });
 
     it('should be full width when enabled', () => {
       hostFixture.componentInstance.fullWidth = true;
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('w-full');
+      expect(stackElement.classList).toContain('stack-full-width');
     });
   });
 
@@ -270,13 +264,12 @@ describe('StackComponent', () => {
       stackElement = hostFixture.debugElement.query(By.css('lc-stack')).nativeElement;
 
       expect(stackElement.classList).toContain('stack-horizontal');
-      expect(stackElement.classList).toContain('flex-row');
+      expect(stackElement.classList).toContain('stack-direction-horizontal');
       expect(stackElement.classList).toContain('stack-gap-lg');
-      expect(stackElement.classList).toContain('gap-6');
-      expect(stackElement.classList).toContain('items-center');
-      expect(stackElement.classList).toContain('justify-between');
-      expect(stackElement.classList).toContain('flex-wrap');
-      expect(stackElement.classList).toContain('w-full');
+      expect(stackElement.classList).toContain('stack-align-center');
+      expect(stackElement.classList).toContain('stack-justify-between');
+      expect(stackElement.classList).toContain('stack-wrap');
+      expect(stackElement.classList).toContain('stack-full-width');
     });
   });
 

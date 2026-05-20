@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.10.0] - 2026-05-20
+
+### Added
+
+- **Density token system** — New CSS custom property scale (`--lc-density-gap-{xs,sm,md,lg,xl}`, `--lc-density-padding-{xs,sm,md,lg,xl}`, `--lc-density-section-gap`) wired to a single `data-density="compact|cosy|comfortable"` attribute. Setting it on any ancestor rescales every density-aware component beneath it without template changes. Cosy is the default and matches the previous visual rhythm exactly (zero pixel shift on upgrade).
+- **PageHeaderComponent** — Page-level title block with slots for trailing actions and a short header-internal description. Distinct from `lc-header` (app chrome) and `lc-toolbar` (control bar).
+- **ToolbarComponent** — Reusable horizontal control bar with `start` / default / `end` slots; auto-collapses empty slots; `density`, `background`, `border`, `align`, `wrap` and `sticky` inputs.
+- **Density showcase stories** — Four new entries under **Design Tokens / Density**: side-by-side cascade, full-width stacked comparison, live token-value inspector, and local-override demonstration.
+- **Density Tokens section in spacing docs** — Three tables (gap, padding, section-gap) × three density modes with semantic mapping and four rules of thumb.
+
+### Changed
+
+- **24 components made density-aware** — Layout rhythm (gap, padding) of `card`, `container`, `section`, `stack`, `page-header`, `toolbar`, `spacer`, `list`, `menu`, `breadcrumbs`, `tabs`, `alert`, `toast`, `pagination`, `input`, `textarea`, `datepicker`, `select`, `modal`, `header`, `table`, `rich-text-editor`, `sidenav`, and `footer` now reads from `--lc-density-*` with safe fallbacks to the original `--spacing-*` tokens. Cosy defaults preserve current visuals.
+- **`libs/angular-ui-kit/src/styles/index.scss`** — Now imports `@angular/cdk/overlay-prebuilt.css` so the `.cdk-overlay-transparent-backdrop { opacity: 0 }` reset is present in every consuming app/Storybook.
+
+### Fixed
+
+- **Select / Datepicker backdrop flash** — `ModalComponent` is rendered with `ViewEncapsulation.None`; its SCSS rule that targeted `.cdk-overlay-backdrop` was leaking globally to every CDK overlay and showing a brief grey flash on Select, Datepicker, Menu and Tooltip dismissal. Removed the leak and scoped the modal backdrop to its own `.lc-modal-backdrop` class, while ensuring the official CDK overlay reset is loaded globally.
+- **`lc-select` dead style removed** — `.lc-select__option--focused` rule was unused (template emits `--highlighted`).
+- **`lc-page-header` JSDoc + story imports** — Description corrected to match supported slot content; unused `BadgeComponent` import removed from stories.
+
 ## [1.9.0] - 2026-05-15
 
 ### Added

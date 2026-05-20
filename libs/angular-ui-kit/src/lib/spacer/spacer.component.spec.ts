@@ -91,13 +91,13 @@ describe('SpacerComponent', () => {
     it('should grow to fill available space with auto size', () => {
       hostFixture.componentInstance.size = 'auto';
       hostFixture.detectChanges();
-      expect(spacerElement.classList).toContain('flex-1');
+      expect(spacerElement.classList).toContain('spacer-grow');
     });
 
     it('should not grow with fixed sizes', () => {
       hostFixture.componentInstance.size = 'md';
       hostFixture.detectChanges();
-      expect(spacerElement.classList).not.toContain('flex-1');
+      expect(spacerElement.classList).not.toContain('spacer-grow');
     });
   });
 

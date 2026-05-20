@@ -51,7 +51,7 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
-  padding: var(--spacing-3) var(--spacing-4);
+  padding: var(--lc-density-padding-sm, var(--spacing-3)) var(--lc-density-padding-md, var(--spacing-4));
   cursor: pointer;
   transition: background-color 0.2s ease;
 
@@ -208,8 +208,8 @@
 // ── Size variants ───────────────────────────────
 .lc-list--sm {
   .lc-list__item {
-    padding: var(--spacing-2) var(--spacing-3);
-    gap: var(--spacing-2);
+    padding: var(--lc-density-padding-xs, var(--spacing-2)) var(--lc-density-padding-sm, var(--spacing-3));
+    gap: var(--lc-density-gap-sm, var(--spacing-2));
   }
 
   .lc-list__avatar {
@@ -236,8 +236,8 @@
 
 .lc-list--lg {
   .lc-list__item {
-    padding: var(--spacing-4) var(--spacing-5);
-    gap: var(--spacing-4);
+    padding: var(--lc-density-padding-md, var(--spacing-4)) var(--spacing-5);
+    gap: var(--lc-density-gap-md, var(--spacing-4));
   }
 
   .lc-list__avatar {

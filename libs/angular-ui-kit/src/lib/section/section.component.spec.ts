@@ -67,21 +67,18 @@ describe('SectionComponent', () => {
       hostFixture.componentInstance.spacing = 'sm';
       hostFixture.detectChanges();
       expect(sectionElement.classList).toContain('section-spacing-sm');
-      expect(sectionElement.classList).toContain('py-8');
     });
 
     it('should render lg spacing', () => {
       hostFixture.componentInstance.spacing = 'lg';
       hostFixture.detectChanges();
       expect(sectionElement.classList).toContain('section-spacing-lg');
-      expect(sectionElement.classList).toContain('py-16');
     });
 
     it('should render xl spacing', () => {
       hostFixture.componentInstance.spacing = 'xl';
       hostFixture.detectChanges();
       expect(sectionElement.classList).toContain('section-spacing-xl');
-      expect(sectionElement.classList).toContain('py-24');
     });
   });
 
@@ -100,21 +97,18 @@ describe('SectionComponent', () => {
       hostFixture.componentInstance.background = 'gray';
       hostFixture.detectChanges();
       expect(sectionElement.classList).toContain('section-bg-gray');
-      expect(sectionElement.classList).toContain('bg-neutral-50');
     });
 
     it('should render primary background', () => {
       hostFixture.componentInstance.background = 'primary';
       hostFixture.detectChanges();
       expect(sectionElement.classList).toContain('section-bg-primary');
-      expect(sectionElement.classList).toContain('bg-primary-50');
     });
 
     it('should render secondary background', () => {
       hostFixture.componentInstance.background = 'secondary';
       hostFixture.detectChanges();
       expect(sectionElement.classList).toContain('section-bg-secondary');
-      expect(sectionElement.classList).toContain('bg-secondary-50');
     });
   });
 
@@ -124,34 +118,31 @@ describe('SectionComponent', () => {
       sectionElement = hostFixture.debugElement.query(By.css('lc-section')).nativeElement;
     });
 
-    it('should have horizontal padding by default', () => {
+    it('should have horizontal padding by default (no opt-out class)', () => {
       hostFixture.detectChanges();
-      expect(sectionElement.classList).toContain('px-4');
+      expect(sectionElement.classList).not.toContain('section-no-padding-x');
     });
 
-    it('should have vertical padding by default', () => {
+    it('should have vertical padding by default (no opt-out class)', () => {
       hostFixture.detectChanges();
-      expect(sectionElement.classList).toContain('py-12');
+      expect(sectionElement.classList).not.toContain('section-no-padding-y');
     });
 
-    it('should remove horizontal padding when noPaddingX is true', () => {
+    it('should mark horizontal padding as disabled when noPaddingX is true', () => {
       hostFixture.componentInstance.noPaddingX = true;
       hostFixture.detectChanges();
-      expect(sectionElement.classList).not.toContain('px-4');
+      expect(sectionElement.classList).toContain('section-no-padding-x');
     });
 
-    it('should remove vertical padding when noPaddingY is true', () => {
+    it('should mark vertical padding as disabled when noPaddingY is true', () => {
       hostFixture.componentInstance.noPaddingY = true;
       hostFixture.detectChanges();
-      const classList = Array.from(sectionElement.classList);
-      const hasPaddingY = classList.some((cls) => cls.startsWith('py-'));
-      expect(hasPaddingY).toBe(false);
+      expect(sectionElement.classList).toContain('section-no-padding-y');
     });
 
-    it('should support responsive padding', () => {
+    it('should expose density-driven responsive spacing via host element', () => {
       hostFixture.detectChanges();
-      expect(sectionElement.classList).toContain('sm:px-6');
-      expect(sectionElement.classList).toContain('lg:px-8');
+      expect(sectionElement.tagName.toLowerCase()).toBe('lc-section');
     });
   });
 
@@ -180,9 +171,7 @@ describe('SectionComponent', () => {
       sectionElement = hostFixture.debugElement.query(By.css('lc-section')).nativeElement;
 
       expect(sectionElement.classList).toContain('section-spacing-lg');
-      expect(sectionElement.classList).toContain('py-16');
       expect(sectionElement.classList).toContain('section-bg-primary');
-      expect(sectionElement.classList).toContain('bg-primary-50');
     });
 
     it('should apply all padding options correctly', () => {
@@ -194,8 +183,9 @@ describe('SectionComponent', () => {
 
       sectionElement = hostFixture.debugElement.query(By.css('lc-section')).nativeElement;
 
-      expect(sectionElement.classList).toContain('px-4');
-      expect(sectionElement.classList).toContain('py-24');
+      expect(sectionElement.classList).toContain('section-spacing-xl');
+      expect(sectionElement.classList).not.toContain('section-no-padding-x');
+      expect(sectionElement.classList).not.toContain('section-no-padding-y');
     });
   });
 

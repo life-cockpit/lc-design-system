@@ -17,11 +17,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--spacing-2) var(--spacing-3);
+    padding: var(--lc-density-padding-xs, var(--spacing-2)) var(--lc-density-padding-sm, var(--spacing-3));
     background-color: var(--color-surface);
     border-bottom: 1px solid var(--color-divider);
     flex-wrap: wrap;
-    gap: var(--spacing-1);
+    gap: var(--lc-density-gap-xs, var(--spacing-1));
   }
 
   &__toolbar-actions {
@@ -96,7 +96,7 @@
   }
 
   &__rich {
-    padding: var(--spacing-4);
+    padding: var(--lc-density-padding-md, var(--spacing-4));
     min-height: 100%;
     outline: none;
     font-size: var(--typography-font-size-base);
@@ -184,7 +184,7 @@
     border: none;
     outline: none;
     resize: vertical;
-    padding: var(--spacing-4);
+    padding: var(--lc-density-padding-md, var(--spacing-4));
     font-family: var(--typography-font-family-mono, monospace);
     font-size: var(--typography-font-size-sm);
     line-height: var(--typography-line-height-relaxed, 1.7);
@@ -208,7 +208,7 @@
   }
 
   &__split-preview {
-    padding: var(--spacing-4);
+    padding: var(--lc-density-padding-md, var(--spacing-4));
     overflow-y: auto;
     font-size: var(--typography-font-size-base);
     line-height: var(--typography-line-height-relaxed, 1.7);
@@ -275,8 +275,8 @@
   &__footer {
     display: flex;
     justify-content: flex-end;
-    gap: var(--spacing-4);
-    padding: var(--spacing-2) var(--spacing-3);
+    gap: var(--lc-density-gap-md, var(--spacing-4));
+    padding: var(--lc-density-padding-xs, var(--spacing-2)) var(--lc-density-padding-sm, var(--spacing-3));
     border-top: 1px solid var(--color-divider);
     font-size: var(--typography-font-size-xs);
     color: var(--color-text-secondary);

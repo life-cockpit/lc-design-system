@@ -13,5 +13,21 @@
 // 3. Typography
 @use './typography';
 
-// 4. Utilities
+// 4. Density tokens (layout rhythm — opt-in via [data-density="…"])
+@use './density';
+
+// 5. Utilities
 @use './utilities';
+
+// 6. CDK overlay positioning + backdrop reset (provides .cdk-overlay-container,
+//    .cdk-overlay-pane, .cdk-overlay-backdrop with proper fade transitions, and
+//    the critical .cdk-overlay-transparent-backdrop { opacity: 0 } rule that
+//    keeps overlays like lc-select / lc-datepicker / lc-tooltip from showing
+//    a backdrop flash).
+//
+//    NOTE: this is a plain CSS @import (Sass requires all @use rules to come
+//    first). Dart Sass passes CSS @imports through to the output unchanged,
+//    and CSS itself hoists @imports to the top of the resulting stylesheet,
+//    so the .cdk-overlay-* defaults still land before any component styles
+//    that target them.
+@import '@angular/cdk/overlay-prebuilt.css';

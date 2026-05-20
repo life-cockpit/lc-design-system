@@ -1,0 +1,122 @@
+// lc-toolbar — density-aware horizontal control strip, no Tailwind.
+
+.lc-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--lc-density-gap-md, 1rem);
+  padding-block: var(--lc-density-padding-sm, 0.75rem);
+  padding-inline: var(--lc-density-padding-md, 1rem);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+
+  // ── Slot wrappers ────────────────────────────────────────────────────────
+  &__start,
+  &__end {
+    display: flex;
+    align-items: inherit;
+    gap: var(--lc-density-gap-sm, 0.5rem);
+    min-width: 0;
+    flex: 0 0 auto;
+  }
+
+  &__main {
+    display: flex;
+    align-items: inherit;
+    gap: var(--lc-density-gap-sm, 0.5rem);
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__end {
+    margin-inline-start: auto; // ensures right-alignment even when main is empty
+    justify-content: flex-end;
+  }
+
+  // ── Empty-slot collapse ──────────────────────────────────────────────────
+  // Hide slot wrappers that have no projected content so they don't
+  // contribute spurious gaps.
+  &__start:empty,
+  &__main:empty,
+  &__end:empty {
+    display: none;
+  }
+
+  // ── Density variants (local override of the cascade tokens) ──────────────
+  &--density-compact {
+    --lc-density-gap-md: 0.5rem;
+    --lc-density-gap-sm: 0.375rem;
+    --lc-density-padding-sm: 0.375rem;
+    --lc-density-padding-md: 0.5rem;
+  }
+  &--density-cosy {
+    --lc-density-gap-md: 0.75rem;
+    --lc-density-gap-sm: 0.5rem;
+    --lc-density-padding-sm: 0.625rem;
+    --lc-density-padding-md: 0.875rem;
+  }
+  &--density-comfortable {
+    --lc-density-gap-md: 1rem;
+    --lc-density-gap-sm: 0.625rem;
+    --lc-density-padding-sm: 0.875rem;
+    --lc-density-padding-md: 1.25rem;
+  }
+
+  // ── Backgrounds ──────────────────────────────────────────────────────────
+  &--bg-transparent {
+    background: transparent;
+  }
+  &--bg-surface {
+    background: var(--color-surface, var(--color-neutral-0, #fff));
+  }
+  &--bg-muted {
+    background: var(--color-surface-muted, var(--color-neutral-50, #f5f5f5));
+  }
+
+  // ── Borders ──────────────────────────────────────────────────────────────
+  &--border-none {
+    border: 0;
+  }
+  &--border-bottom {
+    border-bottom: 1px solid var(--color-border, var(--color-neutral-200, #e5e5e5));
+  }
+  &--border-top {
+    border-top: 1px solid var(--color-border, var(--color-neutral-200, #e5e5e5));
+  }
+  &--border-around {
+    border: 1px solid var(--color-border, var(--color-neutral-200, #e5e5e5));
+    border-radius: var(--radius-md, 0.5rem);
+  }
+
+  // ── Alignment ────────────────────────────────────────────────────────────
+  &--align-start {
+    align-items: flex-start;
+  }
+  &--align-center {
+    align-items: center;
+  }
+  &--align-end {
+    align-items: flex-end;
+  }
+  &--align-stretch {
+    align-items: stretch;
+  }
+  &--align-baseline {
+    align-items: baseline;
+  }
+
+  // ── Wrapping ─────────────────────────────────────────────────────────────
+  &--wrap {
+    flex-wrap: wrap;
+    row-gap: var(--lc-density-gap-sm, 0.5rem);
+  }
+
+  // ── Sticky ───────────────────────────────────────────────────────────────
+  &--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+}

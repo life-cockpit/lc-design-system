@@ -243,7 +243,7 @@ span.typography-overline,
   overflow: hidden;
 }
 
-// Gutter bottom utility
+// Gutter bottom utility — density-aware
 .mb-4 {
-  margin-bottom: 1rem; // 16px
+  margin-bottom: var(--lc-density-gap-md, 1rem);
 }

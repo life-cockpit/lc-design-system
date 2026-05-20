@@ -64,3 +64,92 @@ gap: var(--spacing-2);           /* 8px */
 | Icon to text | `spacing-2` (8px) |
 | Button padding (horizontal) | `spacing-4` (16px) |
 | Minimum touch target | `spacing-11` (44px) |
+
+---
+
+## Density Tokens — the canonical source for inter-element spacing
+
+Raw `spacing-*` tokens are the **scale**. They tell you *which values exist*,
+not *which one to use where*. For that, every layout-aware component
+(`lc-stack`, `lc-toolbar`, `lc-page-header`, `lc-card`, `lc-modal`, `lc-section`, …)
+reads from a second layer of CSS custom properties called **density tokens**.
+
+Density tokens are the contract between a page and its components: *"use this
+much gap and this much padding, whatever the current density mode is."*
+
+```css
+/* Inside any layout component */
+.lc-toolbar       { gap: var(--lc-density-gap-sm); padding-inline: var(--lc-density-padding-md); }
+.lc-page-header   { gap: var(--lc-density-gap-md); padding-block: var(--lc-density-padding-md); }
+.lc-stack--gap-lg { gap: var(--lc-density-gap-lg); }
+```
+
+A single `data-density` attribute on any ancestor (`<html>`, `<body>`, a route
+wrapper, a single card) rescales the whole subtree — no per-component prop
+plumbing required.
+
+```html
+<html data-density="compact">       <!-- data-heavy admin screens     -->
+<body data-density="cosy">          <!-- default — same as no attr    -->
+<main data-density="comfortable">   <!-- marketing / reading screens  -->
+```
+
+### Gap scale — between siblings
+
+Used by `lc-stack`, `lc-row`, `lc-grid`, and the inter-element gaps inside
+every composite component (toolbar items, page-header meta chips, card stacks).
+
+| Token | `compact` | `cosy` (default) | `comfortable` |
+|---|---|---|---|
+| `--lc-density-gap-none` | 0 | 0 | 0 |
+| `--lc-density-gap-xs`   | 2px  | 4px  | 8px  |
+| `--lc-density-gap-sm`   | 4px  | 8px  | 12px |
+| `--lc-density-gap-md` ← default | 8px | **16px** | 24px |
+| `--lc-density-gap-lg`   | 12px | 24px | 32px |
+| `--lc-density-gap-xl`   | 16px | 32px | 48px |
+
+### Padding scale — inside containers
+
+Used by `lc-card`, `lc-modal`, `lc-toolbar`, `lc-page-header`, `lc-section`.
+
+| Token | `compact` | `cosy` (default) | `comfortable` |
+|---|---|---|---|
+| `--lc-density-padding-xs` | 4px  | 8px  | 12px |
+| `--lc-density-padding-sm` | 8px  | 12px | 16px |
+| `--lc-density-padding-md` ← default | 12px | **16px** | 24px |
+| `--lc-density-padding-lg` | 16px | 24px | 32px |
+| `--lc-density-padding-xl` | 24px | 32px | 48px |
+
+### Section rhythm — between major page sections
+
+| Token | `compact` | `cosy` (default) | `comfortable` |
+|---|---|---|---|
+| `--lc-density-section-gap` | 20px | **32px** | 48px |
+
+### When to use which token
+
+| You're spacing… | Use |
+|---|---|
+| Items inside a toolbar / action row | `--lc-density-gap-sm` |
+| Title ↔ subtitle, label ↔ control, chip ↔ chip | `--lc-density-gap-sm` |
+| Sibling cards, stacked form fields | `--lc-density-gap-md` |
+| Major content blocks inside a section | `--lc-density-gap-lg` |
+| Inside a chip or compact button | `--lc-density-padding-xs` |
+| Inside a default button / input | `--lc-density-padding-sm` |
+| Inside a card / modal body | `--lc-density-padding-md` |
+| Around a page-header / hero | `--lc-density-padding-lg` |
+| Between top-level page sections | `--lc-density-section-gap` |
+
+### Rules of thumb
+
+1. **Never hard-code `spacing-*` for gap or padding inside a layout component.**
+   Always go through `--lc-density-*` so the cascade works.
+2. Raw `spacing-*` tokens are still correct for **fixed visual offsets** that
+   should *not* rescale with density — e.g. the inset of a focus ring, the
+   notch of a popover arrow, the radius-related insets of a badge.
+3. A component that needs to override density locally (e.g. `lc-page-header`
+   with `size="compact"`) does so by redeclaring `--lc-density-*` on its own
+   host — never by switching to raw `spacing-*` values.
+4. If you find yourself wanting a value that doesn't exist on the density
+   scale, the answer is almost always to pick the nearest density token, not
+   to invent a new one.

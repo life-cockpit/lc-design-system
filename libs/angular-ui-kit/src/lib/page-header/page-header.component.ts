@@ -1,0 +1,89 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+} from '@angular/core';
+
+/**
+ * Page header — top-of-page title block with optional subtitle,
+ * breadcrumbs, badge, description and an actions area.
+ *
+ * Density-aware, slot-based, no Tailwind. Drop it at the top of any route
+ * to get consistent rhythm between title, metadata and content below.
+ *
+ * Slots:
+ *  - `[slot="breadcrumbs"]` — rendered above the title (e.g. `<lc-breadcrumbs>`)
+ *  - `[slot="actions"]`     — right-aligned actions (buttons, menus)
+ *  - `[slot="meta"]`        — secondary metadata under the title row (chips, tags)
+ *  - default                — short header-internal description text
+ *
+ * Full-blown navigation primitives like `lc-tabs` — which render both the tab
+ * strip **and** their panel content — belong **below** the page header, never
+ * inside it. The header stays focused on page identity.
+ *
+ * @example
+ * ```html
+ * <lc-page-header
+ *   title="Reports"
+ *   subtitle="Compare period-over-period metrics"
+ *   [showDivider]="true"
+ * >
+ *   <lc-breadcrumbs slot="breadcrumbs" [items]="crumbs" />
+ *   <lc-button slot="actions" variant="primary">New report</lc-button>
+ *   <lc-chip slot="meta">12 active</lc-chip>
+ * </lc-page-header>
+ * ```
+ */
+@Component({
+  selector: 'lc-page-header',
+  standalone: true,
+  templateUrl: './page-header.component.html',
+  styleUrl: './page-header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '[class]': 'hostClasses()',
+  },
+})
+export class PageHeaderComponent {
+  /** Main heading text. */
+  title = input<string | undefined>(undefined);
+
+  /** Short supporting line below the title. */
+  subtitle = input<string | undefined>(undefined);
+
+  /**
+   * Heading level for the title — affects semantics, not size.
+   * @default 1
+   */
+  level = input<1 | 2 | 3>(1);
+
+  /**
+   * Visual size of the page header.
+   * - `compact`     — dense data-tool pages
+   * - `default`     — standard app pages
+   * - `comfortable` — landing-page hero feel
+   */
+  size = input<'compact' | 'default' | 'comfortable'>('default');
+
+  /**
+   * Whether to render a divider line below the header.
+   * @default false
+   */
+  showDivider = input<boolean>(false);
+
+  /** Optional badge text next to the title (e.g. `Beta`). */
+  badge = input<string | undefined>(undefined);
+
+  protected hostClasses = computed(() =>
+    [
+      'lc-page-header',
+      `lc-page-header--size-${this.size()}`,
+      this.showDivider() ? 'lc-page-header--divided' : null,
+    ]
+      .filter(Boolean)
+      .join(' '),
+  );
+}

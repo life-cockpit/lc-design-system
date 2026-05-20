@@ -1,7 +1,9 @@
 @if (_open()) {
-  <!-- Backdrop -->
+  <!-- Backdrop (the lc-modal does NOT use CDK Overlay; do not add the
+       `cdk-overlay-backdrop` class here — it would be styled by global CDK
+       rules and, vice versa, leak modal styling onto other overlays.) -->
   <div
-    class="cdk-overlay-backdrop lc-modal-backdrop"
+    class="lc-modal-backdrop"
     (click)="onBackdropClick($event)"
   ></div>
 

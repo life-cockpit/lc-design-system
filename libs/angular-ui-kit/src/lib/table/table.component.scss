@@ -35,7 +35,7 @@
     
     tr {
       th {
-        padding: var(--spacing-3) var(--spacing-4);
+        padding: var(--lc-density-padding-sm, var(--spacing-3)) var(--lc-density-padding-md, var(--spacing-4));
         text-align: left;
         font-weight: var(--typography-font-weight-semibold);
         font-size: var(--typography-font-size-sm);
@@ -83,7 +83,7 @@
       }
       
       td {
-        padding: var(--spacing-3) var(--spacing-4);
+        padding: var(--lc-density-padding-sm, var(--spacing-3)) var(--lc-density-padding-md, var(--spacing-4));
         font-size: var(--typography-font-size-sm);
         color: var(--color-text-primary);
       }
@@ -141,7 +141,7 @@
   &--sm {
     thead tr th,
     tbody tr td {
-      padding: var(--spacing-2) var(--spacing-3);
+      padding: var(--lc-density-padding-xs, var(--spacing-2)) var(--lc-density-padding-sm, var(--spacing-3));
       font-size: var(--typography-font-size-xs);
     }
   }
@@ -153,7 +153,7 @@
   &--lg {
     thead tr th,
     tbody tr td {
-      padding: var(--spacing-4) var(--spacing-5);
+      padding: var(--lc-density-padding-md, var(--spacing-4)) var(--spacing-5);
       font-size: var(--typography-font-size-base);
     }
   }

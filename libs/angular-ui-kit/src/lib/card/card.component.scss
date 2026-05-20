@@ -35,26 +35,28 @@
     // No additional styles needed for flat variant
   }
 
-  // Padding sizes
+  // Padding sizes — driven by density tokens so an ancestor `data-density`
+  // automatically rescales every card on the page. Falls back to spacing
+  // tokens so the visual default is identical to before.
   &-padding {
     &-none {
       padding: 0;
     }
 
     &-xs {
-      padding: 0.5rem; // 8px
+      padding: var(--lc-density-padding-xs, var(--spacing-2));
     }
 
     &-sm {
-      padding: 0.75rem; // 12px
+      padding: var(--lc-density-padding-sm, var(--spacing-3));
     }
 
     &-md {
-      padding: 1rem; // 16px
+      padding: var(--lc-density-padding-md, var(--spacing-4));
     }
 
     &-lg {
-      padding: 1.5rem; // 24px
+      padding: var(--lc-density-padding-lg, var(--spacing-6));
     }
   }
 
@@ -116,9 +118,9 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
+    gap: var(--lc-density-gap-md, var(--spacing-4));
+    margin-bottom: var(--lc-density-padding-md, var(--spacing-4));
+    padding-bottom: var(--lc-density-padding-sm, var(--spacing-3));
     border-bottom: 1px solid var(--color-border, #e5e7eb);
   }
 
@@ -194,18 +196,21 @@
   }
 }
 
-// Support for named content projection sections
-:host ::ng-deep [card-header] {
-  margin-bottom: 0.75rem;
+// Support for named content projection sections.
+// Use [card-header] / [card-footer] attributes on a wrapper element, or the
+// .card-header / .card-footer class — both get built-in spacing and dividers
+// so consumers don't need to add their own margins.
+:host ::ng-deep [card-header],
+:host ::ng-deep .card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-:host ::ng-deep .card-header {
-  margin-bottom: 1rem;
+  gap: var(--lc-density-gap-sm, var(--spacing-2));
+  margin-bottom: var(--lc-density-padding-md, var(--spacing-4));
+  padding-bottom: var(--lc-density-padding-sm, var(--spacing-3));
+  border-bottom: 1px solid var(--color-divider, #e5e7eb);
   font-weight: 600;
-  font-size: 1.125rem; // 18px
+  font-size: 1.125rem;
   color: var(--color-text-primary);
 }
 
@@ -215,8 +220,12 @@
 
 :host ::ng-deep [card-footer],
 :host ::ng-deep .card-footer {
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lc-density-gap-sm, var(--spacing-2));
+  margin-top: var(--lc-density-padding-md, var(--spacing-4));
+  padding-top: var(--lc-density-padding-sm, var(--spacing-3));
+  border-top: 1px solid var(--color-divider, #e5e7eb);
   color: var(--color-text-secondary);
 }

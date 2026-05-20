@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-2);
+  gap: var(--lc-density-gap-sm, var(--spacing-2));
 
   // Size variants
   &--sm {
@@ -129,7 +129,7 @@
 .lc-pagination__pages {
   display: flex;
   align-items: center;
-  gap: var(--spacing-1);
+  gap: var(--lc-density-gap-xs, var(--spacing-1));
 }
 
 .lc-pagination__ellipsis {

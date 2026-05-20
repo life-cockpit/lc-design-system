@@ -268,13 +268,13 @@
 .lc-sidenav__nav {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1, 0.25rem);
-  padding: 1rem;
+  gap: var(--lc-density-gap-xs, var(--spacing-1, 0.25rem));
+  padding: var(--lc-density-padding-md, 1rem);
   padding-top: 4rem; // Space for close button in drawer mode
 
   // Docked mode: no close button, start from top
   &--docked {
-    padding-top: 1rem;
+    padding-top: var(--lc-density-padding-md, 1rem);
     gap: 0;
   }
 }
@@ -312,14 +312,14 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1, 0.25rem);
+  gap: var(--lc-density-gap-xs, var(--spacing-1, 0.25rem));
 }
 
 .lc-sidenav__nav-item {
   display: flex;
   align-items: center;
   gap: var(--spacing-3, 0.75rem);
-  padding: var(--spacing-2, 0.5rem) var(--spacing-3, 0.75rem);
+  padding: var(--lc-density-padding-xs, var(--spacing-2, 0.5rem)) var(--spacing-3, 0.75rem);
   text-decoration: none;
   color: var(--lc-sidenav-fg);
   border-radius: var(--radius-md, 0.375rem);
@@ -401,7 +401,7 @@
 .lc-sidenav__nav-children {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-1, 0.25rem);
+  gap: var(--lc-density-gap-xs, var(--spacing-1, 0.25rem));
   padding-left: var(--spacing-4, 1rem);
 }
 

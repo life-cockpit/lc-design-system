@@ -5,7 +5,7 @@
 .lc-textarea-wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2);
+  gap: var(--lc-density-gap-sm, var(--spacing-2));
   width: 100%;
 }
 
@@ -157,7 +157,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--spacing-2);
+  gap: var(--lc-density-gap-sm, var(--spacing-2));
 }
 
 .lc-textarea-messages {

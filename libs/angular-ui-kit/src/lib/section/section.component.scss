@@ -1,2 +1,41 @@
-// Section component relies primarily on Tailwind utilities
-// Semantic class names for spacing and background identification
+// lc-section
+//
+// Paddings come from --lc-density-padding-* so an ancestor `data-density`
+// rescales every section on the page. Background colors map to semantic
+// surface tokens. No Tailwind dependency.
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ── Vertical spacing scale (block padding) ────────────────────────────────
+// Defaults keep the previous visual rhythm (sm=32, md=48, lg=64, xl=96).
+.section-spacing-none { padding-block: 0; }
+.section-spacing-sm   { padding-block: var(--lc-density-padding-md, 2rem); }
+.section-spacing-md   { padding-block: var(--lc-density-padding-lg, 3rem); }
+.section-spacing-lg   { padding-block: var(--lc-density-padding-xl, 4rem); }
+.section-spacing-xl   { padding-block: calc(var(--lc-density-padding-xl, 4rem) * 1.5); }
+
+// ── Horizontal padding (responsive, density-driven) ───────────────────────
+:host(:not(.section-no-padding-x)) {
+  padding-inline: var(--lc-density-padding-md, 1rem);
+
+  @media (min-width: 640px) {
+    padding-inline: var(--lc-density-padding-lg, 1.5rem);
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: var(--lc-density-padding-xl, 2rem);
+  }
+}
+
+:host(.section-no-padding-y) {
+  padding-block: 0;
+}
+
+// ── Backgrounds ───────────────────────────────────────────────────────────
+.section-bg-none      { background-color: transparent; }
+.section-bg-gray      { background-color: var(--color-neutral-50); }
+.section-bg-primary   { background-color: var(--color-primary-50); }
+.section-bg-secondary { background-color: var(--color-secondary-50); }

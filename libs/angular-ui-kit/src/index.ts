@@ -110,6 +110,9 @@ export * from './lib/popover/popover.component';
 // Container Component
 export * from './lib/container/container.component';
 
+// Page Header Component
+export * from './lib/page-header/page-header.component';
+
 // Section Component
 export * from './lib/section/section.component';
 
@@ -118,6 +121,9 @@ export * from './lib/spacer/spacer.component';
 
 // Stack Component
 export * from './lib/stack/stack.component';
+
+// Toolbar Component
+export * from './lib/toolbar/toolbar.component';
 
 // ============================================================================
 // Feedback Components

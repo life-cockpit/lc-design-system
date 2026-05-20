@@ -16,13 +16,15 @@ export type SectionBackground = 'none' | 'gray' | 'primary' | 'secondary';
  *
  * Features:
  * - Configurable vertical spacing (none, sm, md, lg, xl)
- * - Background color options (none, subtle, muted)
+ * - Background color options (none, gray, primary, secondary)
  * - Independent horizontal and vertical padding control
- * - Content projection via ng-content
+ * - Density-aware: paddings come from `--lc-density-padding-*`, so a single
+ *   `data-density` on an ancestor rescales every section on the page.
+ * - No Tailwind dependency — styling lives in the component's own SCSS.
  *
  * @example
  * ```html
- * <lc-section spacing="lg" background="subtle">Content</lc-section>
+ * <lc-section spacing="lg" background="gray">Content</lc-section>
  * ```
  */
 export class SectionComponent {
@@ -37,43 +39,13 @@ export class SectionComponent {
   }
 
   classes = computed(() => {
-    const classes: string[] = [];
+    const classes: string[] = ['lc-section'];
 
-    // Spacing
-    const spacingClass = `section-spacing-${this.spacing()}`;
-    classes.push(spacingClass);
+    classes.push(`section-spacing-${this.spacing()}`);
+    classes.push(`section-bg-${this.background()}`);
 
-    if (!this.noPaddingY()) {
-      const spacingMap: Record<SectionSpacing, string> = {
-        none: '',
-        sm: 'py-8',
-        md: 'py-12',
-        lg: 'py-16',
-        xl: 'py-24',
-      };
-      const paddingY = spacingMap[this.spacing()];
-      if (paddingY) {
-        classes.push(paddingY);
-      }
-    }
-
-    // Background
-    const backgroundClass = `section-bg-${this.background()}`;
-    classes.push(backgroundClass);
-
-    if (this.background() !== 'none') {
-      const backgroundMap: Record<Exclude<SectionBackground, 'none'>, string> = {
-        gray: 'bg-neutral-50',
-        primary: 'bg-primary-50',
-        secondary: 'bg-secondary-50',
-      };
-      classes.push(backgroundMap[this.background() as Exclude<SectionBackground, 'none'>]);
-    }
-
-    // Horizontal padding
-    if (!this.noPaddingX()) {
-      classes.push('px-4', 'sm:px-6', 'lg:px-8');
-    }
+    if (this.noPaddingX()) classes.push('section-no-padding-x');
+    if (this.noPaddingY()) classes.push('section-no-padding-y');
 
     return classes.join(' ');
   });

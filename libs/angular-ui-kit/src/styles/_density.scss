@@ -1,0 +1,100 @@
+/**
+ * Density Tokens
+ *
+ * Density is a page-level concept that controls how tightly components are
+ * spaced. Components consume the `--lc-density-*` custom properties below
+ * instead of hard-coded values, so a single attribute on an ancestor element
+ * propagates a coherent rhythm to the whole subtree.
+ *
+ * Usage:
+ *   <html data-density="compact">…</html>     // tighter UI (data-heavy screens)
+ *   <body data-density="cosy">…</body>        // default, identical to no attr
+ *   <main data-density="comfortable">…</main> // marketing / reading screens
+ *
+ * Defaults (no `data-density` set) match the previous visual rhythm of the
+ * library, so adding this file is non-breaking.
+ */
+
+@use './tokens/spacing' as *;
+
+:root {
+  // ── Gap scale (between siblings, used by lc-stack / lc-row / lc-grid) ──
+  --lc-density-gap-none: 0;
+  --lc-density-gap-xs:   #{$spacing-1};   // 4px
+  --lc-density-gap-sm:   #{$spacing-2};   // 8px
+  --lc-density-gap-md:   #{$spacing-4};   // 16px  ← default
+  --lc-density-gap-lg:   #{$spacing-6};   // 24px
+  --lc-density-gap-xl:   #{$spacing-8};   // 32px
+
+  // ── Padding scale (inside containers: card, section, modal, toolbar) ──
+  --lc-density-padding-xs:  #{$spacing-2};   // 8px
+  --lc-density-padding-sm:  #{$spacing-3};   // 12px
+  --lc-density-padding-md:  #{$spacing-4};   // 16px  ← default
+  --lc-density-padding-lg:  #{$spacing-6};   // 24px
+  --lc-density-padding-xl:  #{$spacing-8};   // 32px
+
+  // ── Section rhythm (vertical gap between major page sections) ──
+  --lc-density-section-gap: #{$spacing-8};   // 32px
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Density variants — opt-in via [data-density="…"] on any ancestor.
+// CSS custom properties cascade, so setting them on <html>, <body>, or a
+// single page wrapper propagates to all descendants.
+// ─────────────────────────────────────────────────────────────────────────────
+
+[data-density='compact'] {
+  --lc-density-gap-xs:   #{$spacing-0-5}; // 2px
+  --lc-density-gap-sm:   #{$spacing-1};   // 4px
+  --lc-density-gap-md:   #{$spacing-2};   // 8px
+  --lc-density-gap-lg:   #{$spacing-3};   // 12px
+  --lc-density-gap-xl:   #{$spacing-4};   // 16px
+
+  --lc-density-padding-xs: #{$spacing-1};   // 4px
+  --lc-density-padding-sm: #{$spacing-2};   // 8px
+  --lc-density-padding-md: #{$spacing-3};   // 12px
+  --lc-density-padding-lg: #{$spacing-4};   // 16px
+  --lc-density-padding-xl: #{$spacing-6};   // 24px
+
+  --lc-density-section-gap: #{$spacing-5};  // 20px
+}
+
+[data-density='cosy'] {
+  // explicit cosy = same as defaults; redeclared so toggling back works
+  --lc-density-gap-xs:   #{$spacing-1};
+  --lc-density-gap-sm:   #{$spacing-2};
+  --lc-density-gap-md:   #{$spacing-4};
+  --lc-density-gap-lg:   #{$spacing-6};
+  --lc-density-gap-xl:   #{$spacing-8};
+
+  --lc-density-padding-xs: #{$spacing-2};
+  --lc-density-padding-sm: #{$spacing-3};
+  --lc-density-padding-md: #{$spacing-4};
+  --lc-density-padding-lg: #{$spacing-6};
+  --lc-density-padding-xl: #{$spacing-8};
+
+  --lc-density-section-gap: #{$spacing-8};
+}
+
+[data-density='comfortable'] {
+  --lc-density-gap-xs:   #{$spacing-2};   // 8px
+  --lc-density-gap-sm:   #{$spacing-3};   // 12px
+  --lc-density-gap-md:   #{$spacing-6};   // 24px
+  --lc-density-gap-lg:   #{$spacing-8};   // 32px
+  --lc-density-gap-xl:   #{$spacing-12};  // 48px
+
+  --lc-density-padding-xs: #{$spacing-3};   // 12px
+  --lc-density-padding-sm: #{$spacing-4};   // 16px
+  --lc-density-padding-md: #{$spacing-6};   // 24px
+  --lc-density-padding-lg: #{$spacing-8};   // 32px
+  --lc-density-padding-xl: #{$spacing-12};  // 48px
+
+  --lc-density-section-gap: #{$spacing-12}; // 48px
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Layout components (lc-stack, lc-spacer, lc-section, …) consume the density
+// CSS custom properties directly via their own component styles, so no global
+// per-component overrides are needed here. Setting `data-density="…"` on any
+// ancestor automatically propagates the new scale to every descendant.
+// ─────────────────────────────────────────────────────────────────────────────
