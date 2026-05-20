@@ -35,6 +35,8 @@
           <div class="lc-chat__content">
             @if (messageTemplate) {
               <ng-container *ngTemplateOutlet="messageTemplate; context: { $implicit: msg }" />
+            } @else if (shouldRenderMarkdown(msg.role)) {
+              <lc-markdown [content]="msg.content" variant="chat" />
             } @else {
               {{ msg.content }}
             }

@@ -72,7 +72,7 @@ export class MarkdownComponent implements OnDestroy {
   readonly content = input<string>();
 
   /** Display variant */
-  readonly variant = input<'default' | 'compact'>('default');
+  readonly variant = input<'default' | 'compact' | 'chat'>('default');
 
   /** Target for links */
   readonly linkTarget = input<'_self' | '_blank'>('_self');

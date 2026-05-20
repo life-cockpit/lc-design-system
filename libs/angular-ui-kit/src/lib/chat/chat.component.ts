@@ -12,8 +12,17 @@ import {
   ContentChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { MarkdownComponent } from '../markdown/markdown.component';
 
 export type ChatMessageRole = 'user' | 'agent' | 'system';
+
+/**
+ * Controls which messages are rendered as Markdown via `<lc-markdown>`.
+ * - `false` (default): plain text rendering (legacy behavior)
+ * - `true` / `'all'`: render every role as Markdown
+ * - `'agent'`: only agent messages are rendered as Markdown (recommended)
+ */
+export type ChatRenderMarkdown = boolean | 'agent' | 'all';
 
 export interface ChatMessage {
   id: string;
@@ -34,7 +43,7 @@ export interface ChatSendEvent {
 @Component({
   selector: 'lc-chat',
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, MarkdownComponent],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,6 +89,14 @@ export class ChatComponent implements AfterViewChecked {
 
   /** Show timestamps. */
   showTimestamps = input<boolean>(true);
+
+  /**
+   * Render message content as Markdown using `<lc-markdown variant="chat">`.
+   * Defaults to `'agent'` so agent replies get rich formatting while user
+   * input stays as plain text. Pass `false` to opt out, or `true`/`'all'`
+   * to render every role as Markdown.
+   */
+  renderMarkdown = input<ChatRenderMarkdown>('agent');
 
   /** Emits when user sends a message. */
   messageSend = output<ChatSendEvent>();
@@ -128,6 +145,13 @@ export class ChatComponent implements AfterViewChecked {
   protected formatTime(date: Date | undefined): string {
     if (!date) return '';
     return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  protected shouldRenderMarkdown(role: ChatMessageRole): boolean {
+    const mode = this.renderMarkdown();
+    if (mode === false) return false;
+    if (mode === true || mode === 'all') return true;
+    return role === mode;
   }
 
   private scrollToBottom(): void {
