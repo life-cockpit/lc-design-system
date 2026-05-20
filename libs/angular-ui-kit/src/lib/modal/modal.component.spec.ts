@@ -146,7 +146,7 @@ describe('ModalComponent', () => {
     it('should render backdrop when modal is open', () => {
       fixture.componentRef.setInput('open', true);
       fixture.detectChanges();
-      const backdrop = fixture.debugElement.query(By.css('.cdk-overlay-backdrop'));
+      const backdrop = fixture.debugElement.query(By.css('.lc-modal-backdrop'));
       expect(backdrop).toBeTruthy();
     });
 
@@ -154,7 +154,7 @@ describe('ModalComponent', () => {
       fixture.componentRef.setInput('open', true);
       fixture.detectChanges();
 
-      const backdrop = fixture.debugElement.query(By.css('.cdk-overlay-backdrop'));
+      const backdrop = fixture.debugElement.query(By.css('.lc-modal-backdrop'));
       backdrop.nativeElement.click();
       fixture.detectChanges();
 
@@ -166,7 +166,7 @@ describe('ModalComponent', () => {
       fixture.componentRef.setInput('closeOnBackdropClick', false);
       fixture.detectChanges();
 
-      const backdrop = fixture.debugElement.query(By.css('.cdk-overlay-backdrop'));
+      const backdrop = fixture.debugElement.query(By.css('.lc-modal-backdrop'));
       backdrop.nativeElement.click();
       fixture.detectChanges();
 
@@ -180,7 +180,7 @@ describe('ModalComponent', () => {
       let backdropClicked = false;
       component.backdropClicked.subscribe(() => (backdropClicked = true));
 
-      const backdrop = fixture.debugElement.query(By.css('.cdk-overlay-backdrop'));
+      const backdrop = fixture.debugElement.query(By.css('.lc-modal-backdrop'));
       backdrop.nativeElement.click();
 
       expect(backdropClicked).toBe(true);

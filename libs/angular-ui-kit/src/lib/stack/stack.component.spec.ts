@@ -131,7 +131,7 @@ describe('StackComponent', () => {
 
     it('should render start alignment by default', () => {
       hostFixture.detectChanges();
-      expect(stackElement.classList).toContain('stack-align-stretch');
+      expect(stackElement.classList).toContain('stack-align-start');
     });
 
     it('should render center alignment', () => {
