@@ -1,27 +1,29 @@
-<div class="h-screen flex flex-col bg-neutral-50 dark:bg-neutral-900">
-  <!-- Header from angular-ui-kit -->
-  <lc-header
-    logo="/assets/life-cockpit-logo.svg"
-    userName="Demo User"
-    userEmail="demo@life-cockpit.de"
-    [showHamburger]="true"
-    [showThemeButton]="false"
-    (hamburgerClick)="sidebarOpen.set(!sidebarOpen())"
-    (profileClick)="handleProfileClick()"
-    class="fixed top-0 left-0 right-0 z-50"
+<div class="h-screen flex bg-neutral-50 dark:bg-neutral-900">
+  <!-- Sidenav (full height) with brand block on top -->
+  <lc-sidenav
+    [isOpen]="sidebarOpen()"
+    [mode]="'docked'"
+    [width]="'16rem'"
+    [items]="navItems"
+    [hasOverlay]="false"
+    [showLogo]="true"
+    logoSrc="/assets/life-cockpit-logo.svg"
+    theme="dark"
+    ariaLabelInput="Design System Navigation"
+    (itemClicked)="onNavItemClick()"
+    (closed)="sidebarOpen.set(false)"
   />
 
-  <div class="flex flex-1 pt-16 overflow-hidden">
-    <!-- Docked Sidenav from angular-ui-kit -->
-    <lc-sidenav
-      [isOpen]="sidebarOpen()"
-      [mode]="'docked'"
-      [width]="'16rem'"
-      [items]="navItems"
-      [hasOverlay]="false"
-      ariaLabelInput="Design System Navigation"
-      (itemClicked)="onNavItemClick()"
-      (closed)="sidebarOpen.set(false)"
+  <!-- Main column: header on top, content below -->
+  <div class="flex flex-col flex-1 overflow-hidden">
+    <lc-header
+      [showLogo]="false"
+      userName="Demo User"
+      userEmail="demo@life-cockpit.de"
+      [showHamburger]="true"
+      [showThemeButton]="false"
+      (hamburgerClick)="sidebarOpen.set(!sidebarOpen())"
+      (profileClick)="handleProfileClick()"
     />
 
     <!-- Main Content -->

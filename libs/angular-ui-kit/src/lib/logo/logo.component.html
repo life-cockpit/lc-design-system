@@ -1,6 +1,18 @@
-<img 
-  [src]="logoSrc()" 
-  [alt]="alt()"
-  [class]="logoClasses()"
-  class="lc-logo"
-/>
+@if (logoDarkSrc()) {
+  <picture>
+    <source [srcset]="logoDarkSrc()" media="(prefers-color-scheme: dark)" />
+    <img
+      [src]="logoSrc()"
+      [alt]="alt()"
+      [class]="logoClasses()"
+      class="lc-logo"
+    />
+  </picture>
+} @else {
+  <img
+    [src]="logoSrc()"
+    [alt]="alt()"
+    [class]="logoClasses()"
+    class="lc-logo"
+  />
+}

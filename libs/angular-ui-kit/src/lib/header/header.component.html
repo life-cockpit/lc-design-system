@@ -1,4 +1,12 @@
-<header class="lc-header" [class.lc-header--dark]="theme() === 'dark'" [class.lc-header--light]="theme() === 'light'">
+<header
+  class="lc-header"
+  [class.lc-header--dark]="theme() === 'dark'"
+  [class.lc-header--light]="theme() === 'light'"
+  [class.lc-header--size-sm]="size() === 'sm'"
+  [class.lc-header--size-md]="size() === 'md'"
+  [class.lc-header--size-lg]="size() === 'lg'"
+  [class.lc-header--size-xl]="size() === 'xl'"
+>
   <!-- Hamburger menu icon (mobile only) -->
   @if (showHamburger()) {
     <lc-button
@@ -17,7 +25,17 @@
   <div class="lc-header__brand">
     @if (showLogo() && (logo() || title())) {
       <a routerLink="/" class="lc-header__logo" aria-label="Go to home">
-        <lc-logo [variant]="logo() ? 'full' : 'emblem'" size="md" [clickable]="false" [colorMode]="theme() === 'dark' ? 'dark' : theme() === 'light' ? 'light' : 'auto'" />
+        <lc-logo
+          [variant]="logo() ? 'full' : 'emblem'"
+          [size]="logoSize()"
+          [clickable]="false"
+          [colorMode]="theme() === 'dark' ? 'dark' : theme() === 'light' ? 'light' : 'auto'"
+          [src]="logoSrc()"
+          [emblemSrc]="logoEmblemSrc()"
+          [darkSrc]="logoDarkSrc()"
+          [darkEmblemSrc]="logoDarkEmblemSrc()"
+          [alt]="logoAlt() || title() || 'Logo'"
+        />
       </a>
     }
     

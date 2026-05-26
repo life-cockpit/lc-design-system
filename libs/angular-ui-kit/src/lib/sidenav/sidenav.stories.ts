@@ -39,6 +39,13 @@ const meta: Meta<SidenavComponent> = {
     activeRoute: { description: 'The currently active route (highlights matching item)' },
     width: { description: 'Custom width (CSS value, e.g. "280px")' },
     showLogo: { description: 'Show the logo at the top of the sidenav (for sidebar-first layouts)' },
+    logoSize: {
+      control: 'select',
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      description:
+        'Size of the brand logo when `showLogo=true`. The logo area grows automatically so the logo is never clipped. Default is `md` (64px) which aligns with `<lc-header size="md">`. Use `lg`/`xl` for an extra-prominent brand block.',
+      table: { defaultValue: { summary: 'md' } },
+    },
     mobileBreakpoint: {
       control: 'number',
       description: 'Viewport width (px) below which docked mode switches to drawer',
@@ -60,7 +67,7 @@ Sidenav component for application navigation sidebar.
 - **Drawer** (overlay) and **docked** (persistent) modes
 - **Responsive mobile mode** — docked automatically switches to drawer below \`mobileBreakpoint\` (default 768px); auto-closes after navigation
 - **Collapsed icon-rail** mode (56px narrow sidebar with icons only and hover tooltips); clicking a collapsible parent auto-expands the sidebar
-- **Integrated logo** area (\`showLogo\`) with full logo / emblem toggle; click to collapse/expand (sidebar-first layouts)
+- **Integrated logo** area (\`showLogo\`) with full logo / emblem toggle; click to collapse/expand (sidebar-first layouts). Use \`logoSize\` (\`xs | sm | md | lg | xl\`) to scale the brand block — the area grows automatically to fit the logo.
 - **Hierarchical navigation** with collapsible groups (up to 3 levels deep)
 - **Section headlines** for item grouping with optional action buttons (\`item.action\`)
 - **Action buttons** on any item — hover-reveal icon buttons that emit \`itemAction\`
@@ -81,6 +88,7 @@ Sidenav component for application navigation sidebar.
 | \`width\` | \`string\` | \`'320px'\` | CSS width |
 | \`collapsed\` | \`boolean\` | \`false\` | Icon-rail mode |
 | \`showLogo\` | \`boolean\` | \`false\` | Show logo area at top |
+| \`logoSize\` | \`'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'\` | \`'md'\` | Size of the brand logo (logo area grows automatically) |
 | \`mobileBreakpoint\` | \`number\` | \`768\` | Viewport width (px) below which docked → drawer |
 | \`items\` | \`NavigationItem[]\` | \`[]\` | Navigation items |
 | \`activeRoute\` | \`string\` | \`''\` | Currently active route |
@@ -436,7 +444,7 @@ export const CollapsedWithGroups: Story = {
 export const SidebarFirstLayout: Story = {
   name: 'Sidebar-First Layout',
   parameters: {
-    docs: { description: { story: 'The sidenav takes full height beside the header. Logo is shown at the top of the sidenav (full when expanded, emblem when collapsed). The header sits only above the content area.' } },
+    docs: { description: { story: 'The sidenav takes full height beside the header. Logo is shown at the top of the sidenav with the default `logoSize="md"` (64px brand block, aligned with `<lc-header size="md">`). Click the logo to toggle collapsed state. For an extra-prominent brand, see *Sidebar-First Layout (Prominent Brand)* below.' } },
     layout: 'fullscreen',
   },
   render: () => ({
@@ -598,6 +606,63 @@ export const ResponsiveMobile: Story = {
           <main style="flex: 1; padding: 16px; overflow-y: auto; background: #f9fafb;">
             <h2 style="margin: 0 0 12px; font-weight: 600; font-size: 1.25rem;">Dashboard</h2>
             <p style="color: #666; font-size: 14px;">On mobile, the sidenav becomes a drawer overlay. Use the hamburger menu to open it. Resize to desktop to see it dock.</p>
+          </main>
+        </div>
+      </div>`,
+  }),
+};
+
+export const SidebarFirstProminentBrand: Story = {
+  name: 'Sidebar-First Layout (Prominent Brand)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Extra-prominent brand block via `logoSize="lg"` (80px). Pair with `<lc-header size="lg">` so the header lines up with the taller brand area. The default `md` size (64px) is shown in *Sidebar-First Layout* above.',
+      },
+    },
+    layout: 'fullscreen',
+  },
+  render: () => ({
+    moduleMetadata: { imports: [HeaderComponent] },
+    template: `
+      <div style="display: flex; height: 520px; border: 1px solid #333; border-radius: 8px; overflow: hidden;">
+        <lc-sidenav
+          [isOpen]="true"
+          mode="docked"
+          [showLogo]="true"
+          logoSize="lg"
+          theme="dark"
+          width="256px"
+          [items]="[
+            { id: '1', icon: 'chart-bar', label: 'Dashboard', route: '/dashboard', displayOrder: 1 },
+            { id: '2', icon: 'cpu-chip', label: 'Agent Runs', route: '/agent-runs', displayOrder: 2, badge: { value: 3, variant: 'primary' } },
+            {
+              id: 'projects', icon: '', label: 'Projects', route: '', displayOrder: 3,
+              isSection: true,
+              action: { icon: 'plus', ariaLabel: 'Add project' },
+              children: [
+                { id: 'p1', icon: 'folder', label: 'LC Factory', route: '/projects/factory', displayOrder: 1 },
+                { id: 'p2', icon: 'folder', label: 'LC Design', route: '/projects/design', displayOrder: 2 }
+              ]
+            },
+            { id: '10', icon: 'cog-6-tooth', label: 'Org Settings', route: '/settings', displayOrder: 10 }
+          ]"
+          activeRoute="/dashboard">
+        </lc-sidenav>
+        <div style="display: flex; flex-direction: column; flex: 1; min-width: 0;">
+          <lc-header
+            userName="Sarah Connor"
+            userEmail="sarah@example.com"
+            contextName="Life-Cockpit"
+            contextLabel="Organization"
+            size="lg"
+            [showHamburger]="true"
+            [showLogo]="false"
+          ></lc-header>
+          <main style="flex: 1; padding: 24px; overflow-y: auto; background: #f9fafb;">
+            <h2 style="margin: 0 0 8px; font-weight: 700; font-size: 1.5rem;">Dashboard</h2>
+            <p style="color: #666; font-size: 14px;">Overview of project activity, agent runs, and key metrics.</p>
           </main>
         </div>
       </div>`,

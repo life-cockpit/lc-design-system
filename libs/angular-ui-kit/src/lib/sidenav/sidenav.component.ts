@@ -75,6 +75,20 @@ export class SidenavComponent implements OnDestroy {
   /** Whether to show the logo at the top of the sidenav */
   readonly showLogo = input(false);
 
+  /** Custom URL for the full brand logo (forwarded to inner `<lc-logo>`). */
+  readonly logoSrc = input('');
+  /** Custom URL for the emblem-only brand logo. */
+  readonly logoEmblemSrc = input('');
+  /** Optional dark-theme URL for the full brand logo. */
+  readonly logoDarkSrc = input('');
+  /** Optional dark-theme URL for the emblem-only brand logo. */
+  readonly logoDarkEmblemSrc = input('');
+  /** Alt text for the brand logo. */
+  readonly logoAlt = input('');
+
+  /** Size of the brand logo (forwarded to inner `<lc-logo>`). Defaults to `md` for a prominent brand block aligned with `<lc-header size="md">` (both 64px). */
+  readonly logoSize = input<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md');
+
   /** Whether the sidenav is open */
   readonly isOpen = input(false);
 

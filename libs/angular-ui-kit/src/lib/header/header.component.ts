@@ -69,6 +69,24 @@ export class HeaderComponent {
   readonly theme = input<'light' | 'dark' | 'auto'>('auto');
   readonly logo = input('');
   readonly showLogo = input(true);
+  /** Custom URL for the full brand logo (forwarded to inner `<lc-logo>`). */
+  readonly logoSrc = input('');
+  /** Custom URL for the emblem-only brand logo. */
+  readonly logoEmblemSrc = input('');
+  /** Optional dark-theme URL for the full brand logo. */
+  readonly logoDarkSrc = input('');
+  /** Optional dark-theme URL for the emblem-only brand logo. */
+  readonly logoDarkEmblemSrc = input('');
+  /** Alt text for the brand logo (forwarded to inner `<lc-logo>`). */
+  readonly logoAlt = input('');
+  /** Size of the brand logo (forwarded to inner `<lc-logo>`). Defaults to `md`. */
+  readonly logoSize = input<'xs' | 'sm' | 'md' | 'lg' | 'xl'>('md');
+  /**
+   * Overall header height. Useful to align the header with a sidebar brand block.
+   * Maps to the same `min-height` scale the sidenav logo area uses:
+   * `sm` 56px · `md` 64px (default) · `lg` 80px · `xl` 112px.
+   */
+  readonly size = input<'sm' | 'md' | 'lg' | 'xl'>('md');
   readonly title = input('');
   readonly subtitle = input('');
   readonly userEmail = input('');

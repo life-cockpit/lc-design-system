@@ -1,18 +1,60 @@
-import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  InjectionToken,
+  input,
+  inject,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 /**
- * Logo component for displaying the Life-Cockpit brand identity.
+ * Injection token for the base path used to resolve the built-in
+ * Life-Cockpit logo assets. Defaults to `'/assets'` so consuming apps
+ * that copy the package's `assets/` folder to their public root keep
+ * working out of the box.
+ *
+ * Override this token at the application root if your app serves
+ * static files from a different prefix (e.g. `/static`, `/ui-kit`).
+ *
+ * @example
+ * ```ts
+ * providers: [
+ *   { provide: LC_LOGO_BASE_PATH, useValue: '/static/lc' },
+ * ]
+ * ```
+ */
+export const LC_LOGO_BASE_PATH = new InjectionToken<string>('LC_LOGO_BASE_PATH', {
+  providedIn: 'root',
+  factory: () => '/assets',
+});
+
+/**
+ * Logo component for displaying a brand identity.
+ *
+ * Defaults to the Life-Cockpit logo but accepts custom `src` / `emblemSrc`
+ * (and optional `darkSrc` / `darkEmblemSrc`) so consuming apps can drop in
+ * their own brand assets without forking the component.
  *
  * Features:
  * - Full logo and emblem-only variants
- * - Multiple size options (sm, md, lg)
- * - SVG-based for crisp rendering at any resolution
- * - Dark mode compatible
+ * - Multiple size options (xs, sm, md, lg, xl)
+ * - Optional theme-aware dark-variant sources via `<picture>`
+ * - Falls back to a CSS `invert` filter only for the built-in Life-Cockpit
+ *   assets (custom logos are never auto-inverted to avoid color distortion)
  *
- * @example
+ * @example Default Life-Cockpit logo
  * ```html
  * <lc-logo variant="full" size="md"></lc-logo>
- * <lc-logo variant="emblem" size="sm"></lc-logo>
+ * ```
+ *
+ * @example Custom brand logo
+ * ```html
+ * <lc-logo
+ *   src="/assets/acme-logo.svg"
+ *   emblemSrc="/assets/acme-emblem.svg"
+ *   darkSrc="/assets/acme-logo-dark.svg"
+ *   alt="Acme Inc.">
+ * </lc-logo>
  * ```
  */
 @Component({
@@ -52,17 +94,56 @@ export class LogoComponent {
   readonly clickable = input(false);
 
   /**
-   * Color mode for different backgrounds
-   * - 'auto': Follows global theme (uses CSS filter in dark mode)
-   * - 'light': Optimized for light backgrounds (default appearance)
-   * - 'dark': Inverted for dark backgrounds (white/light logo)
+   * Color mode for different backgrounds (only affects the built-in
+   * Life-Cockpit assets via CSS `invert`; custom logos are never inverted).
+   * - 'auto': Follows global theme
+   * - 'light': Optimized for light backgrounds
+   * - 'dark': Inverted for dark backgrounds
    */
   readonly colorMode = input<'auto' | 'light' | 'dark'>('auto');
 
+  /**
+   * Custom URL for the full logo. When set, overrides the built-in
+   * Life-Cockpit asset (and disables the auto-invert filter).
+   */
+  readonly src = input<string>('');
+
+  /**
+   * Custom URL for the emblem-only logo. When set, overrides the built-in
+   * Life-Cockpit emblem (and disables the auto-invert filter).
+   */
+  readonly emblemSrc = input<string>('');
+
+  /**
+   * Optional dark-theme URL for the full logo. When provided, the logo
+   * automatically swaps in dark mode (via `prefers-color-scheme: dark`).
+   */
+  readonly darkSrc = input<string>('');
+
+  /**
+   * Optional dark-theme URL for the emblem-only logo.
+   */
+  readonly darkEmblemSrc = input<string>('');
+
+  /** Whether the consumer supplied at least one custom source. */
+  readonly hasCustomSrc = computed(
+    () => !!this.src() || !!this.emblemSrc() || !!this.darkSrc() || !!this.darkEmblemSrc(),
+  );
+
+  private readonly basePath = inject(LC_LOGO_BASE_PATH);
+
   readonly logoSrc = computed(() => {
-    return this.variant() === 'emblem'
-      ? '/assets/life-cockpit-emblem.svg'
-      : '/assets/life-cockpit-logo.svg';
+    const isEmblem = this.variant() === 'emblem';
+    const base = this.basePath.replace(/\/$/, '');
+    if (isEmblem) {
+      return this.emblemSrc() || `${base}/life-cockpit-emblem.svg`;
+    }
+    return this.src() || `${base}/life-cockpit-logo.svg`;
+  });
+
+  /** Dark-theme source for the current variant, or empty string if none. */
+  readonly logoDarkSrc = computed(() => {
+    return this.variant() === 'emblem' ? this.darkEmblemSrc() : this.darkSrc();
   });
 
   readonly logoClasses = computed(() => {
@@ -70,10 +151,14 @@ export class LogoComponent {
     if (this.clickable()) {
       classes.push('clickable');
     }
-    if (this.colorMode() === 'dark') {
-      classes.push('lc-logo--dark');
-    } else if (this.colorMode() === 'auto') {
-      classes.push('lc-logo--auto');
+    // Auto-invert filter only applies to the built-in Life-Cockpit assets
+    // to avoid distorting customer brand colors.
+    if (!this.hasCustomSrc()) {
+      if (this.colorMode() === 'dark') {
+        classes.push('lc-logo--dark');
+      } else if (this.colorMode() === 'auto') {
+        classes.push('lc-logo--auto');
+      }
     }
     return classes.join(' ');
   });

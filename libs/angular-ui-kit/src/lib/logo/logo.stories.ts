@@ -132,3 +132,41 @@ export const OnDarkBackground: Story = {
       </div>`,
   }),
 };
+
+/**
+ * Consuming apps can supply their own brand assets via `src`, `emblemSrc`,
+ * `darkSrc` and `darkEmblemSrc` — no need to fork the component.
+ *
+ * When any custom source is provided the auto-invert filter is disabled so
+ * the customer's brand colors stay intact.
+ */
+export const CustomBrand: Story = {
+  name: 'Custom Brand Logo',
+  args: {
+    variant: 'full',
+    size: 'md',
+    src: 'https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg',
+    alt: 'Acme Inc.',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `
+\`\`\`html
+<lc-logo
+  src="/assets/acme-logo.svg"
+  emblemSrc="/assets/acme-emblem.svg"
+  darkSrc="/assets/acme-logo-dark.svg"
+  darkEmblemSrc="/assets/acme-emblem-dark.svg"
+  alt="Acme Inc.">
+</lc-logo>
+\`\`\`
+
+\`darkSrc\` / \`darkEmblemSrc\` are optional. When provided, the logo
+swaps automatically via \`prefers-color-scheme: dark\` (rendered through
+a native \`<picture>\` element — no JavaScript needed).
+`,
+      },
+    },
+  },
+};

@@ -24,6 +24,20 @@ const meta: Meta<HeaderComponent> = {
     title: { description: 'Application or page title' },
     subtitle: { description: 'Secondary text below the title' },
     logo: { description: 'URL to a logo image' },
+    logoSize: {
+      control: 'select',
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      description:
+        'Size of the brand logo. The header grows automatically when set to `lg` (80px) or `xl` (112px) so the logo is never clipped.',
+      table: { defaultValue: { summary: 'md' } },
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description:
+        'Overall header height — useful to align the header with a sidebar brand block (`sm` 56px, `md` 64px, `lg` 80px, `xl` 112px).',
+      table: { defaultValue: { summary: 'md' } },
+    },
     userName: { description: 'Displayed user name (for the profile area)' },
     userEmail: { description: 'User email shown in the profile dropdown' },
     showHamburger: { description: 'Shows a hamburger menu button (for mobile/sidebar toggle)' },
@@ -52,6 +66,11 @@ AppHeaderComponent - Global application header for Life-Cockpit shell
 
 **Key Features:**
 - Clickable logo for home navigation
+- Configurable brand logo size via \`logoSize\` (\`xs | sm | md | lg | xl\`);
+  the header grows automatically for \`lg\` / \`xl\` so the logo isn't clipped.
+  Set \`[showLogo]=\"false\"\` when the brand lives in the sidenav (sidebar-first layout).
+- Overall header height via \`size\` (\`sm | md | lg | xl\`) — use this to align the header
+  with a sidenav brand block (same height scale as \`lc-sidenav\` logo area).
 - Optional title and subtitle display
 - User profile dropdown with avatar, name, email, optional Profile link, and Logout
 - Optional theme toggle button in header
@@ -154,4 +173,34 @@ export const WithOrgNameOnly: Story = {
     userEmail: 'sarah@example.com',
     contextName: 'Acme Corp',
   },
+};
+
+export const LogoSizes: Story = {
+  name: 'Logo Sizes',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The brand logo size can be controlled via the `logoSize` input (`xs | sm | md | lg | xl`). The header grows automatically for `lg` and `xl` so the logo never gets clipped.',
+      },
+    },
+  },
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        @for (size of sizes; track size) {
+          <div>
+            <div style="font-size: 12px; color: #6b7280; margin: 0 24px 4px;">logoSize="{{ size }}"</div>
+            <lc-header
+              title="Life-Cockpit"
+              subtitle="Design System"
+              [logoSize]="size"
+              userName="Sarah Connor"
+              userEmail="sarah@example.com"
+            ></lc-header>
+          </div>
+        }
+      </div>`,
+    props: { sizes: ['xs', 'sm', 'md', 'lg', 'xl'] as const },
+  }),
 };

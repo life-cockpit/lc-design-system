@@ -24,6 +24,26 @@ export type ChatMessageRole = 'user' | 'agent' | 'system';
  */
 export type ChatRenderMarkdown = boolean | 'agent' | 'all';
 
+/**
+ * Represents a file attached to a chat message or pending in the input.
+ *
+ * The `file` reference is only available for attachments produced by the
+ * input (i.e. emitted via `messageSend` / `fileAttach`). Attachments
+ * coming from the server or message history typically rely on `url` only.
+ */
+export interface ChatAttachment {
+  id: string;
+  name: string;
+  /** MIME type, e.g. `image/png`, `application/pdf`. */
+  type?: string;
+  /** Size in bytes. */
+  size?: number;
+  /** Object URL or remote URL to preview / download the file. */
+  url?: string;
+  /** Raw browser File reference (set for newly uploaded files). */
+  file?: File;
+}
+
 export interface ChatMessage {
   id: string;
   role: ChatMessageRole;
@@ -32,12 +52,22 @@ export interface ChatMessage {
   avatar?: string;
   name?: string;
   streaming?: boolean;
+  /** Optional file attachments associated with the message. */
+  attachments?: ChatAttachment[];
   /** Arbitrary data passed to a custom messageTemplate. */
   data?: Record<string, unknown>;
 }
 
 export interface ChatSendEvent {
   content: string;
+  /** Files attached to the outgoing message, if any. */
+  attachments?: ChatAttachment[];
+}
+
+export interface ChatFileAttachEvent {
+  attachments: ChatAttachment[];
+  /** Files rejected because of `accept` / `maxFileSize` constraints. */
+  rejected: { file: File; reason: 'type' | 'size' }[];
 }
 
 @Component({
@@ -59,10 +89,23 @@ export interface ChatSendEvent {
  * - Optional avatars and timestamps
  * - Configurable header with title
  * - Send on Enter with Shift+Enter for newline
+ * - Optional file upload (`allowFileUpload`) with `accept`/`maxFileSize`
+ *   constraints, preview chips, and image/file thumbnails inside messages.
  *
- * @example
+ * @example Basic
  * ```html
  * <lc-chat [messages]="messages" title="Support" (messageSend)="onSend($event)" />
+ * ```
+ *
+ * @example With file upload
+ * ```html
+ * <lc-chat
+ *   [messages]="messages"
+ *   [allowFileUpload]="true"
+ *   accept="image/*,.pdf"
+ *   [maxFileSize]="5 * 1024 * 1024"
+ *   (messageSend)="onSend($event)"
+ *   (fileAttach)="onAttach($event)" />
  * ```
  */
 export class ChatComponent implements AfterViewChecked {
@@ -98,16 +141,37 @@ export class ChatComponent implements AfterViewChecked {
    */
   renderMarkdown = input<ChatRenderMarkdown>('agent');
 
+  /** Enable the file-upload (paperclip) button in the input area. */
+  allowFileUpload = input<boolean>(false);
+
+  /**
+   * Comma-separated list of accepted file types, forwarded to the native
+   * `<input accept>` attribute. Examples: `image/*`, `.pdf,.docx`.
+   */
+  accept = input<string>('');
+
+  /** Allow selecting multiple files at once. Defaults to `true`. */
+  multiple = input<boolean>(true);
+
+  /** Maximum file size in bytes. `0` disables the check. */
+  maxFileSize = input<number>(0);
+
   /** Emits when user sends a message. */
   messageSend = output<ChatSendEvent>();
+
+  /** Emits whenever files are added to the pending attachments list. */
+  fileAttach = output<ChatFileAttachEvent>();
 
   /** Custom template for rendering message content. Context: { $implicit: ChatMessage } */
   @ContentChild('messageTemplate') messageTemplate?: TemplateRef<{ $implicit: ChatMessage }>;
 
   protected readonly inputValue = signal('');
+  protected readonly pendingAttachments = signal<ChatAttachment[]>([]);
   private shouldScroll = false;
+  private attachmentCounter = 0;
 
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('fileInput') private fileInput?: ElementRef<HTMLInputElement>;
 
   protected readonly formattedMessages = computed(() =>
     this.messages().map(m => ({
@@ -136,10 +200,97 @@ export class ChatComponent implements AfterViewChecked {
 
   protected send(): void {
     const content = this.inputValue().trim();
-    if (!content || this.disabled()) return;
-    this.messageSend.emit({ content });
+    const attachments = this.pendingAttachments();
+    if ((!content && attachments.length === 0) || this.disabled()) return;
+    this.messageSend.emit({
+      content,
+      attachments: attachments.length ? attachments : undefined,
+    });
     this.inputValue.set('');
+    this.pendingAttachments.set([]);
     this.shouldScroll = true;
+  }
+
+  protected openFilePicker(): void {
+    if (this.disabled() || !this.allowFileUpload()) return;
+    this.fileInput?.nativeElement.click();
+  }
+
+  protected onFilesSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+    this.addFiles(Array.from(input.files));
+    // Reset so the same file can be re-selected later.
+    input.value = '';
+  }
+
+  protected removeAttachment(id: string): void {
+    this.pendingAttachments.update(list => {
+      const removed = list.find(a => a.id === id);
+      if (removed?.url && removed.file) {
+        URL.revokeObjectURL(removed.url);
+      }
+      return list.filter(a => a.id !== id);
+    });
+  }
+
+  protected formatBytes(size: number | undefined): string {
+    if (!size && size !== 0) return '';
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  protected isImage(att: ChatAttachment): boolean {
+    return !!att.type?.startsWith('image/');
+  }
+
+  private addFiles(files: File[]): void {
+    const max = this.maxFileSize();
+    const acceptList = this.accept()
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    const accepted: ChatAttachment[] = [];
+    const rejected: { file: File; reason: 'type' | 'size' }[] = [];
+
+    for (const file of files) {
+      if (max > 0 && file.size > max) {
+        rejected.push({ file, reason: 'size' });
+        continue;
+      }
+      if (acceptList.length > 0 && !this.matchesAccept(file, acceptList)) {
+        rejected.push({ file, reason: 'type' });
+        continue;
+      }
+      accepted.push({
+        id: `att-${Date.now()}-${this.attachmentCounter++}`,
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        url: URL.createObjectURL(file),
+        file,
+      });
+    }
+
+    if (accepted.length) {
+      this.pendingAttachments.update(list => [...list, ...accepted]);
+    }
+    if (accepted.length || rejected.length) {
+      this.fileAttach.emit({ attachments: accepted, rejected });
+    }
+  }
+
+  private matchesAccept(file: File, acceptList: string[]): boolean {
+    const name = file.name.toLowerCase();
+    const type = file.type.toLowerCase();
+    return acceptList.some(rule => {
+      const r = rule.toLowerCase();
+      if (r.startsWith('.')) return name.endsWith(r);
+      if (r.endsWith('/*')) return type.startsWith(r.slice(0, -1));
+      return type === r;
+    });
   }
 
   protected formatTime(date: Date | undefined): string {

@@ -22,16 +22,22 @@
   display: flex;
   align-items: center;
   gap: var(--lc-density-gap-md, var(--spacing-4));
-  padding: var(--spacing-3) var(--lc-density-padding-lg, var(--spacing-6));
+  padding: 0 var(--lc-density-padding-lg, var(--spacing-6));
   background-color: var(--lc-header-bg);
   border-bottom: 1px solid var(--lc-header-border);
-  height: 64px;
+  min-height: 64px;
   position: sticky;
   top: 0;
   z-index: 1000;
 
+  // Explicit size variants (use to align the header with a sidebar brand block).
+  &.lc-header--size-sm { min-height: 56px; }
+  &.lc-header--size-md { min-height: 64px; }
+  &.lc-header--size-lg { min-height: 80px; }
+  &.lc-header--size-xl { min-height: 112px; }
+
   @media (max-width: 768px) {
-    padding: var(--spacing-3) var(--lc-density-padding-md, var(--spacing-4));
+    padding: 0 var(--lc-density-padding-md, var(--spacing-4));
   }
 }
 

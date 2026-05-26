@@ -47,6 +47,15 @@ Chat component for conversational user interfaces.
 - Optional avatars and timestamps
 - Configurable header with title
 - Send on Enter with Shift+Enter for newline
+- **File upload** via \`allowFileUpload\` with \`accept\` / \`maxFileSize\`
+  constraints, pending-attachment chips, and rendered attachments
+  (image thumbnails / file links) inside messages
+
+**Attachments:** Set \`allowFileUpload=\"true\"\` to show the paperclip button.
+Selected files appear as chips above the textarea and are emitted on
+\`messageSend\` as \`event.attachments\` (\`ChatAttachment[]\`).
+Historical messages can also carry \`attachments\` for replay.
+See the *With File Upload* story for a full example.
 `,
       },
     },
@@ -124,6 +133,55 @@ export const NoHeader: Story = {
     props: { messages: conversationMessages.slice(1) },
     moduleMetadata: { imports: [ChatComponent] },
   }),
+};
+
+// --- File upload ---
+
+const fileUploadMessages: ChatMessage[] = [
+  { id: '1', role: 'user', content: 'Hier ist das aktuelle Logo:', name: 'Eric', timestamp: t(5),
+    attachments: [
+      { id: 'a1', name: 'logo.png', type: 'image/png', size: 24_128,
+        url: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=300&h=200&fit=crop' },
+    ],
+  },
+  { id: '2', role: 'agent', content: 'Sieht gut aus! Anbei das Briefing als PDF.', name: 'AI Assistant', timestamp: t(4),
+    attachments: [
+      { id: 'a2', name: 'briefing.pdf', type: 'application/pdf', size: 184_322 },
+      { id: 'a3', name: 'styleguide.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', size: 56_120 },
+    ],
+  },
+];
+
+export const WithFileUpload: Story = {
+  name: 'With File Upload',
+  render: () => ({
+    template: `
+      <div style="height: 600px;">
+        <lc-chat
+          title="AI Chat"
+          [messages]="messages"
+          [allowFileUpload]="true"
+          accept="image/*,.pdf,.docx,.txt"
+          [maxFileSize]="5 * 1024 * 1024"
+          (messageSend)="onSend($event)"
+          (fileAttach)="onAttach($event)"
+        ></lc-chat>
+      </div>
+    `,
+    props: {
+      messages: fileUploadMessages,
+      onSend: (e: unknown) => console.log('send', e),
+      onAttach: (e: unknown) => console.log('attach', e),
+    },
+    moduleMetadata: { imports: [ChatComponent] },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Aktiviert den Datei-Upload-Button im Input-Bereich. Nutze `allowFileUpload`, `accept` und `maxFileSize`, um Dateitypen und -größen einzuschränken. Angehängte Dateien werden als Chips angezeigt und beim Senden via `messageSend` mitgegeben (`attachments`).',
+      },
+    },
+  },
 };
 
 // --- Rich content stories ---

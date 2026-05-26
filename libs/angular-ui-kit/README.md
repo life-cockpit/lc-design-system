@@ -158,6 +158,34 @@ export class AppComponent {
 }
 ```
 
+## Branding (custom logo)
+
+`lc-logo`, `lc-header` and `lc-sidenav` accept custom logo URLs so you can drop your own brand into the shell:
+
+```html
+<lc-header
+  title="Acme"
+  [logoSrc]="'/assets/acme-logo.svg'"
+  [logoEmblemSrc]="'/assets/acme-emblem.svg'"
+  [logoDarkSrc]="'/assets/acme-logo-dark.svg'"
+  logoAlt="Acme Inc."
+/>
+```
+
+The built-in Life-Cockpit logos are loaded from `/assets/` by default. If your app serves static files from a different prefix, override the path via the `LC_LOGO_BASE_PATH` token:
+
+```typescript
+import { LC_LOGO_BASE_PATH } from '@life-cockpit/angular-ui-kit';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    { provide: LC_LOGO_BASE_PATH, useValue: '/static/lc' },
+  ],
+});
+```
+
+Or copy the assets from `node_modules/@life-cockpit/angular-ui-kit/assets/` to your app's public `/assets/` folder (e.g. via the `assets` array in `angular.json`).
+
 ## Chat with Rich Content
 
 The Chat component supports custom message templates for embedding any component inside chat bubbles:

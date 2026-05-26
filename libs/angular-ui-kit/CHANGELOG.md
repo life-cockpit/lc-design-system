@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.0] - 2026-05-26
+
+### Added
+
+- **Chat file upload** — `<lc-chat>` gains optional file attachments via paperclip button: new inputs `allowFileUpload`, `accept`, `multiple`, `maxFileSize`, new output `fileAttach`, new types `ChatAttachment` / `ChatFileAttachEvent`. Pending attachments render as chips above the input row; image attachments show thumbnail previews inside the message bubble. New story *With File Upload* + updated JSDoc with two `@example` blocks.
+- **Custom brand support in `<lc-logo>`** — New inputs `src`, `emblemSrc`, `darkSrc`, `darkEmblemSrc` so consuming apps can drop in their own brand assets without forking. Theme-aware dark variants are wired up via `<picture>`. Auto-invert CSS filter is now applied **only** to the built-in Life-Cockpit assets so custom logos never get color-shifted.
+- **`LC_LOGO_BASE_PATH` injection token** — Overrides the default `/assets` prefix used to resolve the built-in Life-Cockpit logo files (e.g. for apps serving static files from `/static` or `/ui-kit`).
+- **Logo sizes `xs` and `xl`** — `<lc-logo size>` now accepts the full `xs | sm | md | lg | xl` scale (was `sm | md | lg`).
+- **Header `logoSize` input** — Forwarded to inner `<lc-logo>` (`xs | sm | md | lg | xl`). New story *Logo Sizes* renders all five variants.
+- **Header `size` input** — Explicit header height (`sm` 56px · `md` 64px default · `lg` 80px · `xl` 112px). Useful to align the header with a sidenav brand block in sidebar-first layouts. Class-based (`lc-header--size-*`), independent of any inner logo.
+- **Sidenav `logoSize` input** — Controls the brand-block height in sidebar-first layouts (`xs | sm | md | lg | xl`, **default `md` = 64px** so the brand block lines up with `<lc-header size="md">` out of the box). New story *Sidebar-First Layout (Prominent Brand)* showcases the `lg` (80px) variant.
+
+### Changed
+
+- **Header height now honored exactly** — Removed vertical padding on `.lc-header`; content (profile trigger, context info, hamburger) is centered via flexbox so `min-height` actually drives the height instead of being inflated by the avatar/button. Net effect: default header is now exactly 64px tall.
+- **Sidenav brand-block alignment** — `.lc-sidenav__logo` height scale realigned with `<lc-header size="*">` (sm 56 / md 64 / lg 80 / xl 112). Switched from view-encapsulation-fragile `:has(.lc-logo.size-*)` selectors to explicit `lc-sidenav__logo--size-*` host classes so the heights work reliably regardless of where the `.lc-logo` element lives.
+- **Sidenav collapsed logo padding** — In collapsed (icon-rail) mode the logo container now uses horizontal-only padding so its `min-height` reflects the configured size instead of being pushed taller by extra vertical padding.
+- **Demo app layout** — Restructured to sidebar-first: full-height `lc-sidenav` with brand block on top (dark theme), `lc-header` to the right with `[showLogo]="false"`.
+- **Removed obsolete asset** — `life-cockpit-logo_old.svg` deleted from `libs/angular-ui-kit/src/assets/`.
+
+### Fixed
+
+- **Sidenav / Header height mismatch in sidebar-first layouts** — The brand block on the sidenav and the header next to it are now pixel-aligned at the same height for every matching pair (`logoSize="md"` ↔ `size="md"`, `logoSize="lg"` ↔ `size="lg"`, …).
+
+## [1.10.1] - 2026-05-20
+
+### Changed
+
+- **`@life-cockpit/angular-ui-kit` npm README** — Replaced minimal placeholder with the full library overview (links to public docs, MCP server snippet, density token usage, theming and density notes).
+
 ## [1.10.0] - 2026-05-20
 
 ### Added
