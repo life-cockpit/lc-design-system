@@ -42,13 +42,14 @@ export type SidenavMode = 'drawer' | 'docked';
  * @example
  * ```html
  * <lc-sidenav
- *   [isOpenInput]="isOpen"
- *   modeInput="docked"
- *   [collapsedInput]="isCollapsed"
- *   [showLogoInput]="true"
- *   [mobileBreakpointInput]="768"
- *   [itemsInput]="navItems"
- *   activeRouteInput="/dashboard"
+ *   [isOpen]="isOpen"
+ *   mode="docked"
+ *   [(collapsed)]="isCollapsed"
+ *   [showLogo]="true"
+ *   logoSize="md"
+ *   [mobileBreakpoint]="768"
+ *   [items]="navItems"
+ *   activeRoute="/dashboard"
  *   theme="dark"
  *   (closed)="isOpen = false"
  *   (itemClicked)="navigate($event)"

@@ -67,7 +67,7 @@ Sidenav component for application navigation sidebar.
 - **Drawer** (overlay) and **docked** (persistent) modes
 - **Responsive mobile mode** — docked automatically switches to drawer below \`mobileBreakpoint\` (default 768px); auto-closes after navigation
 - **Collapsed icon-rail** mode (56px narrow sidebar with icons only and hover tooltips); clicking a collapsible parent auto-expands the sidebar
-- **Integrated logo** area (\`showLogo\`) with full logo / emblem toggle; click to collapse/expand (sidebar-first layouts). Use \`logoSize\` (\`xs | sm | md | lg | xl\`) to scale the brand block — the area grows automatically to fit the logo.
+- **Integrated logo** area (\`showLogo\`) with full logo / emblem toggle and a dedicated collapse chevron in the brand row (docked + expanded). Click the logo or chevron to collapse/expand in sidebar-first layouts. Use \`logoSize\` (\`xs | sm | md | lg | xl\`) to scale the brand block — the area grows automatically to fit the logo.
 - **Hierarchical navigation** with collapsible groups (up to 3 levels deep)
 - **Section headlines** for item grouping with optional action buttons (\`item.action\`)
 - **Action buttons** on any item — hover-reveal icon buttons that emit \`itemAction\`
@@ -444,7 +444,7 @@ export const CollapsedWithGroups: Story = {
 export const SidebarFirstLayout: Story = {
   name: 'Sidebar-First Layout',
   parameters: {
-    docs: { description: { story: 'The sidenav takes full height beside the header. Logo is shown at the top of the sidenav with the default `logoSize="md"` (64px brand block, aligned with `<lc-header size="md">`). Click the logo to toggle collapsed state. For an extra-prominent brand, see *Sidebar-First Layout (Prominent Brand)* below.' } },
+    docs: { description: { story: 'The sidenav takes full height beside the header. Logo is shown at the top with default `logoSize="md"` (64px brand block, aligned with `<lc-header size="md">`). In docked + expanded mode, the brand row also shows a dedicated chevron button to collapse quickly. For an extra-prominent brand, see *Sidebar-First Layout (Prominent Brand)* below.' } },
     layout: 'fullscreen',
   },
   render: () => ({
@@ -496,7 +496,7 @@ export const SidebarFirstLayout: Story = {
           ></lc-header>
           <main style="flex: 1; padding: 24px; overflow-y: auto; background: #f9fafb;">
             <h2 style="margin: 0 0 12px; font-weight: 600; font-size: 1.25rem;">Specs & Epics</h2>
-            <p style="color: #666; font-size: 14px;">Content area with header above. The sidenav owns the full height and logo. Click the logo to toggle collapsed state.</p>
+            <p style="color: #666; font-size: 14px;">Content area with header above. The sidenav owns the full height and logo. Use the logo or the chevron in the brand row to toggle collapsed state.</p>
           </main>
         </div>
       </div>`,
@@ -618,7 +618,7 @@ export const SidebarFirstProminentBrand: Story = {
     docs: {
       description: {
         story:
-          'Extra-prominent brand block via `logoSize="lg"` (80px). Pair with `<lc-header size="lg">` so the header lines up with the taller brand area. The default `md` size (64px) is shown in *Sidebar-First Layout* above.',
+          'Extra-prominent brand block via `logoSize="lg"` (80px). Pair with `<lc-header size="lg">` so the header lines up with the taller brand area. The brand row keeps the dedicated chevron collapse button for quick toggling. The default `md` size (64px) is shown in *Sidebar-First Layout* above.',
       },
     },
     layout: 'fullscreen',

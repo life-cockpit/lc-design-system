@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.1] - 2026-05-26
+
+### Changed
+
+- **Sidenav brand row polish** — The new collapse chevron in the logo area is now visually quieter and better balanced (smaller ghost-style control, refined spacing).
+- **Brand logo hit area refinement** — In expanded mode the logo click area now wraps the logo content instead of stretching across most of the row, which removes the awkward "large empty clickable area" effect.
+- **Collapsed rail logo sizing/alignment** — In collapsed mode the brand emblem now uses compact `sm` size and the logo row removes horizontal padding, so the emblem is centered correctly inside the 56px rail.
+
+### Docs
+
+- **Stories + component docs synchronized** — Updated Sidenav Storybook descriptions and `SidenavComponent` JSDoc example to reflect current behavior (dedicated chevron collapse control in brand row, current signal-based input names).
+
 ## [1.11.0] - 2026-05-26
 
 ### Added
