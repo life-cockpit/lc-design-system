@@ -32,7 +32,7 @@ export interface MarkdownRendered {
 }
 
 export interface RenderPart {
-  type: 'html' | 'code';
+  type: 'html' | 'code' | 'mermaid';
   index: number;
   safeHtml?: SafeHtml;
   code?: string;
@@ -64,6 +64,9 @@ export class MarkdownComponent implements OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly http = inject(HttpClient);
   private httpSub?: Subscription;
+  private mermaidApiPromise?: Promise<any>;
+  private mermaidInitialized = false;
+  private mermaidRenderRun = 0;
 
   /** URL or path to load markdown from */
   readonly src = input<string>();
@@ -101,7 +104,13 @@ export class MarkdownComponent implements OnDestroy {
   /** Parsed result (computed once from resolvedMarkdown) */
   private parsed = computed(() => {
     const md = this.resolvedMarkdown();
-    if (!md) return { html: '', blocks: [] as { lang: string; code: string }[], headings: [] as MarkdownHeading[] };
+    if (!md) {
+      return {
+        html: '',
+        blocks: [] as { kind: 'code' | 'mermaid'; lang: string; code: string }[],
+        headings: [] as MarkdownHeading[],
+      };
+    }
     return this.parseMarkdown(md);
   });
 
@@ -129,6 +138,9 @@ export class MarkdownComponent implements OnDestroy {
     return `lc-markdown lc-markdown--${this.variant()}`;
   });
 
+  protected mermaidSvgs = signal<Record<number, SafeHtml>>({});
+  protected mermaidErrors = signal<Record<number, string>>({});
+
   private headings = computed(() => this.parsed().headings);
 
   constructor() {
@@ -155,6 +167,11 @@ export class MarkdownComponent implements OnDestroy {
         this.rendered.emit({ headings: h });
       }
     });
+
+    // Render Mermaid code fences as inline SVG diagrams.
+    effect(() => {
+      void this.renderMermaidParts(this.renderParts());
+    });
   }
 
   ngOnDestroy(): void {
@@ -179,7 +196,7 @@ export class MarkdownComponent implements OnDestroy {
 
   private splitIntoParts(
     html: string,
-    blocks: { lang: string; code: string }[]
+    blocks: { kind: 'code' | 'mermaid'; lang: string; code: string }[]
   ): RenderPart[] {
     const parts: RenderPart[] = [];
     // The placeholders survive HTML escaping as &lt;!--CODE_BLOCK_N--&gt;
@@ -201,12 +218,21 @@ export class MarkdownComponent implements OnDestroy {
         });
       }
       const blockIdx = parseInt(match[1], 10);
-      parts.push({
-        type: 'code',
-        index: partIndex++,
-        code: blocks[blockIdx].code,
-        lang: blocks[blockIdx].lang as CodeBlockLanguage,
-      });
+      const block = blocks[blockIdx];
+      if (block.kind === 'mermaid') {
+        parts.push({
+          type: 'mermaid',
+          index: partIndex++,
+          code: block.code,
+        });
+      } else {
+        parts.push({
+          type: 'code',
+          index: partIndex++,
+          code: block.code,
+          lang: block.lang as CodeBlockLanguage,
+        });
+      }
       lastIndex = match.index + match[0].length;
     }
 
@@ -227,10 +253,10 @@ export class MarkdownComponent implements OnDestroy {
 
   private parseMarkdown(md: string): {
     html: string;
-    blocks: { lang: string; code: string }[];
+    blocks: { kind: 'code' | 'mermaid'; lang: string; code: string }[];
     headings: MarkdownHeading[];
   } {
-    const blocks: { lang: string; code: string }[] = [];
+    const blocks: { kind: 'code' | 'mermaid'; lang: string; code: string }[] = [];
     const headings: MarkdownHeading[] = [];
     const baseUrl = this.baseUrl();
     const linkTarget = this.linkTarget();
@@ -241,7 +267,12 @@ export class MarkdownComponent implements OnDestroy {
       /```(\w*)\n([\s\S]*?)```/g,
       (_match, lang: string, code: string) => {
         const idx = blocks.length;
-        blocks.push({ lang: (lang || 'text') as CodeBlockLanguage, code: code.trimEnd() });
+        const normalizedLang = (lang || 'text').toLowerCase();
+        blocks.push({
+          kind: normalizedLang === 'mermaid' ? 'mermaid' : 'code',
+          lang: normalizedLang,
+          code: code.trimEnd(),
+        });
         return `<!--CODE_BLOCK_${idx}-->`;
       }
     );
@@ -430,5 +461,76 @@ export class MarkdownComponent implements OnDestroy {
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  protected mermaidSvgFor(index: number): SafeHtml | null {
+    return this.mermaidSvgs()[index] ?? null;
+  }
+
+  protected mermaidErrorFor(index: number): string | null {
+    return this.mermaidErrors()[index] ?? null;
+  }
+
+  private async renderMermaidParts(parts: RenderPart[]): Promise<void> {
+    const mermaidParts = parts.filter((part) => part.type === 'mermaid' && !!part.code);
+    this.mermaidSvgs.set({});
+    this.mermaidErrors.set({});
+
+    if (mermaidParts.length === 0) {
+      return;
+    }
+
+    const runId = ++this.mermaidRenderRun;
+
+    try {
+      const mermaidApi = await this.getMermaidApi();
+      if (runId !== this.mermaidRenderRun) return;
+
+      const nextSvgs: Record<number, SafeHtml> = {};
+      const nextErrors: Record<number, string> = {};
+
+      for (const part of mermaidParts) {
+        try {
+          const renderId = `lc-md-mermaid-${runId}-${part.index}`;
+          const { svg } = await mermaidApi.render(renderId, part.code!);
+          if (runId !== this.mermaidRenderRun) return;
+          // Mermaid emits self-contained SVG with internal <style> rules.
+          // Angular HTML sanitization strips critical style declarations,
+          // which leaves only labels visible (no edges/shapes). We trust
+          // Mermaid output here and rely on Mermaid's strict security mode.
+          nextSvgs[part.index] = this.sanitizer.bypassSecurityTrustHtml(svg);
+        } catch {
+          nextErrors[part.index] = 'Mermaid diagram could not be rendered.';
+        }
+      }
+
+      if (runId !== this.mermaidRenderRun) return;
+      this.mermaidSvgs.set(nextSvgs);
+      this.mermaidErrors.set(nextErrors);
+    } catch {
+      if (runId !== this.mermaidRenderRun) return;
+      const fallbackErrors: Record<number, string> = {};
+      for (const part of mermaidParts) {
+        fallbackErrors[part.index] = 'Mermaid runtime is not available.';
+      }
+      this.mermaidErrors.set(fallbackErrors);
+    }
+  }
+
+  private async getMermaidApi(): Promise<any> {
+    if (!this.mermaidApiPromise) {
+      this.mermaidApiPromise = import('mermaid').then((module) => {
+        const api = module.default ?? module;
+        if (!this.mermaidInitialized) {
+          api.initialize({
+            startOnLoad: false,
+            securityLevel: 'strict',
+          });
+          this.mermaidInitialized = true;
+        }
+        return api;
+      });
+    }
+    return this.mermaidApiPromise;
   }
 }

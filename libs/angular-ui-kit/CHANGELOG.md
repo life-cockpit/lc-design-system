@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.2] - 2026-05-27
+
+### Added
+
+- **Markdown Mermaid support** — Fenced code blocks with language `mermaid` are now rendered as diagrams in `lc-markdown`.
+- **Storybook example** — Added a small `MermaidSupport` story to validate Mermaid rendering with a minimal flowchart.
+
+### Fixed
+
+- **Code block readability** — Prevented inline markdown `code` styles from overriding `lc-code-block` text color in dark code panels.
+- **Mermaid SVG rendering** — Preserved Mermaid-generated SVG styling so shapes/edges render correctly (not labels-only).
+- **Typing regression** — Corrected markdown parse fallback typing for code/mermaid blocks (`kind` field), fixing TypeScript build errors.
+
 ## [1.11.1] - 2026-05-26
 
 ### Changed

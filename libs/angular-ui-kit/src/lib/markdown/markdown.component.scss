@@ -161,6 +161,51 @@
   lc-code-block {
     display: block;
     margin: 1em 0;
+
+    // Keep full code blocks readable: inline markdown `code` styles should
+    // not override the dark-theme code-block text color.
+    code {
+      background: none;
+      color: inherit;
+      padding: 0;
+      border-radius: 0;
+      font-size: inherit;
+    }
+  }
+
+  &__mermaid {
+    margin: 1em 0;
+    padding: 0.75rem;
+    border: 1px solid var(--color-divider, #e5e7eb);
+    border-radius: var(--radius-md, 0.375rem);
+    background: var(--color-surface, #ffffff);
+    overflow-x: auto;
+
+    svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__mermaid-loading {
+    margin: 1em 0;
+    padding: 0.75rem;
+    border: 1px dashed var(--color-divider, #e5e7eb);
+    border-radius: var(--radius-md, 0.375rem);
+    color: var(--color-text-secondary, #6b7280);
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+
+  &__mermaid-fallback {
+    margin: 1em 0;
+  }
+
+  &__mermaid-error {
+    margin: 0 0 0.5rem;
+    color: var(--color-danger-600, #dc2626);
+    font-size: var(--font-size-sm, 0.875rem);
   }
 }
 
@@ -232,6 +277,12 @@
   }
 
   lc-code-block {
+    margin: 6px 0;
+  }
+
+  .lc-markdown__mermaid,
+  .lc-markdown__mermaid-loading,
+  .lc-markdown__mermaid-fallback {
     margin: 6px 0;
   }
 

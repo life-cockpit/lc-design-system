@@ -98,3 +98,23 @@ export const SimpleText: Story = {
     docs: { description: { story: 'Minimal inline formatting.' } },
   },
 };
+
+export const MermaidSupport: Story = {
+  args: {
+    content: `### Mermaid Example
+
+\`\`\`mermaid
+flowchart TD
+  A[Client] --> B[API]
+  B --> C[DB]
+\`\`\`
+`,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Small example to verify fenced `mermaid` blocks render as diagrams.',
+      },
+    },
+  },
+};

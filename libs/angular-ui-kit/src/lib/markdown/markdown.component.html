@@ -2,13 +2,29 @@
   @for (part of renderParts(); track part.index) {
     @if (part.type === 'html') {
       <div [innerHTML]="part.safeHtml"></div>
-    } @else {
+    } @else if (part.type === 'code') {
       <lc-code-block
         [code]="part.code!"
         [language]="part.lang ?? 'text'"
         [showLineNumbers]="true"
         [showCopy]="true"
       />
+    } @else {
+      @if (mermaidSvgFor(part.index); as svg) {
+        <div class="lc-markdown__mermaid" [innerHTML]="svg"></div>
+      } @else if (mermaidErrorFor(part.index); as errorMessage) {
+        <div class="lc-markdown__mermaid-fallback">
+          <p class="lc-markdown__mermaid-error">{{ errorMessage }}</p>
+          <lc-code-block
+            [code]="part.code!"
+            [language]="'text'"
+            [showLineNumbers]="true"
+            [showCopy]="true"
+          />
+        </div>
+      } @else {
+        <div class="lc-markdown__mermaid-loading">Rendering Mermaid diagram...</div>
+      }
     }
   }
 </div>
