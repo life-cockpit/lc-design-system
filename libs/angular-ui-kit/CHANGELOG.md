@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.3] - 2026-05-27
+
+### Fixed
+
+- **Mermaid peer dependency** — Declared `mermaid` (`^11.0.0`) as an optional peer dependency so consumers get a proper install hint when using Mermaid blocks in `lc-markdown`. The dynamic `import('mermaid')` already falls back gracefully when the runtime is missing.
+
 ## [1.11.2] - 2026-05-27
 
 ### Added
