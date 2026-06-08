@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.4] - 2026-06-08
+
+### Changed
+
+- **Icon source migration** — `lc-icon` now resolves SVGs from Tabler Icons (`/tabler-icons/{outline|filled}`) instead of Heroicons, with existing `variant="solid"` mapped to Tabler `filled` assets.
+- **Asset wiring updated** — Demo build and Storybook static asset mounts now serve Tabler icon files from `@tabler/icons/icons`.
+- **Docs aligned** — Component/story/demo descriptions were updated from Heroicons wording to Tabler Icons terminology.
+
+### Fixed
+
+- **Storybook icon browser coverage** — `All Icons` in Icon stories now reads the installed Tabler catalog dynamically (instead of a hardcoded 324-item preset), so the displayed icon count stays accurate after package updates.
+
 ## [1.11.3] - 2026-05-27
 
 ### Fixed
