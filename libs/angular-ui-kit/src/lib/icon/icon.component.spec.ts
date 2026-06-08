@@ -41,7 +41,8 @@ describe('IconComponent', () => {
    * Helper to mock successful icon load
    */
   function mockIconLoad(iconName = 'user', variant = 'outline'): void {
-    const req = httpMock.expectOne(`/heroicons/24/${variant}/${iconName}.svg`);
+    const folder = variant === 'solid' ? 'filled' : 'outline';
+    const req = httpMock.expectOne(`/tabler-icons/${folder}/${iconName}.svg`);
     expect(req.request.method).toBe('GET');
     req.flush(MOCK_SVG);
     fixture.detectChanges();
@@ -119,14 +120,14 @@ describe('IconComponent', () => {
       fixture.componentRef.setInput('name', 'academic-cap');
       fixture.componentRef.setInput('variant', 'outline');
       fixture.detectChanges();
-      expect(component.iconPath()).toContain('24/outline/academic-cap.svg');
+      expect(component.iconPath()).toContain('/outline/academic-cap.svg');
     });
 
     it('should load correct SVG path for solid variant', () => {
       fixture.componentRef.setInput('name', 'check');
       fixture.componentRef.setInput('variant', 'solid');
       fixture.detectChanges();
-      expect(component.iconPath()).toContain('24/solid/check.svg');
+      expect(component.iconPath()).toContain('/filled/check.svg');
     });
   });
 
@@ -250,7 +251,7 @@ describe('IconComponent', () => {
       fixture.detectChanges();
 
       const req = httpMock.expectOne(
-        '/heroicons/24/outline/non-existent-icon-xyz.svg',
+        '/tabler-icons/outline/non-existent-icon-xyz.svg',
       );
       req.error(new ProgressEvent('error'));
 

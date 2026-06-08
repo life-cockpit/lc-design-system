@@ -126,8 +126,8 @@ class IconGalleryComponent {
 }
 
 /**
- * Icons are SVG-based visual symbols from the Heroicons library (v2).
- * All 324 icons are available in outline and solid variants across five sizes.
+ * Icons are SVG-based visual symbols from the Tabler Icons library.
+ * This story keeps a preset icon list and supports outline plus solid (filled) variants.
  * Use them in buttons, navigation, lists, and status indicators.
  *
  * Usage: `<lc-icon name="home" variant="outline" size="md" />`
@@ -136,11 +136,11 @@ const meta: Meta<IconComponent> = {
   title: 'Components/Icon',
   component: IconComponent,
   argTypes: {
-    name: { description: 'Icon name from the Heroicons set (e.g. "home", "user", "cog-6-tooth")' },
+    name: { description: 'Icon name from the Tabler set (e.g. "home", "user", "settings")' },
     variant: {
       control: 'select',
       options: ['outline', 'solid'],
-      description: 'Outline has stroked paths, solid is filled',
+      description: 'Outline has stroked paths, solid maps to filled icons',
     },
     size: {
       control: 'select',
@@ -156,7 +156,7 @@ const meta: Meta<IconComponent> = {
     docs: {
       description: {
         component: `
-Icon component - Heroicons wrapper for displaying SVG icons
+Icon component - Tabler Icons wrapper for displaying SVG icons
 
 **Key Features:**
 - Signal-based reactive API
@@ -164,7 +164,7 @@ Icon component - Heroicons wrapper for displaying SVG icons
 - Multiple size options (xs, sm, md, lg, xl)
 - Custom color support (CSS colors, variables)
 - Accessibility attributes (ARIA labels, decorative icons)
-- Dynamic SVG loading from Heroicons
+- Dynamic SVG loading from Tabler Icons
 `,
       },
     },
@@ -251,9 +251,9 @@ export const CustomColors: Story = {
   }),
 };
 
-/** Browse all 324 Heroicons. Click an icon to copy its name. Use the search field to filter. */
+/** Browse the preset icon list. Click an icon to copy its name. Use the search field to filter. */
 export const AllIcons: Story = {
-  name: 'All Icons (324)',
+  name: 'All Icons (Preset)',
   render: () => ({
     moduleMetadata: { imports: [IconGalleryComponent] },
     template: `<icon-gallery></icon-gallery>`,

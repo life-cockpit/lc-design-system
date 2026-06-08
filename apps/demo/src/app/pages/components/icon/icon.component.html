@@ -2,7 +2,7 @@
   <div class="mb-8">
     <h1 class="text-4xl font-bold mb-4">Icon Component</h1>
     <p class="text-neutral-600 dark:text-neutral-400">
-      Display Heroicons with customizable size, variant, and color. Supports both outline and solid
+      Display Tabler Icons with customizable size, variant, and color. Supports both outline and solid
       styles with full accessibility.
     </p>
   </div>
@@ -12,7 +12,7 @@
     <h2 class="text-2xl font-semibold mb-4">Common Icons</h2>
     <lc-card>
       <p class="text-neutral-600 dark:text-neutral-400 mb-6">
-        A selection of frequently used icons from the Heroicons library.
+        A selection of frequently used icons from the Tabler Icons library.
       </p>
       <div class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-6">
         @for (icon of commonIcons; track icon.name) {
@@ -68,7 +68,7 @@
     <h2 class="text-2xl font-semibold mb-4">Variants</h2>
     <lc-card>
       <p class="text-neutral-600 dark:text-neutral-400 mb-6">
-        Icons support outline (default) and solid variants from Heroicons.
+        Icons support outline (default) and solid variants (solid maps to filled).
       </p>
       <div class="flex gap-12 p-8 bg-neutral-50 dark:bg-neutral-800 rounded justify-center mb-4">
         <div class="flex flex-col items-center gap-4">

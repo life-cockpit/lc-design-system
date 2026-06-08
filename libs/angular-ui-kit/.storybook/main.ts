@@ -18,7 +18,7 @@ const config: StorybookConfig = {
     componentsManifest: true,
   },
   staticDirs: [
-    { from: '../../../node_modules/heroicons', to: '/heroicons' },
+    { from: '../../../node_modules/@tabler/icons/icons', to: '/tabler-icons' },
     { from: '../src/assets', to: '/assets' },
   ],
 }

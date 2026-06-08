@@ -6,7 +6,7 @@ import { IconComponent } from '../icon/icon.component';
  *
  * Features:
  * - Consistent label-value layout for read-only data
- * - Optional leading icon from Heroicons
+ * - Optional leading icon from Tabler Icons
  * - Compact mode for dense layouts
  * - Content projection for custom value rendering
  * - Configurable icon size (xs, sm, md)
@@ -42,7 +42,7 @@ export class FieldGroupComponent {
   value = input<string>();
 
   /**
-   * Optional icon name from Heroicons
+   * Optional icon name from Tabler Icons
    */
   icon = input<string>();
 

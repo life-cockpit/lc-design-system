@@ -168,7 +168,7 @@ export class IconDemoComponent {
       prop: 'name',
       type: 'string',
       default: "''",
-      description: 'Icon name from Heroicons library (e.g., "user", "check", "arrow-right")',
+      description: 'Icon name from Tabler Icons library (e.g., "user", "check", "arrow-right")',
     },
     {
       prop: 'variant',

@@ -8,7 +8,7 @@ export type EmptyStateSize = 'sm' | 'md' | 'lg';
  *
  * Features:
  * - Compact (sm) and page-level (md, lg) size modes
- * - Optional icon from Heroicons library
+ * - Optional icon from Tabler Icons library
  * - Heading and description text
  * - Action slot for projected CTA buttons
  * - Centered layout with visual hierarchy
@@ -42,7 +42,7 @@ export class EmptyStateComponent {
   readonly size = input<EmptyStateSize>('md');
 
   /**
-   * Heroicon name to display above the heading
+    * Tabler icon name to display above the heading
    */
   readonly icon = input<string>();
 

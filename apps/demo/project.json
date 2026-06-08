@@ -21,8 +21,8 @@
           },
           {
             "glob": "**/*.svg",
-            "input": "node_modules/heroicons",
-            "output": "/heroicons"
+            "input": "node_modules/@tabler/icons/icons",
+            "output": "/tabler-icons"
           },
           {
             "glob": "**/*",
