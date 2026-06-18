@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.7] - 2026-06-18
+
+### Fixed
+
+- **npm publish build failure** — Moved `mermaid` back from `dependencies` to optional `peerDependencies` to satisfy ng-packagr packaging rules (`allowedNonPeerDependencies`) and unblock release publishing.
+
 ## [1.11.6] - 2026-06-18
 
 ### Fixed
