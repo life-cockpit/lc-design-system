@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.8] - 2026-06-18
+
+### Added
+
+- **Table cell styling API** — `TableColumn` now supports `cellClass` and `cellStyle` (static or callback-based) for per-cell conditional styling.
+
+### Docs
+
+- **Table stories restored and expanded** — Revalidated `WithCellFormatting`, `WithBadgesAndAvatars`, `EnterpriseUsers` and added `WithCellFormattingAndStyling` to document formatter + styling usage in Storybook.
+- **README update** — Table feature summary now explicitly includes cell styling hooks.
+
 ## [1.11.7] - 2026-06-18
 
 ### Fixed
