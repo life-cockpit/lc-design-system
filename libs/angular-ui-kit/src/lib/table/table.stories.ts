@@ -33,7 +33,7 @@ The Table component displays structured data in rows and columns with advanced d
 - 3 sizes (sm, md, lg)
 - Column-level sort configuration
 - Per-column cell formatting via formatter callbacks
-- Custom `lcTableCell` templates for composed cells
+- Custom lcTableCell templates for composed cells
 - Rich examples with avatars, badges, chips and row actions
 - Hoverable rows with click events
 - Empty state with custom message

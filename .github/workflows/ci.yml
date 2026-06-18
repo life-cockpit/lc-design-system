@@ -28,5 +28,5 @@ jobs:
       - name: Build angular-ui-kit library
         run: npx nx build angular-ui-kit --configuration=production
 
-      - name: Build demo app
-        run: npx nx build demo --configuration=production
+      - name: Build Storybook
+        run: npx nx build-storybook angular-ui-kit
