@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.6] - 2026-06-18
+
+### Fixed
+
+- **Release consistency** — Cut a fresh patch release so npm/docs publishing can run on a new immutable version after `v1.11.5` retagging.
+
+### Notes
+
+- **Table formatter API remains available** — `TableColumn.formatter(value, row, column, rowIndex)` is part of the published package types.
+- **Stories are docs artifacts, not npm artifacts** — Story files are published to Storybook docs, not shipped inside the npm library tarball.
+
 ## [1.11.5] - 2026-06-18
 
 ### Added
