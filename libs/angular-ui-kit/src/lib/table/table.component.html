@@ -85,7 +85,8 @@
             }
             @for (column of columns(); track column.key) {
               <td
-                [class]="column.cssClass || ''"
+                [class]="getCellClasses(row, column, i)"
+                [ngStyle]="getCellStyles(row, column, i)"
                 (dblclick)="editable() ? startEdit($index, column.key, getCellValue(row, column.key)) : null"
               >
                 @if (isEditing($index, column.key)) {

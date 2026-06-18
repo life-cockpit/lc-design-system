@@ -144,6 +144,42 @@ describe('TableComponent', () => {
       const firstCell = fixture.debugElement.query(By.css('tbody tr td'));
       expect(firstCell.nativeElement.textContent.trim()).toBe('alice@example.com (0)');
     });
+
+    it('should apply dynamic cell classes when cellClass callback is configured', () => {
+      const columns: TableColumn[] = [
+        { key: 'name', label: 'Name' },
+        {
+          key: 'age',
+          label: 'Age',
+          cellClass: (value) => (Number(value) >= 30 ? 'is-senior' : 'is-junior'),
+        },
+      ];
+
+      fixture.componentRef.setInput('columns', columns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+
+      const firstRowCells = fixture.debugElement.queryAll(By.css('tbody tr'))[0].queryAll(By.css('td'));
+      expect(firstRowCells[1].nativeElement.classList.contains('is-senior')).toBe(true);
+    });
+
+    it('should apply dynamic cell styles when cellStyle callback is configured', () => {
+      const columns: TableColumn[] = [
+        { key: 'name', label: 'Name' },
+        {
+          key: 'age',
+          label: 'Age',
+          cellStyle: () => ({ 'text-align': 'right' }),
+        },
+      ];
+
+      fixture.componentRef.setInput('columns', columns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+
+      const firstRowCells = fixture.debugElement.queryAll(By.css('tbody tr'))[0].queryAll(By.css('td'));
+      expect(firstRowCells[1].nativeElement.style.textAlign).toBe('right');
+    });
   });
 
   describe('Empty State', () => {

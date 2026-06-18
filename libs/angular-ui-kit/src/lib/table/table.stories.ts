@@ -33,6 +33,7 @@ The Table component displays structured data in rows and columns with advanced d
 - 3 sizes (sm, md, lg)
 - Column-level sort configuration
 - Per-column cell formatting via formatter callbacks
+- Conditional cell styling via cellClass/cellStyle
 - Custom lcTableCell templates for composed cells
 - Rich examples with avatars, badges, chips and row actions
 - Hoverable rows with click events
@@ -272,6 +273,84 @@ export const WithCellFormatting: Story = {
     variant: 'striped',
     hoverable: true,
   },
+};
+
+export const WithCellFormattingAndStyling: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Combine formatter callbacks with cellClass/cellStyle to highlight KPI states directly in the table.',
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      columns: [
+        { key: 'account', label: 'Account', sortable: true },
+        {
+          key: 'arr',
+          label: 'ARR',
+          sortable: true,
+          cellClass: 'lc-table-story__cell--numeric',
+          formatter: (value: unknown) =>
+            new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(
+              Number(value ?? 0)
+            ),
+        },
+        {
+          key: 'margin',
+          label: 'Margin',
+          sortable: true,
+          formatter: (value: unknown) => `${Number(value ?? 0).toFixed(1)}%`,
+          cellClass: (value: unknown) => {
+            const numberValue = Number(value ?? 0);
+            if (numberValue < 10) return 'lc-table-story__cell--danger';
+            if (numberValue < 20) return 'lc-table-story__cell--warning';
+            return 'lc-table-story__cell--success';
+          },
+          cellStyle: { fontWeight: '700' },
+        },
+        {
+          key: 'sla',
+          label: 'SLA',
+          sortable: true,
+          formatter: (value: unknown) => `${Number(value ?? 0).toFixed(2)}%`,
+          cellClass: 'lc-table-story__cell--numeric',
+          cellStyle: (value: unknown) => ({
+            opacity: Number(value ?? 0) < 99.0 ? '0.85' : '1',
+          }),
+        },
+      ],
+      data: [
+        { account: 'Acme GmbH', arr: 185000, margin: 23.4, sla: 99.82 },
+        { account: 'Nova Health', arr: 123500, margin: 14.2, sla: 99.12 },
+        { account: 'Orbit Labs', arr: 87000, margin: 7.8, sla: 98.74 },
+      ],
+    },
+    template: `
+      <style>
+        .lc-table-story__cell--numeric {
+          text-align: right;
+          font-variant-numeric: tabular-nums;
+        }
+
+        .lc-table-story__cell--success {
+          color: #047857;
+        }
+
+        .lc-table-story__cell--warning {
+          color: #b45309;
+        }
+
+        .lc-table-story__cell--danger {
+          color: #b91c1c;
+        }
+      </style>
+
+      <lc-table [columns]="columns" [data]="data" variant="striped" [hoverable]="true" size="md"></lc-table>
+    `,
+  }),
 };
 
 export const WithBadgesAndAvatars: Story = {

@@ -8,8 +8,22 @@ import {
   ContentChildren,
   QueryList,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import { TableCellDirective } from './table-cell.directive';
+
+type TableCellClass = string | ((
+  value: unknown,
+  row: Record<string, unknown>,
+  column: TableColumn,
+  rowIndex: number
+) => string);
+
+type TableCellStyle = Record<string, string> | ((
+  value: unknown,
+  row: Record<string, unknown>,
+  column: TableColumn,
+  rowIndex: number
+) => Record<string, string>);
 
 export interface TableColumn {
   key: string;
@@ -20,6 +34,10 @@ export interface TableColumn {
   width?: string;
   /** Optional CSS class(es) applied to both th and td cells */
   cssClass?: string;
+  /** Optional CSS class(es) for td cells only (string or resolver callback) */
+  cellClass?: TableCellClass;
+  /** Optional inline styles for td cells only (object or resolver callback) */
+  cellStyle?: TableCellStyle;
   /** Optional tooltip shown on hover over the column header */
   tooltip?: string;
   /** Optional formatter for cell output when no custom template is used */
@@ -65,6 +83,7 @@ export type TableSize = 'sm' | 'md' | 'lg';
  * - Size presets (sm, md, lg)
  * - Hoverable row highlighting
  * - Per-column formatter callbacks for display values
+ * - Per-cell class/style callbacks for conditional styling
  * - Custom cell templates via content projection
  * - Composed cells (e.g. avatar + badge + actions)
  * - Responsive horizontal scrolling
@@ -94,7 +113,7 @@ export type TableSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-table',
   standalone: true,
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, NgStyle],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -305,6 +324,48 @@ export class TableComponent {
     if (!column.formatter) return value;
 
     return column.formatter(value, row, column, this.getAbsoluteIndex(relativeRowIndex));
+  }
+
+  getCellClasses(
+    row: Record<string, unknown>,
+    column: TableColumn,
+    relativeRowIndex: number
+  ): string {
+    const classes: string[] = [];
+    if (column.cssClass) classes.push(column.cssClass);
+
+    if (typeof column.cellClass === 'string') {
+      classes.push(column.cellClass);
+    } else if (typeof column.cellClass === 'function') {
+      const resolved = column.cellClass(
+        this.getCellValue(row, column.key),
+        row,
+        column,
+        this.getAbsoluteIndex(relativeRowIndex)
+      );
+      if (resolved) classes.push(resolved);
+    }
+
+    return classes.join(' ').trim();
+  }
+
+  getCellStyles(
+    row: Record<string, unknown>,
+    column: TableColumn,
+    relativeRowIndex: number
+  ): Record<string, string> | null {
+    if (!column.cellStyle) return null;
+
+    if (typeof column.cellStyle === 'function') {
+      return column.cellStyle(
+        this.getCellValue(row, column.key),
+        row,
+        column,
+        this.getAbsoluteIndex(relativeRowIndex)
+      );
+    }
+
+    return column.cellStyle;
   }
 
   getCellTemplate(columnKey: string): TableCellDirective | undefined {
