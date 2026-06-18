@@ -36,7 +36,7 @@ export class ChipComponent {
   /** Size of the chip */
   size = input<ChipSize>('md');
 
-  /** Icon name from Heroicons */
+  /** Icon name from Tabler Icons */
   icon = input<string>();
 
   /** Whether the chip can be removed */

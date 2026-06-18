@@ -46,7 +46,7 @@ export class TabComponent {
   readonly disabled = input(false);
 
   /**
-   * Optional icon name (Heroicons)
+   * Optional icon name (Tabler Icons)
    */
   readonly icon = input<string | undefined>();
 

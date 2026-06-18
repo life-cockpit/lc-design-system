@@ -29,7 +29,7 @@ Field group component for displaying label-value pairs.
 
 **Key Features:**
 - Consistent label-value layout for read-only data
-- Optional leading icon from Heroicons
+- Optional leading icon from Tabler Icons
 - Compact mode for dense layouts
 - Content projection for custom value rendering
 - Configurable icon size (xs, sm, md)

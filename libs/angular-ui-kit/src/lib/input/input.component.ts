@@ -98,13 +98,13 @@ export class InputComponent implements ControlValueAccessor {
   readonly helperText = input<string>();
 
   /**
-   * Icon to display before input text (Heroicons name)
+    * Icon to display before input text (Tabler icon name)
    * @example 'envelope'
    */
   readonly iconBefore = input<string>();
 
   /**
-   * Icon to display after input text (Heroicons name)
+    * Icon to display after input text (Tabler icon name)
    * @example 'eye'
    */
   readonly iconAfter = input<string>();

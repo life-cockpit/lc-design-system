@@ -28,7 +28,7 @@ Empty state component for "no data" placeholder displays.
 
 **Key Features:**
 - Compact (sm) and page-level (md, lg) size modes
-- Optional icon from Heroicons library
+- Optional icon from Tabler Icons library
 - Heading and description text
 - Action slot for projected CTA buttons
 - Centered layout with visual hierarchy

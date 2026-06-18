@@ -16,7 +16,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 /* eslint-disable @typescript-eslint/member-ordering, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 
 /**
- * Icon component - Heroicons wrapper for displaying SVG icons
+ * Icon component - Tabler Icons wrapper for displaying SVG icons
  *
  * Features:
  * - Signal-based reactive API
@@ -24,7 +24,7 @@ export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
  * - Multiple size options (xs, sm, md, lg, xl)
  * - Custom color support (CSS colors, variables)
  * - Accessibility attributes (ARIA labels, decorative icons)
- * - Dynamic SVG loading from Heroicons
+ * - Dynamic SVG loading from Tabler Icons
  *
  * @example
  * ```html
@@ -60,7 +60,7 @@ export class IconComponent {
   private readonly http = inject(HttpClient);
 
   /**
-   * Icon name from Heroicons library
+  * Icon name from Tabler Icons library
    * @example "user", "check", "arrow-right"
    */
   readonly name = input<string>('');
@@ -105,14 +105,14 @@ export class IconComponent {
   readonly decorative = input<boolean>(false);
 
   /**
-   * SVG content loaded from Heroicons
+  * SVG content loaded from Tabler Icons
    * @internal
    */
   readonly svgContent = signal<SafeHtml>('');
 
   /**
-   * Alias map for non-Heroicon names (e.g. Material Design names)
-   * Maps alternative names to their Heroicon equivalents
+  * Alias map for non-Tabler names (e.g. Material Design names)
+  * Maps alternative names to their Tabler equivalents
    * @internal
    */
   private readonly iconAliasMap: Record<string, string> = {
@@ -376,7 +376,8 @@ export class IconComponent {
     const iconVariant = this.variant();
     if (!rawName) return '';
     const iconName = this.iconAliasMap[rawName] ?? rawName;
-    return `/heroicons/24/${iconVariant}/${iconName}.svg`;
+    const tablerVariant = iconVariant === 'solid' ? 'filled' : 'outline';
+    return `/tabler-icons/${tablerVariant}/${iconName}.svg`;
   });
 
   /**
@@ -423,7 +424,7 @@ export class IconComponent {
         return;
       }
 
-      // Resolve aliases (Material Design → Heroicons)
+      // Resolve aliases (Material Design -> Tabler)
       const iconName = this.iconAliasMap[rawName] ?? rawName;
 
       // Try to use inline SVG first (avoids HTTP request)

@@ -51,7 +51,7 @@ export class StatTrendComponent {
   /** Color of the sparkline. Auto-matched to trend direction if not set. */
   sparklineColor = input<SparklineColor | undefined>(undefined);
 
-  /** Optional icon name (Heroicon). */
+  /** Optional icon name (Tabler icon). */
   icon = input<string>('');
 
   protected readonly resolvedDirection = computed<StatTrendDirection>(() => {
