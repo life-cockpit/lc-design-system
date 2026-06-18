@@ -120,7 +120,7 @@ export class MyComponent {}
 | Skeleton | `lc-skeleton` | Loading placeholder |
 | Spinner | `lc-spinner` | Loading indicator |
 | Stepper | `lc-stepper` | Step-by-step progress |
-| Table | `lc-table` | Data table |
+| Table | `lc-table` | Data table with sorting, filtering, pagination, formatter callbacks and custom cell templates |
 | Toggle Group | `lc-toggle-group` | Segmented toggle |
 
 ### Feedback

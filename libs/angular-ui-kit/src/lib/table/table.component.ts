@@ -22,6 +22,13 @@ export interface TableColumn {
   cssClass?: string;
   /** Optional tooltip shown on hover over the column header */
   tooltip?: string;
+  /** Optional formatter for cell output when no custom template is used */
+  formatter?: (
+    value: unknown,
+    row: Record<string, unknown>,
+    column: TableColumn,
+    rowIndex: number
+  ) => unknown;
   /** Input type for inline editing (default: text) */
   editType?: 'text' | 'number' | 'select';
   /** Options for select edit type */
@@ -57,7 +64,9 @@ export type TableSize = 'sm' | 'md' | 'lg';
  * - Variant styles (default, striped, bordered)
  * - Size presets (sm, md, lg)
  * - Hoverable row highlighting
+ * - Per-column formatter callbacks for display values
  * - Custom cell templates via content projection
+ * - Composed cells (e.g. avatar + badge + actions)
  * - Responsive horizontal scrolling
  * - Empty state text for no data
  * - Accessible with proper table semantics
@@ -66,6 +75,20 @@ export type TableSize = 'sm' | 'md' | 'lg';
  * ```html
  * <lc-table [columns]="columns" [data]="data" variant="striped" [hoverable]="true"
  *   (sort)="onSort($event)" (rowClick)="onRowClick($event)" />
+ * ```
+ *
+ * @example
+ * ```ts
+ * columns: TableColumn[] = [
+ *   {
+ *     key: 'amount',
+ *     label: 'Amount',
+ *     formatter: (value) => new Intl.NumberFormat('de-DE', {
+ *       style: 'currency',
+ *       currency: 'EUR',
+ *     }).format(Number(value ?? 0)),
+ *   },
+ * ];
  * ```
  */
 @Component({
@@ -271,6 +294,17 @@ export class TableComponent {
 
   getCellValue(row: Record<string, unknown>, columnKey: string): unknown {
     return row[columnKey];
+  }
+
+  getFormattedCellValue(
+    row: Record<string, unknown>,
+    column: TableColumn,
+    relativeRowIndex: number
+  ): unknown {
+    const value = this.getCellValue(row, column.key);
+    if (!column.formatter) return value;
+
+    return column.formatter(value, row, column, this.getAbsoluteIndex(relativeRowIndex));
   }
 
   getCellTemplate(columnKey: string): TableCellDirective | undefined {

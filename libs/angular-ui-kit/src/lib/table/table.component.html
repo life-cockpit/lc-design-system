@@ -101,7 +101,7 @@
                 } @else if (hasCustomTemplate(column.key)) {
                   <ng-container *ngTemplateOutlet="getCellTemplate(column.key)!.template; context: { $implicit: row }"></ng-container>
                 } @else {
-                  {{ getCellValue(row, column.key) }}
+                  {{ getFormattedCellValue(row, column, i) }}
                 }
               </td>
             }

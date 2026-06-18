@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.5] - 2026-06-18
+
+### Added
+
+- **Table cell formatter API** — `TableColumn` now supports a `formatter(value, row, column, rowIndex)` callback for per-column display formatting when no custom template is provided.
+- **Table Storybook examples** — Added `WithCellFormatting`, `WithBadgesAndAvatars`, and `EnterpriseUsers` stories to demonstrate formatter callbacks and composed cell templates (avatar, badges, chips, action buttons).
+
+### Docs
+
+- **Table component docs expanded** — Updated `TableComponent` API docs and Storybook feature descriptions to document formatter callbacks and composed cell patterns.
+- **Library README update** — Table component description now explicitly mentions sorting, filtering, pagination, formatter callbacks and custom cell templates.
+
 ## [1.11.3] - 2026-05-27
 
 ### Fixed
@@ -50,7 +62,7 @@ All notable changes to this project will be documented in this file.
 - **Header height now honored exactly** — Removed vertical padding on `.lc-header`; content (profile trigger, context info, hamburger) is centered via flexbox so `min-height` actually drives the height instead of being inflated by the avatar/button. Net effect: default header is now exactly 64px tall.
 - **Sidenav brand-block alignment** — `.lc-sidenav__logo` height scale realigned with `<lc-header size="*">` (sm 56 / md 64 / lg 80 / xl 112). Switched from view-encapsulation-fragile `:has(.lc-logo.size-*)` selectors to explicit `lc-sidenav__logo--size-*` host classes so the heights work reliably regardless of where the `.lc-logo` element lives.
 - **Sidenav collapsed logo padding** — In collapsed (icon-rail) mode the logo container now uses horizontal-only padding so its `min-height` reflects the configured size instead of being pushed taller by extra vertical padding.
-- **Demo app layout** — Restructured to sidebar-first: full-height `lc-sidenav` with brand block on top (dark theme), `lc-header` to the right with `[showLogo]="false"`.
+- **Sample app layout** — Restructured to sidebar-first: full-height `lc-sidenav` with brand block on top (dark theme), `lc-header` to the right with `[showLogo]="false"`.
 - **Removed obsolete asset** — `life-cockpit-logo_old.svg` deleted from `libs/angular-ui-kit/src/assets/`.
 
 ### Fixed
@@ -97,7 +109,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - **Sidenav stories** — Replaced invalid `themeValue` arg with correct `theme` input name
-- **Demo app bindings** — Updated breadcrumbs, pagination, and sidenav demo templates to use new signal input names (removed `*Input` suffix)
+- **Sample app bindings** — Updated breadcrumbs, pagination, and sidenav examples to use new signal input names (removed `*Input` suffix)
 
 ## [1.8.0] - 2026-05-14
 
@@ -267,7 +279,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Duplicate `getPopoverIcon()` method in demo sidebar
+- Duplicate `getPopoverIcon()` method in sample sidebar
 - Optional chaining in Kanban Board (`draggedCard()?.card?.id`)
 - Chat component timestamp type (`null` → `undefined`)
 

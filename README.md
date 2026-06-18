@@ -7,15 +7,14 @@ A standalone Angular component library (`@life-cockpit/angular-ui-kit`) with 47+
 | Project | Path | Description |
 |---------|------|-------------|
 | `ui-kit` | `libs/angular-ui-kit/` | Publishable Angular component library |
-| `demo` | `apps/demo/` | Interactive demo & documentation site |
 
 ## Quick Start
 
 ```sh
 npm install
 
-# Serve the demo app
-npx nx serve demo
+# Start Storybook
+npx nx storybook angular-ui-kit
 
 # Build the library for publishing
 npx nx build angular-ui-kit
@@ -59,7 +58,7 @@ Use the plugin's generator to create new projects.
 To generate a new application, use:
 
 ```sh
-npx nx g @nx/angular:app demo
+npx nx g @nx/angular:app <app-name>
 ```
 
 To generate a new library, use:

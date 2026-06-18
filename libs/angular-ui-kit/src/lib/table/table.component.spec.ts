@@ -109,6 +109,43 @@ describe('TableComponent', () => {
     });
   });
 
+  describe('Cell Formatting', () => {
+    it('should render formatted cell output when formatter is configured', () => {
+      const columns: TableColumn[] = [
+        { key: 'name', label: 'Name' },
+        {
+          key: 'age',
+          label: 'Age',
+          formatter: (value) => `${String(value)} years`,
+        },
+      ];
+
+      fixture.componentRef.setInput('columns', columns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+
+      const firstRowCells = fixture.debugElement.queryAll(By.css('tbody tr'))[0].queryAll(By.css('td'));
+      expect(firstRowCells[1].nativeElement.textContent.trim()).toBe('30 years');
+    });
+
+    it('should pass row context to formatter', () => {
+      const columns: TableColumn[] = [
+        {
+          key: 'name',
+          label: 'Name',
+          formatter: (_value, row, _column, rowIndex) => `${String(row['email'])} (${rowIndex})`,
+        },
+      ];
+
+      fixture.componentRef.setInput('columns', columns);
+      fixture.componentRef.setInput('data', mockData);
+      fixture.detectChanges();
+
+      const firstCell = fixture.debugElement.query(By.css('tbody tr td'));
+      expect(firstCell.nativeElement.textContent.trim()).toBe('alice@example.com (0)');
+    });
+  });
+
   describe('Empty State', () => {
     it('should show empty message when no data', () => {
       fixture.componentRef.setInput('columns', mockColumns);
