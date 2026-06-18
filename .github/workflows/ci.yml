@@ -29,4 +29,7 @@ jobs:
         run: npx nx build angular-ui-kit --configuration=production
 
       - name: Build Storybook
-        run: npx nx build-storybook angular-ui-kit
+        env:
+          NX_DAEMON: 'false'
+          NODE_OPTIONS: '--max-old-space-size=8192'
+        run: npx nx build-storybook angular-ui-kit --skipNxCache --verbose
