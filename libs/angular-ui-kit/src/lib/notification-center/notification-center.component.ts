@@ -7,6 +7,7 @@ import {
   output,
 } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
+import { SearchInputComponent } from '../search-input/search-input.component';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 export type NotificationPriority = 'low' | 'normal' | 'high' | 'urgent';
@@ -42,7 +43,7 @@ const PRIORITY_LABELS: Record<NotificationPriority, string> = {
 @Component({
   selector: 'lc-notification-center',
   standalone: true,
-  imports: [IconComponent],
+  imports: [IconComponent, SearchInputComponent],
   templateUrl: './notification-center.component.html',
   styleUrls: ['./notification-center.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -144,8 +145,8 @@ export class NotificationCenterComponent {
     this.activeFilter.set(filter);
   }
 
-  protected onSearch(event: Event): void {
-    this.searchQuery.set((event.target as HTMLInputElement).value);
+  protected onSearch(query: string): void {
+    this.searchQuery.set(query);
   }
 
   protected onClick(notification: Notification): void {

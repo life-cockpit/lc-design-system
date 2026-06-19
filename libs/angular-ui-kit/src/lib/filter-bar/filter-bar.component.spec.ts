@@ -65,7 +65,7 @@ describe('FilterBarComponent', () => {
   });
 
   it('should render search input', () => {
-    const input = fixture.nativeElement.querySelector('.lc-filter-bar__search-input');
+    const input = fixture.nativeElement.querySelector('.lc-filter-bar__search .search-input__field');
     expect(input).toBeTruthy();
     expect(input.placeholder).toBe('Search strategies...');
   });

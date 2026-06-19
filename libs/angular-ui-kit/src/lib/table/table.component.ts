@@ -9,7 +9,10 @@ import {
   QueryList,
 } from '@angular/core';
 import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TableCellDirective } from './table-cell.directive';
+import { InputComponent } from '../input/input.component';
+import { SelectComponent } from '../select/select.component';
 
 type TableCellClass = string | ((
   value: unknown,
@@ -113,7 +116,7 @@ export type TableSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-table',
   standalone: true,
-  imports: [NgTemplateOutlet, NgStyle],
+  imports: [NgTemplateOutlet, NgStyle, FormsModule, SelectComponent, InputComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -255,6 +258,13 @@ export class TableComponent {
     return data.every((_, i) => selected.has(this.getAbsoluteIndex(i)));
   });
 
+  protected readonly pageSizeSelectOptions = computed(() =>
+    this.pageSizeOptions().map((opt) => ({
+      value: opt,
+      label: `${opt} / page`,
+    }))
+  );
+
   /**
    * Computed CSS classes for the table element
    */
@@ -393,6 +403,18 @@ export class TableComponent {
     this.currentPage.set(0);
   }
 
+  protected onPageSizeModelChange(value: string | number | null): void {
+    if (value == null) {
+      return;
+    }
+    const parsed = typeof value === 'number' ? value : Number(value);
+    if (!Number.isFinite(parsed)) {
+      return;
+    }
+    this.internalPageSize.set(parsed);
+    this.currentPage.set(0);
+  }
+
   protected get paginationStart(): number {
     return this.currentPage() * this.internalPageSize() + 1;
   }
@@ -442,8 +464,7 @@ export class TableComponent {
   }
 
   // -- Column Filters --
-  protected onFilterChange(columnKey: string, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
+  protected onFilterChange(columnKey: string, value: string): void {
     const filters = { ...this.columnFilters(), [columnKey]: value };
     this.columnFilters.set(filters);
     this.currentPage.set(0);

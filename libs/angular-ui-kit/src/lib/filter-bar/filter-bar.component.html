@@ -7,29 +7,15 @@
 
       @switch (filter.type) {
         @case ('select') {
-          <div class="lc-filter-bar__select-wrapper">
-            <select
-              class="lc-filter-bar__select"
-              [value]="getValue(filter.key)"
-              (change)="onFilterChange(filter.key, getInputValue($event))"
-            >
-              @if (filter.placeholder) {
-                <option value="">{{ filter.placeholder }}</option>
-              }
-              @for (opt of filter.options; track opt.value) {
-                <option
-                  [value]="opt.value"
-                  [disabled]="opt.disabled ?? false"
-                >
-                  {{ opt.label }}
-                </option>
-              }
-            </select>
-            <!-- Chevron icon -->
-            <svg class="lc-filter-bar__select-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-          </div>
+          <lc-select
+            class="lc-filter-bar__select"
+            [size]="size() === 'sm' ? 'sm' : 'md'"
+            [placeholder]="filter.placeholder ?? 'Select an option'"
+            [options]="getSelectOptions(filter.options)"
+            [ariaLabel]="filter.label || filter.placeholder || filter.key"
+            [ngModel]="getValue(filter.key)"
+            (ngModelChange)="onFilterChange(filter.key, normalizeSelectValue($event))"
+          />
         }
 
         @case ('toggle') {
@@ -48,19 +34,13 @@
         }
 
         @case ('search') {
-          <div class="lc-filter-bar__search-wrapper">
-            <!-- Search icon -->
-            <svg class="lc-filter-bar__search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-            <input
-              type="text"
-              class="lc-filter-bar__search-input"
-              [placeholder]="filter.placeholder ?? 'Search...'"
-              [value]="getValue(filter.key)"
-              (input)="onSearchInput(filter.key, $event)"
-            />
-          </div>
+          <lc-search-input
+            class="lc-filter-bar__search"
+            [placeholder]="filter.placeholder ?? 'Search...'"
+            [size]="size() === 'sm' ? 'sm' : 'md'"
+            [debounceMs]="0"
+            (searchChange)="onSearchInput(filter.key, $event)"
+          />
         }
       }
     </div>

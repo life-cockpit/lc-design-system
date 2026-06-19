@@ -19,12 +19,11 @@
 
   <!-- Search -->
   <div class="lc-nc__search">
-    <input
-      type="text"
-      class="lc-nc__search-input"
+    <lc-search-input
+      class="lc-nc__search-field"
       placeholder="Search notifications…"
-      [value]="searchQuery()"
-      (input)="onSearch($event)"
+      [debounceMs]="0"
+      (searchChange)="onSearch($event)"
     />
   </div>
 

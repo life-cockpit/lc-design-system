@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.9] - 2026-06-19
+
+### Changed
+
+- **FilterBar uses LC Select component** — Replaced native `<select>` usage in `lc-filter-bar` with `<lc-select>` so filter controls consistently use design-system components and styling.
+- **FilterBar search uses LC SearchInput** — Replaced the native search `<input>` in `lc-filter-bar` with `<lc-search-input>` for consistent behavior and styling.
+- **NotificationCenter search uses LC SearchInput** — Replaced the native search `<input>` in `lc-notification-center` with `<lc-search-input>`.
+- **Table page size uses LC Select** — Replaced native pagination page-size `<select>` in `lc-table` with `<lc-select>`.
+- **Table column filters use LC Input** — Replaced native text filter `<input>` fields in `lc-table` with `<lc-input>`.
+
+### Fixed
+
+- **Search icon fallback regression** — Added a compatibility icon alias mapping `magnifying-glass` to Tabler `search` so existing usages render the correct search icon instead of the fallback `X` icon.
+
 ## [1.11.8] - 2026-06-18
 
 ### Added

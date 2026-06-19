@@ -10,13 +10,13 @@
           @for (column of columns(); track column.key) {
             <th>
               @if (column.filterable !== false) {
-                <input
-                  type="text"
+                <lc-input
                   class="lc-table__filter-input"
+                  size="xs"
                   [placeholder]="'Filter ' + column.label"
-                  [value]="getFilterValue(column.key)"
-                  (input)="onFilterChange(column.key, $event)"
-                  [attr.aria-label]="'Filter by ' + column.label"
+                  [ariaLabel]="'Filter by ' + column.label"
+                  [ngModel]="getFilterValue(column.key)"
+                  (ngModelChange)="onFilterChange(column.key, $event)"
                 />
               }
             </th>
@@ -120,16 +120,14 @@
       {{ paginationStart }}–{{ paginationEnd }} of {{ totalRows() }}
     </div>
     <div class="lc-table-pagination__controls">
-      <select
+      <lc-select
         class="lc-table-pagination__size"
-        [value]="internalPageSize()"
-        (change)="onPageSizeChange($event)"
-        aria-label="Rows per page"
-      >
-        @for (opt of pageSizeOptions(); track opt) {
-          <option [value]="opt">{{ opt }} / page</option>
-        }
-      </select>
+        [size]="size() === 'sm' ? 'sm' : size() === 'lg' ? 'lg' : 'md'"
+        [options]="pageSizeSelectOptions()"
+        [ngModel]="internalPageSize()"
+        [ariaLabel]="'Rows per page'"
+        (ngModelChange)="onPageSizeModelChange($event)"
+      />
       <button
         type="button"
         class="lc-table-pagination__btn"

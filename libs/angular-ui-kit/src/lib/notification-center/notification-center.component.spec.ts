@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, signal } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { By } from '@angular/platform-browser';
 import { NotificationCenterComponent, Notification } from './notification-center.component';
 
 const now = new Date();
@@ -160,9 +161,8 @@ describe('NotificationCenterComponent', () => {
   // -- Search --
 
   it('should filter by search query', () => {
-    const input = el.querySelector('.lc-nc__search-input') as HTMLInputElement;
-    input.value = 'comment';
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    const searchCmp = fixture.debugElement.query(By.css('lc-search-input')).componentInstance;
+    searchCmp.searchChange.emit('comment');
     fixture.detectChanges();
     expect(el.querySelectorAll('.lc-nc__item').length).toBe(1);
   });
@@ -248,6 +248,6 @@ describe('NotificationCenterComponent', () => {
   // -- Search input --
 
   it('should show search input', () => {
-    expect(el.querySelector('.lc-nc__search-input')).toBeTruthy();
+    expect(el.querySelector('lc-search-input')).toBeTruthy();
   });
 });

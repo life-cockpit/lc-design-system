@@ -207,24 +207,11 @@
 
 .lc-table__filter-input {
   width: 100%;
-  padding: var(--spacing-1) var(--spacing-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-sm);
+  display: block;
+}
+
+.lc-table__filter-input .input-field {
   font-size: var(--typography-font-size-xs);
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-  transition: border-color 0.15s ease;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb, 59, 130, 246), 0.15);
-  }
-
-  &::placeholder {
-    color: var(--color-text-secondary);
-    opacity: 0.6;
-  }
 }
 
 // Selection
@@ -277,14 +264,8 @@
   }
 
   &__size {
-    appearance: none;
-    padding: var(--spacing-1) var(--spacing-2);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: var(--color-background);
-    color: var(--color-text-primary);
-    font-size: var(--typography-font-size-xs);
-    cursor: pointer;
+    display: block;
+    min-width: 110px;
   }
 
   &__btn {
@@ -374,7 +355,6 @@
 
 [data-theme='dark'] .lc-table-pagination,
 :root[data-theme='dark'] .lc-table-pagination {
-  &__size,
   &__btn {
     background-color: var(--color-neutral-800);
     border-color: var(--color-neutral-700);

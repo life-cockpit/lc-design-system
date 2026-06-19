@@ -118,6 +118,7 @@ export class IconComponent {
   private readonly iconAliasMap: Record<string, string> = {
     account_balance: 'building-library',
     analytics: 'presentation-chart-line',
+    'magnifying-glass': 'search',
     notifications_active: 'bell-alert',
     trending_up: 'arrow-trending-up',
     'trending-up': 'arrow-trending-up',

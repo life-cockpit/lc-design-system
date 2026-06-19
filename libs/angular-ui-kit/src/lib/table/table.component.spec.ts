@@ -549,12 +549,12 @@ describe('TableComponent', () => {
     });
 
     it('should render filter inputs when filterable', () => {
-      const filters = fixture.debugElement.queryAll(By.css('.lc-table__filter-input'));
+      const filters = fixture.debugElement.queryAll(By.css('.lc-table__filter-input .input-field'));
       expect(filters.length).toBe(3);
     });
 
     it('should filter rows based on input', () => {
-      const filterInput = fixture.debugElement.queryAll(By.css('.lc-table__filter-input'))[0];
+      const filterInput = fixture.debugElement.queryAll(By.css('.lc-table__filter-input .input-field'))[0];
       filterInput.nativeElement.value = 'Alice';
       filterInput.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();
@@ -564,7 +564,7 @@ describe('TableComponent', () => {
     });
 
     it('should show empty state when filter matches nothing', () => {
-      const filterInput = fixture.debugElement.queryAll(By.css('.lc-table__filter-input'))[0];
+      const filterInput = fixture.debugElement.queryAll(By.css('.lc-table__filter-input .input-field'))[0];
       filterInput.nativeElement.value = 'ZZZ_NO_MATCH';
       filterInput.nativeElement.dispatchEvent(new Event('input'));
       fixture.detectChanges();

@@ -4,10 +4,10 @@ import {
   input,
   output,
   computed,
-  ContentChildren,
-  QueryList,
-  AfterContentInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SearchInputComponent } from '../search-input/search-input.component';
+import { SelectComponent, SelectOption } from '../select/select.component';
 
 /**
  * Configuration for a single filter in the FilterBar.
@@ -58,7 +58,7 @@ export interface FilterValues {
 @Component({
   selector: 'lc-filter-bar',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, SelectComponent, SearchInputComponent],
   templateUrl: './filter-bar.component.html',
   styleUrl: './filter-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,6 +84,10 @@ export class FilterBarComponent {
     return this.values()[key] ?? '';
   }
 
+  getSelectOptions(options?: readonly FilterOption[]): SelectOption[] {
+    return options ? options.map((opt) => ({ ...opt })) : [];
+  }
+
   /** Handle select / toggle change */
   onFilterChange(key: string, value: string): void {
     const updated = { ...this.values(), [key]: value };
@@ -91,9 +95,12 @@ export class FilterBarComponent {
   }
 
   /** Handle search input */
-  onSearchInput(key: string, event: Event): void {
-    const target = event.target as HTMLInputElement;
-    this.onFilterChange(key, target.value);
+  onSearchInput(key: string, value: string): void {
+    this.onFilterChange(key, value);
+  }
+
+  normalizeSelectValue(value: string | number | null): string {
+    return value == null ? '' : String(value);
   }
 
   /** Check if a toggle option is active */
@@ -113,7 +120,4 @@ export class FilterBarComponent {
     return classes.join(' ');
   }
 
-  protected getInputValue(event: Event): string {
-    return (event.target as HTMLInputElement).value;
-  }
 }
