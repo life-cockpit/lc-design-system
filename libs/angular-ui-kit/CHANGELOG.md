@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.11] - 2026-06-23
+
+### Added
+
+- **Table row actions column (`lc-table`)** — New `actions` input renders a trailing actions column with per-row buttons (e.g. Freigeben / Ablehnen). Each `TableAction` supports `key`, `label`, `icon`, `variant`, `tooltip`, and per-row `hidden`/`disabled` predicates. Omit `label` for compact icon-only buttons. Configure the column via `actionsLabel`, `actionsWidth`, and `actionsAlign` (`start` | `center` | `end`) — the header label follows the same alignment as the buttons. Clicks emit `actionClick` (`{ action, row, rowIndex }`) with the paginate-safe absolute row index, and stop propagation so they never trigger the row's `rowClick`.
+
 ## [1.11.10] - 2026-06-23
 
 ### Added

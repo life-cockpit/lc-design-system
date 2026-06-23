@@ -643,4 +643,92 @@ describe('TableComponent', () => {
     });
   });
 
+  describe('Row Actions', () => {
+    const actions = [
+      { key: 'approve', label: 'Freigeben', variant: 'primary' as const },
+      { key: 'reject', label: 'Ablehnen', variant: 'danger' as const },
+    ];
+
+    beforeEach(() => {
+      fixture.componentRef.setInput('columns', mockColumns);
+      fixture.componentRef.setInput('data', mockData);
+    });
+
+    it('should not render an actions column when no actions are provided', () => {
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('.lc-table__actions-cell'))).toBeFalsy();
+    });
+
+    it('should render an actions cell with a button per action for each row', () => {
+      fixture.componentRef.setInput('actions', actions);
+      fixture.detectChanges();
+
+      const firstRow = fixture.debugElement.queryAll(By.css('tbody tr'))[0];
+      const actionsCell = firstRow.query(By.css('.lc-table__actions-cell'));
+      expect(actionsCell).toBeTruthy();
+      const buttons = actionsCell.queryAll(By.css('lc-button'));
+      expect(buttons.length).toBe(2);
+    });
+
+    it('should render the actions header label', () => {
+      fixture.componentRef.setInput('actions', actions);
+      fixture.componentRef.setInput('actionsLabel', 'Aktionen');
+      fixture.detectChanges();
+
+      const headerCell = fixture.debugElement.query(By.css('thead .lc-table__actions-cell'));
+      expect(headerCell.nativeElement.textContent).toContain('Aktionen');
+    });
+
+    it('should emit actionClick with the absolute row index', () => {
+      fixture.componentRef.setInput('actions', actions);
+      fixture.detectChanges();
+
+      let emitted: { action: string; row: Record<string, unknown>; rowIndex: number } | undefined;
+      component.actionClick.subscribe((e) => (emitted = e));
+
+      const firstRowButtons = fixture.debugElement
+        .queryAll(By.css('tbody tr'))[1]
+        .queryAll(By.css('lc-button'));
+      firstRowButtons[0].triggerEventHandler('clicked');
+
+      expect(emitted).toEqual({ action: 'approve', row: mockData[1], rowIndex: 1 });
+    });
+
+    it('should NOT trigger rowClick when an action button is clicked', () => {
+      fixture.componentRef.setInput('actions', actions);
+      fixture.detectChanges();
+
+      const rowClickSpy = jest.fn();
+      component.rowClick.subscribe(rowClickSpy);
+
+      const actionsCell = fixture.debugElement.query(By.css('tbody tr .lc-table__actions-cell'));
+      // The cell stops propagation so the row (click) handler never fires.
+      actionsCell.triggerEventHandler('click', { stopPropagation: () => undefined });
+
+      expect(rowClickSpy).not.toHaveBeenCalled();
+    });
+
+    it('should still emit rowClick when a data cell is clicked', () => {
+      fixture.componentRef.setInput('actions', actions);
+      fixture.detectChanges();
+
+      const rowClickSpy = jest.fn();
+      component.rowClick.subscribe(rowClickSpy);
+
+      fixture.debugElement.queryAll(By.css('tbody tr'))[0].triggerEventHandler('click', {});
+      expect(rowClickSpy).toHaveBeenCalledWith(mockData[0]);
+    });
+
+    it('should hide actions for rows matching the hidden predicate', () => {
+      fixture.componentRef.setInput('actions', [
+        { key: 'approve', label: 'Freigeben', hidden: (row: Record<string, unknown>) => row['name'] === 'Bob' },
+      ]);
+      fixture.detectChanges();
+
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      expect(rows[0].queryAll(By.css('lc-button')).length).toBe(1); // Alice
+      expect(rows[1].queryAll(By.css('lc-button')).length).toBe(0); // Bob hidden
+    });
+  });
+
 });

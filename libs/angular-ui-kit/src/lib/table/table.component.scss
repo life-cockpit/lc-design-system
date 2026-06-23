@@ -232,6 +232,47 @@
   background-color: var(--color-primary-50, rgba(59, 130, 246, 0.08)) !important;
 }
 
+// Row actions
+// Header label and the body button group share the same alignment so the
+// "Aktionen" header always lines up with its buttons. The selectors are scoped
+// under `.lc-table` + the cell element so they outweigh the base
+// `.lc-table thead tr th { text-align: left }` rule without needing !important.
+.lc-table__actions-cell {
+  white-space: nowrap;
+}
+
+.lc-table {
+  th.lc-table__actions-cell--start,
+  td.lc-table__actions-cell--start {
+    text-align: left;
+  }
+
+  th.lc-table__actions-cell--center,
+  td.lc-table__actions-cell--center {
+    text-align: center;
+  }
+
+  th.lc-table__actions-cell--end,
+  td.lc-table__actions-cell--end {
+    text-align: right;
+  }
+}
+
+.lc-table__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  justify-content: flex-start;
+
+  .lc-table__actions-cell--center & {
+    justify-content: center;
+  }
+
+  .lc-table__actions-cell--end & {
+    justify-content: flex-end;
+  }
+}
+
 // Inline editing
 .lc-table__edit-input {
   width: 100%;

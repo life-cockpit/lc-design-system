@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { TableCellDirective } from './table-cell.directive';
 import { InputComponent } from '../input/input.component';
 import { SelectComponent } from '../select/select.component';
+import { ButtonComponent, ButtonVariant } from '../button/button.component';
+import { IconComponent } from '../icon/icon.component';
 
 type TableCellClass = string | ((
   value: unknown,
@@ -54,6 +56,35 @@ export interface TableColumn {
   editType?: 'text' | 'number' | 'select';
   /** Options for select edit type */
   editOptions?: string[];
+}
+
+/**
+ * A row-level action rendered in the table's actions column (e.g. Freigeben, Ablehnen).
+ * Action button clicks never trigger the row's `rowClick` output.
+ */
+export interface TableAction {
+  /** Unique identifier emitted with the {@link ActionClickEvent} */
+  key: string;
+  /** Visible button label (omit for icon-only buttons when an `icon` is set) */
+  label?: string;
+  /** Optional icon name rendered before the label */
+  icon?: string;
+  /** Button variant (default: 'ghost') */
+  variant?: ButtonVariant;
+  /** Optional tooltip / aria-label, useful for icon-only actions */
+  tooltip?: string;
+  /** Hide this action for specific rows */
+  hidden?: (row: Record<string, unknown>, rowIndex: number) => boolean;
+  /** Disable this action for specific rows */
+  disabled?: (row: Record<string, unknown>, rowIndex: number) => boolean;
+}
+
+export type TableActionsAlign = 'start' | 'center' | 'end';
+
+export interface ActionClickEvent {
+  action: string;
+  row: Record<string, unknown>;
+  rowIndex: number;
 }
 
 export interface SortEvent {
@@ -116,7 +147,7 @@ export type TableSize = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'lc-table',
   standalone: true,
-  imports: [NgTemplateOutlet, NgStyle, FormsModule, SelectComponent, InputComponent],
+  imports: [NgTemplateOutlet, NgStyle, FormsModule, SelectComponent, InputComponent, ButtonComponent, IconComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -168,6 +199,22 @@ export class TableComponent {
   /** Enable inline cell editing on double-click */
   editable = input<boolean>(false);
 
+  // -- Row Actions --
+  /**
+   * Row-level actions rendered in a trailing actions column (e.g. Freigeben / Ablehnen).
+   * Clicking an action button does NOT trigger the row's `rowClick` output.
+   */
+  actions = input<TableAction[]>([]);
+
+  /** Header label for the actions column */
+  actionsLabel = input<string>('');
+
+  /** Width of the actions column (e.g. '120px') */
+  actionsWidth = input<string | undefined>(undefined);
+
+  /** Horizontal alignment of the action buttons (and header label) within the cell */
+  actionsAlign = input<TableActionsAlign>('start');
+
   /** Emitted when a sortable column header is clicked */
   readonly sort = output<SortEvent>();
 
@@ -179,6 +226,9 @@ export class TableComponent {
 
   /** Emitted when row selection changes */
   readonly selectionChange = output<SelectionChangeEvent>();
+
+  /** Emitted when a row action button is clicked */
+  readonly actionClick = output<ActionClickEvent>();
 
   // -- Internal state --
   protected currentSort = signal<{ column: string; direction: 'asc' | 'desc' } | null>(null);
@@ -388,6 +438,42 @@ export class TableComponent {
 
   onRowClick(row: Record<string, unknown>): void {
     this.rowClick.emit(row);
+  }
+
+  // -- Row Actions --
+  /** Whether the trailing actions column should be rendered */
+  protected readonly hasActions = computed(() => this.actions().length > 0);
+
+  protected isActionHidden(
+    action: TableAction,
+    row: Record<string, unknown>,
+    relativeRowIndex: number
+  ): boolean {
+    return action.hidden ? action.hidden(row, this.getAbsoluteIndex(relativeRowIndex)) : false;
+  }
+
+  protected isActionDisabled(
+    action: TableAction,
+    row: Record<string, unknown>,
+    relativeRowIndex: number
+  ): boolean {
+    return action.disabled ? action.disabled(row, this.getAbsoluteIndex(relativeRowIndex)) : false;
+  }
+
+  /**
+   * Handles an action button click. The DOM click is stopped from propagating
+   * (see template `$event.stopPropagation()`), so the row's `rowClick` never fires.
+   */
+  protected onActionClick(
+    action: TableAction,
+    row: Record<string, unknown>,
+    relativeRowIndex: number
+  ): void {
+    this.actionClick.emit({
+      action: action.key,
+      row,
+      rowIndex: this.getAbsoluteIndex(relativeRowIndex),
+    });
   }
 
   // -- Pagination --

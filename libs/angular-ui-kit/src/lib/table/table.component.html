@@ -21,6 +21,9 @@
               }
             </th>
           }
+          @if (hasActions()) {
+            <th class="lc-table__actions-cell"></th>
+          }
         </tr>
       }
       <!-- Header row -->
@@ -56,12 +59,22 @@
             }
           </th>
         }
+        @if (hasActions()) {
+          <th
+            scope="col"
+            class="lc-table__actions-cell"
+            [class]="'lc-table__actions-cell--' + actionsAlign()"
+            [style.width]="actionsWidth()"
+          >
+            {{ actionsLabel() }}
+          </th>
+        }
       </tr>
     </thead>
     <tbody>
       @if (displayData().length === 0) {
         <tr>
-          <td [attr.colspan]="columns().length + (selectable() ? 1 : 0)" class="lc-table__empty">
+          <td [attr.colspan]="columns().length + (selectable() ? 1 : 0) + (hasActions() ? 1 : 0)" class="lc-table__empty">
             {{ emptyText() }}
           </td>
         </tr>
@@ -104,6 +117,35 @@
                 } @else {
                   {{ getFormattedCellValue(row, column, i) }}
                 }
+              </td>
+            }
+            @if (hasActions()) {
+              <td
+                class="lc-table__actions-cell"
+                [class]="'lc-table__actions-cell--' + actionsAlign()"
+                (click)="$event.stopPropagation()"
+              >
+                <div class="lc-table__actions">
+                  @for (action of actions(); track action.key) {
+                    @if (!isActionHidden(action, row, i)) {
+                      <lc-button
+                        [variant]="action.variant ?? 'ghost'"
+                        size="xs"
+                        [iconOnly]="!action.label"
+                        [disabled]="isActionDisabled(action, row, i)"
+                        [ariaLabel]="action.tooltip ?? action.label ?? action.key"
+                        (clicked)="onActionClick(action, row, i)"
+                      >
+                        @if (action.icon) {
+                          <lc-icon [name]="action.icon" size="sm" [decorative]="true" />
+                        }
+                        @if (action.label) {
+                          {{ action.label }}
+                        }
+                      </lc-button>
+                    }
+                  }
+                </div>
               </td>
             }
           </tr>

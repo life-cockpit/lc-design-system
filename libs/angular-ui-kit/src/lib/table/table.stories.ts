@@ -194,6 +194,104 @@ export const WithSelection: Story = {
   },
 };
 
+export const WithRowActions: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'A trailing actions column renders per-row buttons such as **Freigeben** and **Ablehnen**. ' +
+          'Action clicks emit `actionClick` and stop propagation, so the row `rowClick` is never triggered. ' +
+          'Click a row vs. an action button and watch the event log to see they do not collide. ' +
+          'Use the `hidden`/`disabled` predicates to control actions per row (here, already-approved rows hide both actions).',
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      columns: [
+        { key: 'name', label: 'Name', sortable: true },
+        { key: 'email', label: 'Email' },
+        { key: 'status', label: 'Status', sortable: true },
+      ],
+      data: [
+        { name: 'Alice Schmidt', email: 'alice@example.com', status: 'Ausstehend' },
+        { name: 'Bob Müller', email: 'bob@example.com', status: 'Ausstehend' },
+        { name: 'Carla Weber', email: 'carla@example.com', status: 'Freigegeben' },
+        { name: 'David Klein', email: 'david@example.com', status: 'Ausstehend' },
+      ],
+      actions: [
+        { key: 'approve', label: 'Freigeben', icon: 'check', variant: 'primary' as const, hidden: (row: Record<string, unknown>) => row['status'] === 'Freigegeben' },
+        { key: 'reject', label: 'Ablehnen', icon: 'x-mark', variant: 'danger' as const, hidden: (row: Record<string, unknown>) => row['status'] === 'Freigegeben' },
+      ],
+      lastEvent: 'Keine Aktion',
+      onRowClick(row: Record<string, unknown>) {
+        this['lastEvent'] = `Zeile geklickt: ${row['name']}`;
+      },
+      onActionClick(event: { action: string; row: Record<string, unknown> }) {
+        const label = event.action === 'approve' ? 'Freigeben' : 'Ablehnen';
+        this['lastEvent'] = `Aktion „${label}" für ${event.row['name']}`;
+      },
+    },
+    template: `
+      <lc-table
+        [columns]="columns"
+        [data]="data"
+        [actions]="actions"
+        actionsLabel="Aktionen"
+        [hoverable]="true"
+        variant="default"
+        (rowClick)="onRowClick($event)"
+        (actionClick)="onActionClick($event)"
+      ></lc-table>
+      <p style="margin-top: 1rem; font-family: monospace; color: var(--color-text-secondary);">
+        Letztes Ereignis: <strong>{{ lastEvent }}</strong>
+      </p>
+    `,
+  }),
+};
+
+export const WithIconOnlyActions: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Omit the `label` to render compact icon-only action buttons. Always provide a `tooltip` ' +
+          '(used as the accessible label). Here the actions are right-aligned via `actionsAlign="end"` — ' +
+          'the header label follows the same alignment so it stays in sync with the buttons.',
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      columns: [
+        { key: 'name', label: 'Name', sortable: true },
+        { key: 'email', label: 'Email' },
+        { key: 'status', label: 'Status', sortable: true },
+      ],
+      data: [
+        { name: 'Alice Schmidt', email: 'alice@example.com', status: 'Ausstehend' },
+        { name: 'Bob Müller', email: 'bob@example.com', status: 'Ausstehend' },
+        { name: 'David Klein', email: 'david@example.com', status: 'Ausstehend' },
+      ],
+      actions: [
+        { key: 'approve', icon: 'check', variant: 'ghost' as const, tooltip: 'Freigeben' },
+        { key: 'reject', icon: 'x-mark', variant: 'ghost' as const, tooltip: 'Ablehnen' },
+      ],
+    },
+    template: `
+      <lc-table
+        [columns]="columns"
+        [data]="data"
+        [actions]="actions"
+        actionsLabel="Aktionen"
+        actionsAlign="end"
+        [hoverable]="true"
+        variant="default"
+      ></lc-table>
+    `,
+  }),
+};
+
 export const WithFiltering: Story = {
   parameters: {
     docs: { description: { story: 'Per-column text filters allow users to narrow results. Filters are applied across all columns simultaneously.' } },
