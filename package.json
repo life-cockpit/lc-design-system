@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "node scripts/patch-storybook-angular.js"
+    "postinstall": "node scripts/patch-storybook-angular.js",
+    "build:tokens": "nx run angular-ui-kit:build:tokens"
   },
   "private": true,
   "dependencies": {
@@ -68,6 +69,7 @@
     "prettier": "~3.6.2",
     "sass-loader": "^16.0.7",
     "storybook": "^10.1.0",
+    "style-dictionary": "4.4.0",
     "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.19",
     "ts-jest": "^29.4.0",

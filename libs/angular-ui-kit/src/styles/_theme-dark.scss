@@ -14,7 +14,11 @@
 @use './tokens/animation' as *;
 @use './tokens/size' as *;
 
-:root.dark {
+// Design System 2.0: dark is the DEFAULT look. `:root:not(.light)` makes dark
+// apply before any theme class is set (no first-paint white flash); `.light` is
+// the explicit opt-in escape hatch defined in _theme-light.scss.
+:root.dark,
+:root:not(.light) {
   // ============================================================================
   // Colors - Primary (Inverted for dark mode)
   // ============================================================================
@@ -144,12 +148,12 @@
   --typography-line-height-relaxed: #{$typography-line-height-relaxed};
 
   // ============================================================================
-  // Elevation (Enhanced shadows for dark mode)
+  // Elevation (DS2.0 deep layered shadows — from generated tokens)
   // ============================================================================
-  --elevation-1: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.18);
-  --elevation-2: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.18);
-  --elevation-3: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
-  --elevation-4: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.12);
+  --elevation-1: #{$elevation-1};
+  --elevation-2: #{$elevation-2};
+  --elevation-3: #{$elevation-3};
+  --elevation-4: #{$elevation-4};
 
   // ============================================================================
   // Border Radius (Same as light theme)
@@ -196,21 +200,61 @@
   --size-min-touch-height: #{$size-min-touch-height};
 
   // ============================================================================
-  // Semantic Color Mappings for Dark Theme
+  // Semantic Color Mappings for Dark Theme (DS2.0 — teal-tinted surfaces)
   // ============================================================================
-  --color-background: #{$color-neutral-900};
-  --color-surface: #{$color-neutral-800};
-  --color-text-primary: #{$color-neutral-50};
-  --color-text-secondary: #{$color-neutral-300};
-  --color-text-disabled: #{$color-neutral-500};
-  --color-border: #{$color-neutral-700};
-  --color-divider: #{$color-neutral-800};
-  --color-neutral-white: #ffffff;  
+  // Surfaces
+  --color-background: #{$color-background-dark};
+  // Two teal+violet radial glows over the base background. Apply on the app
+  // shell via `background-image: var(--app-background-image)`.
+  --app-background-image:
+    radial-gradient(1200px 800px at 12% -10%, rgba(32, 132, 151, 0.20), transparent 60%),
+    radial-gradient(900px 700px at 110% 120%, rgba(78, 63, 132, 0.18), transparent 55%);
+  --color-surface: #{$color-surface-dark-base};
+  --color-surface-2: #{$color-surface-dark-raised};
+  --color-surface-sunken: #{$color-surface-dark-sunken};
+  --color-surface-hover: rgba(132, 199, 212, 0.06);
+  --color-surface-selected: rgba(32, 132, 151, 0.12);
+  --color-surface-muted: rgba(255, 255, 255, 0.02);
+  // Gradient surface for cards/panels (use as `background-image`)
+  --gradient-surface: linear-gradient(180deg, var(--color-surface-2), var(--color-surface));
+
+  // Text
+  --color-text-primary: #{$color-text-dark-primary};
+  --color-text-secondary: #{$color-text-dark-secondary};
+  --color-text-tertiary: #{$color-text-dark-tertiary};
+  --color-text-disabled: #{$color-text-dark-tertiary};
+  --color-neutral-white: #ffffff;
+
+  // Borders
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(132, 199, 212, 0.28);
+  --color-divider: rgba(255, 255, 255, 0.06);
+
+  // Brand alias (some components reference bare --color-primary)
+  --color-primary: var(--color-primary-500);
+
   // Semantic color aliases for components
   --color-error: #{$color-error-default};
   --color-success: #{$color-success-default};
   --color-warning: #{$color-warning-default};
   --color-info: #{$color-info-default};
+
+  // ============================================================================
+  // DS2.0 Visual Primitives (the pitch signature)
+  // ============================================================================
+  // NOTE: these reference the RAW token scale (#{$color-primary-*}) rather than
+  // the inverted --color-primary-* custom properties, so the teal gradient reads
+  // bright-on-dark exactly like the pitch regardless of dark-mode inversion.
+  // 3px top accent bar for cards/panels (use on a ::after as background)
+  --accent-line: linear-gradient(90deg, #{$color-primary-500}, transparent);
+  // 1px teal ring used on brand tiles / focus glow
+  --shadow-brand-glow: 0 0 0 1px rgba(132, 199, 212, 0.3);
+  // Soft teal hover/focus glow
+  --shadow-glow: 0 0 24px rgba(132, 199, 212, 0.12);
+  // Gradient for clipped display text (use with -webkit-background-clip: text)
+  --gradient-text: linear-gradient(100deg, #{$color-primary-300}, #{$color-primary-500} 55%, #{$color-accent-purple});
+  // Gradient teal tile for logos / icon squares
+  --gradient-brand-tile: linear-gradient(135deg, #{$color-primary-400}, #{$color-primary-600});
   // ============================================================================
   // Short Aliases for Common Usage (Component Convenience)
   // ============================================================================
