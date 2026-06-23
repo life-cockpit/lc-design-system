@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.11.10] - 2026-06-23
+
+### Added
+
+- **TreeView component (`lc-tree-view`)** — New component for visualizing file/folder hierarchies, designed to render a complete GitHub project. Renders a recursive `TreeNode[]` structure with expand/collapse folders, expand-all/collapse-all, two-way bound `selectedId`, a `nodeClick` output, indentation guide lines, and optional git-style status badges (added/modified/removed).
+- **Automatic file-type icons** — Files resolve a Tabler icon by well-known file name (`package.json`, `Dockerfile`, `README.md`, …) and by extension (`.ts`, `.json`, `.scss`, `.py`, `.md`, `.png`, `.svg`, `.zip`, …), with open/closed folder icons. Per-node `icon` overrides are supported. Resolution is exposed via the standalone `resolveFileIcon` helper.
+
 ## [1.11.9] - 2026-06-19
 
 ### Changed

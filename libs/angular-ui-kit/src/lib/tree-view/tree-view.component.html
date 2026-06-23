@@ -1,0 +1,78 @@
+@if (showToolbar()) {
+  <div class="lc-tree-view__toolbar">
+    <button type="button" class="lc-tree-view__tool-btn" (click)="expandAll()" title="Expand all">
+      <lc-icon name="fold-down" size="xs" [decorative]="true" />
+      <span>Expand all</span>
+    </button>
+    <button type="button" class="lc-tree-view__tool-btn" (click)="collapseAll()" title="Collapse all">
+      <lc-icon name="fold-up" size="xs" [decorative]="true" />
+      <span>Collapse all</span>
+    </button>
+  </div>
+}
+
+<ul class="lc-tree-view__list" role="tree">
+  @for (node of visibleNodes(); track trackById($index, node)) {
+    <li
+      class="lc-tree-view__item"
+      [class.lc-tree-view__item--selected]="node.id === selectedId()"
+      [class.lc-tree-view__item--disabled]="node.disabled"
+      [class.lc-tree-view__item--folder]="node.type === 'folder'"
+      role="treeitem"
+      [attr.aria-level]="node.depth + 1"
+      [attr.aria-expanded]="node.hasChildren ? node.expanded : null"
+      [attr.aria-selected]="node.id === selectedId()"
+      [attr.aria-disabled]="node.disabled ? true : null"
+      [tabindex]="node.disabled ? -1 : 0"
+      (click)="onNodeClick(node)"
+      (keydown)="onKeydown(node, $event)"
+    >
+      <!-- indentation + guide lines -->
+      @for (hasSibling of node.ancestorHasSibling; track $index) {
+        <span
+          class="lc-tree-view__indent"
+          [class.lc-tree-view__indent--guide]="showGuides() && hasSibling"
+        ></span>
+      }
+
+      <!-- expand / collapse chevron -->
+      <span class="lc-tree-view__chevron">
+        @if (node.hasChildren) {
+          <button
+            type="button"
+            class="lc-tree-view__chevron-btn"
+            [class.lc-tree-view__chevron-btn--expanded]="node.expanded"
+            (click)="onToggleClick(node, $event)"
+            [attr.aria-label]="node.expanded ? 'Collapse' : 'Expand'"
+            tabindex="-1"
+          >
+            <lc-icon name="chevron-right" size="xs" [decorative]="true" />
+          </button>
+        }
+      </span>
+
+      <!-- type / file icon -->
+      <span
+        class="lc-tree-view__icon"
+        [style.color]="
+          node.status === 'default' ? null : badgeColor(node.status)
+        "
+      >
+        <lc-icon [name]="node.icon" [size]="iconSize()" [decorative]="true" />
+      </span>
+
+      <!-- label -->
+      <span class="lc-tree-view__label">{{ node.name }}</span>
+
+      <!-- badge -->
+      @if (node.badge) {
+        <span
+          class="lc-tree-view__badge"
+          [style.color]="badgeColor(node.status)"
+          [style.border-color]="badgeColor(node.status)"
+          >{{ node.badge }}</span
+        >
+      }
+    </li>
+  }
+</ul>

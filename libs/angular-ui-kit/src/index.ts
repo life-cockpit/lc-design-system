@@ -296,6 +296,10 @@ export * from './lib/gallery/gallery.component';
 // Dependency Viewer Component
 export * from './lib/dependency-viewer/dependency-viewer.component';
 
+// Tree View Component
+export * from './lib/tree-view/tree-view.component';
+export * from './lib/tree-view/file-icons';
+
 // Scatter Plot Component
 export * from './lib/scatter-plot/scatter-plot.component';
 
