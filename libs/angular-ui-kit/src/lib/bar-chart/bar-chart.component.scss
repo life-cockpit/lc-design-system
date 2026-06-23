@@ -10,8 +10,7 @@
   stroke: var(--color-neutral-300);
   stroke-width: 1;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     stroke: var(--color-neutral-600);
   }
 }
@@ -21,8 +20,7 @@
   stroke-width: 1;
   stroke-dasharray: 3 3;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     stroke: var(--color-neutral-700);
   }
 }
@@ -45,8 +43,7 @@
   font-weight: 600;
   fill: var(--color-neutral-700);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     fill: var(--color-neutral-300);
   }
 }
@@ -55,8 +52,7 @@
   font-size: 0.6875rem;
   fill: var(--color-neutral-600);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     fill: var(--color-neutral-400);
   }
 }

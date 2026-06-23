@@ -284,8 +284,7 @@
 }
 
 // Dark theme
-[data-theme='dark'] .lc-rich-text-editor,
-:root[data-theme='dark'] .lc-rich-text-editor {
+:root.dark .lc-rich-text-editor {
   background-color: var(--color-neutral-900);
   border-color: var(--color-neutral-700);
 

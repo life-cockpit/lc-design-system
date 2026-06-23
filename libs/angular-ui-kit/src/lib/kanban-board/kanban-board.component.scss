@@ -28,8 +28,7 @@
     background: var(--color-error-50, #fef2f2);
   }
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     background: var(--color-neutral-800);
 
     &--drop-target {
@@ -47,8 +46,7 @@
   font-weight: 600;
   color: var(--color-neutral-700);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-neutral-300);
   }
 }
@@ -111,8 +109,7 @@
     cursor: grabbing;
   }
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     background: var(--color-neutral-700);
     border-color: var(--color-neutral-600);
   }
@@ -128,8 +125,7 @@
   font-weight: 500;
   color: var(--color-neutral-800);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-neutral-100);
   }
 }

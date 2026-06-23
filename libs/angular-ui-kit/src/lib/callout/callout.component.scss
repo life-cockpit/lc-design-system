@@ -73,8 +73,7 @@ $callout-colors: (
         color: map.get($colors, icon);
       }
 
-      [data-theme='dark'] &,
-      :root[data-theme='dark'] & {
+      :root.dark & {
         background-color: map.get($colors, bg-dark);
         border-left-color: map.get($colors, border-dark);
         color: map.get($colors, text-dark);

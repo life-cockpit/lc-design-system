@@ -288,8 +288,8 @@
   }
 }
 
-// ── Dark mode (data-theme) ─────────────────────
-:host-context([data-theme='dark']) {
+// ── Dark mode ──────────────────────────────────────
+:host-context(.dark) {
   .lc-list {
     background-color: var(--color-neutral-900, #111827);
   }

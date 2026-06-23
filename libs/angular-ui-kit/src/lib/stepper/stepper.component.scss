@@ -46,8 +46,7 @@
     background-color: var(--color-neutral-200, #e5e7eb);
     color: var(--color-neutral-500, #6b7280);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-neutral-700, #374151);
       color: var(--color-neutral-400, #9ca3af);
     }
@@ -58,8 +57,7 @@
     color: #ffffff;
     box-shadow: 0 0 0 4px var(--color-primary-100, #dbeafe);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-primary-500, #3b82f6);
       box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.4);
     }
@@ -69,8 +67,7 @@
     background-color: var(--color-success-default, #16a34a);
     color: #ffffff;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-success-light, #22c55e);
     }
   }
@@ -95,8 +92,7 @@
     font-weight: var(--typography-font-weight-medium, 500);
     color: var(--color-neutral-900, #111827);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-100, #f3f4f6);
     }
   }
@@ -104,8 +100,7 @@
   &__step--pending &__title {
     color: var(--color-neutral-500, #6b7280);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-400, #9ca3af);
     }
   }
@@ -115,8 +110,7 @@
     color: var(--color-neutral-500, #6b7280);
     margin-top: 0.125rem;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-400, #9ca3af);
     }
   }
@@ -127,8 +121,7 @@
     font-style: italic;
     margin-top: 0.125rem;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-500, #6b7280);
     }
   }
@@ -142,8 +135,7 @@
     background-color: var(--color-neutral-200, #e5e7eb);
     transition: background-color 0.2s ease;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-neutral-700, #374151);
     }
   }
@@ -151,8 +143,7 @@
   &__connector--completed {
     background-color: var(--color-success-default, #16a34a);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-success-light, #22c55e);
     }
   }

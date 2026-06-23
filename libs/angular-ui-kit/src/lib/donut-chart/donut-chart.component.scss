@@ -22,8 +22,7 @@
   font-weight: 700;
   fill: var(--color-neutral-900);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     fill: var(--color-neutral-100);
   }
 }
@@ -58,8 +57,7 @@
 .lc-donut-chart__legend-label {
   color: var(--color-neutral-700);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-neutral-300);
   }
 }

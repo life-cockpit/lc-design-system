@@ -116,7 +116,7 @@
 }
 
 /* ── Dark mode ──────────────────────────────────── */
-:host-context([data-theme='dark']) {
+:host-context(.dark) {
   .lc-drawer__overlay--visible {
     background: rgba(0, 0, 0, 0.6);
   }

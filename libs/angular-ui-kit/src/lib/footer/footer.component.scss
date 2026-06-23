@@ -3,16 +3,14 @@
   color: var(--color-neutral-600);
   font-size: var(--typography-font-size-sm, 0.875rem);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-neutral-400);
   }
 
   &--bordered {
     border-top: 1px solid var(--color-neutral-200);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       border-top-color: var(--color-neutral-700);
     }
   }
@@ -32,8 +30,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-200);
     }
   }
@@ -76,8 +73,7 @@
     color: var(--color-neutral-400);
     font-size: var(--typography-font-size-xs, 0.75rem);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-500);
     }
   }
@@ -145,8 +141,7 @@
   &--neutral {
     background-color: var(--color-neutral-100);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-neutral-800);
     }
   }

@@ -46,7 +46,7 @@
     html.dark &,
     :root.dark &,
     .dark &,
-    [data-theme='dark'] & {
+    :root.dark & {
       filter: invert(1) hue-rotate(180deg);
     }
   }

@@ -8,8 +8,7 @@
 
 .lc-gauge__track {
   stroke: var(--color-neutral-200);
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     stroke: var(--color-neutral-700);
   }
 }
@@ -27,8 +26,7 @@
   font-weight: 700;
   fill: var(--color-neutral-900);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     fill: var(--color-neutral-100);
   }
 }

@@ -44,7 +44,7 @@
 }
 
 // ── Dark mode ─────────────────────────────────────────────────────
-:host-context([data-theme='dark']) {
+:host-context(.dark) {
   .empty-state__heading {
     color: var(--color-neutral-100, #f3f4f6);
   }

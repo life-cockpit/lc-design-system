@@ -87,7 +87,7 @@
 }
 
 // Dark mode support
-:root[data-theme='dark'] {
+:root.dark {
   .lc-breadcrumbs__link {
     color: var(--color-primary-400);
 

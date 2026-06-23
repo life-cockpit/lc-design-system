@@ -11,8 +11,7 @@
   border: 1px solid var(--color-border, #e5e7eb);
   background-color: var(--color-surface, #ffffff);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     border-color: var(--color-border-dark, #374151);
     background-color: var(--color-surface-dark, #1f2937);
   }
@@ -26,16 +25,14 @@
     transition: background-color 0.15s ease, color 0.15s ease;
     white-space: nowrap;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-text-secondary-dark, #9ca3af);
     }
 
     &:hover:not(:disabled):not(.lc-toggle-group__btn--active) {
       background-color: var(--color-neutral-100, #f3f4f6);
 
-      [data-theme='dark'] &,
-      :root[data-theme='dark'] & {
+      :root.dark & {
         background-color: var(--color-neutral-800, #1f2937);
       }
     }
@@ -44,8 +41,7 @@
       background-color: var(--color-primary-600, #2563eb);
       color: #ffffff;
 
-      [data-theme='dark'] &,
-      :root[data-theme='dark'] & {
+      :root.dark & {
         background-color: var(--color-primary-500, #3b82f6);
         color: #ffffff;
       }
@@ -60,8 +56,7 @@
     & + & {
       border-left: 1px solid var(--color-border, #e5e7eb);
 
-      [data-theme='dark'] &,
-      :root[data-theme='dark'] & {
+      :root.dark & {
         border-left-color: var(--color-border-dark, #374151);
       }
     }

@@ -19,7 +19,7 @@
 }
 
 /* Dark mode */
-:host-context([data-theme='dark']) .lc-skeleton {
+:host-context(.dark) .lc-skeleton {
   background: linear-gradient(
     90deg,
     var(--color-neutral-700, #374151) 25%,

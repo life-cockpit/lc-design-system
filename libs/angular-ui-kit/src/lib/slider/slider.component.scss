@@ -12,8 +12,7 @@
     font-weight: var(--typography-font-weight-medium, 500);
     color: var(--color-neutral-700);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       color: var(--color-neutral-300);
     }
   }
@@ -50,8 +49,7 @@
     cursor: pointer;
     transition: background 0.15s ease;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background: linear-gradient(
         to right,
         var(--color-primary-400) var(--fill-percent, 0%),

@@ -38,8 +38,7 @@
       }
     }
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       border-color: var(--color-neutral-600);
       color: var(--color-neutral-400);
 
@@ -72,8 +71,7 @@
     border-radius: 0.5rem;
     background: var(--color-neutral-100);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background: var(--color-neutral-800);
     }
 
@@ -108,8 +106,7 @@
     background-size: 200% 100%;
     animation: gallery-shimmer 1.5s ease-in-out infinite;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background: linear-gradient(90deg,
         var(--color-neutral-800) 25%,
         var(--color-neutral-700) 50%,

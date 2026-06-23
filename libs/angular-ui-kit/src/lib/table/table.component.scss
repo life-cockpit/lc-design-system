@@ -160,8 +160,7 @@
 }
 
 // Dark theme overrides
-[data-theme='dark'] .lc-table,
-:root[data-theme='dark'] .lc-table {
+:root.dark .lc-table {
   background-color: var(--color-neutral-900);
   
   thead {
@@ -378,24 +377,20 @@
 }
 
 // Dark theme adjustments for new features
-[data-theme='dark'] .lc-table__filter-input,
-:root[data-theme='dark'] .lc-table__filter-input {
+:root.dark .lc-table__filter-input {
   background-color: var(--color-neutral-800);
   border-color: var(--color-neutral-700);
 }
 
-[data-theme='dark'] .lc-table__edit-input,
-:root[data-theme='dark'] .lc-table__edit-input {
+:root.dark .lc-table__edit-input {
   background-color: var(--color-neutral-800);
 }
 
-[data-theme='dark'] .lc-table__row--selected,
-:root[data-theme='dark'] .lc-table__row--selected {
+:root.dark .lc-table__row--selected {
   background-color: rgba(59, 130, 246, 0.12) !important;
 }
 
-[data-theme='dark'] .lc-table-pagination,
-:root[data-theme='dark'] .lc-table-pagination {
+:root.dark .lc-table-pagination {
   &__btn {
     background-color: var(--color-neutral-800);
     border-color: var(--color-neutral-700);

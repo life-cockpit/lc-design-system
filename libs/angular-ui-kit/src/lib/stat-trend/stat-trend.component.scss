@@ -36,8 +36,7 @@
   color: var(--color-neutral-900);
   line-height: 1.2;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-neutral-100);
   }
 }
@@ -56,8 +55,7 @@
   color: var(--color-success-dark);
   background-color: var(--color-success-light);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-success-light);
     background-color: color-mix(in srgb, var(--color-success-default) 15%, transparent);
   }
@@ -67,8 +65,7 @@
   color: var(--color-error-dark);
   background-color: var(--color-error-light);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-error-light);
     background-color: color-mix(in srgb, var(--color-error-default) 15%, transparent);
   }
@@ -78,8 +75,7 @@
   color: var(--color-neutral-600);
   background-color: var(--color-neutral-100);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
+  :root.dark & {
     color: var(--color-neutral-400);
     background-color: var(--color-neutral-800);
   }

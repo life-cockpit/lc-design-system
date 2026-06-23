@@ -8,8 +8,7 @@
     border-radius: 50%;
     position: relative;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       border-color: var(--color-neutral-900);
     }
 
@@ -31,8 +30,7 @@
     flex-shrink: 0;
     user-select: none;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
+    :root.dark & {
       background-color: var(--color-neutral-700);
       color: var(--color-neutral-200);
       border-color: var(--color-neutral-900);

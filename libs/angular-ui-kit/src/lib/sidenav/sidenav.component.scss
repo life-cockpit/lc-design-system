@@ -634,7 +634,7 @@
 }
 
 // ── Auto dark theme (global context) ───────────
-:host-context([data-theme='dark']) .lc-sidenav:not(.lc-sidenav--light) {
+:host-context(.dark) .lc-sidenav:not(.lc-sidenav--light) {
   @include sidenav-dark-tokens;
 }
 

@@ -2,7 +2,7 @@
 .lc-progress-ring { overflow: visible; }
 .lc-progress-ring__track {
   stroke: var(--color-neutral-200);
-  [data-theme='dark'] &, :root[data-theme='dark'] & { stroke: var(--color-neutral-700); }
+  :root.dark & { stroke: var(--color-neutral-700); }
 }
 .lc-progress-ring__value {
   transition: stroke-dashoffset 0.4s ease;
@@ -16,5 +16,5 @@
 .lc-progress-ring__text {
   font-weight: 700;
   fill: var(--color-neutral-900);
-  [data-theme='dark'] &, :root[data-theme='dark'] & { fill: var(--color-neutral-100); }
+  :root.dark & { fill: var(--color-neutral-100); }
 }
