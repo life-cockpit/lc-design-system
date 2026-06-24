@@ -10,30 +10,22 @@
 }
 
 .lc-line-chart__axis {
-  stroke: var(--color-neutral-300);
+  stroke: var(--color-border);
   stroke-width: 1;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    stroke: var(--color-neutral-600);
-  }
 }
 
 .lc-line-chart__grid-line {
-  stroke: var(--color-neutral-200);
+  stroke: var(--color-border);
   stroke-width: 1;
   stroke-dasharray: 3 3;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    stroke: var(--color-neutral-700);
-  }
 }
 
 .lc-line-chart__y-label,
 .lc-line-chart__x-label {
   font-size: 0.625rem;
-  fill: var(--color-neutral-500);
+  fill: var(--color-text-tertiary);
 }
 
 .lc-line-chart__area {
@@ -70,10 +62,6 @@
 }
 
 .lc-line-chart__legend-label {
-  color: var(--color-neutral-700);
+  color: var(--color-text-secondary);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    color: var(--color-neutral-300);
-  }
 }

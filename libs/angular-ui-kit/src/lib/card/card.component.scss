@@ -1,4 +1,5 @@
 @use '../../styles/tokens/colors';
+@use '../../styles/mixins' as mix;
 
 :host {
   display: block;
@@ -6,11 +7,14 @@
 }
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   background-color: var(--color-surface);
-  transition: all 150ms ease-in-out;
+  color: var(--color-text-primary);
+  transition: box-shadow 150ms ease-in-out, transform 150ms ease-in-out,
+    border-color 150ms ease-in-out;
 
   &__body {
     flex: 1;
@@ -19,20 +23,23 @@
   }
 
   // Variants
+  // Elevated is the default DS2.0 surface: gradient fill, hairline border,
+  // soft layered shadow, and a teal accent line along the top edge.
   &-elevated {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    @include mix.card-surface($radius: null, $level: 1, $accent-line: true);
 
     &:hover {
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      box-shadow: var(--elevation-2);
     }
   }
 
   &-outlined {
+    background-image: none;
     border: 1px solid var(--color-border);
   }
 
   &-flat {
-    // No additional styles needed for flat variant
+    background-image: none;
   }
 
   // Padding sizes — driven by density tokens so an ancestor `data-density`
@@ -60,26 +67,26 @@
     }
   }
 
-  // Border radius sizes
+  // Border radius sizes (DS2.0 token scale)
   &-radius {
     &-none {
-      border-radius: 0;
+      border-radius: var(--border-radius-none);
     }
 
     &-sm {
-      border-radius: 0.25rem; // 4px
+      border-radius: var(--border-radius-sm);
     }
 
     &-md {
-      border-radius: 0.5rem; // 8px
+      border-radius: var(--border-radius-md);
     }
 
     &-lg {
-      border-radius: 1rem; // 16px
+      border-radius: var(--border-radius-lg);
     }
 
     &-full {
-      border-radius: 9999px;
+      border-radius: var(--border-radius-full);
     }
   }
 
@@ -88,13 +95,11 @@
     cursor: pointer;
     user-select: none;
 
+    @include mix.focus-ring;
+
     &:hover {
       background-color: var(--color-surface-hover);
-    }
-
-    &:focus {
-      outline: 2px solid var(--color-primary);
-      outline-offset: 2px;
+      border-color: var(--color-border-strong);
     }
 
     &:active {
@@ -104,12 +109,12 @@
 
   // Selected state
   &-selected {
-    border: 2px solid var(--color-primary);
+    border: 1px solid var(--color-primary);
     background-color: var(--color-surface-selected);
+    box-shadow: var(--shadow-brand-glow);
 
     &.card-elevated {
-      box-shadow: 0 3px 6px rgba(32, 132, 151, 0.16),
-        0 3px 6px rgba(32, 132, 151, 0.23);
+      box-shadow: var(--shadow-brand-glow), var(--elevation-2);
     }
   }
 
@@ -155,29 +160,32 @@
     font-weight: 600;
     line-height: 1;
 
+    // Translucent semantic tints — read well on both light and dark surfaces.
     &--default {
-      background-color: var(--color-neutral-100, #f3f4f6);
-      color: var(--color-neutral-700, #374151);
+      background-color: var(--color-surface-hover);
+      color: var(--color-text-secondary);
+      border: 1px solid var(--color-border);
     }
 
     &--primary {
-      background-color: var(--color-primary-100, #dbeafe);
-      color: var(--color-primary-700, #1d4ed8);
+      background-color: rgba(32, 132, 151, 0.16);
+      color: var(--color-primary-500);
+      border: 1px solid var(--color-border-strong);
     }
 
     &--success {
-      background-color: var(--color-success-100, #dcfce7);
-      color: var(--color-success-700, #15803d);
+      background-color: rgba(142, 164, 117, 0.18);
+      color: var(--color-success);
     }
 
     &--warning {
-      background-color: var(--color-warning-100, #fef3c7);
-      color: var(--color-warning-700, #a16207);
+      background-color: rgba(225, 160, 64, 0.18);
+      color: var(--color-warning);
     }
 
     &--error {
-      background-color: var(--color-error-100, #fee2e2);
-      color: var(--color-error-700, #b91c1c);
+      background-color: rgba(157, 14, 14, 0.18);
+      color: var(--color-error);
     }
   }
 

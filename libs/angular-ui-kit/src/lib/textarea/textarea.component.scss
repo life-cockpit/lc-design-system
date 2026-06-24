@@ -16,7 +16,7 @@
   
   &--required::after {
     content: ' *';
-    color: var(--color-danger-600);
+    color: var(--color-error);
   }
 }
 
@@ -112,11 +112,11 @@
   }
   
   &--error {
-    border-color: var(--color-danger-500);
+    border-color: var(--color-error);
     
     &:focus {
-      border-color: var(--color-danger-600);
-      box-shadow: 0 0 0 3px var(--color-danger-100);
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 3px rgba(157, 14, 14, 0.2);
     }
   }
   
@@ -134,7 +134,7 @@
 
 .lc-textarea-error-message {
   font-size: var(--font-size-xs);
-  color: var(--color-danger-600);
+  color: var(--color-error);
 }
 
 .lc-textarea-char-count,
@@ -149,7 +149,7 @@
   
   &--error,
   &--over-limit {
-    color: var(--color-danger-600);
+    color: var(--color-error);
   }
 }
 
@@ -170,5 +170,5 @@
 }
 
 .lc-textarea-required-indicator {
-  color: var(--color-danger-600);
+  color: var(--color-error);
 }

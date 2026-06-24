@@ -111,19 +111,19 @@ $hero-colors: (
   // Border radius
   // -------------------------------------------------------------------------
   &--radius-none {
-    border-radius: 0;
+    border-radius: var(--border-radius-none);
   }
 
   &--radius-sm {
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius-sm);
   }
 
   &--radius-md {
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-md);
   }
 
   &--radius-lg {
-    border-radius: 1rem;
+    border-radius: var(--border-radius-lg);
   }
 
   // -------------------------------------------------------------------------

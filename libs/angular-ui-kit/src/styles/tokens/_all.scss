@@ -48,6 +48,13 @@ $color-accent-purple: #866aa0;
 $color-accent-red: #9e3846;
 $color-accent-rust: #c6592e;
 $color-accent-violet: #4e3f84;
+$color-surface-dark-base: #14222e; // DS2.0 dark card surface
+$color-surface-dark-raised: #1a2c3a; // DS2.0 raised dark surface
+$color-surface-dark-sunken: #0c1722; // DS2.0 sunken dark surface
+$color-background-dark: #111827; // DS2.0 dark app background (== neutral-900)
+$color-text-dark-primary: #eef4f6; // DS2.0 dark primary text
+$color-text-dark-secondary: #aebfc7; // DS2.0 dark secondary text
+$color-text-dark-tertiary: #71858f; // DS2.0 dark muted text
 $spacing-0: 0;
 $spacing-1: 0.25rem; // 4px - Base grid unit
 $spacing-2: 0.5rem; // 8px
@@ -86,16 +93,16 @@ $typography-font-weight-bold: 700;
 $typography-line-height-tight: 1.25;
 $typography-line-height-normal: 1.5;
 $typography-line-height-relaxed: 1.75;
-$elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.05); // Subtle elevation for cards
-$elevation-2: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); // Medium elevation for dropdowns
-$elevation-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); // High elevation for modals
-$elevation-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); // Highest elevation for tooltips
+$elevation-1: 0 4px 24px rgba(0, 0, 0, 0.35); // DS2.0 subtle layered elevation for cards
+$elevation-2: 0 8px 32px rgba(0, 0, 0, 0.42); // DS2.0 medium elevation for dropdowns/popovers
+$elevation-3: 0 14px 44px rgba(0, 0, 0, 0.48); // DS2.0 high elevation for drawers
+$elevation-4: 0 18px 60px rgba(0, 0, 0, 0.55); // DS2.0 highest elevation for modals/overlays
 $border-radius-none: 0;
-$border-radius-sm: 0.25rem; // 4px
-$border-radius-md: 0.5rem; // 8px - Default
-$border-radius-lg: 0.75rem; // 12px
-$border-radius-xl: 1rem; // 16px
-$border-radius-2xl: 1.5rem; // 24px
+$border-radius-sm: 0.625rem; // 10px - DS2.0 small
+$border-radius-md: 0.75rem; // 12px - DS2.0 default
+$border-radius-lg: 1.125rem; // 18px - DS2.0 card radius
+$border-radius-xl: 1.5rem; // 24px
+$border-radius-2xl: 2rem; // 32px
 $border-radius-full: 9999px; // Fully rounded
 $animation-duration-fast: 150ms; // Standard animation duration
 $animation-easing-ease-in: ease-in;

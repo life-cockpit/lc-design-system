@@ -7,11 +7,7 @@
 }
 
 .lc-gauge__track {
-  stroke: var(--color-neutral-200);
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    stroke: var(--color-neutral-700);
-  }
+  stroke: var(--color-border);
 }
 
 .lc-gauge__value-arc {
@@ -25,15 +21,11 @@
 
 .lc-gauge__value-text {
   font-weight: 700;
-  fill: var(--color-neutral-900);
+  fill: var(--color-text-primary);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    fill: var(--color-neutral-100);
-  }
 }
 
 .lc-gauge__label {
-  fill: var(--color-neutral-500);
+  fill: var(--color-text-tertiary);
   font-weight: 500;
 }

@@ -1,10 +1,13 @@
-import { Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, signal, computed, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import type { ThemeMode, ThemeState } from './theme.types';
 
 /**
  * Theme Service
- * Currently only supports light theme (dark mode disabled)
+ *
+ * Design System 2.0 is dark-first: dark is the default theme. Light remains a
+ * fully supported opt-in. Theme is applied via a `dark` / `light` class on the
+ * document root (`:root.dark` / `:root.light`), matching the theme stylesheets.
  */
 @Injectable({
   providedIn: 'root',
@@ -13,51 +16,60 @@ export class ThemeService {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  // Reactive theme state using Angular signals - always light mode
+  // Meta theme-color values for mobile browser chrome.
+  private static readonly META_COLOR: Record<ThemeMode, string> = {
+    dark: '#111827',
+    light: '#ffffff',
+  };
+
+  // Reactive theme state using Angular signals. Dark by default (DS 2.0).
   private readonly themeState = signal<ThemeState>({
-    currentMode: 'light',
-    prefersDark: false,
+    currentMode: 'dark',
+    prefersDark: true,
   });
 
   // Public readonly signals (declared after themeState due to initialization dependency)
   // eslint-disable-next-line @typescript-eslint/member-ordering
   public readonly currentTheme = this.themeState.asReadonly();
   // eslint-disable-next-line @typescript-eslint/member-ordering
-  public readonly isDark = signal(false);
+  public readonly isDark = computed(() => this.themeState().currentMode === 'dark');
 
   constructor() {
-    // Apply light theme on initialization
-    this.applyTheme('light');
+    this.applyTheme(this.themeState().currentMode);
   }
 
   /**
-   * Set the theme mode (currently only light is supported)
+   * Set the active theme mode.
    */
   public setTheme(mode: ThemeMode): void {
-    // Always use light mode
     this.themeState.update((state) => ({
       ...state,
-      currentMode: 'light',
+      currentMode: mode,
     }));
-    this.applyTheme('light');
+    this.applyTheme(mode);
   }
 
   /**
-   * Toggle theme (disabled - always light)
+   * Toggle between dark and light.
    */
   public toggleTheme(): void {
-    // No-op: dark mode disabled
+    this.setTheme(this.themeState().currentMode === 'dark' ? 'light' : 'dark');
   }
 
   /**
-   * Reset to system preference (disabled - always light)
+   * Adopt the OS-level color-scheme preference.
    */
   public useSystemPreference(): void {
-    // No-op: always use light mode
+    if (!this.isBrowser) {
+      return;
+    }
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? true;
+    this.themeState.update((state) => ({ ...state, prefersDark }));
+    this.setTheme(prefersDark ? 'dark' : 'light');
   }
 
   /**
-   * Apply light theme to document
+   * Apply the theme class + mobile meta color to the document.
    */
   private applyTheme(mode: ThemeMode): void {
     if (!this.isBrowser) {
@@ -65,14 +77,13 @@ export class ThemeService {
     }
 
     const root = document.documentElement;
-    // Always apply light mode
-    root.classList.add('light');
-    root.classList.remove('dark');
+    root.classList.toggle('dark', mode === 'dark');
+    root.classList.toggle('light', mode === 'light');
 
     // Update meta theme-color for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', '#ffffff');
+      metaThemeColor.setAttribute('content', ThemeService.META_COLOR[mode]);
     }
   }
 }

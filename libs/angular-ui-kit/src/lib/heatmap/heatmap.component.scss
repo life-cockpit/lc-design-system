@@ -1,5 +1,5 @@
 :host { display: inline-block; }
 .lc-heatmap { overflow: visible; }
-.lc-heatmap__label { font-size: 0.625rem; fill: var(--color-neutral-500); }
+.lc-heatmap__label { font-size: 0.625rem; fill: var(--color-text-tertiary); }
 .lc-heatmap__cell { transition: opacity 0.15s ease; &:hover { opacity: 1 !important; } }
 .lc-heatmap__cell-value { font-size: 0.5rem; fill: white; font-weight: 600; pointer-events: none; }

@@ -15,7 +15,7 @@
     border: 1px solid var(--color-neutral-200);
     border-radius: 999px;
     background: transparent;
-    color: var(--color-neutral-600);
+    color: var(--color-text-secondary);
     font-size: var(--typography-font-size-sm, 0.875rem);
     font-family: var(--typography-font-family, sans-serif);
     cursor: pointer;
@@ -38,22 +38,6 @@
       }
     }
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
-      border-color: var(--color-neutral-600);
-      color: var(--color-neutral-400);
-
-      &:hover {
-        border-color: var(--color-primary-400);
-        color: var(--color-primary-400);
-      }
-
-      &--active {
-        background: var(--color-primary-600);
-        border-color: var(--color-primary-600);
-        color: #fff;
-      }
-    }
   }
 
   // ── Grid / Masonry ─────────────────────────────────────────────────────
@@ -72,10 +56,6 @@
     border-radius: 0.5rem;
     background: var(--color-neutral-100);
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
-      background: var(--color-neutral-800);
-    }
 
     &--clickable {
       cursor: pointer;
@@ -108,15 +88,6 @@
     background-size: 200% 100%;
     animation: gallery-shimmer 1.5s ease-in-out infinite;
 
-    [data-theme='dark'] &,
-    :root[data-theme='dark'] & {
-      background: linear-gradient(90deg,
-        var(--color-neutral-800) 25%,
-        var(--color-neutral-700) 50%,
-        var(--color-neutral-800) 75%
-      );
-      background-size: 200% 100%;
-    }
   }
 
   &__thumb {

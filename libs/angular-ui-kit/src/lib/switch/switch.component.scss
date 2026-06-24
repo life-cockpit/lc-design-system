@@ -170,7 +170,7 @@
   justify-content: center;
   background-color: var(--color-surface);
   border-radius: var(--border-radius-full);
-  box-shadow: var(--elevation-sm);
+  box-shadow: var(--elevation-1);
   transition: transform var(--animation-duration-base) var(--animation-timing-ease);
   transform: translateX(0);
 }

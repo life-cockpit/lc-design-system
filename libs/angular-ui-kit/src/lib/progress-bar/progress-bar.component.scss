@@ -12,8 +12,6 @@ $progress-colors: (
   'info': colors.$color-info-default,
 );
 
-$progress-track: colors.$color-neutral-200;
-
 :host {
   display: block;
   width: 100%;
@@ -30,21 +28,21 @@ $progress-track: colors.$color-neutral-200;
 
   &__track {
     flex: 1;
-    background-color: $progress-track;
-    border-radius: 9999px;
+    background-color: var(--color-surface-hover);
+    border-radius: var(--border-radius-full);
     overflow: hidden;
   }
 
   &__fill {
     height: 100%;
-    border-radius: 9999px;
+    border-radius: var(--border-radius-full);
     transition: width 300ms ease-in-out;
   }
 
   &__label {
     font-size: 0.75rem;
     font-weight: 600;
-    color: colors.$color-neutral-600;
+    color: var(--color-text-secondary);
     min-width: 2.5rem;
     text-align: right;
   }
@@ -88,7 +86,7 @@ $progress-track: colors.$color-neutral-200;
   }
 
   &__track {
-    stroke: $progress-track;
+    stroke: var(--color-surface-hover);
   }
 
   &__fill {
@@ -104,7 +102,7 @@ $progress-track: colors.$color-neutral-200;
   &__label {
     position: absolute;
     font-weight: 700;
-    color: colors.$color-neutral-700;
+    color: var(--color-text-primary);
   }
 
   // Sizes

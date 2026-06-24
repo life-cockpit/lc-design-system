@@ -1,7 +1,4 @@
-@use '../../styles/tokens/colors' as *;
-@use '../../styles/tokens/spacing' as *;
-@use '../../styles/tokens/typography' as *;
-@use '../../styles/tokens/border-radius' as *;
+@use '../../styles/mixins' as mix;
 
 .lc-alert {
   display: block;
@@ -61,72 +58,71 @@
   justify-content: center;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-surface-hover);
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
-  }
+  @include mix.focus-ring;
 }
 
+// DS2.0: translucent tinted surfaces with a tinted border and bright semantic
+// ink. Reads correctly on the dark-first surfaces (and stays legible on light).
 // Success variant
 .lc-alert--success {
-  background-color: $color-success-light;
-  border-color: $color-success-default;
-  color: $color-success-dark;
+  background-color: rgba(142, 164, 117, 0.12);
+  border-color: rgba(142, 164, 117, 0.4);
+  color: var(--color-text-primary);
 
   .lc-alert__icon {
-    color: $color-success-default;
+    color: var(--color-success);
   }
 
   .lc-alert__close:hover {
-    background-color: rgba(142, 164, 117, 0.1);
+    background-color: rgba(142, 164, 117, 0.18);
   }
 }
 
 // Error variant
 .lc-alert--error {
-  background-color: $color-error-light;
-  border-color: $color-error-default;
-  color: $color-error-dark;
+  background-color: rgba(157, 14, 14, 0.14);
+  border-color: rgba(157, 14, 14, 0.45);
+  color: var(--color-text-primary);
 
   .lc-alert__icon {
-    color: $color-error-default;
+    color: var(--color-error);
   }
 
   .lc-alert__close:hover {
-    background-color: rgba(157, 14, 14, 0.1);
+    background-color: rgba(157, 14, 14, 0.2);
   }
 }
 
 // Warning variant
 .lc-alert--warning {
-  background-color: $color-warning-light;
-  border-color: $color-warning-default;
-  color: $color-warning-dark;
+  background-color: rgba(225, 160, 64, 0.14);
+  border-color: rgba(225, 160, 64, 0.42);
+  color: var(--color-text-primary);
 
   .lc-alert__icon {
-    color: $color-warning-default;
+    color: var(--color-warning);
   }
 
   .lc-alert__close:hover {
-    background-color: rgba(225, 160, 64, 0.1);
+    background-color: rgba(225, 160, 64, 0.2);
   }
 }
 
 // Info variant
 .lc-alert--info {
-  background-color: $color-info-light;
-  border-color: $color-info-default;
-  color: $color-info-dark;
+  background-color: rgba(59, 101, 136, 0.16);
+  border-color: rgba(59, 101, 136, 0.42);
+  color: var(--color-text-primary);
 
   .lc-alert__icon {
-    color: $color-info-default;
+    color: var(--color-info);
   }
 
   .lc-alert__close:hover {
-    background-color: rgba(59, 101, 136, 0.1);
+    background-color: rgba(59, 101, 136, 0.22);
   }
 }
 

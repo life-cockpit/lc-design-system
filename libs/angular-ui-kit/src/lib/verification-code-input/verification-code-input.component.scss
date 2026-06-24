@@ -30,8 +30,8 @@
   font-weight: 600;
   text-align: center;
   border: 2px solid var(--color-border, #d1d5db);
-  border-radius: 0.5rem;
-  background-color: var(--color-bg, #ffffff);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-surface);
   color: var(--color-text-primary, #1f2937);
   transition: all 0.2s ease;
 

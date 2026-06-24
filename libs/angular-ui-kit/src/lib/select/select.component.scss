@@ -21,7 +21,7 @@
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
-  background-color: var(--color-surface);
+  background-color: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-md);
   transition: all var(--animation-duration-base) var(--animation-timing-ease);
@@ -29,7 +29,7 @@
   user-select: none;
 
   &:hover:not(.lc-select--disabled) {
-    border-color: var(--color-primary-400);
+    border-color: var(--color-border-strong);
   }
 
   &:focus,
@@ -186,10 +186,12 @@
   z-index: 1000;
   margin-top: var(--spacing-1);
   padding: var(--lc-density-padding-xs, var(--spacing-2));
+  // DS2.0: gradient panel with a teal-tinted border and deep elevation
   background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background-image: var(--gradient-surface);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--elevation-lg);
+  box-shadow: var(--elevation-4);
   min-width: 200px;
   max-height: 320px;
   overflow-y: auto;

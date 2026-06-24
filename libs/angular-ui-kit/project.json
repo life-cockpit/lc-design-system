@@ -13,9 +13,21 @@
   },
   "tags": [],
   "targets": {
+    "build:tokens": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/src/styles/tokens",
+        "{projectRoot}/src/lib/tokens"
+      ],
+      "options": {
+        "command": "style-dictionary build --config style-dictionary.config.js",
+        "cwd": "libs/angular-ui-kit"
+      }
+    },
     "build": {
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "dependsOn": ["build:tokens"],
       "options": {
         "project": "libs/angular-ui-kit/ng-package.json",
         "tsConfig": "libs/angular-ui-kit/tsconfig.lib.json"

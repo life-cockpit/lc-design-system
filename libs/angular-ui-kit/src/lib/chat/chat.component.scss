@@ -3,16 +3,13 @@
   flex-direction: column;
   height: 100%;
   min-height: 20rem;
-  border: 1px solid var(--color-neutral-200);
-  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
   overflow: hidden;
-  background: var(--color-neutral-0, #fff);
+  background-color: var(--color-surface);
+  background-image: var(--gradient-surface);
   font-family: var(--typography-font-family, sans-serif);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-color: var(--color-neutral-700);
-    background: var(--color-neutral-900);
-  }
 }
 
 // ── Header ──────────────────────────────────────────────────
@@ -21,23 +18,16 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--color-neutral-200);
-  background: var(--color-neutral-50);
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-surface-2);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-color: var(--color-neutral-700);
-    background: var(--color-neutral-800);
-  }
 }
 
 .lc-chat__title {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-neutral-900);
+  color: var(--color-text-primary);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    color: var(--color-neutral-100);
-  }
 }
 
 .lc-chat__streaming-badge {
@@ -68,16 +58,20 @@
 .lc-chat__message {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  max-width: 85%;
+  gap: 0.75rem;
 
+  // User messages sit in a compact bubble on the right.
   &--user {
     align-self: flex-end;
     flex-direction: row-reverse;
+    max-width: 80%;
   }
 
+  // Assistant messages read like a document (Claude style): full width, no
+  // bubble, avatar + name + content flowing in the column.
   &--agent {
-    align-self: flex-start;
+    align-self: stretch;
+    max-width: 100%;
   }
 
   &--system {
@@ -107,44 +101,44 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: var(--color-neutral-300);
-  color: #fff;
+  background: var(--color-surface-hover);
+  color: var(--color-text-secondary);
   font-size: 0.75rem;
   font-weight: 700;
 
   &--agent {
-    background: var(--color-primary-500);
+    background: var(--gradient-brand-tile);
+    color: var(--color-neutral-900);
   }
 }
 
 // ── Bubble ──────────────────────────────────────────────────
 .lc-chat__bubble {
-  padding: 0.5rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: 0.9375rem;
+  line-height: 1.6;
   word-break: break-word;
 
+  // User: compact teal bubble.
   .lc-chat__message--user & {
-    background: var(--color-primary-500);
-    color: #fff;
-    border-bottom-right-radius: 0.25rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--border-radius-lg);
+    border-bottom-right-radius: var(--border-radius-sm);
+    background: var(--color-primary-fill);
+    color: var(--color-on-primary);
   }
 
+  // Assistant: no bubble — text flows on the page surface (Claude style).
   .lc-chat__message--agent & {
-    background: var(--color-neutral-100);
-    color: var(--color-neutral-900);
-    border-bottom-left-radius: 0.25rem;
-
-    [data-theme='dark'] &, :root[data-theme='dark'] & {
-      background: var(--color-neutral-800);
-      color: var(--color-neutral-100);
-    }
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--color-text-primary);
   }
 
   .lc-chat__message--system & {
     background: transparent;
-    color: var(--color-neutral-500);
+    color: var(--color-text-tertiary);
     font-size: 0.75rem;
     text-align: center;
     padding: 0.25rem 0.5rem;
@@ -152,16 +146,16 @@
 
   &--streaming {
     .lc-chat__message--agent & {
-      border: 1px solid color-mix(in srgb, var(--color-primary-500) 30%, transparent);
+      border: none;
     }
   }
 }
 
 .lc-chat__name {
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-primary-500);
-  margin-bottom: 0.125rem;
+  margin-bottom: 0.25rem;
 }
 
 .lc-chat__content {
@@ -189,7 +183,7 @@
 
 .lc-chat__time {
   font-size: 0.625rem;
-  color: var(--color-neutral-400);
+  color: var(--color-text-tertiary);
   margin-top: 0.25rem;
 
   .lc-chat__message--user & {
@@ -208,7 +202,7 @@
     width: 0.375rem;
     height: 0.375rem;
     border-radius: 50%;
-    background: var(--color-neutral-400);
+    background: var(--color-text-tertiary);
     animation: typing-bounce 1.4s ease-in-out infinite;
 
     &:nth-child(2) { animation-delay: 0.2s; }
@@ -227,13 +221,9 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem 1rem;
-  border-top: 1px solid var(--color-neutral-200);
-  background: var(--color-neutral-50);
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-surface-2);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-color: var(--color-neutral-700);
-    background: var(--color-neutral-800);
-  }
 }
 
 .lc-chat__input-row {
@@ -245,15 +235,15 @@
 .lc-chat__input {
   flex: 1;
   resize: none;
-  border: 1px solid var(--color-neutral-300);
+  border: 1px solid var(--color-border);
   border-radius: 1.25rem;
   padding: 0.5rem 0.875rem;
   font-size: 0.875rem;
   font-family: inherit;
   line-height: 1.4;
   outline: none;
-  background: var(--color-neutral-0, #fff);
-  color: var(--color-neutral-900);
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
   max-height: 6rem;
   overflow-y: auto;
   transition: border-color 0.15s;
@@ -261,15 +251,8 @@
   &:focus { border-color: var(--color-primary-500); }
   &:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  &::placeholder { color: var(--color-neutral-400); }
+  &::placeholder { color: var(--color-text-tertiary); }
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-color: var(--color-neutral-600);
-    background: var(--color-neutral-700);
-    color: var(--color-neutral-100);
-    &::placeholder { color: var(--color-neutral-500); }
-    &:focus { border-color: var(--color-primary-500); }
-  }
 }
 
 .lc-chat__send-btn {
@@ -280,13 +263,13 @@
   height: 2.25rem;
   border: none;
   border-radius: 50%;
-  background: var(--color-primary-500);
+  background: var(--color-primary-fill);
   color: #fff;
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.15s, opacity 0.15s;
 
-  &:hover:not(:disabled) { background: var(--color-primary-700); }
+  &:hover:not(:disabled) { background: var(--color-primary-fill-hover); }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 }
 
@@ -304,24 +287,17 @@
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.15s, color 0.15s;
 
   &:hover:not(:disabled) {
-    background: var(--color-neutral-200);
-    color: var(--color-neutral-900);
+    background: var(--color-surface-hover);
+    color: var(--color-text-primary);
   }
   &:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    color: var(--color-neutral-400);
-    &:hover:not(:disabled) {
-      background: var(--color-neutral-700);
-      color: var(--color-neutral-100);
-    }
-  }
 }
 
 .lc-chat__pending-attachments {
@@ -335,18 +311,13 @@
   align-items: center;
   gap: 0.375rem;
   padding: 0.25rem 0.375rem 0.25rem 0.5rem;
-  background: var(--color-neutral-0, #fff);
-  border: 1px solid var(--color-neutral-300);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   font-size: 0.75rem;
-  color: var(--color-neutral-800);
+  color: var(--color-text-primary);
   max-width: 16rem;
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    background: var(--color-neutral-700);
-    border-color: var(--color-neutral-600);
-    color: var(--color-neutral-100);
-  }
 }
 
 .lc-chat__pending-thumb {
@@ -365,7 +336,7 @@
 }
 
 .lc-chat__pending-size {
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -378,15 +349,12 @@
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   cursor: pointer;
   flex-shrink: 0;
 
-  &:hover { background: var(--color-neutral-200); color: var(--color-neutral-900); }
+  &:hover { background: var(--color-surface-hover); color: var(--color-text-primary); }
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    &:hover { background: var(--color-neutral-600); color: var(--color-neutral-50); }
-  }
 }
 
 // ── Attachments inside messages ─────────────────────────────

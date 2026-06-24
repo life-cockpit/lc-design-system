@@ -1,0 +1,117 @@
+// =============================================================================
+// Design System 2.0 — Shared SCSS Mixins
+// =============================================================================
+//
+// Reusable building blocks for the dark-first "pitch" aesthetic. These emit no
+// CSS until @include'd, so importing the partial is free.
+//
+// Usage in a component stylesheet:
+//   @use '../../styles/mixins' as mix;
+//   .my-card { @include mix.card-surface; }
+//
+// All mixins read semantic CSS custom properties (defined in _theme-dark.scss /
+// _theme-light.scss), so a single @include works correctly in both themes.
+// =============================================================================
+
+// Accessible focus ring. Replaces the duplicated
+// `outline: 2px solid var(--color-primary-500)` scattered across components.
+@mixin focus-ring($color: var(--color-primary-500), $offset: 2px, $width: 2px) {
+  &:focus-visible {
+    outline: $width solid $color;
+    outline-offset: $offset;
+  }
+}
+
+// Map a 1–4 elevation level to its token shadow.
+@mixin elevation($level: 1) {
+  box-shadow: var(--elevation-#{$level});
+}
+
+// The signature DS2.0 surface: gradient fill, hairline border, rounded corners,
+// soft elevation, and (optionally) a 3px teal accent line along the top edge.
+// Requires `position` context for the ::after accent (the mixin sets it).
+// Pass `$radius: null` to leave border-radius to the caller (e.g. when a
+// component exposes its own radius scale).
+@mixin card-surface($radius: var(--border-radius-lg), $level: 1, $accent-line: true) {
+  position: relative;
+  overflow: hidden;
+  background-image: var(--gradient-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--elevation-#{$level});
+
+  @if $radius != null {
+    border-radius: $radius;
+  }
+
+  @if $accent-line {
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: var(--accent-line);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+}
+
+// Clip a teal→violet gradient to text. Apply to a heading/display element.
+@mixin gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+// Soft teal glow, typically on hover/focus of interactive surfaces.
+@mixin glow {
+  box-shadow: var(--shadow-glow);
+}
+
+// Pill shape with a teal-tinted translucent fill and strong border — the shared
+// language for buttons, badges, chips, tags.
+@mixin pill($translucent: true) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  border-radius: var(--border-radius-full);
+  border: 1px solid var(--color-border-strong);
+
+  @if $translucent {
+    background: rgba(132, 199, 212, 0.08);
+  }
+}
+
+// Uppercase eyebrow label with letter-spacing and a teal leading dash.
+@mixin kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-300);
+
+  &::before {
+    content: '';
+    width: 26px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-primary-400);
+  }
+}
+
+// Gradient teal tile with a 1px ring — for logo/avatar/icon squares.
+@mixin brand-tile($size: 2rem, $radius: var(--border-radius-md)) {
+  display: grid;
+  place-items: center;
+  width: $size;
+  height: $size;
+  flex-shrink: 0;
+  border-radius: $radius;
+  background: var(--gradient-brand-tile);
+  box-shadow: var(--shadow-brand-glow);
+  color: var(--color-neutral-900);
+}

@@ -49,7 +49,7 @@
                 @if (card.labels?.length) {
                   <div class="lc-kanban__card-labels">
                     @for (label of card.labels; track label.text) {
-                      <span class="lc-kanban__card-label" [style.background]="label.color || 'var(--color-neutral-200)'">{{ label.text }}</span>
+                      <span class="lc-kanban__card-label" [style.--label-color]="label.color || 'var(--color-primary-500)'">{{ label.text }}</span>
                     }
                   </div>
                 }

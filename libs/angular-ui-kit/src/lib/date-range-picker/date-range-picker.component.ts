@@ -8,6 +8,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { IconComponent } from '../icon/icon.component';
 
 export interface DateRange {
   start: Date | null;
@@ -17,6 +18,7 @@ export interface DateRange {
 @Component({
   selector: 'lc-date-range-picker',
   standalone: true,
+  imports: [IconComponent],
   templateUrl: './date-range-picker.component.html',
   styleUrls: ['./date-range-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

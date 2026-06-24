@@ -1,14 +1,10 @@
 .lc-gantt {
   font-family: var(--typography-font-family, sans-serif);
-  border: 1px solid var(--color-neutral-200);
-  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-md);
   overflow: hidden;
-  background: var(--color-neutral-0, #fff);
+  background: var(--color-surface);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-color: var(--color-neutral-700);
-    background: var(--color-neutral-900);
-  }
 }
 
 .lc-gantt__container {
@@ -19,16 +15,12 @@
 // ── Labels ──────────────────────────────────────────────────
 .lc-gantt__labels {
   flex-shrink: 0;
-  border-right: 2px solid var(--color-neutral-200);
-  background: var(--color-neutral-50);
+  border-right: 2px solid var(--color-border);
+  background: var(--color-surface-2);
   position: sticky;
   left: 0;
   z-index: 3;
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-right-color: var(--color-neutral-700);
-    background: var(--color-neutral-800);
-  }
 }
 
 .lc-gantt__labels-header {
@@ -38,38 +30,29 @@
   padding: 0 0.75rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.025em;
-  border-bottom: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--color-border);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-bottom-color: var(--color-neutral-700);
-  }
 }
 
 .lc-gantt__label-row {
   display: flex;
   align-items: center;
   padding: 0 0.75rem;
-  border-bottom: 1px solid var(--color-neutral-100);
+  border-bottom: 1px solid var(--color-divider);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-bottom-color: var(--color-neutral-800);
-  }
 }
 
 .lc-gantt__label-text {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--color-neutral-800);
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    color: var(--color-neutral-200);
-  }
 }
 
 // ── Timeline ────────────────────────────────────────────────
@@ -82,13 +65,9 @@
   display: flex;
   position: relative;
   height: 1.5rem;
-  border-bottom: 1px solid var(--color-neutral-200);
-  background: var(--color-neutral-50);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-2);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-bottom-color: var(--color-neutral-700);
-    background: var(--color-neutral-800);
-  }
 }
 
 .lc-gantt__month-cell {
@@ -100,26 +79,18 @@
   padding-left: 0.5rem;
   font-size: 0.6875rem;
   font-weight: 600;
-  color: var(--color-neutral-600);
-  border-left: 1px solid var(--color-neutral-200);
+  color: var(--color-text-secondary);
+  border-left: 1px solid var(--color-border);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    color: var(--color-neutral-400);
-    border-left-color: var(--color-neutral-700);
-  }
 }
 
 .lc-gantt__day-row {
   display: flex;
   position: relative;
   height: 2rem;
-  border-bottom: 1px solid var(--color-neutral-200);
-  background: var(--color-neutral-50);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface-2);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    border-bottom-color: var(--color-neutral-700);
-    background: var(--color-neutral-800);
-  }
 }
 
 .lc-gantt__day-cell {
@@ -130,18 +101,14 @@
   align-items: center;
   justify-content: center;
   font-size: 0.625rem;
-  color: var(--color-neutral-600);
-  border-left: 1px solid var(--color-neutral-100);
+  color: var(--color-text-secondary);
+  border-left: 1px solid var(--color-divider);
 
   &--weekend {
-    color: var(--color-neutral-400);
-    background: color-mix(in srgb, var(--color-neutral-200) 30%, transparent);
+    color: var(--color-text-tertiary);
+    background: color-mix(in srgb, var(--color-border) 30%, transparent);
   }
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    color: var(--color-neutral-400);
-    border-left-color: var(--color-neutral-800);
-  }
 }
 
 // ── Grid ────────────────────────────────────────────────────
@@ -153,11 +120,8 @@
 .lc-gantt__weekend-bg {
   position: absolute;
   top: 0;
-  background: color-mix(in srgb, var(--color-neutral-200) 20%, transparent);
+  background: color-mix(in srgb, var(--color-border) 20%, transparent);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    background: color-mix(in srgb, var(--color-neutral-700) 30%, transparent);
-  }
 }
 
 .lc-gantt__row-line {
@@ -165,11 +129,8 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--color-neutral-100);
+  background: var(--color-divider);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    background: var(--color-neutral-800);
-  }
 }
 
 .lc-gantt__today {
@@ -184,7 +145,7 @@
 // ── Bars ────────────────────────────────────────────────────
 .lc-gantt__bar {
   position: absolute;
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
   overflow: hidden;
   display: flex;
@@ -234,18 +195,12 @@
 
 .lc-gantt__dep-line {
   fill: none;
-  stroke: var(--color-neutral-400);
+  stroke: var(--color-border-strong);
   stroke-width: 1.5;
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    stroke: var(--color-neutral-500);
-  }
 }
 
 .lc-gantt__arrow {
-  fill: var(--color-neutral-400);
+  fill: var(--color-text-tertiary);
 
-  [data-theme='dark'] &, :root[data-theme='dark'] & {
-    fill: var(--color-neutral-500);
-  }
 }

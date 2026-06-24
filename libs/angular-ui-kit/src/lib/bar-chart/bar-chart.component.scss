@@ -7,29 +7,21 @@
 }
 
 .lc-bar-chart__axis {
-  stroke: var(--color-neutral-300);
+  stroke: var(--color-border);
   stroke-width: 1;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    stroke: var(--color-neutral-600);
-  }
 }
 
 .lc-bar-chart__grid-line {
-  stroke: var(--color-neutral-200);
+  stroke: var(--color-border);
   stroke-width: 1;
   stroke-dasharray: 3 3;
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    stroke: var(--color-neutral-700);
-  }
 }
 
 .lc-bar-chart__grid-label {
   font-size: 0.625rem;
-  fill: var(--color-neutral-500);
+  fill: var(--color-text-tertiary);
 }
 
 .lc-bar-chart__bar {
@@ -43,20 +35,12 @@
 .lc-bar-chart__value {
   font-size: 0.625rem;
   font-weight: 600;
-  fill: var(--color-neutral-700);
+  fill: var(--color-text-secondary);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    fill: var(--color-neutral-300);
-  }
 }
 
 .lc-bar-chart__label {
   font-size: 0.6875rem;
-  fill: var(--color-neutral-600);
+  fill: var(--color-text-secondary);
 
-  [data-theme='dark'] &,
-  :root[data-theme='dark'] & {
-    fill: var(--color-neutral-400);
-  }
 }

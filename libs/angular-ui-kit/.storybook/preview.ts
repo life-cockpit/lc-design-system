@@ -52,12 +52,18 @@ import { TooltipDirective } from '../src/lib/tooltip/tooltip.directive';
 import { TypographyComponent } from '../src/lib/typography/typography.component';
 import { VerificationCodeInputComponent } from '../src/lib/verification-code-input/verification-code-input.component';
 
+// DS2.0 is dark-first — autodocs renders on a dark canvas so component previews
+// sit on the same teal-tinted dark surface as the app.
 const lcDocsTheme = create({
-  base: 'light',
-  colorPrimary: '#208497',
-  colorSecondary: '#208497',
-  textColor: '#1F2937',
-  textMutedColor: '#6B7280',
+  base: 'dark',
+  colorPrimary: '#84c7d4',
+  colorSecondary: '#84c7d4',
+  appBg: '#111827',
+  appContentBg: '#14222e',
+  appPreviewBg: '#111827',
+  barBg: '#14222e',
+  textColor: '#eef4f6',
+  textMutedColor: '#aebfc7',
   fontBase: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   fontCode: '"Fira Code", "JetBrains Mono", monospace',
 });
@@ -119,15 +125,23 @@ const preview: Preview = {
     }),
     withThemeByClassName({
       themes: {
-        light: 'light',
         dark: 'dark',
+        light: 'light',
       },
-      defaultTheme: 'light',
+      // DS2.0 is dark-first — the preview defaults to dark.
+      defaultTheme: 'dark',
       parentSelector: ':root',
     }),
   ],
   parameters: {
     layout: 'padded',
+    backgrounds: {
+      default: 'dark',
+      values: [
+        { name: 'dark', value: '#111827' },
+        { name: 'light', value: '#ffffff' },
+      ],
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

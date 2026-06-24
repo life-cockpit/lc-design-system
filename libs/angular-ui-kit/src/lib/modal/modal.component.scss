@@ -29,9 +29,13 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--color-background);
+  // DS2.0: gradient panel with a teal-tinted border and deep elevation
+  background-color: var(--color-surface);
+  background-image: var(--gradient-surface);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--elevation-xl);
+  box-shadow: var(--elevation-4);
+  color: var(--color-text-primary);
   z-index: 1000;
   max-height: 90vh;
   display: flex;
@@ -53,7 +57,7 @@
     font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-tight);
     margin: 0;
-    color: var(--color-text);
+    color: var(--color-text-primary);
   }
 }
 
