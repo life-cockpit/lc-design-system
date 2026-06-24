@@ -7,7 +7,7 @@
   gap: 0.75rem;
 
   &__circle {
-    border-radius: 9999px;
+    border-radius: var(--border-radius-full);
     border: 2px solid var(--color-primary-200, #bfdbfe);
     border-top-color: var(--color-primary-600, #2563eb);
     animation: lc-spin 0.75s linear infinite;
@@ -16,7 +16,7 @@
   &__message {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--color-neutral-500, #6b7280);
+    color: var(--color-text-tertiary);
   }
 
   // ── Sizes ─────────────────────────────────────────────────────
@@ -63,7 +63,7 @@
   }
 
   .spinner__message {
-    color: var(--color-neutral-400, #9ca3af);
+    color: var(--color-text-tertiary);
   }
 }
 
