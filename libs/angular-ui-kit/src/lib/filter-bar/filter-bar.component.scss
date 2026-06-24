@@ -13,13 +13,10 @@
   &__label {
     font-size: var(--font-size-xs, 0.75rem);
     font-weight: var(--typography-font-weight-medium, 500);
-    color: var(--color-neutral-500, #6b7280);
+    color: var(--color-text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
-    :root.dark & {
-      color: var(--color-neutral-400, #9ca3af);
-    }
   }
 
   &__select {
@@ -31,49 +28,33 @@
   &__toggle-group {
     display: inline-flex;
     border-radius: 0.5rem;
-    border: 1px solid var(--color-neutral-300, #d1d5db);
-    background-color: var(--color-neutral-100, #f3f4f6);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface-hover);
     overflow: hidden;
 
-    :root.dark & {
-      border-color: var(--color-neutral-600, #4b5563);
-      background-color: var(--color-surface-dark, #1f2937);
-    }
   }
 
   &__toggle-btn {
     padding: 0.5rem 0.75rem;
     font-size: var(--font-size-sm, 0.875rem);
     font-weight: var(--typography-font-weight-medium, 500);
-    color: var(--color-neutral-600, #4b5563);
+    color: var(--color-text-secondary);
     transition: color 0.15s ease, background-color 0.15s ease;
     border: none;
     background: transparent;
     cursor: pointer;
 
     &:hover {
-      color: var(--color-neutral-900, #111827);
-      background-color: var(--color-neutral-200, #e5e7eb);
+      color: var(--color-text-primary);
+      background-color: var(--color-surface-hover);
     }
 
-    :root.dark & {
-      color: var(--color-neutral-400, #9ca3af);
-
-      &:hover {
-        color: var(--color-neutral-100, #f3f4f6);
-        background-color: var(--color-neutral-700, #374151);
-      }
-    }
 
     &--active {
-      background-color: var(--color-surface, #ffffff);
-      color: var(--color-neutral-900, #111827);
+      background-color: var(--color-surface-2);
+      color: var(--color-text-primary);
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
-      :root.dark & {
-        background-color: var(--color-neutral-700, #374151);
-        color: var(--color-neutral-100, #f3f4f6);
-      }
     }
 
     &--disabled {
@@ -82,11 +63,8 @@
     }
 
     & + & {
-      border-left: 1px solid var(--color-neutral-300, #d1d5db);
+      border-left: 1px solid var(--color-border);
 
-      :root.dark & {
-        border-left-color: var(--color-neutral-600, #4b5563);
-      }
     }
   }
 

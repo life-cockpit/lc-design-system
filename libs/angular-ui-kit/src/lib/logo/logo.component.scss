@@ -43,10 +43,8 @@
 
   // Auto mode: invert only when global dark theme is active
   &.lc-logo--auto {
-    html.dark &,
     :root.dark &,
-    .dark &,
-    :root.dark & {
+    .dark & {
       filter: invert(1) hue-rotate(180deg);
     }
   }

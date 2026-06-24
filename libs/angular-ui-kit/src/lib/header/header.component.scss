@@ -10,14 +10,15 @@
  */
 
 .lc-header {
-  // Default (light) token values
-  --lc-header-bg: var(--color-neutral-0, #ffffff);
-  --lc-header-fg: var(--color-neutral-900, #111827);
-  --lc-header-fg-secondary: var(--color-neutral-600, #4b5563);
-  --lc-header-border: var(--color-neutral-200, #e5e7eb);
-  --lc-header-hover-bg: var(--color-neutral-100, #f3f4f6);
-  --lc-header-trigger-border: var(--color-neutral-200, #e5e7eb);
-  --lc-header-trigger-fg: var(--color-neutral-700, #374151);
+  // DS2.0 dark-first: default header tokens follow the semantic surface tokens.
+  // `.lc-header--light` opts back into a light bar.
+  --lc-header-bg: var(--color-surface);
+  --lc-header-fg: var(--color-text-primary);
+  --lc-header-fg-secondary: var(--color-text-secondary);
+  --lc-header-border: var(--color-border);
+  --lc-header-hover-bg: var(--color-surface-hover);
+  --lc-header-trigger-border: var(--color-border);
+  --lc-header-trigger-fg: var(--color-text-secondary);
 
   display: flex;
   align-items: center;
@@ -41,40 +42,31 @@
   }
 }
 
-// ── Dark theme variant (explicit) ──────────────
+// ── Dark theme variant (explicit; alias of the default) ──
 .lc-header--dark {
-  --lc-header-bg: #18181b;
-  --lc-header-fg: #f5f5f5;
-  --lc-header-fg-secondary: #a1a1aa;
-  --lc-header-border: #27272a;
-  --lc-header-hover-bg: #27272a;
-  --lc-header-trigger-border: #52525b;
-  --lc-header-trigger-fg: #e4e4e7;
+  --lc-header-bg: var(--color-surface);
+  --lc-header-fg: var(--color-text-primary);
+  --lc-header-fg-secondary: var(--color-text-secondary);
+  --lc-header-border: var(--color-border);
+  --lc-header-hover-bg: var(--color-surface-hover);
+  --lc-header-trigger-border: var(--color-border);
+  --lc-header-trigger-fg: var(--color-text-secondary);
 }
 
-// ── Light theme variant (explicit, same as default) ──
+// ── Light theme variant (explicit) ──
 .lc-header--light {
-  --lc-header-bg: var(--color-neutral-0, #ffffff);
-  --lc-header-fg: var(--color-neutral-900, #111827);
-  --lc-header-fg-secondary: var(--color-neutral-600, #4b5563);
-  --lc-header-border: var(--color-neutral-200, #e5e7eb);
-  --lc-header-hover-bg: var(--color-neutral-100, #f3f4f6);
-  --lc-header-trigger-border: var(--color-neutral-200, #e5e7eb);
-  --lc-header-trigger-fg: var(--color-neutral-700, #374151);
+  --lc-header-bg: #ffffff;
+  --lc-header-fg: #111827;
+  --lc-header-fg-secondary: #4b5563;
+  --lc-header-border: #e5e7eb;
+  --lc-header-hover-bg: #f3f4f6;
+  --lc-header-trigger-border: #e5e7eb;
+  --lc-header-trigger-fg: #374151;
 }
 
-// ── Auto dark theme (global context) ───────────
-html.dark .lc-header:not(.lc-header--light),
-:root.dark .lc-header:not(.lc-header--light),
-.dark .lc-header:not(.lc-header--light) {
-  --lc-header-bg: #18181b;
-  --lc-header-fg: #f5f5f5;
-  --lc-header-fg-secondary: #a1a1aa;
-  --lc-header-border: #27272a;
-  --lc-header-hover-bg: #27272a;
-  --lc-header-trigger-border: #52525b;
-  --lc-header-trigger-fg: #e4e4e7;
-}
+// DS2.0: the default header tokens are already dark-first (semantic surface
+// tokens), so no global-context override is needed — only .lc-header--light
+// opts out.
 
 // Hamburger menu button
 .lc-header__hamburger {

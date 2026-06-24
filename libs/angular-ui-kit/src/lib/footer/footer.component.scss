@@ -1,18 +1,12 @@
 .footer {
   padding: var(--lc-density-padding-xl, 2rem) var(--lc-density-padding-lg, 1.5rem) var(--lc-density-padding-lg, 1.5rem);
-  color: var(--color-neutral-600);
+  color: var(--color-text-secondary);
   font-size: var(--typography-font-size-sm, 0.875rem);
 
-  :root.dark & {
-    color: var(--color-neutral-400);
-  }
 
   &--bordered {
-    border-top: 1px solid var(--color-neutral-200);
+    border-top: 1px solid var(--color-border);
 
-    :root.dark & {
-      border-top-color: var(--color-neutral-700);
-    }
   }
 
   &__sections {
@@ -25,14 +19,11 @@
   &__section-title {
     font-size: var(--typography-font-size-sm, 0.875rem);
     font-weight: var(--typography-font-weight-semibold, 600);
-    color: var(--color-neutral-800);
+    color: var(--color-text-primary);
     margin: 0 0 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 
-    :root.dark & {
-      color: var(--color-neutral-200);
-    }
   }
 
   &__links {
@@ -48,7 +39,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    color: var(--color-neutral-500);
+    color: var(--color-text-tertiary);
     text-decoration: none;
     transition: color 0.15s ease;
 
@@ -70,12 +61,9 @@
   }
 
   &__copyright {
-    color: var(--color-neutral-400);
+    color: var(--color-text-tertiary);
     font-size: var(--typography-font-size-xs, 0.75rem);
 
-    :root.dark & {
-      color: var(--color-neutral-500);
-    }
   }
 
   // Compact variant
@@ -114,15 +102,15 @@
   }
 
   &--dark {
-    background-color: var(--color-neutral-900);
-    color: var(--color-neutral-400);
+    background-color: var(--color-surface-sunken);
+    color: var(--color-text-tertiary);
 
     .footer__section-title {
       color: var(--color-neutral-100);
     }
 
     .footer__link {
-      color: var(--color-neutral-400);
+      color: var(--color-text-tertiary);
 
       &:hover {
         color: var(--color-white);
@@ -130,19 +118,16 @@
     }
 
     .footer__copyright {
-      color: var(--color-neutral-500);
+      color: var(--color-text-tertiary);
     }
 
     &.footer--bordered {
-      border-top-color: var(--color-neutral-700);
+      border-top-color: var(--color-text-secondary);
     }
   }
 
   &--neutral {
-    background-color: var(--color-neutral-100);
+    background-color: var(--color-surface-hover);
 
-    :root.dark & {
-      background-color: var(--color-neutral-800);
-    }
   }
 }
