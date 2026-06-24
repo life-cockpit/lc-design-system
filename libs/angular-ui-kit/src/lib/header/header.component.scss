@@ -86,7 +86,7 @@ html.dark .lc-header:not(.lc-header--light),
   border: none;
   cursor: pointer;
   color: var(--lc-header-trigger-fg);
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-md);
   transition: background-color 0.2s ease, color 0.2s ease;
 
   &:hover {
@@ -122,7 +122,7 @@ html.dark .lc-header:not(.lc-header--light),
   &:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 4px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--border-radius-sm);
   }
 }
 
@@ -179,7 +179,7 @@ html.dark .lc-header:not(.lc-header--light),
   background: transparent;
   border: none;
   cursor: pointer;
-  border-radius: var(--radius-md);
+  border-radius: var(--border-radius-md);
   color: var(--lc-header-trigger-fg);
   transition: background-color 0.2s ease, color 0.2s ease;
   max-width: 220px;
@@ -253,7 +253,7 @@ html.dark .lc-header:not(.lc-header--light),
   padding: var(--lc-density-padding-xs, var(--spacing-2)) var(--spacing-3);
   background: transparent;
   border: 1px solid var(--lc-header-trigger-border);
-  border-radius: var(--radius-full);
+  border-radius: var(--border-radius-full);
   cursor: pointer;
   color: var(--lc-header-trigger-fg);
   transition: background-color 0.2s ease, border-color 0.2s ease;

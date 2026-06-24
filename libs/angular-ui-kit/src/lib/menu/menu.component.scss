@@ -17,7 +17,7 @@
   position: absolute;
   background-color: var(--color-neutral-0, #ffffff);
   border: 1px solid var(--color-neutral-200, #e5e7eb);
-  border-radius: var(--radius-lg, 0.5rem);
+  border-radius: var(--border-radius-lg, 0.5rem);
   box-shadow: var(--shadow-lg, 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1));
   padding: var(--lc-density-padding-xs, var(--spacing-2)) 0;
   z-index: 9999;
@@ -111,7 +111,7 @@
   color: var(--color-primary-700);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  border-radius: var(--radius-full);
+  border-radius: var(--border-radius-full);
   line-height: 1;
 }
 

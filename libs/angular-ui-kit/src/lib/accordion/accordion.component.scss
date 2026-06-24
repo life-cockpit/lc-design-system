@@ -41,7 +41,7 @@
     padding: 0.875rem 1.125rem;
     font-weight: 600;
     letter-spacing: -0.01em;
-    color: var(--color-text);
+    color: var(--color-text-primary);
     background: transparent;
     border: none;
     border-radius: 0;
@@ -93,7 +93,7 @@
   }
 
   &__header:hover &__icon {
-    color: var(--color-text);
+    color: var(--color-text-primary);
   }
 
   &--expanded &__icon {
