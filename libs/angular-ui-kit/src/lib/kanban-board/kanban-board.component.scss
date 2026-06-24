@@ -28,13 +28,6 @@
     background: var(--color-error-50, #fef2f2);
   }
 
-  :root.dark & {
-    background: var(--color-neutral-800);
-
-    &--drop-target {
-      background: rgba(59, 130, 246, 0.1);
-    }
-  }
 }
 
 .lc-kanban__column-header {
@@ -44,11 +37,8 @@
   padding: 4px 4px 8px;
   font-size: var(--typography-font-size-sm, 0.875rem);
   font-weight: 600;
-  color: var(--color-neutral-700);
+  color: var(--color-text-secondary);
 
-  :root.dark & {
-    color: var(--color-neutral-300);
-  }
 }
 
 .lc-kanban__column-dot {
@@ -65,7 +55,7 @@
 .lc-kanban__column-count {
   font-size: 0.6875rem;
   background: var(--color-neutral-200);
-  color: var(--color-neutral-600);
+  color: var(--color-text-secondary);
   padding: 1px 6px;
   border-radius: 10px;
   font-weight: 500;
@@ -73,7 +63,7 @@
 
 .lc-kanban__column-limit {
   font-size: 0.6875rem;
-  color: var(--color-neutral-400);
+  color: var(--color-text-tertiary);
 
   &--over {
     color: var(--color-error-default);
@@ -90,7 +80,7 @@
 }
 
 .lc-kanban__card {
-  background: var(--color-neutral-0, #fff);
+  background: var(--color-surface);
   border: 1px solid var(--color-neutral-200);
   border-radius: 6px;
   padding: 10px;
@@ -98,7 +88,7 @@
   transition: box-shadow 0.15s, opacity 0.15s;
 
   &:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--elevation-1);
   }
 
   &--dragging {
@@ -109,10 +99,6 @@
     cursor: grabbing;
   }
 
-  :root.dark & {
-    background: var(--color-neutral-700);
-    border-color: var(--color-neutral-600);
-  }
 }
 
 .lc-kanban__card-priority {
@@ -123,17 +109,14 @@
 .lc-kanban__card-title {
   font-size: var(--typography-font-size-sm, 0.875rem);
   font-weight: 500;
-  color: var(--color-neutral-800);
+  color: var(--color-text-primary);
 
-  :root.dark & {
-    color: var(--color-neutral-100);
-  }
 }
 
 .lc-kanban__card-desc {
   margin: 4px 0 0;
   font-size: 0.75rem;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   line-height: 1.4;
   overflow: hidden;
   display: -webkit-box;
@@ -161,12 +144,12 @@
   border-radius: 3px;
   font-size: 0.625rem;
   font-weight: 500;
-  color: var(--color-neutral-800);
+  color: var(--color-text-primary);
 }
 
 .lc-kanban__card-assignee {
   font-size: 0.6875rem;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   font-weight: 500;
 }
 
@@ -178,5 +161,5 @@
   border: 2px dashed var(--color-neutral-200);
   border-radius: 6px;
   font-size: 0.75rem;
-  color: var(--color-neutral-400);
+  color: var(--color-text-tertiary);
 }

@@ -6,9 +6,6 @@
   font-size: 0.75rem;
   line-height: 1.5;
 
-  :root.dark & {
-    border-color: var(--color-neutral-600);
-  }
 }
 
 .lc-diff__stats {
@@ -18,10 +15,6 @@
   background: var(--color-neutral-50);
   border-bottom: 1px solid var(--color-neutral-200);
 
-  :root.dark & {
-    background: var(--color-neutral-800);
-    border-color: var(--color-neutral-600);
-  }
 }
 
 .lc-diff__stat {
@@ -38,14 +31,9 @@
   background: var(--color-neutral-50);
   font-size: 0.6875rem;
   font-weight: 600;
-  color: var(--color-neutral-600);
+  color: var(--color-text-secondary);
   border-bottom: 1px solid var(--color-neutral-200);
 
-  :root.dark & {
-    background: var(--color-neutral-800);
-    color: var(--color-neutral-400);
-    border-color: var(--color-neutral-600);
-  }
 }
 
 .lc-diff__body {
@@ -64,9 +52,6 @@
   &--left {
     border-right: 1px solid var(--color-neutral-200);
 
-    :root.dark & {
-      border-color: var(--color-neutral-600);
-    }
   }
 }
 
@@ -77,17 +62,14 @@
 
   &--added {
     background: var(--color-success-50, #f0fdf4);
-    :root.dark & { background: rgba(34, 197, 94, 0.1); }
   }
 
   &--removed {
     background: var(--color-error-50, #fef2f2);
-    :root.dark & { background: rgba(239, 68, 68, 0.1); }
   }
 
   &--empty {
     background: var(--color-neutral-50);
-    :root.dark & { background: var(--color-neutral-800); }
   }
 }
 
@@ -96,7 +78,7 @@
   width: 36px;
   text-align: right;
   padding-right: 8px;
-  color: var(--color-neutral-400);
+  color: var(--color-text-tertiary);
   user-select: none;
 
   &--left { width: 36px; }
@@ -107,7 +89,7 @@
   flex-shrink: 0;
   width: 16px;
   text-align: center;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   user-select: none;
   font-weight: 600;
 
@@ -118,13 +100,10 @@
 .lc-diff__content {
   flex: 1;
   white-space: pre;
-  color: var(--color-neutral-800);
+  color: var(--color-text-primary);
 
-  :root.dark & {
-    color: var(--color-neutral-200);
-  }
 }
 
 .lc-diff__file-label {
-  color: var(--color-neutral-600);
+  color: var(--color-text-secondary);
 }

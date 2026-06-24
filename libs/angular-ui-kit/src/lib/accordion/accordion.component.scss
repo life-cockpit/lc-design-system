@@ -13,10 +13,10 @@
   &--outlined {
     border: 1px solid var(--color-border);
     background: var(--color-surface);
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+    box-shadow: var(--elevation-1);
 
     &:hover:not(.lc-accordion--disabled) {
-      box-shadow: 0 2px 6px 0 rgb(0 0 0 / 0.06);
+      box-shadow: var(--elevation-1);
     }
   }
 

@@ -10,13 +10,13 @@
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-neutral-900, #111827);
+    color: var(--color-text-primary);
   }
 
   &__message {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--color-neutral-500, #6b7280);
+    color: var(--color-text-tertiary);
   }
 
   // ── Sizes ─────────────────────────────────────────────────────
@@ -44,12 +44,3 @@
 }
 
 // ── Dark mode ─────────────────────────────────────────────────────
-:host-context(.dark) {
-  .empty-state__heading {
-    color: var(--color-neutral-100, #f3f4f6);
-  }
-
-  .empty-state__message {
-    color: var(--color-neutral-400, #9ca3af);
-  }
-}

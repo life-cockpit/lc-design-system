@@ -8,27 +8,20 @@
   background-color: var(--color-neutral-950);
   color: var(--color-neutral-100);
 
-  :root.dark & {
-    border-color: var(--color-neutral-700);
-  }
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background-color: var(--color-neutral-900);
+    background-color: var(--color-surface-sunken);
     border-bottom: 1px solid var(--color-neutral-800);
 
-    :root.dark & {
-      background-color: var(--color-neutral-800);
-      border-bottom-color: var(--color-neutral-700);
-    }
   }
 
   &__language {
     font-size: var(--typography-font-size-xs, 0.75rem);
-    color: var(--color-neutral-400);
+    color: var(--color-text-tertiary);
     text-transform: lowercase;
     user-select: none;
   }
@@ -41,7 +34,7 @@
     border: none;
     border-radius: 0.25rem;
     background: transparent;
-    color: var(--color-neutral-400);
+    color: var(--color-text-tertiary);
     font-size: var(--typography-font-size-xs, 0.75rem);
     font-family: inherit;
     cursor: pointer;
@@ -49,7 +42,7 @@
 
     &:hover {
       color: var(--color-neutral-200);
-      background-color: var(--color-neutral-800);
+      background-color: var(--color-surface-sunken);
     }
   }
 
@@ -75,7 +68,7 @@
     min-width: 2.5rem;
     padding-right: 1rem;
     text-align: right;
-    color: var(--color-neutral-600);
+    color: var(--color-text-secondary);
     user-select: none;
     flex-shrink: 0;
   }

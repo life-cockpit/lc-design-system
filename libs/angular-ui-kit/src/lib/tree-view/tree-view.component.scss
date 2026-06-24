@@ -2,10 +2,10 @@
   display: block;
   border: 1px solid var(--color-neutral-200);
   border-radius: 8px;
-  background: var(--color-neutral-0, #fff);
+  background: var(--color-surface);
   overflow: hidden;
   font-size: 13px;
-  color: var(--color-neutral-900);
+  color: var(--color-text-primary);
 }
 
 $indent-width: 18px;
@@ -29,14 +29,14 @@ $indent-width: 18px;
     border: 1px solid transparent;
     border-radius: 4px;
     background: transparent;
-    color: var(--color-neutral-600);
+    color: var(--color-text-secondary);
     font-size: 12px;
     cursor: pointer;
     line-height: 1;
 
     &:hover {
       background: var(--color-neutral-100);
-      color: var(--color-neutral-900);
+      color: var(--color-text-primary);
     }
   }
 
@@ -110,7 +110,7 @@ $indent-width: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-neutral-500);
+    color: var(--color-text-tertiary);
   }
 
   &__chevron-btn {
@@ -140,7 +140,7 @@ $indent-width: 18px;
     display: flex;
     align-items: center;
     margin-right: 6px;
-    color: var(--color-neutral-500);
+    color: var(--color-text-tertiary);
   }
 
   &__item--folder &__icon {
@@ -152,7 +152,7 @@ $indent-width: 18px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--color-neutral-800);
+    color: var(--color-text-primary);
   }
 
   &__badge {

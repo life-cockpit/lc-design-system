@@ -41,7 +41,7 @@ $timeline-colors: (
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color-surface);
     z-index: 1;
   }
 
@@ -107,7 +107,7 @@ $timeline-colors: (
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color-surface);
     z-index: 1;
   }
 
