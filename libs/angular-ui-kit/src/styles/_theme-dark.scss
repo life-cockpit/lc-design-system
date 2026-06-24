@@ -287,8 +287,27 @@
   --line-height-relaxed: var(--typography-line-height-relaxed);
   --animation-timing-ease: var(--animation-easing-ease-in-out);
   
-  // Error color scale aliases (for danger buttons, etc.)
+  // Semantic color scale aliases — resolve the numeric scale some components
+  // use onto the canonical semantic shades (already dark-tuned above).
+  --color-error-50: rgba(157, 14, 14, 0.18);
+  --color-error-100: rgba(157, 14, 14, 0.22);
+  --color-error-500: var(--color-error-default);
   --color-error-600: var(--color-error-default);
   --color-error-700: var(--color-error-dark);
-  --color-error-800: #5a0707; // Darker shade for active state
+  --color-error-800: #5a0707;
+  --color-success-50: rgba(142, 164, 117, 0.18);
+  --color-success-100: rgba(142, 164, 117, 0.22);
+  --color-success-500: var(--color-success-default);
+  --color-success-600: var(--color-success-default);
+  --color-success-700: var(--color-success-dark);
+  --color-warning-50: rgba(225, 160, 64, 0.18);
+  --color-warning-100: rgba(225, 160, 64, 0.22);
+  --color-warning-500: var(--color-warning-default);
+  --color-warning-600: var(--color-warning-default);
+  --color-warning-700: var(--color-warning-dark);
+  --color-info-50: rgba(59, 101, 136, 0.2);
+  --color-info-100: rgba(59, 101, 136, 0.24);
+  --color-info-500: var(--color-info-default);
+  --color-info-600: var(--color-info-default);
+  --color-info-700: var(--color-info-dark);
 }
