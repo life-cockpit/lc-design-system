@@ -2,6 +2,88 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-06-24
+
+**Design System 2.0 — a dark-first visual redesign of the entire component library.**
+
+The look is rebuilt around a distinctive, teal-tinted dark aesthetic (gradient
+surfaces, a teal accent line on cards, layered glow shadows, semantic status
+colors, pill controls). All ~90 components were migrated onto a single semantic
+token layer so a component recipe renders correctly in both themes. The brand
+color palette is unchanged.
+
+### Added
+
+- **Dark-first token & theme foundation** — teal-tinted dark surfaces
+  (`--color-surface`, `--color-surface-2`, `--color-surface-sunken`), gradient
+  surface (`--gradient-surface`), translucent borders (`--color-border`,
+  `--color-border-strong`), brighter dark text (`--color-text-primary/secondary/
+  tertiary`), and visual primitives: `--accent-line`, `--gradient-text`,
+  `--gradient-brand-tile`, `--shadow-brand-glow`, `--shadow-glow`,
+  `--app-background-image` (radial teal/violet glows for the app shell).
+- **Solid brand-fill tokens** — `--color-primary-fill`, `--color-secondary-fill`,
+  `--color-error-fill` (+ `-hover`/`-active`) and `--color-on-primary`/
+  `-on-secondary`/`-on-error` ink, so primary/secondary/danger buttons stay
+  high-contrast in both themes.
+- **Semantic color scale aliases** — `--color-{success,error,warning,info}-{50,
+  100,500,600,700}` now resolve onto the canonical semantic shades.
+- **Shared SCSS mixins** (`src/styles/_mixins.scss`) — `focus-ring`, `elevation`,
+  `card-surface`, `gradient-text`, `glow`, `pill`, `kicker`, `brand-tile`.
+- **Reproducible token build** — pinned `style-dictionary@4.4.0` + the
+  `build:tokens` nx target (the lib `build` depends on it).
+- **Working theme service** — dark default with a real `setTheme`/`toggleTheme`/
+  `useSystemPreference` toggling the `.dark`/`.light` class on `:root`.
+
+### Changed
+
+- **Dark is the default theme.** `:root.dark, :root:not(.light)` makes dark the
+  default look; `.light` is the explicit opt-in.
+- **Theme switching standardized on the `.dark` class.** ~52 components gated
+  dark styling on `[data-theme='dark']` (and `:host-context([data-theme])`),
+  which the service never set — that dark CSS was dead code. All reconciled to
+  the real `.dark` class; redundant/inverted dark blocks removed.
+- **Border-radius scale enlarged** (`sm` 10px, `md` 12px, `lg` 18px, `xl` 24px,
+  `2xl` 32px) and **elevation deepened** to layered, pitch-grade shadows.
+- **Components migrated to semantic tokens** across all buckets — surfaces,
+  pills/badges/chips/status, buttons & interactive controls, form inputs,
+  feedback, overlays, charts, typography/brand. `sidenav` and `header` are now
+  dark-first with `--light` opt-in modifiers; `chat` adopts a Claude-style
+  layout (assistant messages render full-width without a bubble).
+- **Icons resolve from the Tabler icon set.** Components reference Heroicon
+  names; the served set is Tabler. The `iconAliasMap` now translates Heroicon →
+  Tabler names so icons load over HTTP (previously many resolved to the `X`
+  fallback).
+
+### Fixed
+
+- Many **non-existent token references** that silently rendered nothing or wrong
+  values: `--color-text` → `--color-text-primary`, `--elevation-xl/lg/md/sm` →
+  `--elevation-4/3/2/1`, `--radius-*` → `--border-radius-*`, `--color-white` →
+  `--color-neutral-white`/surface, `--color-danger-*` → `--color-error*`,
+  `--color-neutral-950/0`, `--color-warning-400`, `--shadow-lg`.
+- **Frozen light surfaces** that stayed white in dark mode (compile-time
+  `colors.$color-neutral-*` and hardcoded `#fff`/pastels) in code-block,
+  document-viewer, file-upload, search-input, toolbar, log-viewer, timeline,
+  table, kanban, gantt.
+- **Input consistency** — search-input and other fields now match the canonical
+  input field (raised surface, hairline border, teal focus).
+- date-range-picker uses a real `lc-icon` instead of a hardcoded emoji.
+
+### Migration
+
+This is a major release. Consumer apps (Cockpit, …) should:
+
+- **Choose a theme explicitly.** Apps that set no theme now render dark. To keep
+  the old light look, add the `light` class to `<html>` or call
+  `themeService.setTheme('light')` (now functional).
+- **Replace any manual `data-theme="dark"` toggling with the `.dark` class** (or
+  use the theme service). This is the most likely silent breakage.
+- **Set `--app-background-image`** on the app shell (`<body>`/root) for the
+  radial-glow background.
+- Expect **enlarged radii / deeper shadows / changed semantic surface, text and
+  border values**; a few components changed their default variant look.
+- Ensure global styles `@use` the kit's `src/styles/index.scss`.
+
 ## [1.11.11] - 2026-06-23
 
 ### Added
