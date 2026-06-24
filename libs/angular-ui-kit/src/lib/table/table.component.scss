@@ -50,7 +50,7 @@
           transition: background-color 0.2s ease;
           
           &:hover {
-            background-color: var(--color-neutral-100);
+            background-color: var(--color-surface-hover);
             color: var(--color-text-primary);
           }
           
@@ -66,7 +66,7 @@
         
         &.sorted-asc,
         &.sorted-desc {
-          background-color: var(--color-neutral-100);
+          background-color: var(--color-surface-hover);
           color: var(--color-text-primary);
         }
       }
@@ -105,7 +105,7 @@
   
   &--striped {
     tbody tr:nth-child(even) {
-      background-color: var(--color-neutral-50);
+      background-color: var(--color-surface-2);
     }
   }
   
@@ -132,7 +132,7 @@
       cursor: pointer;
       
       &:hover {
-        background-color: var(--color-neutral-100);
+        background-color: var(--color-surface-hover);
       }
     }
   }
@@ -159,41 +159,9 @@
   }
 }
 
-// Dark theme overrides
-:root.dark .lc-table {
-  background-color: var(--color-neutral-900);
-  
-  thead {
-    background-color: var(--color-neutral-800);
-    border-bottom-color: var(--color-neutral-700);
-    
-    tr th {
-      color: var(--color-text-primary);
-      background-color: var(--color-neutral-800);
-      
-      &.sortable:hover {
-        background-color: var(--color-neutral-700);
-      }
-      
-      &.sorted-asc,
-      &.sorted-desc {
-        background-color: var(--color-neutral-700);
-      }
-    }
-  }
-  
-  &.lc-table--striped {
-    tbody tr:nth-child(even) {
-      background-color: var(--color-neutral-800);
-    }
-  }
-  
-  &.lc-table--hoverable {
-    tbody tr:hover {
-      background-color: var(--color-neutral-700);
-    }
-  }
-}
+// DS2.0: the table reads its surfaces from semantic tokens, which are already
+// dark-first, so no separate dark override is needed. Header/hover/striped use
+// the surface tokens below so both themes render correctly from one definition.
 
 // Filter row
 .lc-table__filter-row {
@@ -228,7 +196,7 @@
 }
 
 .lc-table__row--selected {
-  background-color: var(--color-primary-50, rgba(59, 130, 246, 0.08)) !important;
+  background-color: var(--color-surface-selected) !important;
 }
 
 // Row actions
@@ -279,7 +247,7 @@
   border: 2px solid var(--color-primary);
   border-radius: var(--border-radius-sm);
   font-size: inherit;
-  background-color: var(--color-background);
+  background-color: var(--color-surface-2);
   color: var(--color-text-primary);
   outline: none;
 }
@@ -324,7 +292,7 @@
     transition: background-color 0.15s ease;
 
     &:hover:not(:disabled) {
-      background-color: var(--color-neutral-100);
+      background-color: var(--color-surface-hover);
     }
 
     &:disabled {
@@ -376,27 +344,5 @@
   }
 }
 
-// Dark theme adjustments for new features
-:root.dark .lc-table__filter-input {
-  background-color: var(--color-neutral-800);
-  border-color: var(--color-neutral-700);
-}
-
-:root.dark .lc-table__edit-input {
-  background-color: var(--color-neutral-800);
-}
-
-:root.dark .lc-table__row--selected {
-  background-color: rgba(59, 130, 246, 0.12) !important;
-}
-
-:root.dark .lc-table-pagination {
-  &__btn {
-    background-color: var(--color-neutral-800);
-    border-color: var(--color-neutral-700);
-
-    &:hover:not(:disabled) {
-      background-color: var(--color-neutral-700);
-    }
-  }
-}
+// DS2.0: filter/edit inputs and pagination buttons read from semantic surface
+// tokens (correct in both themes), so no per-theme override is needed here.
