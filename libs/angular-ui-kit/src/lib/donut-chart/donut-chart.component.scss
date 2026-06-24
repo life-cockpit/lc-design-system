@@ -20,16 +20,13 @@
 .lc-donut-chart__center-value {
   font-size: 1.25rem;
   font-weight: 700;
-  fill: var(--color-neutral-900);
+  fill: var(--color-text-primary);
 
-  :root.dark & {
-    fill: var(--color-neutral-100);
-  }
 }
 
 .lc-donut-chart__center-label {
   font-size: 0.6875rem;
-  fill: var(--color-neutral-500);
+  fill: var(--color-text-tertiary);
   font-weight: 500;
 }
 
@@ -55,14 +52,11 @@
 }
 
 .lc-donut-chart__legend-label {
-  color: var(--color-neutral-700);
+  color: var(--color-text-secondary);
 
-  :root.dark & {
-    color: var(--color-neutral-300);
-  }
 }
 
 .lc-donut-chart__legend-pct {
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   font-weight: 600;
 }

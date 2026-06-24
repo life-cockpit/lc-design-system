@@ -10,32 +10,26 @@
 }
 
 .lc-scatter-plot__axis {
-  stroke: var(--color-neutral-300);
+  stroke: var(--color-border);
   stroke-width: 1;
 
-  :root.dark & {
-    stroke: var(--color-neutral-600);
-  }
 }
 
 .lc-scatter-plot__grid-line {
-  stroke: var(--color-neutral-200);
+  stroke: var(--color-border);
   stroke-width: 1;
   stroke-dasharray: 3 3;
 
-  :root.dark & {
-    stroke: var(--color-neutral-700);
-  }
 }
 
 .lc-scatter-plot__label {
   font-size: 0.625rem;
-  fill: var(--color-neutral-500);
+  fill: var(--color-text-tertiary);
 }
 
 .lc-scatter-plot__axis-label {
   font-size: 0.6875rem;
-  fill: var(--color-neutral-600);
+  fill: var(--color-text-secondary);
   font-weight: 500;
 }
 
@@ -51,12 +45,9 @@
 }
 
 .lc-scatter-plot__tooltip-bg {
-  fill: var(--color-neutral-800);
+  fill: var(--color-text-primary);
   opacity: 0.9;
 
-  :root.dark & {
-    fill: var(--color-neutral-200);
-  }
 }
 
 .lc-scatter-plot__tooltip-text {
@@ -64,9 +55,6 @@
   fill: white;
   pointer-events: none;
 
-  :root.dark & {
-    fill: var(--color-neutral-900);
-  }
 }
 
 .lc-scatter-plot__legend {
@@ -91,9 +79,6 @@
 }
 
 .lc-scatter-plot__legend-label {
-  color: var(--color-neutral-700);
+  color: var(--color-text-secondary);
 
-  :root.dark & {
-    color: var(--color-neutral-300);
-  }
 }

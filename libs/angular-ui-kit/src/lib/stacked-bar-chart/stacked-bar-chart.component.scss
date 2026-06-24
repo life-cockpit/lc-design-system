@@ -8,21 +8,19 @@
 .lc-stacked-bar-chart__svg { overflow: visible; }
 
 .lc-stacked-bar-chart__axis {
-  stroke: var(--color-neutral-300);
+  stroke: var(--color-border);
   stroke-width: 1;
-  :root.dark & { stroke: var(--color-neutral-600); }
 }
 
 .lc-stacked-bar-chart__grid {
-  stroke: var(--color-neutral-200);
+  stroke: var(--color-border);
   stroke-width: 1;
   stroke-dasharray: 3 3;
-  :root.dark & { stroke: var(--color-neutral-700); }
 }
 
 .lc-stacked-bar-chart__grid-label {
   font-size: 0.625rem;
-  fill: var(--color-neutral-500);
+  fill: var(--color-text-tertiary);
 }
 
 .lc-stacked-bar-chart__segment {
@@ -32,8 +30,7 @@
 
 .lc-stacked-bar-chart__label {
   font-size: 0.6875rem;
-  fill: var(--color-neutral-600);
-  :root.dark & { fill: var(--color-neutral-400); }
+  fill: var(--color-text-secondary);
 }
 
 .lc-stacked-bar-chart__legend {
@@ -58,6 +55,5 @@
 }
 
 .lc-stacked-bar-chart__legend-text {
-  color: var(--color-neutral-700);
-  :root.dark & { color: var(--color-neutral-300); }
+  color: var(--color-text-secondary);
 }
