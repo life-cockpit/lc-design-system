@@ -1,0 +1,126 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.lc-stage-list {
+  --lc-stage-gap: 0.875rem;
+  --lc-stage-bar-height: 8px;
+  --lc-stage-font-size: 0.9375rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--lc-stage-gap);
+  width: 100%;
+
+  &--sm {
+    --lc-stage-gap: 0.625rem;
+    --lc-stage-bar-height: 6px;
+    --lc-stage-font-size: 0.875rem;
+  }
+}
+
+.lc-stage-list__row {
+  width: 100%;
+}
+
+.lc-stage-list__content,
+.lc-stage-list__interactive {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.lc-stage-list__interactive {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    border-radius: 0.375rem;
+    outline: 2px solid var(--lc-focus-ring-color, var(--color-primary-500));
+    outline-offset: 2px;
+  }
+}
+
+.lc-stage-list__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.lc-stage-list__dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  margin-top: 0.32rem;
+  background-color: var(--lc-stage-color, var(--lc-color-primary-500, var(--color-primary-500)));
+}
+
+.lc-stage-list__label-wrap {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.lc-stage-list__label {
+  color: var(--lc-color-text, var(--color-text-primary));
+  font-size: var(--lc-stage-font-size);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.lc-stage-list__hint {
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.lc-stage-list__value {
+  margin-left: auto;
+  padding-left: 0.75rem;
+  color: var(--lc-color-text, var(--color-text-primary));
+  font-size: var(--lc-stage-font-size);
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.lc-stage-list__track {
+  width: 100%;
+  height: var(--lc-stage-bar-height);
+  border-radius: 999px;
+  background-color: var(--lc-color-surface-alt, var(--color-surface-hover, rgba(148, 163, 184, 0.18)));
+  overflow: hidden;
+}
+
+.lc-stage-list__fill {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--lc-stage-color, var(--lc-color-primary-500, var(--color-primary-500)));
+  transition: width 0.3s ease;
+}
+
+.lc-stage-list__empty {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lc-stage-list__fill {
+    transition: none;
+  }
+}

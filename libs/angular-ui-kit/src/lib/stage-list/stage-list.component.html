@@ -1,0 +1,53 @@
+@if (isEmpty()) {
+  @if (emptyText()) {
+    <p class="lc-stage-list__empty">{{ emptyText() }}</p>
+  }
+} @else {
+  <div class="lc-stage-list" [class.lc-stage-list--sm]="size() === 'sm'" [class.lc-stage-list--md]="size() === 'md'" role="list">
+    @for (stage of stages(); track stage.id || stage.label || $index) {
+      <div class="lc-stage-list__row" role="listitem" [style.--lc-stage-color]="resolveColor(stage)">
+        @if (clickable()) {
+          <button type="button" class="lc-stage-list__interactive" (click)="onStageClick(stage)">
+            <div class="lc-stage-list__head">
+              <span class="lc-stage-list__dot" aria-hidden="true"></span>
+              <div class="lc-stage-list__label-wrap">
+                <span class="lc-stage-list__label">{{ stage.label }}</span>
+                @if (stage.hint) {
+                  <span class="lc-stage-list__hint">{{ stage.hint }}</span>
+                }
+              </div>
+              @if (showValue()) {
+                <span class="lc-stage-list__value">{{ stage.value }}</span>
+              }
+            </div>
+            @if (showBar()) {
+              <div class="lc-stage-list__track" aria-hidden="true">
+                <div class="lc-stage-list__fill" [style.width]="fillWidth(stage)"></div>
+              </div>
+            }
+          </button>
+        } @else {
+          <div class="lc-stage-list__content">
+            <div class="lc-stage-list__head">
+              <span class="lc-stage-list__dot" aria-hidden="true"></span>
+              <div class="lc-stage-list__label-wrap">
+                <span class="lc-stage-list__label">{{ stage.label }}</span>
+                @if (stage.hint) {
+                  <span class="lc-stage-list__hint">{{ stage.hint }}</span>
+                }
+              </div>
+              @if (showValue()) {
+                <span class="lc-stage-list__value">{{ stage.value }}</span>
+              }
+            </div>
+            @if (showBar()) {
+              <div class="lc-stage-list__track" aria-hidden="true">
+                <div class="lc-stage-list__fill" [style.width]="fillWidth(stage)"></div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

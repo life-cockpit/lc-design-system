@@ -337,6 +337,9 @@ export * from './lib/confirm-dialog/confirm.service';
 // Combobox Component
 export * from './lib/combobox/combobox.component';
 
+// Stage List Component
+export * from './lib/stage-list/stage-list.component';
+
 // ============================================================================
 // Styles
 // ============================================================================

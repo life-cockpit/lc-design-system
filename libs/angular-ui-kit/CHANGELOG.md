@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2026-06-24
+
+### Added
+
+- **StageList component (`lc-stage-list`)** — New data-display component for
+  pipeline/status distributions with one row per stage (dot, label, optional
+  value, optional proportional bar). Supports `stages`, shared normalization
+  via optional `max`, `showValue`, `showBar`, compact `size` (`sm`/`md`),
+  `clickable` rows with `stageClick`, and `emptyText` for empty datasets.
+- **Exported public types** — `StageItem` and `StageListSize` are part of the
+  package API and exported via the main barrel.
+- **Storybook coverage** — Added dedicated stories for Default, AllZero,
+  SingleStage, Clickable, NoBar, Small, LongLabels and SharedMax.
+
+### Changed
+
+- **Accessibility and interaction defaults** — Stage rows render with list
+  semantics (`role="list"` / `role="listitem"`); clickable mode uses keyboard
+  accessible buttons and emits the full `StageItem` payload.
+
+### Fixed
+
+- **Width normalization edge cases** — Fill width calculation now guards against
+  invalid/zero max values, clamps percentages to `0..100`, and guarantees a
+  minimum visible fill (`2px`) for non-zero values.
+- **Color fallback behavior** — Missing stage color now consistently falls back
+  to `--lc-color-primary-500` (with `--color-primary-500` fallback).
+
+### Tests
+
+- Added unit tests for width math (`max` resolution + guard), zero/empty data,
+  click emission, and color fallback.
+
 ## [2.0.0] - 2026-06-24
 
 **Design System 2.0 — a dark-first visual redesign of the entire component library.**
