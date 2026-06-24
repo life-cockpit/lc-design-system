@@ -68,7 +68,7 @@
     background: transparent;
   }
   &--bg-surface {
-    background: var(--color-surface, var(--color-neutral-0, #fff));
+    background: var(--color-surface);
   }
   &--bg-muted {
     background: var(--color-surface-muted, var(--color-neutral-50, #f5f5f5));

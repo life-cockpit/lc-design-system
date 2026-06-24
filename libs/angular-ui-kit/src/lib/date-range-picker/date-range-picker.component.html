@@ -3,7 +3,7 @@
 }
 
 <div class="lc-drp__trigger" [class.lc-drp__trigger--disabled]="disabled()" (click)="toggle()">
-  <lc-icon class="lc-drp__icon" name="calendar-date-range" size="sm" [decorative]="true" />
+  <lc-icon class="lc-drp__icon" name="calendar" size="sm" [decorative]="true" />
   <span class="lc-drp__value" [class.lc-drp__value--placeholder]="!displayValue()">
     {{ displayValue() || placeholder() }}
   </span>

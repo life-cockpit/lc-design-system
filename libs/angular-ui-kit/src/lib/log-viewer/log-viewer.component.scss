@@ -185,7 +185,7 @@
   &--debug { opacity: 0.6; }
   &--info {}
   &--warn {
-    .lc-log-viewer--log & { background-color: #fffbeb; }
+    .lc-log-viewer--log & { background-color: rgba(225, 160, 64, 0.12); }
     .lc-log-viewer--terminal & { background-color: rgba(249, 226, 175, 0.05); }
   }
   &--error {

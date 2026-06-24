@@ -61,7 +61,7 @@ $timeline-colors: (
     top: 2rem;
     bottom: 0;
     width: 1px;
-    background: colors.$color-neutral-200;
+    background: var(--color-border);
   }
 
   .timeline__content {
@@ -127,7 +127,7 @@ $timeline-colors: (
     left: calc(50% + 1rem);
     right: -1rem;
     height: 1px;
-    background: colors.$color-neutral-200;
+    background: var(--color-border);
   }
 
   .timeline__content {
@@ -153,13 +153,13 @@ $timeline-colors: (
   margin: 0;
   font-size: 0.875rem;
   font-weight: 600;
-  color: colors.$color-neutral-800;
+  color: var(--color-text-primary);
 }
 
 .timeline__description {
   margin: 0.25rem 0 0;
   font-size: 0.8125rem;
-  color: colors.$color-neutral-500;
+  color: var(--color-text-tertiary);
   line-height: 1.5;
 }
 
@@ -167,5 +167,5 @@ $timeline-colors: (
   display: block;
   margin-top: 0.25rem;
   font-size: 0.75rem;
-  color: colors.$color-neutral-400;
+  color: var(--color-text-tertiary);
 }

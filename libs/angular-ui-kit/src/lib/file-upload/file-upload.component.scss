@@ -10,26 +10,26 @@
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem;
-  border: 2px dashed colors.$color-neutral-300;
+  border: 2px dashed var(--color-border-strong);
   border-radius: var(--border-radius-lg);
-  background-color: colors.$color-neutral-50;
+  background-color: var(--color-surface-2);
   cursor: pointer;
   transition: border-color 150ms ease, background-color 150ms ease;
   text-align: center;
 
   &:hover {
-    border-color: colors.$color-primary-400;
-    background-color: rgba(colors.$color-primary-500, 0.04);
+    border-color: var(--color-primary-500);
+    background-color: var(--color-surface-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid colors.$color-primary-500;
+    outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
   }
 
   &--drag-over {
-    border-color: colors.$color-primary-500;
-    background-color: rgba(colors.$color-primary-500, 0.08);
+    border-color: var(--color-primary-500);
+    background-color: var(--color-surface-selected);
   }
 
   &--disabled {
@@ -55,19 +55,19 @@
 
   &__icon {
     --icon-size: 2rem;
-    color: colors.$color-primary-500;
+    color: var(--color-primary-500);
   }
 
   &__hint {
     margin: 0;
     font-size: 0.875rem;
-    color: colors.$color-neutral-600;
+    color: var(--color-text-secondary);
   }
 
   &__accept {
     margin: 0;
     font-size: 0.75rem;
-    color: colors.$color-neutral-400;
+    color: var(--color-text-tertiary);
   }
 
   // File list
@@ -85,15 +85,15 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
-    background: colors.$color-neutral-50;
-    border: 1px solid colors.$color-neutral-200;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius-md);
     font-size: 0.8125rem;
   }
 
   &__file-icon {
     --icon-size: 1rem;
-    color: colors.$color-neutral-400;
+    color: var(--color-text-tertiary);
     flex-shrink: 0;
   }
 
@@ -103,12 +103,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: colors.$color-neutral-700;
+    color: var(--color-text-primary);
   }
 
   &__file-size {
     flex-shrink: 0;
-    color: colors.$color-neutral-400;
+    color: var(--color-text-tertiary);
     font-size: 0.75rem;
   }
 
@@ -121,15 +121,15 @@
     height: 1.25rem;
     border: none;
     border-radius: 50%;
-    background: colors.$color-neutral-200;
+    background: var(--color-surface-hover);
     cursor: pointer;
     padding: 0;
     --icon-size: 0.75rem;
-    color: colors.$color-neutral-600;
+    color: var(--color-text-secondary);
 
     &:hover {
-      background: colors.$color-error-light;
-      color: colors.$color-error-default;
+      background: rgba(157, 14, 14, 0.18);
+      color: var(--color-error);
     }
   }
 }
