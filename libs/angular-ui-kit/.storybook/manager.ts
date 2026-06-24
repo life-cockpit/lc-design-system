@@ -6,39 +6,39 @@ const React = require('react');
 const { version } = require('../package.json');
 
 const lcTheme = create({
-  base: 'light',
+  base: 'dark',
 
   // Brand
-  brandTitle: `<div style="display:flex;flex-direction:column;align-items:flex-start;width:100%"><img src="/assets/life-cockpit-logo.svg" alt="Life-Cockpit" style="height:60px;max-width:none;margin-bottom:6px" /><span style="font-size:11px;font-weight:700;color:#6B7280;font-family:Inter,sans-serif">v${version}</span></div>`,
+  brandTitle: `<div style="display:flex;flex-direction:column;align-items:flex-start;width:100%"><img src="/assets/life-cockpit-logo.svg" alt="Life-Cockpit" style="height:60px;max-width:none;margin-bottom:6px" /><span style="font-size:11px;font-weight:700;color:#A0B3BD;font-family:Inter,sans-serif">v${version}</span></div>`,
   brandUrl: '/',
   brandTarget: '_self',
 
-  // Colors — LC Primary (#208497) & Neutral palette
-  colorPrimary: '#208497',
-  colorSecondary: '#208497',
+  // Colors — LC Primary in dark-first manager
+  colorPrimary: '#84c7d4',
+  colorSecondary: '#84c7d4',
 
   // UI
-  appBg: '#F9FAFB',
-  appContentBg: '#FFFFFF',
-  appPreviewBg: '#FFFFFF',
-  appBorderColor: '#E5E7EB',
+  appBg: '#0f1a24',
+  appContentBg: '#14222e',
+  appPreviewBg: '#111827',
+  appBorderColor: '#274356',
   appBorderRadius: 8,
 
   // Text
-  textColor: '#1F2937',
-  textInverseColor: '#F9FAFB',
-  textMutedColor: '#6B7280',
+  textColor: '#eef4f6',
+  textInverseColor: '#0f1a24',
+  textMutedColor: '#aebfc7',
 
   // Toolbar
-  barTextColor: '#6B7280',
-  barSelectedColor: '#208497',
-  barHoverColor: '#1A6A79',
-  barBg: '#FFFFFF',
+  barTextColor: '#aebfc7',
+  barSelectedColor: '#84c7d4',
+  barHoverColor: '#b6dbe4',
+  barBg: '#14222e',
 
   // Form
-  inputBg: '#FFFFFF',
-  inputBorder: '#D1D5DB',
-  inputTextColor: '#1F2937',
+  inputBg: '#0f1a24',
+  inputBorder: '#274356',
+  inputTextColor: '#eef4f6',
   inputBorderRadius: 6,
 
   // Fonts
