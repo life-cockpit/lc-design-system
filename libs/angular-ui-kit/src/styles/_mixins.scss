@@ -30,13 +30,18 @@
 // The signature DS2.0 surface: gradient fill, hairline border, rounded corners,
 // soft elevation, and (optionally) a 3px teal accent line along the top edge.
 // Requires `position` context for the ::after accent (the mixin sets it).
+// Pass `$radius: null` to leave border-radius to the caller (e.g. when a
+// component exposes its own radius scale).
 @mixin card-surface($radius: var(--border-radius-lg), $level: 1, $accent-line: true) {
   position: relative;
   overflow: hidden;
   background-image: var(--gradient-surface);
   border: 1px solid var(--color-border);
-  border-radius: $radius;
   box-shadow: var(--elevation-#{$level});
+
+  @if $radius != null {
+    border-radius: $radius;
+  }
 
   @if $accent-line {
     &::after {
