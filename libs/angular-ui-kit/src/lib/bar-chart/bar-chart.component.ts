@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export interface BarChartItem {
@@ -46,6 +51,20 @@ const DEFAULT_COLORS = [
  * ```
  */
 export class BarChartComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   /** Data items. */
   data = input.required<BarChartItem[]>();
 
@@ -79,8 +98,12 @@ export class BarChartComponent {
   private readonly PADDING_TOP = 10;
   private readonly PADDING_BOTTOM = 30;
 
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
   protected readonly viewBox = computed(
-    () => `0 0 ${this.width()} ${this.height()}`
+    () => `0 0 ${this.effectiveWidth()} ${this.height()}`
   );
 
   protected readonly maxValue = computed(() => {
@@ -113,7 +136,7 @@ export class BarChartComponent {
     if (!d || d.length === 0) return [];
 
     const isVertical = this.orientation() === 'vertical';
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const pl = this.PADDING_LEFT;
     const pr = this.PADDING_RIGHT;
@@ -174,7 +197,7 @@ export class BarChartComponent {
   protected readonly isVertical = computed(() => this.orientation() === 'vertical');
 
   protected readonly axisLine = computed(() => {
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const pl = this.PADDING_LEFT;
     const pt = this.PADDING_TOP;

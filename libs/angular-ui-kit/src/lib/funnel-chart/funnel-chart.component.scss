@@ -1,7 +1,9 @@
+:host { display: block; }
 .lc-funnel-chart {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .lc-funnel-chart__svg {

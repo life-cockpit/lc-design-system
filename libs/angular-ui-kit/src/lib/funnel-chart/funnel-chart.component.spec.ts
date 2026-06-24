@@ -105,7 +105,8 @@ describe('FunnelChartComponent', () => {
 
   it('should render SVG with correct dimensions', () => {
     const svg = el.querySelector('.lc-funnel-chart__svg') as SVGElement;
-    expect(svg.getAttribute('width')).toBe('400');
+    expect(svg.getAttribute('width')).toBe('100%');
     expect(svg.getAttribute('height')).toBe('300');
+    expect(svg.getAttribute('viewBox')).toContain('0 0 400 300');
   });
 });

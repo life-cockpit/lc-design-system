@@ -4,3 +4,9 @@ setupZonelessTestEnv({
   errorOnUnknownElements: true,
   errorOnUnknownProperties: true,
 });
+
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};

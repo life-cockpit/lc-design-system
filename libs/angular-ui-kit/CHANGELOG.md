@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2026-06-24
+
+### Fixed
+
+- **Fluid chart width** — All chart components now fill their container width
+  automatically via `ResizeObserver`. Previously, charts rendered at a fixed
+  pixel width (default 400 px) regardless of the card or layout slot they were
+  placed in, because the SVG coordinate system was driven by a static `width`
+  input. Charts now observe their host element and recompute all internal
+  coordinates (plot area, grid lines, bars, dots, axes) whenever the container
+  resizes. The `width` input is retained as an initial fallback value used
+  before the first observation fires.
+
+  Affected components: `lc-area-chart`, `lc-bar-chart`, `lc-line-chart`,
+  `lc-stacked-bar-chart`, `lc-waterfall-chart`, `lc-funnel-chart`,
+  `lc-sparkline`.
+
+- **Chart host display** — All chart host elements (`lc-*-chart`, `lc-sparkline`)
+  now declare `display: block` so they participate in normal block layout and
+  can receive an explicit width from their parent. Previously the `inline-flex`
+  / `inline-block` default caused the host to shrink-wrap its SVG content
+  instead of stretching to fill the available space.
+
+  Affected components: all of the above plus `lc-pie-chart`, `lc-donut-chart`,
+  `lc-radar-chart`, `lc-gantt-chart`.
+
 ## [2.0.1] - 2026-06-24
 
 ### Added

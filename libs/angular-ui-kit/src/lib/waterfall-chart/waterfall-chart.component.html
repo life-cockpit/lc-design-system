@@ -1,4 +1,4 @@
-<svg [attr.width]="width()" [attr.height]="height()" [attr.viewBox]="viewBox()" role="img" aria-label="Waterfall chart" class="lc-waterfall-chart">
+<svg width="100%" [attr.height]="height()" [attr.viewBox]="viewBox()" role="img" aria-label="Waterfall chart" class="lc-waterfall-chart">
   @for (line of computedBars().gridLines; track line.y) {
     <line [attr.x1]="axisLine().hx1" [attr.y1]="line.y" [attr.x2]="axisLine().hx2" [attr.y2]="line.y" class="lc-waterfall-chart__grid" />
     <text [attr.x]="axisLine().vx1 - 6" [attr.y]="line.y" text-anchor="end" dominant-baseline="central" class="lc-waterfall-chart__grid-label">{{ line.label }}</text>

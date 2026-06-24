@@ -1,4 +1,4 @@
-:host { display: inline-block; }
+:host { display: block; width: 100%; }
 .lc-waterfall-chart { overflow: visible; }
 .lc-waterfall-chart__axis { stroke: var(--color-border); stroke-width: 1; }
 .lc-waterfall-chart__grid { stroke: var(--color-border); stroke-width: 1; stroke-dasharray: 3 3; }

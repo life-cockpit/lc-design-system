@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export interface WaterfallItem {
@@ -36,6 +41,20 @@ export interface WaterfallItem {
  * ```
  */
 export class WaterfallChartComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   data = input.required<WaterfallItem[]>();
   width = input<number>(500);
   height = input<number>(250);
@@ -52,7 +71,11 @@ export class WaterfallChartComponent {
   private readonly PT = 15;
   private readonly PB = 30;
 
-  protected readonly viewBox = computed(() => `0 0 ${this.width()} ${this.height()}`);
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
+  protected readonly viewBox = computed(() => `0 0 ${this.effectiveWidth()} ${this.height()}`);
 
   protected readonly computedBars = computed(() => {
     const items = this.data();
@@ -84,7 +107,7 @@ export class WaterfallChartComponent {
     const maxVal = Math.max(0, ...allVals);
     const range = maxVal - minVal || 1;
 
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const plotW = w - this.PL - this.PR;
     const plotH = h - this.PT - this.PB;
@@ -146,6 +169,6 @@ export class WaterfallChartComponent {
     vx1: this.PL, vy1: this.PT,
     vx2: this.PL, vy2: this.height() - this.PB,
     hx1: this.PL, hy1: this.height() - this.PB,
-    hx2: this.width() - this.PR, hy2: this.height() - this.PB,
+    hx2: this.effectiveWidth() - this.PR, hy2: this.height() - this.PB,
   }));
 }

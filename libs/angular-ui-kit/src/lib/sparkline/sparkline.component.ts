@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export type SparklineColor = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
@@ -32,6 +37,20 @@ export type SparklineCurve = 'linear' | 'smooth';
  * ```
  */
 export class SparklineComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   /** Data points to plot. */
   data = input.required<number[]>();
 
@@ -84,7 +103,7 @@ export class SparklineComponent {
     const d = this.data();
     if (!d || d.length < 2) return '';
 
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const sw = this.strokeWidth();
     const padding = sw;
@@ -127,7 +146,7 @@ export class SparklineComponent {
     const line = this.pathD();
     if (!line) return '';
     const d = this.data();
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const sw = this.strokeWidth();
     const padding = sw;
@@ -143,7 +162,7 @@ export class SparklineComponent {
     const d = this.data();
     if (!d || d.length < 2) return null;
 
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const sw = this.strokeWidth();
     const padding = sw;
@@ -162,7 +181,11 @@ export class SparklineComponent {
     };
   });
 
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
   protected readonly viewBox = computed(
-    () => `0 0 ${this.width()} ${this.height()}`
+    () => `0 0 ${this.effectiveWidth()} ${this.height()}`
   );
 }

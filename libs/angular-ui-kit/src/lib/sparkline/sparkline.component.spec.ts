@@ -77,13 +77,14 @@ describe('SparklineComponent', () => {
     expect(d).not.toContain('C');
   });
 
-  it('should respect custom width and height', () => {
+  it('should respect custom height and use width as viewBox fallback', () => {
     fixture.componentRef.setInput('data', [1, 2, 3]);
     fixture.componentRef.setInput('width', 200);
     fixture.componentRef.setInput('height', 50);
     fixture.detectChanges();
     const svg = fixture.nativeElement.querySelector('svg');
-    expect(svg.getAttribute('width')).toBe('200');
+    expect(svg.getAttribute('width')).toBe('100%');
     expect(svg.getAttribute('height')).toBe('50');
+    expect(svg.getAttribute('viewBox')).toContain('0 0 200 50');
   });
 });

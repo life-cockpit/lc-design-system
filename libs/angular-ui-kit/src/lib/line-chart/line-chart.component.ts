@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export interface LineChartSeries {
@@ -43,6 +48,20 @@ const DEFAULT_COLORS = [
  * ```
  */
 export class LineChartComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   /** One or more data series. */
   series = input.required<LineChartSeries[]>();
 
@@ -87,8 +106,12 @@ export class LineChartComponent {
   private readonly PT = 10;
   private readonly PB = 30;
 
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
   protected readonly viewBox = computed(
-    () => `0 0 ${this.width()} ${this.height()}`
+    () => `0 0 ${this.effectiveWidth()} ${this.height()}`
   );
 
   protected readonly allValues = computed(() => {
@@ -113,7 +136,7 @@ export class LineChartComponent {
   protected readonly plotArea = computed(() => ({
     x: this.PL,
     y: this.PT,
-    w: this.width() - this.PL - this.PR,
+    w: this.effectiveWidth() - this.PL - this.PR,
     h: this.height() - this.PT - this.PB,
   }));
 
@@ -146,6 +169,8 @@ export class LineChartComponent {
       label,
     }));
   });
+
+
 
   protected readonly renderedSeries = computed(() => {
     const allSeries = this.series();

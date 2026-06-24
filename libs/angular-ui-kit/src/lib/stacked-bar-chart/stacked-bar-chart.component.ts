@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export interface StackedBarCategory {
@@ -52,6 +57,20 @@ const DEFAULT_COLORS = [
  * ```
  */
 export class StackedBarChartComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   /** Categories with stacked values. */
   categories = input.required<StackedBarCategory[]>();
 
@@ -72,7 +91,11 @@ export class StackedBarChartComponent {
   private readonly PT = 10;
   private readonly PB = 30;
 
-  protected readonly viewBox = computed(() => `0 0 ${this.width()} ${this.height()}`);
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
+  protected readonly viewBox = computed(() => `0 0 ${this.effectiveWidth()} ${this.height()}`);
 
   protected readonly maxTotal = computed(() => {
     const cats = this.categories();
@@ -101,7 +124,7 @@ export class StackedBarChartComponent {
     const legs = this.legends();
     if (!cats.length) return [];
 
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const isV = this.orientation() === 'vertical';
     const plotW = w - this.PL - this.PR;
@@ -168,6 +191,6 @@ export class StackedBarChartComponent {
     vx1: this.PL, vy1: this.PT,
     vx2: this.PL, vy2: this.height() - this.PB,
     hx1: this.PL, hy1: this.height() - this.PB,
-    hx2: this.width() - this.PR, hy2: this.height() - this.PB,
+    hx2: this.effectiveWidth() - this.PR, hy2: this.height() - this.PB,
   }));
 }

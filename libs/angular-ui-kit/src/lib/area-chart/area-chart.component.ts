@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export interface AreaChartSeries {
@@ -43,6 +48,20 @@ const DEFAULT_COLORS = [
  * ```
  */
 export class AreaChartComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   series = input.required<AreaChartSeries[]>();
   labels = input<string[]>([]);
   width = input<number>(400);
@@ -64,11 +83,15 @@ export class AreaChartComponent {
   private readonly PT = 10;
   private readonly PB = 30;
 
-  protected readonly viewBox = computed(() => `0 0 ${this.width()} ${this.height()}`);
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
+  protected readonly viewBox = computed(() => `0 0 ${this.effectiveWidth()} ${this.height()}`);
 
   protected readonly plotArea = computed(() => ({
     x: this.PL, y: this.PT,
-    w: this.width() - this.PL - this.PR,
+    w: this.effectiveWidth() - this.PL - this.PR,
     h: this.height() - this.PT - this.PB,
   }));
 

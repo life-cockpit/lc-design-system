@@ -1,8 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  ElementRef,
+  afterNextRender,
+  inject,
   input,
   computed,
+  signal,
 } from '@angular/core';
 
 export interface FunnelStep {
@@ -30,6 +35,20 @@ const DEFAULT_COLORS = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FunnelChartComponent {
+  private readonly _el = inject(ElementRef);
+  private readonly _destroyRef = inject(DestroyRef);
+  private readonly _containerWidth = signal<number>(0);
+
+  constructor() {
+    afterNextRender(() => {
+      const obs = new ResizeObserver(([entry]) => {
+        this._containerWidth.set(entry.contentRect.width);
+      });
+      obs.observe(this._el.nativeElement);
+      this._destroyRef.onDestroy(() => obs.disconnect());
+    });
+  }
+
   readonly steps = input.required<FunnelStep[]>();
   readonly width = input(400);
   readonly height = input(300);
@@ -38,14 +57,18 @@ export class FunnelChartComponent {
   readonly showPercentage = input(true);
   readonly orientation = input<'vertical' | 'horizontal'>('vertical');
 
-  protected readonly viewBox = computed(() => `0 0 ${this.width()} ${this.height()}`);
+  protected readonly effectiveWidth = computed(
+    () => this._containerWidth() || this.width()
+  );
+
+  protected readonly viewBox = computed(() => `0 0 ${this.effectiveWidth()} ${this.height()}`);
 
   protected readonly renderedSteps = computed(() => {
     const steps = this.steps();
     if (!steps.length) return [];
 
     const maxVal = Math.max(...steps.map(s => s.value));
-    const w = this.width();
+    const w = this.effectiveWidth();
     const h = this.height();
     const isV = this.orientation() === 'vertical';
     const count = steps.length;

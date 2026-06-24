@@ -78,13 +78,14 @@ describe('BarChartComponent', () => {
     expect(axes.length).toBe(2);
   });
 
-  it('should respect custom width and height', () => {
+  it('should respect custom height and use width as viewBox fallback', () => {
     fixture.componentRef.setInput('data', [{ value: 50, label: 'A' }]);
     fixture.componentRef.setInput('width', 600);
     fixture.componentRef.setInput('height', 300);
     fixture.detectChanges();
     const svg = fixture.nativeElement.querySelector('svg');
-    expect(svg.getAttribute('width')).toBe('600');
+    expect(svg.getAttribute('width')).toBe('100%');
     expect(svg.getAttribute('height')).toBe('300');
+    expect(svg.getAttribute('viewBox')).toContain('0 0 600 300');
   });
 });

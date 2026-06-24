@@ -1,5 +1,5 @@
 <div class="lc-area-chart">
-  <svg [attr.width]="width()" [attr.height]="height()" [attr.viewBox]="viewBox()" role="img" aria-label="Area chart" class="lc-area-chart__svg">
+  <svg width="100%" [attr.height]="height()" [attr.viewBox]="viewBox()" role="img" aria-label="Area chart" class="lc-area-chart__svg">
     @for (line of gridLines(); track line.y) {
       <line [attr.x1]="axisLine().hx1" [attr.y1]="line.y" [attr.x2]="axisLine().hx2" [attr.y2]="line.y" class="lc-area-chart__grid" />
       @if (showYLabels()) {
