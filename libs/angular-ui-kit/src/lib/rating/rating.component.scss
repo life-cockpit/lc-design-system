@@ -6,11 +6,7 @@
   &__label {
     font-size: var(--typography-font-size-sm, 0.875rem);
     font-weight: var(--typography-font-weight-medium, 500);
-    color: var(--color-neutral-700);
-
-    :root.dark & {
-      color: var(--color-neutral-300);
-    }
+    color: var(--color-text-secondary);
   }
 
   &__stars {
@@ -48,27 +44,23 @@
     transition: color 0.15s ease;
 
     &--filled {
-      color: var(--color-warning-400);
+      color: var(--color-warning);
     }
 
     &--half {
-      color: var(--color-warning-400);
+      color: var(--color-warning);
       opacity: 0.6;
     }
 
     &--empty {
-      color: var(--color-neutral-300);
-
-      :root.dark & {
-        color: var(--color-neutral-600);
-      }
+      color: var(--color-border-strong);
     }
   }
 
   &__value {
     font-size: var(--typography-font-size-sm, 0.875rem);
     font-variant-numeric: tabular-nums;
-    color: var(--color-neutral-500);
+    color: var(--color-text-tertiary);
   }
 
   // Sizes
