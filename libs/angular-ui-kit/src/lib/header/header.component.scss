@@ -293,7 +293,7 @@ html.dark .lc-header:not(.lc-header--light),
 .lc-header__menu-user-name {
   font-size: var(--font-size-sm);
   font-weight: 600;
-  color: var(--color-text, #111827);
+  color: var(--color-text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

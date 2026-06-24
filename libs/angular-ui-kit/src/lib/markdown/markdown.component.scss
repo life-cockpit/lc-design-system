@@ -1,11 +1,11 @@
 .lc-markdown {
-  color: var(--color-text, #111827);
+  color: var(--color-text-primary);
   font-family: var(--font-family-sans);
   font-size: var(--font-size-base, 1rem);
   line-height: var(--line-height-relaxed, 1.75);
 
   h1, h2, h3, h4, h5, h6 {
-    color: var(--color-text, #111827);
+    color: var(--color-text-primary);
     font-weight: var(--font-weight-semibold, 600);
     line-height: var(--line-height-tight, 1.25);
     margin: 1.5em 0 0.5em;

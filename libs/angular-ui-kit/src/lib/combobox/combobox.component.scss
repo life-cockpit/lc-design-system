@@ -9,7 +9,7 @@
 .lc-combobox__label {
   font-size: var(--font-size-sm, 0.875rem);
   font-weight: 500;
-  color: var(--color-text, #111827);
+  color: var(--color-text-primary);
   margin-bottom: 0.125rem;
 }
 
@@ -51,7 +51,7 @@
   border: none;
   outline: none;
   background: transparent;
-  color: var(--color-text, #111827);
+  color: var(--color-text-primary);
   font-family: inherit;
 
   &::placeholder {
@@ -87,7 +87,7 @@
   flex-shrink: 0;
 
   &:hover {
-    color: var(--color-text, #111827);
+    color: var(--color-text-primary);
     background-color: var(--color-neutral-100, #f3f4f6);
   }
 }
@@ -159,7 +159,7 @@
 
 .lc-combobox__option-label {
   font-size: var(--font-size-sm, 0.875rem);
-  color: var(--color-text, #111827);
+  color: var(--color-text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
