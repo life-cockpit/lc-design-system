@@ -8,6 +8,10 @@ on:
       - 'v*'
   workflow_dispatch:
 
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
 env:
   NODE_VERSION: '22'
   AWS_REGION: 'eu-central-1'
