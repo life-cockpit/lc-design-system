@@ -12,7 +12,7 @@
   width: 100%;
   background-color: var(--color-surface, #fff);
   border: 1px solid colors.$color-neutral-300;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-md);
   transition: border-color 150ms ease, box-shadow 150ms ease;
 
   &:focus-within {

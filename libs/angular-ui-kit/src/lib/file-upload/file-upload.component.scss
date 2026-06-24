@@ -11,7 +11,7 @@
   justify-content: center;
   padding: 2rem 1.5rem;
   border: 2px dashed colors.$color-neutral-300;
-  border-radius: 0.75rem;
+  border-radius: var(--border-radius-lg);
   background-color: colors.$color-neutral-50;
   cursor: pointer;
   transition: border-color 150ms ease, background-color 150ms ease;
@@ -87,7 +87,7 @@
     padding: 0.5rem 0.75rem;
     background: colors.$color-neutral-50;
     border: 1px solid colors.$color-neutral-200;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-md);
     font-size: 0.8125rem;
   }
 
