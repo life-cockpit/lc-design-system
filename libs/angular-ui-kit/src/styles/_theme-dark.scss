@@ -240,6 +240,12 @@
   --color-primary-fill-hover: #{$color-primary-400};
   --color-primary-fill-active: #{$color-primary-600};
   --color-on-primary: #ffffff;
+  // Solid secondary fill (literal brand secondary in both themes; dark enough
+  // for white ink so it never washes out under dark-mode inversion).
+  --color-secondary-fill: #{$color-secondary-600};
+  --color-secondary-fill-hover: #{$color-secondary-500};
+  --color-secondary-fill-active: #{$color-secondary-700};
+  --color-on-secondary: #ffffff;
   // Solid semantic fills (literal, non-inverted) for danger/warning/info actions.
   --color-error-fill: #{$color-error-default};
   --color-error-fill-hover: #c11414;

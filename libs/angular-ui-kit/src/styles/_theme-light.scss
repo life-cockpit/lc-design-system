@@ -230,6 +230,11 @@
   --color-primary-fill-hover: #{$color-primary-600};
   --color-primary-fill-active: #{$color-primary-700};
   --color-on-primary: #ffffff;
+  // Solid secondary fill (literal brand secondary in both themes).
+  --color-secondary-fill: #{$color-secondary-600};
+  --color-secondary-fill-hover: #{$color-secondary-700};
+  --color-secondary-fill-active: #{$color-secondary-800};
+  --color-on-secondary: #ffffff;
   // Solid semantic fills for danger/warning/info actions.
   --color-error-fill: #{$color-error-default};
   --color-error-fill-hover: #{$color-error-dark};

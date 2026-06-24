@@ -42,15 +42,15 @@
 }
 
 .btn-secondary {
-  background-color: var(--color-secondary-600);
-  color: var(--color-neutral-white);
+  background-color: var(--color-secondary-fill);
+  color: var(--color-on-secondary);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-secondary-700);
+    background-color: var(--color-secondary-fill-hover);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--color-secondary-800);
+    background-color: var(--color-secondary-fill-active);
   }
 }
 
