@@ -1,8 +1,6 @@
 .lc-line-chart {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  display: block;
+  width: 100%;
 }
 
 .lc-line-chart__svg {

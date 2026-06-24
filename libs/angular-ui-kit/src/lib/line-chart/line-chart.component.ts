@@ -79,6 +79,9 @@ export class LineChartComponent {
   /** Use smooth curves. */
   smooth = input<boolean>(true);
 
+  /** Force a minimum Y value (e.g. 0 for cost charts to avoid negative baseline). */
+  yMin = input<number | null>(null);
+
   private readonly PL = 40;
   private readonly PR = 10;
   private readonly PT = 10;
@@ -93,9 +96,11 @@ export class LineChartComponent {
     return s.flatMap((ser) => ser.data);
   });
 
-  protected readonly minValue = computed(() =>
-    this.allValues().length ? Math.min(...this.allValues()) : 0
-  );
+  protected readonly minValue = computed(() => {
+    const dataMin = this.allValues().length ? Math.min(...this.allValues()) : 0;
+    const forced = this.yMin();
+    return forced !== null ? Math.min(forced, dataMin) : dataMin;
+  });
 
   protected readonly maxValue = computed(() =>
     this.allValues().length ? Math.max(...this.allValues()) : 0
@@ -124,7 +129,7 @@ export class LineChartComponent {
     for (let i = 0; i <= steps; i++) {
       const val = min + (i / steps) * range;
       const y = pa.y + pa.h - (i / steps) * pa.h;
-      lines.push({ y, label: String(Math.round(val * 10) / 10) });
+      lines.push({ y, label: this.fmtY(val) });
     }
     return lines;
   });
@@ -211,4 +216,17 @@ export class LineChartComponent {
       color: s.color,
     }));
   });
+
+  private readonly _clipId = `lc-chart-clip-${Math.random().toString(36).slice(2)}`;
+  protected readonly clipId = () => this._clipId;
+
+  protected fmtY(val: number): string {
+    if (val === 0) return '0';
+    const abs = Math.abs(val);
+    if (abs < 0.001) return val.toFixed(4);
+    if (abs < 0.01)  return val.toFixed(3);
+    if (abs < 0.1)   return val.toFixed(2);
+    if (abs < 10)    return val.toFixed(1);
+    return String(Math.round(val));
+  }
 }

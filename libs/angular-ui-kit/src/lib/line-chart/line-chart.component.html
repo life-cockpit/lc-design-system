@@ -1,8 +1,9 @@
 <div class="lc-line-chart">
   <svg
-    [attr.width]="width()"
+    width="100%"
     [attr.height]="height()"
     [attr.viewBox]="viewBox()"
+    preserveAspectRatio="none"
     role="img"
     aria-label="Line chart"
     class="lc-line-chart__svg"
@@ -57,12 +58,25 @@
       </text>
     }
 
+    <!-- Clip path: prevents smooth spline overshoot from rendering outside the plot area -->
+    <defs>
+      <clipPath [attr.id]="clipId()">
+        <rect
+          [attr.x]="plotArea().x"
+          [attr.y]="plotArea().y"
+          [attr.width]="plotArea().w"
+          [attr.height]="plotArea().h"
+        />
+      </clipPath>
+    </defs>
+
     <!-- Series -->
     @for (ser of renderedSeries(); track ser.label) {
       @if (ser.areaD) {
         <path
           [attr.d]="ser.areaD"
           [attr.fill]="ser.color"
+          [attr.clip-path]="'url(#' + clipId() + ')'"
           class="lc-line-chart__area"
         />
       }
@@ -71,6 +85,7 @@
           [attr.d]="ser.pathD"
           [attr.stroke]="ser.color"
           [attr.stroke-width]="strokeWidth()"
+          [attr.clip-path]="'url(#' + clipId() + ')'"
           fill="none"
           stroke-linecap="round"
           stroke-linejoin="round"
