@@ -68,9 +68,9 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-1);
-  border: 1px solid var(--color-neutral-300);
-  background-color: var(--color-neutral-0);
-  color: var(--color-neutral-700);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-2);
+  color: var(--color-text-secondary);
   border-radius: var(--border-radius-md);
   font-weight: 500;
   cursor: pointer;
@@ -78,9 +78,9 @@
   user-select: none;
 
   &:hover:not(:disabled) {
-    background-color: var(--color-neutral-50);
-    border-color: var(--color-neutral-400);
-    color: var(--color-neutral-900);
+    background-color: var(--color-surface-hover);
+    border-color: var(--color-border-strong);
+    color: var(--color-text-primary);
   }
 
   &:focus-visible {
@@ -89,7 +89,7 @@
   }
 
   &:active:not(:disabled) {
-    background-color: var(--color-neutral-100);
+    background-color: var(--color-surface-selected);
     transform: translateY(1px);
   }
 
@@ -98,17 +98,17 @@
     cursor: not-allowed;
   }
 
-  // Active page button
+  // Active page button — solid brand fill
   &--active {
-    background-color: var(--color-primary-600);
-    border-color: var(--color-primary-600);
-    color: var(--color-neutral-0);
+    background-color: var(--color-primary-fill);
+    border-color: var(--color-primary-fill);
+    color: var(--color-on-primary);
     font-weight: 600;
 
     &:hover {
-      background-color: var(--color-primary-700);
-      border-color: var(--color-primary-700);
-      color: var(--color-neutral-0);
+      background-color: var(--color-primary-fill-hover);
+      border-color: var(--color-primary-fill-hover);
+      color: var(--color-on-primary);
     }
   }
 }
@@ -138,54 +138,20 @@
   justify-content: center;
   min-width: 2.25rem;
   height: 2.25rem;
-  color: var(--color-neutral-500);
+  color: var(--color-text-tertiary);
   user-select: none;
 }
 
 .lc-pagination__info {
   text-align: center;
   font-size: var(--font-size-sm);
-  color: var(--color-neutral-600);
+  color: var(--color-text-secondary);
   margin-top: var(--spacing-3);
-
-  @media (prefers-color-scheme: dark) {
-    color: var(--color-neutral-400);
-  }
 }
 
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  .lc-pagination__button {
-    border-color: var(--color-neutral-700);
-    background-color: var(--color-neutral-900);
-    color: var(--color-neutral-300);
-
-    &:hover:not(:disabled) {
-      background-color: var(--color-neutral-800);
-      border-color: var(--color-neutral-600);
-      color: var(--color-neutral-100);
-    }
-
-    &:active:not(:disabled) {
-      background-color: var(--color-neutral-700);
-    }
-
-    &--active {
-      background-color: var(--color-primary-600);
-      border-color: var(--color-primary-600);
-      color: var(--color-neutral-0);
-
-      &:hover {
-        background-color: var(--color-primary-700);
-        border-color: var(--color-primary-700);
-      }
-    }
-  }
-
-  .lc-pagination__ellipsis {
-    color: var(--color-neutral-500);
-  }
-}
+// DS2.0: dark styling comes from the semantic surface/text tokens above, which
+// are already dark-first — no prefers-color-scheme override needed (it also
+// wouldn't match the app's class-based theme switch).
 
 // Responsive adjustments
 @media (max-width: 640px) {
