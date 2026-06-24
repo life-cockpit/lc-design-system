@@ -225,6 +225,16 @@
 
   // Brand alias (some components reference bare --color-primary)
   --color-primary: var(--color-primary-500);
+  // Solid brand-teal fill for primary actions (literal brand teal in both themes).
+  --color-primary-fill: #{$color-primary-500};
+  --color-primary-fill-hover: #{$color-primary-600};
+  --color-primary-fill-active: #{$color-primary-700};
+  --color-on-primary: #ffffff;
+  // Solid semantic fills for danger/warning/info actions.
+  --color-error-fill: #{$color-error-default};
+  --color-error-fill-hover: #{$color-error-dark};
+  --color-error-fill-active: #{$color-error-dark};
+  --color-on-error: #ffffff;
 
   // Semantic color aliases for components
   --color-error: #{$color-error-default};

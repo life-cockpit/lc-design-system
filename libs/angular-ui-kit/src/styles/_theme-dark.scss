@@ -218,11 +218,12 @@
   // Gradient surface for cards/panels (use as `background-image`)
   --gradient-surface: linear-gradient(180deg, var(--color-surface-2), var(--color-surface));
 
-  // Text
-  --color-text-primary: #{$color-text-dark-primary};
-  --color-text-secondary: #{$color-text-dark-secondary};
-  --color-text-tertiary: #{$color-text-dark-tertiary};
-  --color-text-disabled: #{$color-text-dark-tertiary};
+  // Text — tuned brighter than the raw pitch values for AA contrast on the
+  // teal-tinted surfaces (#14222e / #1a2c3a).
+  --color-text-primary: #f1f6f8;
+  --color-text-secondary: #c4d2d9;
+  --color-text-tertiary: #93a4ad;
+  --color-text-disabled: #6c7e88;
   --color-neutral-white: #ffffff;
 
   // Borders
@@ -232,6 +233,18 @@
 
   // Brand alias (some components reference bare --color-primary)
   --color-primary: var(--color-primary-500);
+  // Solid brand-teal fill for primary actions — uses the LITERAL brand teal in
+  // both themes (not the inverted scale) so primary buttons are always the
+  // recognizable, high-contrast brand color with white ink.
+  --color-primary-fill: #{$color-primary-500};
+  --color-primary-fill-hover: #{$color-primary-400};
+  --color-primary-fill-active: #{$color-primary-600};
+  --color-on-primary: #ffffff;
+  // Solid semantic fills (literal, non-inverted) for danger/warning/info actions.
+  --color-error-fill: #{$color-error-default};
+  --color-error-fill-hover: #c11414;
+  --color-error-fill-active: #{$color-error-dark};
+  --color-on-error: #ffffff;
 
   // Semantic color aliases for components
   --color-error: #{$color-error-default};

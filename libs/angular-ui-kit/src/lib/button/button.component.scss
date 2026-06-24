@@ -29,15 +29,15 @@
 
 // Variants
 .btn-primary {
-  background-color: var(--color-primary-600);
-  color: var(--color-neutral-white);
+  background-color: var(--color-primary-fill);
+  color: var(--color-on-primary);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-primary-700);
+    background-color: var(--color-primary-fill-hover);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--color-primary-800);
+    background-color: var(--color-primary-fill-active);
   }
 }
 
@@ -102,15 +102,15 @@
 }
 
 .btn-danger {
-  background-color: var(--color-error-600);
-  color: var(--color-neutral-white);
+  background-color: var(--color-error-fill);
+  color: var(--color-on-error);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-error-700);
+    background-color: var(--color-error-fill-hover);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--color-error-800);
+    background-color: var(--color-error-fill-active);
   }
 }
 
