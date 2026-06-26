@@ -1,4 +1,4 @@
-<div class="lc-chat">
+<div class="lc-chat" [class.lc-chat--borderless]="!bordered()">
   @if (showHeader()) {
     <div class="lc-chat__header">
       <span class="lc-chat__title">{{ title() }}</span>
@@ -8,7 +8,11 @@
     </div>
   }
 
-  <div class="lc-chat__messages" #scrollContainer>
+  <div
+    class="lc-chat__messages"
+    [class.lc-chat__messages--anchor-bottom]="messageAnchor() === 'bottom'"
+    #scrollContainer
+  >
     @for (msg of formattedMessages(); track msg.id) {
       <div
         class="lc-chat__message"

@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-06-26
+
+### Added
+
+- **PageLayout component (`lc-page-layout`)** — New full-height page shell that
+  pins a header (and optional footer) while the body fills the remaining height
+  and scrolls internally — the page itself never scrolls. Encapsulates the
+  full-height "height chain" (`100dvh` / `100%`, `overflow: hidden`, and the
+  `min-height: 0` flex trick) so it doesn't have to be rebuilt per app. Inputs:
+  `fill` (`'screen'` = `100dvh` for the page root, `'parent'` = `100%` when
+  nested below an app shell), `scrollBody` (default `true`), and `padded`
+  (density-aware body padding, default `false`). Content projects into three
+  slots: `[layout-header]` (pinned top), default (scrolling body), and
+  `[layout-footer]` (pinned bottom). Exported via the main barrel together with
+  the `PageLayoutFill` type.
+- **Chat: `bordered` input** (`lc-chat`, default `true`) — Set `false` to render
+  the chat flush/edge-to-edge without its own border + rounded corners, e.g. as
+  the full-height body of an `<lc-page-layout>` sitting directly under a page
+  header without a nested card border.
+- **Chat: `messageAnchor` input** (`lc-chat`, `'top' | 'bottom'`, default
+  `'top'`) — `'bottom'` anchors a short conversation to the bottom of the
+  message area (empty space above), like most messaging apps. Implemented with a
+  collapsing `margin-top: auto` on the first message so the top stays reachable
+  once messages overflow (unlike `justify-content: flex-end`, which clips
+  overflow).
+- **Page header: `noPaddingX` input** (`lc-page-header`, default `false`) —
+  Removes the header's own horizontal padding so its content sits flush with the
+  container edge; use when the header already lives inside a padded wrapper
+  (e.g. `<lc-container>`) to avoid a double inset.
+- **Storybook** — New `Layout/PageLayout` stories (Scrolling Content, Chat full
+  height, With Footer) and new `lc-chat` stories (Bottom-anchored, Borderless).
+- **Docs** — New `Layout/Full-Height Pages` guide covering the height-chain
+  principle, the `lc-page-layout` API, full-screen and nested app-page recipes,
+  the app-shell height requirement, and a troubleshooting table.
+
+### Changed
+
+- **Page header now self-pads horizontally** (`lc-page-header`) — The header
+  previously had only vertical padding, so its content sat flush against the
+  container edge. It now applies density-aware horizontal padding by default
+  (matching `lc-section`), driven by the `--lc-density-padding-*` tokens. The
+  divider (when `showDivider` is set) still spans the full width — only the
+  content is inset. **Potential impact:** if you already place `lc-page-header`
+  inside a horizontally padded container you may now see a double inset; opt out
+  with `[noPaddingX]="true"`.
+
 ## [2.0.2] - 2026-06-24
 
 ### Fixed

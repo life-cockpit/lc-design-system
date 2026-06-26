@@ -124,6 +124,22 @@ export class ChatComponent implements AfterViewChecked {
   /** Show the header bar. */
   showHeader = input<boolean>(true);
 
+  /**
+   * Draw the chat's own border + rounded corners. Defaults to `true` (card
+   * style). Set `false` to render flush/edge-to-edge — e.g. when the chat is
+   * the full-height body of an `<lc-page-layout>` and should sit directly under
+   * a page header without a nested box.
+   */
+  bordered = input<boolean>(true);
+
+  /**
+   * Where messages stack when they don't fill the height.
+   * - `'top'` (default): messages grow from the top down.
+   * - `'bottom'`: messages anchor to the bottom (empty space above), like most
+   *   messaging apps. Still scrolls to reveal the top once they overflow.
+   */
+  messageAnchor = input<'top' | 'bottom'>('top');
+
   /** Disable the input. */
   disabled = input<boolean>(false);
 

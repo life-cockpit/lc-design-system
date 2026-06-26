@@ -51,7 +51,7 @@ Chat component for conversational user interfaces.
   constraints, pending-attachment chips, and rendered attachments
   (image thumbnails / file links) inside messages
 
-**Attachments:** Set \`allowFileUpload=\"true\"\` to show the paperclip button.
+**Attachments:** Set \`allowFileUpload="true"\` to show the paperclip button.
 Selected files appear as chips above the textarea and are emitted on
 \`messageSend\` as \`event.attachments\` (\`ChatAttachment[]\`).
 Historical messages can also carry \`attachments\` for replay.
@@ -128,6 +128,42 @@ export const NoHeader: Story = {
     template: `
       <div style="height: 500px;">
         <lc-chat [showHeader]="false" [messages]="messages"></lc-chat>
+      </div>
+    `,
+    props: { messages: conversationMessages.slice(1) },
+    moduleMetadata: { imports: [ChatComponent] },
+  }),
+};
+
+/**
+ * `messageAnchor="bottom"` keeps a short conversation pinned to the bottom of
+ * the message area (empty space above), like most messaging apps. Once messages
+ * overflow the height it scrolls normally and the top stays reachable.
+ */
+export const BottomAnchored: Story = {
+  name: 'Bottom-anchored',
+  render: () => ({
+    template: `
+      <div style="height: 500px;">
+        <lc-chat [showHeader]="false" messageAnchor="bottom" [messages]="messages"></lc-chat>
+      </div>
+    `,
+    props: { messages: conversationMessages.slice(1, 4) },
+    moduleMetadata: { imports: [ChatComponent] },
+  }),
+};
+
+/**
+ * `bordered=false` drops the card border + rounded corners so the chat fills its
+ * container flush — e.g. as the full-height body of an `<lc-page-layout>` sitting
+ * directly under a page header. See **Layout/PageLayout → Chat (full height)**.
+ */
+export const Borderless: Story = {
+  name: 'Borderless (flush)',
+  render: () => ({
+    template: `
+      <div style="height: 500px; border: 1px dashed var(--color-border); border-radius: 8px; overflow: hidden;">
+        <lc-chat [showHeader]="false" [bordered]="false" [messages]="messages"></lc-chat>
       </div>
     `,
     props: { messages: conversationMessages.slice(1) },

@@ -43,6 +43,28 @@ describe('ChatComponent', () => {
     expect(fixture.nativeElement.querySelector('.lc-chat__title').textContent).toContain('Test Chat');
   });
 
+  it('should be bordered (card style) by default', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat--borderless')).toBeFalsy();
+  });
+
+  it('should render flush when bordered is false', () => {
+    fixture.componentRef.setInput('bordered', false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat--borderless')).toBeTruthy();
+  });
+
+  it('should anchor messages to the top by default', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat__messages--anchor-bottom')).toBeFalsy();
+  });
+
+  it('should anchor messages to the bottom when requested', () => {
+    fixture.componentRef.setInput('messageAnchor', 'bottom');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat__messages--anchor-bottom')).toBeTruthy();
+  });
+
   it('should show streaming badge when streaming', () => {
     fixture.componentRef.setInput('isStreaming', true);
     fixture.detectChanges();

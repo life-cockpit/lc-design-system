@@ -77,11 +77,21 @@ export class PageHeaderComponent {
   /** Optional badge text next to the title (e.g. `Beta`). */
   badge = input<string | undefined>(undefined);
 
+  /**
+   * Remove the header's own horizontal padding so its content sits flush with
+   * the container edge. Use when the header is already inside a padded wrapper
+   * (e.g. `<lc-container>`) and you'd otherwise get a double inset. The divider,
+   * when shown, always spans the full width regardless of this setting.
+   * @default false
+   */
+  noPaddingX = input<boolean>(false);
+
   protected hostClasses = computed(() =>
     [
       'lc-page-header',
       `lc-page-header--size-${this.size()}`,
       this.showDivider() ? 'lc-page-header--divided' : null,
+      this.noPaddingX() ? 'lc-page-header--flush-x' : null,
     ]
       .filter(Boolean)
       .join(' '),

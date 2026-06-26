@@ -113,6 +113,9 @@ export * from './lib/container/container.component';
 // Page Header Component
 export * from './lib/page-header/page-header.component';
 
+// Page Layout Component
+export * from './lib/page-layout/page-layout.component';
+
 // Section Component
 export * from './lib/section/section.component';
 

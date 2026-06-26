@@ -1,0 +1,58 @@
+// lc-page-layout
+//
+// Full-height shell with a pinned header/footer and an internally scrolling
+// body. The shell never lets the page scroll; the body is the scroll
+// container. `min-height: 0` on the body is the critical bit — without it a
+// flex child defaults to `min-height: auto` and refuses to shrink below its
+// content, which breaks internal scrolling and grows the page instead.
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden; // the shell itself never scrolls
+  box-sizing: border-box;
+}
+
+// ── Height source ───────────────────────────────────────────────────────────
+// dvh tracks the *visible* viewport on mobile (browser chrome in/out), avoiding
+// the classic "input hidden behind the address bar" jump that 100vh causes.
+:host(.fill-screen) {
+  height: 100dvh;
+}
+
+// 100% only works if every ancestor also carries a definite height down.
+:host(.fill-parent) {
+  height: 100%;
+}
+
+// ── Pinned regions ──────────────────────────────────────────────────────────
+.lc-page-layout__header,
+.lc-page-layout__footer {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+// ── Scrolling body ──────────────────────────────────────────────────────────
+.lc-page-layout__body {
+  flex: 1 1 auto;
+  min-height: 0; // ← lets the body shrink and become the scroll container
+  min-width: 0;
+}
+
+:host(.scroll-body) .lc-page-layout__body {
+  overflow: auto;
+}
+
+:host(.padded) .lc-page-layout__body {
+  padding: var(--lc-density-padding-md, 1rem);
+
+  @media (min-width: 640px) {
+    padding: var(--lc-density-padding-lg, 1.5rem);
+  }
+
+  @media (min-width: 1024px) {
+    padding: var(--lc-density-padding-xl, 2rem);
+  }
+}

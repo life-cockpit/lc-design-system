@@ -34,6 +34,13 @@ describe('PageHeaderComponent', () => {
       expect(rootEl.classList).toContain('lc-page-header');
       expect(rootEl.classList).toContain('lc-page-header--size-default');
       expect(rootEl.classList).not.toContain('lc-page-header--divided');
+      expect(rootEl.classList).not.toContain('lc-page-header--flush-x');
+    });
+
+    it('applies flush-x class when noPaddingX is true', () => {
+      fixture.componentRef.setInput('noPaddingX', true);
+      fixture.detectChanges();
+      expect(rootEl.classList).toContain('lc-page-header--flush-x');
     });
 
     it('renders title at requested level', () => {

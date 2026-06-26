@@ -1,0 +1,141 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Layout/Full-Height Pages" />
+
+# Full-Height Pages
+
+How to build pages that **fill the screen and scroll internally** — a pinned
+header (and optional footer) with a body that takes the remaining height, while
+the page itself never scrolls. The headline case is a chat that sits at 100%
+height under a page header with its input pinned at the bottom.
+
+Use [`<lc-page-layout>`](?path=/docs/layout-pagelayout--docs) for this — it
+encapsulates the layout so you don't rebuild it per app.
+
+## The principle: an unbroken "height chain"
+
+For an element to fill the viewport and scroll *itself* (instead of growing the
+page), every level from the viewport down to the scroll container must carry a
+definite height:
+
+1. **Root** — `height: 100dvh` and `overflow: hidden`, so the page never scrolls.
+2. **Flex column** — header is `flex: 0 0 auto` (fixed), the body is `flex: 1`.
+3. **The critical bit** — the body needs `min-height: 0`. Flex items default to
+   `min-height: auto`, which refuses to shrink below their content. That single
+   missing rule is the most common reason "internal scrolling" silently turns
+   into "the whole page grows".
+
+> Why `dvh` and not `vh`: `100dvh` tracks the *visible* viewport on mobile as the
+> browser chrome slides in and out, so the pinned input never ends up hidden
+> behind the address bar.
+
+`<lc-page-layout>` bakes all of this in. You only choose where its height comes
+from and what goes in the slots.
+
+## `<lc-page-layout>`
+
+| Input | Type | Default | Purpose |
+|---|---|---|---|
+| `fill` | `'screen' \| 'parent'` | `'screen'` | `100dvh` (page root) vs `100%` (nested below an app shell) |
+| `scrollBody` | `boolean` | `true` | Whether the body scrolls internally |
+| `padded` | `boolean` | `false` | Density-aware padding on the body (off so embedded components keep their own) |
+
+**Slots**
+
+| Slot | Position |
+|---|---|
+| `[layout-header]` | Pinned to the top (e.g. `<lc-page-header>`) |
+| default | The body — fills the remaining height and scrolls |
+| `[layout-footer]` | Pinned to the bottom (e.g. a chat input bar) |
+
+Children that bring their own internal scroll + sticky footer (like
+[`<lc-chat>`](?path=/docs/components-chat--docs)) only need `height: 100%`, which
+the body gives them for free.
+
+## Recipe 1 — Full-screen chat
+
+The chat fills the viewport under a page header; its input stays pinned at the
+bottom and only the message list scrolls.
+
+```html
+<lc-page-layout>
+  <lc-page-header layout-header title="Assistant" [showDivider]="true" />
+
+  <!-- bordered=false → flush/edge-to-edge, no nested card border under the header -->
+  <lc-chat
+    [messages]="messages"
+    [showHeader]="false"
+    [bordered]="false"
+    messageAnchor="bottom"
+    (messageSend)="onSend($event)"
+  />
+</lc-page-layout>
+```
+
+- `[showHeader]="false"` avoids two headers — the title comes from `<lc-page-header>`.
+- `[bordered]="false"` drops the chat's own border/radius so it fills flush.
+- `messageAnchor="bottom"` keeps the conversation pinned to the bottom near the input.
+
+Live: [Layout/PageLayout → Chat (full height)](?path=/story/layout-pagelayout--chat-full-height)
+
+## Recipe 2 — Nested app page (sidenav + topbar)
+
+When the page lives inside an app shell, the chat is usually a **card with
+spacing around it**. Use `fill="parent"`, turn on `padded`, and keep the chat
+`bordered` (the default).
+
+```html
+<!-- inside the content region, right of the sidenav, below the topbar -->
+<lc-page-layout fill="parent" [padded]="true">
+  <lc-page-header
+    layout-header
+    title="Spec erstellen"
+    subtitle="Beschreibe dein Feature im Dialog mit dem Spec Author Agent."
+  >
+    <lc-button slot="actions" variant="secondary">← Zurück zur Factory</lc-button>
+  </lc-page-header>
+
+  <lc-chat [messages]="messages" [showHeader]="false" messageAnchor="bottom" />
+</lc-page-layout>
+```
+
+Because the body padding and the page header use the same density tokens, the
+header content and the chat card share the same left edge.
+
+### The shell must pass the height down
+
+`fill="parent"` is `height: 100%`, which only resolves if **every ancestor**
+also carries a definite height. Lay out the shell as a full-height flex column:
+
+```scss
+.app-shell         { height: 100dvh; display: flex; flex-direction: column; }
+.app-shell__topbar { flex: 0 0 auto; }                          /* topbar */
+.app-shell__row    { flex: 1; min-height: 0; display: flex; }   /* sidenav + content */
+.app-shell__content{ flex: 1; min-width: 0; }                   /* <lc-page-layout> lives here */
+```
+
+If one level forgets `height` / `min-height: 0`, the chain breaks: the body stops
+filling and the page starts scrolling again.
+
+## Related inputs
+
+These component inputs were added for full-height composition:
+
+- [`<lc-chat>`](?path=/docs/components-chat--docs)
+  - `bordered` (default `true`) — set `false` to render flush as a full-height body.
+  - `messageAnchor` (`'top' \| 'bottom'`, default `'top'`) — `'bottom'` anchors a short
+    conversation to the bottom; it still scrolls and the top stays reachable once
+    messages overflow.
+- [`<lc-page-header>`](?path=/docs/layout-page-header--docs)
+  - `noPaddingX` (default `false`) — the header self-pads horizontally; set this
+    when it already sits inside a padded container to avoid a double inset.
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| The whole page scrolls instead of the body | A level in the chain is missing `min-height: 0` | Add `min-height: 0` to every flex body between the root and the scroll container |
+| Chat doesn't fill the height (collapses) | An ancestor has no definite height | Use `fill="parent"` **and** give the shell the height chain above |
+| Pinned input hidden behind the mobile address bar | `100vh` used instead of `100dvh` | `<lc-page-layout fill="screen">` already uses `dvh` — avoid hand-rolled `100vh` |
+| Header content has a double inset | Header sits inside an already-padded container | `<lc-page-header [noPaddingX]="true">` |
+| Nested card border under the header | Chat keeps its own border as a full-height body | `<lc-chat [bordered]="false">` |

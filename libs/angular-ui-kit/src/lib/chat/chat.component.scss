@@ -12,6 +12,13 @@
 
 }
 
+// Flush / edge-to-edge variant — drop the card border + radius so the chat can
+// fill a full-height container (e.g. the body of <lc-page-layout>) seamlessly.
+.lc-chat--borderless {
+  border: none;
+  border-radius: 0;
+}
+
 // ── Header ──────────────────────────────────────────────────
 .lc-chat__header {
   display: flex;
@@ -53,6 +60,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+// Bottom-anchored: few messages sit at the bottom with empty space above.
+// An auto top-margin on the first item is a collapsing spacer — it fills the
+// free space when messages are short and collapses to 0 once they overflow,
+// so scrolling up to the first message still works (unlike justify-content,
+// which clips overflow at the top).
+.lc-chat__messages--anchor-bottom > .lc-chat__message:first-child {
+  margin-top: auto;
 }
 
 .lc-chat__message {
