@@ -13,8 +13,17 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { MarkdownComponent } from '../markdown/markdown.component';
+import { IconComponent } from '../icon/icon.component';
 
 export type ChatMessageRole = 'user' | 'agent' | 'system';
+
+/**
+ * Semantic status of a chat message — orthogonal to `role` (role = *who*
+ * speaks; status = *what kind* of message). Reuses the semantic vocabulary of
+ * `lc-alert` / `lc-callout` and drives the rail dot/accent colour + a status
+ * icon. `'default'` (or omitted) reproduces the role-coloured behaviour exactly.
+ */
+export type ChatMessageStatus = 'default' | 'info' | 'success' | 'warning' | 'error';
 
 /**
  * Controls which messages are rendered as Markdown via `<lc-markdown>`.
@@ -52,6 +61,14 @@ export interface ChatMessage {
   avatar?: string;
   name?: string;
   streaming?: boolean;
+  /**
+   * Semantic status — colours the rail dot/accent and shows a status icon.
+   * Independent of `role`: a `role: 'agent'` message can be `status: 'error'`
+   * (failed reply) or `status: 'success'` (tool finished). Defaults to
+   * `'default'`, which reproduces today's role-coloured behaviour exactly.
+   * An `'error'` message never pulses and is announced assertively (`role="alert"`).
+   */
+  status?: ChatMessageStatus;
   /** Optional file attachments associated with the message. */
   attachments?: ChatAttachment[];
   /** Arbitrary data passed to a custom messageTemplate. */
@@ -73,7 +90,7 @@ export interface ChatFileAttachEvent {
 @Component({
   selector: 'lc-chat',
   standalone: true,
-  imports: [NgTemplateOutlet, MarkdownComponent],
+  imports: [NgTemplateOutlet, MarkdownComponent, IconComponent],
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -341,6 +358,66 @@ export class ChatComponent implements AfterViewChecked {
     if (mode === false) return false;
     if (mode === true || mode === 'all') return true;
     return role === mode;
+  }
+
+  /** Whether a message carries a semantic (non-`default`) status. */
+  protected isSemanticStatus(status: ChatMessageStatus | undefined): boolean {
+    return !!status && status !== 'default';
+  }
+
+  /** Rail icon for a semantic status — reuses the `lc-alert` icon names. */
+  protected statusIcon(status: ChatMessageStatus | undefined): string {
+    switch (status) {
+      case 'info':
+        return 'information-circle';
+      case 'success':
+        return 'check-circle';
+      case 'warning':
+        return 'exclamation-triangle';
+      case 'error':
+        return 'x-circle';
+      default:
+        return '';
+    }
+  }
+
+  /** Semantic token colour for a status dot/icon. */
+  protected statusColor(status: ChatMessageStatus | undefined): string {
+    switch (status) {
+      case 'info':
+        return 'var(--color-info-500)';
+      case 'success':
+        return 'var(--color-success-500)';
+      case 'warning':
+        return 'var(--color-warning-500)';
+      case 'error':
+        return 'var(--color-error-500)';
+      default:
+        return 'currentColor';
+    }
+  }
+
+  /** Visually-hidden prefix so colour/icon is never the only signal. */
+  protected statusLabel(status: ChatMessageStatus | undefined): string {
+    switch (status) {
+      case 'info':
+        return 'Info:';
+      case 'success':
+        return 'Erfolg:';
+      case 'warning':
+        return 'Warnung:';
+      case 'error':
+        return 'Fehler:';
+      default:
+        return '';
+    }
+  }
+
+  /** ARIA live priority: assertive for `error`, polite for other statuses. */
+  protected statusAriaLive(status: ChatMessageStatus | undefined): 'assertive' | 'polite' | null {
+    if (status === 'error') return 'assertive';
+    if (this.isSemanticStatus(status)) return 'polite';
+    return null;
   }
 
   private scrollToBottom(): void {

@@ -178,6 +178,38 @@
   box-shadow: 0 0 0 3px var(--color-surface);
 }
 
+// Semantic status replaces the dot/avatar with a coloured icon on the rail.
+// The icon colour is the semantic token (set via lc-icon's color input); the
+// surface background + halo cut the rail connector cleanly around it, matching
+// the dot. error/warning/etc. never pulse — the pulse only targets the dot.
+.lc-chat__status-icon {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.0625rem; // align icon centre with the first line of text
+  border-radius: 50%;
+  background: var(--color-surface);
+  box-shadow: 0 0 0 2px var(--color-surface);
+}
+
+// Visually-hidden status prefix (e.g. "Fehler:") so colour is never the only
+// signal for assistive tech. Kept local so it works without global utilities.
+.lc-chat__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 // ── Bubble ──────────────────────────────────────────────────
 .lc-chat__bubble {
   flex: 1;

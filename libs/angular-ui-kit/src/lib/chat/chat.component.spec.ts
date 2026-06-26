@@ -133,4 +133,64 @@ describe('ChatComponent', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.lc-chat__message--system')).toBeTruthy();
   });
+
+  // --- Semantic status ---
+
+  it('should keep the role-coloured dot when status is omitted', () => {
+    fixture.componentRef.setInput('messages', [
+      { id: '1', role: 'agent', content: 'Hi' },
+    ]);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat__dot--agent')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.lc-chat__status-icon')).toBeFalsy();
+  });
+
+  it('should replace the dot with a status icon for a semantic status', () => {
+    fixture.componentRef.setInput('messages', [
+      { id: '1', role: 'agent', content: 'Failed', status: 'error' },
+    ]);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat__status-icon')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.lc-chat__dot')).toBeFalsy();
+  });
+
+  it('should announce error messages assertively via role="alert"', () => {
+    fixture.componentRef.setInput('messages', [
+      { id: '1', role: 'agent', content: 'Agent unreachable', status: 'error' },
+    ]);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.lc-chat__message');
+    expect(el.getAttribute('role')).toBe('alert');
+    expect(el.getAttribute('aria-live')).toBe('assertive');
+  });
+
+  it('should announce non-error statuses politely', () => {
+    fixture.componentRef.setInput('messages', [
+      { id: '1', role: 'system', content: 'Model switched', status: 'info' },
+    ]);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('.lc-chat__message');
+    expect(el.getAttribute('role')).toBeNull();
+    expect(el.getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('should render a visually-hidden status label', () => {
+    fixture.componentRef.setInput('messages', [
+      { id: '1', role: 'agent', content: 'Done', status: 'success' },
+    ]);
+    fixture.detectChanges();
+    const label = fixture.nativeElement.querySelector('.lc-chat__sr-only');
+    expect(label).toBeTruthy();
+    expect(label.textContent.trim()).toBe('Erfolg:');
+  });
+
+  it('should surface a status marker even when showAvatars is false', () => {
+    fixture.componentRef.setInput('showAvatars', false);
+    fixture.componentRef.setInput('messages', [
+      { id: '1', role: 'agent', content: 'Failed', status: 'error' },
+    ]);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat__marker')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.lc-chat__status-icon')).toBeTruthy();
+  });
 });

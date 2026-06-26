@@ -28,6 +28,15 @@ const multiUserMessages: ChatMessage[] = [
   { id: '5', role: 'agent', content: 'Die Test-Suite ist ready. 1472 Tests bestehen.', name: 'Copilot', timestamp: t(11) },
 ];
 
+const statusMessages: ChatMessage[] = [
+  { id: '1', role: 'user', content: 'Erstelle eine Spec für das Onboarding-Feature.', name: 'Eric', timestamp: t(6) },
+  { id: '2', role: 'agent', content: 'Klar, ich lege die Spec an und fülle Ziel und Zielgruppe aus.', name: 'Spec Author', timestamp: t(5) },
+  { id: '3', role: 'system', content: 'Modell gewechselt zu Opus 4.8', status: 'info', timestamp: t(4) },
+  { id: '4', role: 'agent', content: 'Spec erstellt und gespeichert.', name: 'Spec Author', status: 'success', timestamp: t(3) },
+  { id: '5', role: 'agent', content: 'Rate-Limit erreicht — neuer Versuch in 5 s …', name: 'Spec Author', status: 'warning', timestamp: t(2) },
+  { id: '6', role: 'agent', content: 'Agent nicht erreichbar — die Verbindung ist fehlgeschlagen.', name: 'Spec Author', status: 'error', timestamp: t(1) },
+];
+
 const meta: Meta<ChatComponent> = {
   title: 'Components/Chat',
   component: ChatComponent,
@@ -41,6 +50,7 @@ Chat component for conversational user interfaces.
 
 **Key Features:**
 - User, agent, and system message roles
+- **Semantic status** per message (\`info\` / \`success\` / \`warning\` / \`error\`)
 - Streaming cursor indicator for AI responses
 - Typing indicator with animated dots
 - Auto-scroll to latest message
@@ -50,6 +60,14 @@ Chat component for conversational user interfaces.
 - **File upload** via \`allowFileUpload\` with \`accept\` / \`maxFileSize\`
   constraints, pending-attachment chips, and rendered attachments
   (image thumbnails / file links) inside messages
+
+**Status:** Set \`status\` on a \`ChatMessage\` to \`info\`, \`success\`,
+\`warning\` or \`error\` to flag it semantically — orthogonal to \`role\`
+(role = *who* speaks, status = *what kind* of message). It colours the rail
+icon with a semantic token, pairs it with an icon and a visually-hidden label,
+and sets the matching ARIA (\`error\` → \`role="alert"\` / \`aria-live="assertive"\`,
+others → polite). \`error\` never pulses. Omitting \`status\` (or \`'default'\`)
+is identical to today's role-coloured output. See the *Semantic status* story.
 
 **Attachments:** Set \`allowFileUpload="true"\` to show the paperclip button.
 Selected files appear as chips above the textarea and are emitted on
@@ -121,6 +139,33 @@ export const MultiUser: Story = {
     props: { messages: multiUserMessages },
     moduleMetadata: { imports: [ChatComponent] },
   }),
+};
+
+/**
+ * `status` marks a message as `info | success | warning | error`, orthogonal to
+ * `role`. It colours the rail icon with a semantic token, pairs it with an icon
+ * and a visually-hidden label, and sets the right ARIA (`error` → `role="alert"`
+ * / `aria-live="assertive"`, others → polite). `error` never pulses. Omitting
+ * `status` is identical to the default role-coloured behaviour.
+ */
+export const MessageStatus: Story = {
+  name: 'Semantic status',
+  render: () => ({
+    template: `
+      <div style="height: 500px;">
+        <lc-chat title="Spec Author" [messages]="messages"></lc-chat>
+      </div>
+    `,
+    props: { messages: statusMessages },
+    moduleMetadata: { imports: [ChatComponent] },
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Setze `status` auf einer `ChatMessage` (`info`, `success`, `warning`, `error`), um den Rail-Punkt semantisch einzufärben — z. B. für „Agent nicht erreichbar" (`error`) oder „Spec erstellt" (`success`). Unabhängig von `role`, voll abwärtskompatibel.',
+      },
+    },
+  },
 };
 
 export const NoHeader: Story = {

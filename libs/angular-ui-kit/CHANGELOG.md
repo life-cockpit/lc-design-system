@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2026-06-26
+
+### Added
+
+- **Chat: semantic message status** (`lc-chat`) — A new optional
+  `ChatMessage.status` (`'default' | 'info' | 'success' | 'warning' | 'error'`)
+  marks a message semantically, **orthogonal to `role`** (role = *who* speaks,
+  status = *what kind* of message). A `role: 'agent'` reply can now be
+  `status: 'error'` (failed) or `status: 'success'` (tool finished) without
+  overloading `role`.
+  - **Rail icon + colour** — a non-default status replaces the rail dot with a
+    semantic icon coloured by the matching token (`--color-info-500`,
+    `--color-success-500`, `--color-warning-500`, `--color-error-500`), reusing
+    the `lc-alert` icon vocabulary.
+  - **Accessible by default** — colour is never the only signal: each status
+    pairs the icon with a visually-hidden label. `error` renders the message as
+    `role="alert"` / `aria-live="assertive"`; `info`/`success`/`warning` use
+    `aria-live="polite"`.
+  - **`error` never pulses**, even while `streaming`.
+  - **Fully backward compatible** — omitting `status` (or `'default'`) is
+    pixel-identical to the previous role-coloured output. A status marker is
+    still surfaced when `showAvatars` is `false`, so an error can't go unseen.
+  - See the new *Semantic status* Storybook story.
+
 ## [2.2.1] - 2026-06-26
 
 ### Fixed
