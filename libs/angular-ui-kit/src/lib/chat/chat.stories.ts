@@ -171,6 +171,24 @@ export const Borderless: Story = {
   }),
 };
 
+/**
+ * By default the thread and composer span the full available width.
+ * `contentWidth="narrow"` constrains them to a centered reading column (~46rem)
+ * for a document-style chat.
+ */
+export const ReadingColumn: Story = {
+  name: 'Narrow reading column',
+  render: () => ({
+    template: `
+      <div style="height: 500px;">
+        <lc-chat title="AI Chat" contentWidth="narrow" [messages]="messages"></lc-chat>
+      </div>
+    `,
+    props: { messages: conversationMessages },
+    moduleMetadata: { imports: [ChatComponent] },
+  }),
+};
+
 // --- File upload ---
 
 const fileUploadMessages: ChatMessage[] = [

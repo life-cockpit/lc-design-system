@@ -1,4 +1,9 @@
-<div class="lc-chat" [class.lc-chat--borderless]="!bordered()">
+<div
+  class="lc-chat"
+  [class.lc-chat--borderless]="!bordered()"
+  [class.lc-chat--width-narrow]="contentWidth() === 'narrow'"
+  [class.lc-chat--width-full]="contentWidth() === 'full'"
+>
   @if (showHeader()) {
     <div class="lc-chat__header">
       <span class="lc-chat__title">{{ title() }}</span>
@@ -13,145 +18,137 @@
     [class.lc-chat__messages--anchor-bottom]="messageAnchor() === 'bottom'"
     #scrollContainer
   >
-    @for (msg of formattedMessages(); track msg.id) {
-      <div
-        class="lc-chat__message"
-        [class.lc-chat__message--user]="msg.role === 'user'"
-        [class.lc-chat__message--agent]="msg.role === 'agent'"
-        [class.lc-chat__message--system]="msg.role === 'system'"
-      >
-        @if (showAvatars() && msg.role !== 'system') {
-          <div class="lc-chat__avatar">
-            @if (msg.avatar) {
-              <img [src]="msg.avatar" [alt]="msg.name || msg.role" class="lc-chat__avatar-img" />
-            } @else {
-              <span class="lc-chat__avatar-fallback" [class.lc-chat__avatar-fallback--agent]="msg.role === 'agent'">
-                {{ (msg.name || msg.role).charAt(0).toUpperCase() }}
-              </span>
-            }
-          </div>
-        }
-
-        <div class="lc-chat__bubble" [class.lc-chat__bubble--streaming]="msg.streaming">
-          @if (msg.name && msg.role !== 'user') {
-            <div class="lc-chat__name">{{ msg.name }}</div>
-          }
-          <div class="lc-chat__content">
-            @if (messageTemplate) {
-              <ng-container *ngTemplateOutlet="messageTemplate; context: { $implicit: msg }" />
-            } @else if (shouldRenderMarkdown(msg.role)) {
-              <lc-markdown [content]="msg.content" variant="chat" />
-            } @else {
-              {{ msg.content }}
-            }
-            <span class="lc-chat__cursor" [class.lc-chat__cursor--visible]="msg.streaming"></span>
-          </div>
-          @if (msg.attachments?.length) {
-            <div class="lc-chat__attachments">
-              @for (att of msg.attachments; track att.id) {
-                @if (isImage(att) && att.url) {
-                  <a class="lc-chat__attachment lc-chat__attachment--image" [href]="att.url" target="_blank" rel="noopener">
-                    <img [src]="att.url" [alt]="att.name" />
-                  </a>
-                } @else {
-                  <a
-                    class="lc-chat__attachment lc-chat__attachment--file"
-                    [href]="att.url || null"
-                    [attr.download]="att.url ? att.name : null"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    <svg class="lc-chat__attachment-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                      <path d="M6 2.5h6L16 6.5v10A1.5 1.5 0 0 1 14.5 18h-9A1.5 1.5 0 0 1 4 16.5v-12A1.5 1.5 0 0 1 5.5 3H6V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                      <path d="M12 2.5V6.5H16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                    </svg>
-                    <span class="lc-chat__attachment-name">{{ att.name }}</span>
-                    @if (att.size) {
-                      <span class="lc-chat__attachment-size">{{ formatBytes(att.size) }}</span>
-                    }
-                  </a>
-                }
+    <div class="lc-chat__thread" [class.lc-chat__thread--rail]="showAvatars()">
+      @for (msg of formattedMessages(); track msg.id) {
+        <div
+          class="lc-chat__message"
+          [class.lc-chat__message--user]="msg.role === 'user'"
+          [class.lc-chat__message--agent]="msg.role === 'agent'"
+          [class.lc-chat__message--system]="msg.role === 'system'"
+          [class.lc-chat__message--streaming]="msg.streaming"
+        >
+          @if (showAvatars() && msg.role !== 'user') {
+            <div class="lc-chat__marker">
+              @if (msg.avatar) {
+                <img [src]="msg.avatar" [alt]="msg.name || msg.role" class="lc-chat__avatar-img" />
+              } @else {
+                <span
+                  class="lc-chat__dot"
+                  [class.lc-chat__dot--agent]="msg.role === 'agent'"
+                  [class.lc-chat__dot--system]="msg.role === 'system'"
+                ></span>
               }
             </div>
           }
-          @if (showTimestamps() && msg.timestamp) {
-            <div class="lc-chat__time">{{ formatTime(msg.timestamp) }}</div>
-          }
-        </div>
-      </div>
-    }
 
-    @if (isStreaming() && !(formattedMessages().length && formattedMessages()[formattedMessages().length - 1].streaming)) {
-      <div class="lc-chat__message lc-chat__message--agent">
-        @if (showAvatars()) {
-          <div class="lc-chat__avatar">
-            <span class="lc-chat__avatar-fallback lc-chat__avatar-fallback--agent">A</span>
-          </div>
-        }
-        <div class="lc-chat__bubble">
-          <div class="lc-chat__typing">
-            <span></span><span></span><span></span>
+          <div class="lc-chat__bubble" [class.lc-chat__bubble--streaming]="msg.streaming">
+            @if (msg.role === 'user') {
+              <div class="lc-chat__meta">
+                <span class="lc-chat__name">{{ msg.name || 'Du' }}</span>
+                @if (showTimestamps() && msg.timestamp) {
+                  <span class="lc-chat__time">{{ formatTime(msg.timestamp) }}</span>
+                }
+              </div>
+            } @else if (msg.name) {
+              <div class="lc-chat__name">{{ msg.name }}</div>
+            }
+            <div class="lc-chat__content">
+              @if (messageTemplate) {
+                <ng-container *ngTemplateOutlet="messageTemplate; context: { $implicit: msg }" />
+              } @else if (shouldRenderMarkdown(msg.role)) {
+                <lc-markdown [content]="msg.content" variant="chat" />
+              } @else {
+                {{ msg.content }}
+              }
+              <span class="lc-chat__cursor" [class.lc-chat__cursor--visible]="msg.streaming"></span>
+            </div>
+            @if (msg.attachments?.length) {
+              <div class="lc-chat__attachments">
+                @for (att of msg.attachments; track att.id) {
+                  @if (isImage(att) && att.url) {
+                    <a class="lc-chat__attachment lc-chat__attachment--image" [href]="att.url" target="_blank" rel="noopener">
+                      <img [src]="att.url" [alt]="att.name" />
+                    </a>
+                  } @else {
+                    <a
+                      class="lc-chat__attachment lc-chat__attachment--file"
+                      [href]="att.url || null"
+                      [attr.download]="att.url ? att.name : null"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <svg class="lc-chat__attachment-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <path d="M6 2.5h6L16 6.5v10A1.5 1.5 0 0 1 14.5 18h-9A1.5 1.5 0 0 1 4 16.5v-12A1.5 1.5 0 0 1 5.5 3H6V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M12 2.5V6.5H16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      </svg>
+                      <span class="lc-chat__attachment-name">{{ att.name }}</span>
+                      @if (att.size) {
+                        <span class="lc-chat__attachment-size">{{ formatBytes(att.size) }}</span>
+                      }
+                    </a>
+                  }
+                }
+              </div>
+            }
+            @if (showTimestamps() && msg.timestamp && msg.role !== 'user') {
+              <div class="lc-chat__time">{{ formatTime(msg.timestamp) }}</div>
+            }
           </div>
         </div>
-      </div>
-    }
+      }
+
+      @if (isStreaming() && !(formattedMessages().length && formattedMessages()[formattedMessages().length - 1].streaming)) {
+        <div class="lc-chat__message lc-chat__message--agent">
+          @if (showAvatars()) {
+            <div class="lc-chat__marker">
+              <span class="lc-chat__dot lc-chat__dot--agent"></span>
+            </div>
+          }
+          <div class="lc-chat__bubble">
+            <div class="lc-chat__typing">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
   </div>
 
   <div class="lc-chat__input-area">
-    @if (allowFileUpload() && pendingAttachments().length) {
-      <div class="lc-chat__pending-attachments">
-        @for (att of pendingAttachments(); track att.id) {
-          <div class="lc-chat__pending-attachment" [class.lc-chat__pending-attachment--image]="isImage(att)">
-            @if (isImage(att) && att.url) {
-              <img class="lc-chat__pending-thumb" [src]="att.url" [alt]="att.name" />
-            } @else {
-              <svg class="lc-chat__attachment-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M6 2.5h6L16 6.5v10A1.5 1.5 0 0 1 14.5 18h-9A1.5 1.5 0 0 1 4 16.5v-12A1.5 1.5 0 0 1 5.5 3H6V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M12 2.5V6.5H16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-              </svg>
-            }
-            <span class="lc-chat__pending-name">{{ att.name }}</span>
-            @if (att.size) {
-              <span class="lc-chat__pending-size">{{ formatBytes(att.size) }}</span>
-            }
-            <button
-              type="button"
-              class="lc-chat__pending-remove"
-              (click)="removeAttachment(att.id)"
-              [attr.aria-label]="'Entfernen: ' + att.name"
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-        }
-      </div>
-    }
-
-    <div class="lc-chat__input-row">
-      @if (allowFileUpload()) {
-        <input
-          #fileInput
-          type="file"
-          class="lc-chat__file-input"
-          [accept]="accept() || null"
-          [multiple]="multiple()"
-          (change)="onFilesSelected($event)"
-        />
-        <button
-          type="button"
-          class="lc-chat__attach-btn"
-          [disabled]="disabled()"
-          (click)="openFilePicker()"
-          aria-label="Datei anhängen"
-        >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M14.5 9.5l-5 5a3 3 0 0 1-4.243-4.243l6.364-6.364a2 2 0 0 1 2.829 2.829l-6.364 6.364a1 1 0 1 1-1.415-1.415L11.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+    <div class="lc-chat__composer">
+      @if (allowFileUpload() && pendingAttachments().length) {
+        <div class="lc-chat__pending-attachments">
+          @for (att of pendingAttachments(); track att.id) {
+            <div class="lc-chat__pending-attachment" [class.lc-chat__pending-attachment--image]="isImage(att)">
+              @if (isImage(att) && att.url) {
+                <img class="lc-chat__pending-thumb" [src]="att.url" [alt]="att.name" />
+              } @else {
+                <svg class="lc-chat__attachment-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M6 2.5h6L16 6.5v10A1.5 1.5 0 0 1 14.5 18h-9A1.5 1.5 0 0 1 4 16.5v-12A1.5 1.5 0 0 1 5.5 3H6V2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                  <path d="M12 2.5V6.5H16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>
+              }
+              <span class="lc-chat__pending-name">{{ att.name }}</span>
+              @if (att.size) {
+                <span class="lc-chat__pending-size">{{ formatBytes(att.size) }}</span>
+              }
+              <button
+                type="button"
+                class="lc-chat__pending-remove"
+                (click)="removeAttachment(att.id)"
+                [attr.aria-label]="'Entfernen: ' + att.name"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          }
+        </div>
       }
+
       <textarea
+        #composerInput
         class="lc-chat__input"
         [placeholder]="placeholder()"
         [value]="inputValue()"
@@ -160,16 +157,40 @@
         (keydown)="onKeydown($event)"
         rows="1"
       ></textarea>
-      <button
-        class="lc-chat__send-btn"
-        [disabled]="(!inputValue().trim() && !pendingAttachments().length) || disabled()"
-        (click)="send()"
-        aria-label="Send"
-      >
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-          <path d="M3 10l7-7m0 0l7 7m-7-7v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="rotate(90 10 10)"/>
-        </svg>
-      </button>
+
+      <div class="lc-chat__composer-actions">
+        @if (allowFileUpload()) {
+          <input
+            #fileInput
+            type="file"
+            class="lc-chat__file-input"
+            [accept]="accept() || null"
+            [multiple]="multiple()"
+            (change)="onFilesSelected($event)"
+          />
+          <button
+            type="button"
+            class="lc-chat__attach-btn"
+            [disabled]="disabled()"
+            (click)="openFilePicker()"
+            aria-label="Datei anhängen"
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M14.5 9.5l-5 5a3 3 0 0 1-4.243-4.243l6.364-6.364a2 2 0 0 1 2.829 2.829l-6.364 6.364a1 1 0 1 1-1.415-1.415L11.5 6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        }
+        <button
+          class="lc-chat__send-btn"
+          [disabled]="(!inputValue().trim() && !pendingAttachments().length) || disabled()"
+          (click)="send()"
+          aria-label="Send"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M3 10l7-7m0 0l7 7m-7-7v14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="rotate(90 10 10)"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>

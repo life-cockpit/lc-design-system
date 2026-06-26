@@ -140,6 +140,13 @@ export class ChatComponent implements AfterViewChecked {
    */
   messageAnchor = input<'top' | 'bottom'>('top');
 
+  /**
+   * Width of the message thread and composer.
+   * - `'full'` (default): messages span the full available width.
+   * - `'narrow'`: a centered, readable column (~46rem) like a document-style chat.
+   */
+  contentWidth = input<'narrow' | 'full'>('full');
+
   /** Disable the input. */
   disabled = input<boolean>(false);
 
@@ -188,6 +195,10 @@ export class ChatComponent implements AfterViewChecked {
 
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef<HTMLDivElement>;
   @ViewChild('fileInput') private fileInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('composerInput') private composerInput?: ElementRef<HTMLTextAreaElement>;
+
+  /** Upper bound for the auto-growing composer before it starts scrolling (px). */
+  private static readonly INPUT_MAX_HEIGHT = 192;
 
   protected readonly formattedMessages = computed(() =>
     this.messages().map(m => ({
@@ -204,7 +215,15 @@ export class ChatComponent implements AfterViewChecked {
   }
 
   protected onInput(event: Event): void {
-    this.inputValue.set((event.target as HTMLTextAreaElement).value);
+    const el = event.target as HTMLTextAreaElement;
+    this.inputValue.set(el.value);
+    this.autoGrow(el);
+  }
+
+  /** Resize the textarea to fit its content so the composer hugs the text. */
+  private autoGrow(el: HTMLTextAreaElement): void {
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, ChatComponent.INPUT_MAX_HEIGHT)}px`;
   }
 
   protected onKeydown(event: KeyboardEvent): void {
@@ -225,6 +244,9 @@ export class ChatComponent implements AfterViewChecked {
     this.inputValue.set('');
     this.pendingAttachments.set([]);
     this.shouldScroll = true;
+    // Collapse the auto-grown textarea back to a single row.
+    const el = this.composerInput?.nativeElement;
+    if (el) el.style.height = 'auto';
   }
 
   protected openFilePicker(): void {

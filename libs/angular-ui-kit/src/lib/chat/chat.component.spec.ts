@@ -65,6 +65,19 @@ describe('ChatComponent', () => {
     expect(fixture.nativeElement.querySelector('.lc-chat__messages--anchor-bottom')).toBeTruthy();
   });
 
+  it('should span full width by default', () => {
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat--width-full')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.lc-chat--width-narrow')).toBeFalsy();
+  });
+
+  it('should use the narrow reading column when contentWidth is narrow', () => {
+    fixture.componentRef.setInput('contentWidth', 'narrow');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.lc-chat--width-narrow')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.lc-chat--width-full')).toBeFalsy();
+  });
+
   it('should show streaming badge when streaming', () => {
     fixture.componentRef.setInput('isStreaming', true);
     fixture.detectChanges();
@@ -98,17 +111,19 @@ describe('ChatComponent', () => {
     expect(btn.disabled).toBe(true);
   });
 
-  it('should show avatars by default', () => {
+  it('should show a rail marker for the agent message but not the user message', () => {
     fixture.componentRef.setInput('messages', messages);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('.lc-chat__avatar').length).toBe(2);
+    // messages = [user, agent] → only the agent sits on the rail with a dot.
+    expect(fixture.nativeElement.querySelectorAll('.lc-chat__marker').length).toBe(1);
+    expect(fixture.nativeElement.querySelector('.lc-chat__dot--agent')).toBeTruthy();
   });
 
-  it('should hide avatars when showAvatars is false', () => {
+  it('should hide rail markers when showAvatars is false', () => {
     fixture.componentRef.setInput('messages', messages);
     fixture.componentRef.setInput('showAvatars', false);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('.lc-chat__avatar').length).toBe(0);
+    expect(fixture.nativeElement.querySelectorAll('.lc-chat__marker').length).toBe(0);
   });
 
   it('should show system messages centered', () => {

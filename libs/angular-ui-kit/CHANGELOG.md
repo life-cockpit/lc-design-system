@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-06-26
+
+### Changed
+
+- **Chat redesigned to a document / timeline look** (`lc-chat`) — The
+  conversation now reads as a single full-width column with a vertical timeline
+  rail:
+  - **Role-coloured rail dots** — each agent/system turn sits on the rail with a
+    coloured dot (agent = primary, system = muted). The agent dot emits a soft
+    pulse while streaming. `showAvatars` toggles the rail markers (a message
+    `avatar` URL still renders a small image in place of the dot).
+  - **User messages as a rail-interrupting box** — instead of a saturated
+    right-aligned bubble, a user turn is now a full-width surface box (with name
+    + timestamp header) whose solid background breaks the rail line.
+  - **System / "thought" messages are de-emphasised** (muted text) so real
+    messages read more clearly.
+  - **Composer** is a single rounded box with an **auto-growing** textarea that
+    hugs its content (grows to a max, then scrolls) and an action row (attach
+    left, send right as a rounded square). Flatter surfaces throughout, all
+    spacing/typography driven by tokens.
+  - This changes the default chat appearance. Existing inputs, outputs, events
+    and the `messageTemplate` slot are unchanged.
+
+### Added
+
+- **Chat: `contentWidth` input** (`lc-chat`, `'full' | 'narrow'`, default
+  `'full'`) — `'full'` spans the available width; `'narrow'` constrains the
+  thread and composer to a centered reading column (~46rem).
+
 ## [2.1.0] - 2026-06-26
 
 ### Added
