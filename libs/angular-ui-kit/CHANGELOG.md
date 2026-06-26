@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1] - 2026-06-26
+
+### Fixed
+
+- **Chat timeline rail no longer runs into empty space** (`lc-chat`) — The rail
+  is now drawn as connectors between adjacent dots instead of one continuous
+  line spanning the whole thread. A lone message (e.g. a single bottom-anchored
+  greeting) now shows just its dot with no line trailing up into the empty area,
+  and user boxes still break the rail cleanly.
+
 ## [2.2.0] - 2026-06-26
 
 ### Changed

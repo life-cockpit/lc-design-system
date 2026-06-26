@@ -18,7 +18,7 @@
     [class.lc-chat__messages--anchor-bottom]="messageAnchor() === 'bottom'"
     #scrollContainer
   >
-    <div class="lc-chat__thread" [class.lc-chat__thread--rail]="showAvatars()">
+    <div class="lc-chat__thread">
       @for (msg of formattedMessages(); track msg.id) {
         <div
           class="lc-chat__message"
