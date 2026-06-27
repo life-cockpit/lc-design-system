@@ -560,8 +560,8 @@ export const WithBadgesAndAvatars: Story = {
               [src]="row.avatar"
             ></lc-avatar>
             <div style="display:flex; flex-direction:column; line-height:1.2;">
-              <span style="font-weight:600; color: var(--lc-text-primary, #1f2937);">{{ row.user }}</span>
-              <span style="font-size:12px; color: var(--lc-text-secondary, #6b7280);">{{ row.email }}</span>
+              <span style="font-weight:600; color: var(--color-text-primary);">{{ row.user }}</span>
+              <span style="font-size:12px; color: var(--color-text-secondary);">{{ row.email }}</span>
             </div>
           </div>
         </ng-template>
@@ -693,8 +693,8 @@ export const EnterpriseUsers: Story = {
           <div style="display:flex; align-items:center; gap:10px; min-width:250px;">
             <lc-avatar [name]="row.user" [status]="row.avatarStatus" size="sm"></lc-avatar>
             <div style="display:flex; flex-direction:column; line-height:1.2;">
-              <span style="font-weight:600; color: var(--lc-text-primary, #1f2937);">{{ row.user }}</span>
-              <span style="font-size:12px; color: var(--lc-text-secondary, #6b7280);">{{ row.email }}</span>
+              <span style="font-weight:600; color: var(--color-text-primary);">{{ row.user }}</span>
+              <span style="font-size:12px; color: var(--color-text-secondary);">{{ row.email }}</span>
             </div>
           </div>
         </ng-template>
@@ -718,6 +718,76 @@ export const EnterpriseUsers: Story = {
             <lc-button variant="ghost" size="xs" (clicked)="onDetails(row)">Details</lc-button>
             <lc-button variant="outline" size="xs" (clicked)="onSuspend(row)">Suspend</lc-button>
           </div>
+        </ng-template>
+      </lc-table>
+    `,
+  }),
+};
+
+export const TreeGroupedRows: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Hierarchical rows via `idKey` + `parentKey`. Children are indented beneath their parent ' +
+          'and connected by an indent guide; parent rows show an expand/collapse chevron. ' +
+          'Sorting sorts siblings within each group (the tree is never flattened), and the chevron ' +
+          'click toggles a group without firing `rowClick`. Models the Factory Pipeline ' +
+          'Epic → Spec hierarchy.',
+      },
+    },
+  },
+  render: () => ({
+    props: {
+      columns: [
+        { key: 'title', label: 'Titel', sortable: true },
+        { key: 'status', label: 'Status', sortable: true },
+        { key: 'phase', label: 'Phase' },
+      ],
+      // parentId points at the Epic's id; roots have an empty parentId.
+      data: [
+        { id: 'epic-1', parentId: '', kind: 'epic', title: 'Sidebar Badges für Factory Pipeline', status: 'Entwurf', phase: 'Spezifikation' },
+        { id: 'spec-1', parentId: 'epic-1', kind: 'feature', title: 'Sidebar Badge UI-Komponente', status: 'Entwurf', phase: 'Spezifikation' },
+        { id: 'spec-2', parentId: 'epic-1', kind: 'feature', title: 'Badge Count API & Realtime-Push', status: 'Entwurf', phase: 'Spezifikation' },
+        { id: 'epic-2', parentId: '', kind: 'epic', title: 'Internationalisierung', status: 'Blockiert', phase: 'Spezifikation' },
+        { id: 'spec-3', parentId: 'epic-2', kind: 'feature', title: 'Übersetzungs-Pipeline', status: 'Blockiert', phase: 'Spezifikation' },
+        { id: 'feat-1', parentId: '', kind: 'feature', title: 'Light Mode für Web-App', status: 'Planung', phase: 'Planung' },
+      ],
+      statusVariant: (status: unknown) => {
+        switch (String(status ?? '')) {
+          case 'Entwurf':
+            return 'info';
+          case 'Blockiert':
+            return 'error';
+          case 'Planung':
+            return 'warning';
+          default:
+            return 'default';
+        }
+      },
+    },
+    template: `
+      <lc-table
+        [columns]="columns"
+        [data]="data"
+        idKey="id"
+        parentKey="parentId"
+        treeColumn="title"
+        variant="bordered"
+        [hoverable]="true"
+        size="md"
+      >
+        <ng-template lcTableCell="title" let-row>
+          <span style="display:inline-flex; align-items:center; gap:8px;">
+            <span>{{ row.title }}</span>
+            <lc-badge [variant]="row.kind === 'epic' ? 'primary' : 'default'" size="sm">
+              {{ row.kind === 'epic' ? 'Epic' : 'Feature' }}
+            </lc-badge>
+          </span>
+        </ng-template>
+
+        <ng-template lcTableCell="status" let-row>
+          <lc-badge [variant]="statusVariant(row.status)" size="sm">{{ row.status }}</lc-badge>
         </ng-template>
       </lc-table>
     `,

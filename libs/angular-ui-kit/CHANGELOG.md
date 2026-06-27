@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2026-06-27
+
+### Added
+
+- **Table: grouped / expandable tree rows** (`lc-table`) — A flat data table can
+  now render a parent/child hierarchy (e.g. Epic → Spec, task → subtask) by
+  setting `idKey` + `parentKey`; the column the disclosure attaches to is the
+  `treeColumn` (defaults to the first column).
+  - **Disclosure + indentation** — parent rows show a real `<button>` chevron
+    (rotates 90° on expand, reusing the kit's disclosure animation); descendants
+    are indented one level per depth with a subtle indent guide. Rows without
+    children reserve the chevron space so titles stay aligned.
+  - **Expand state** — expanded by default (`defaultExpanded`), or fully
+    controlled via `[(expandedIds)]`; toggling emits `rowToggle` and
+    `expandedIdsChange`. Clicking the chevron toggles a group and **does not**
+    emit `rowClick`.
+  - **Structure-aware sort & filter** — sorting sorts siblings within each group
+    and keeps the tree intact (never flattens); filtering keeps a matching row
+    visible together with its ancestor chain.
+  - **Group-safe pagination** — pages over root rows so a group is never split
+    across pages.
+  - **Accessible** — `role="treegrid"` with `aria-level` / `aria-expanded` /
+    `aria-posinset` / `aria-setsize`; the chevron is a keyboard-toggleable button
+    with an `aria-label`.
+  - **Fully backward compatible** — without `idKey`/`parentKey` the table is
+    byte-for-byte identical to the previous flat table. See the new *Tree Grouped
+    Rows* Storybook story.
+
+### Fixed
+
+- **Table: `pageSize` input now actually applies** (`lc-table`) — The page size
+  was previously hardcoded to 10 internally and the `pageSize` input was ignored
+  (it only appeared to work because both defaulted to 10). It is now seeded from
+  the input (overridable by the page-size dropdown).
+- **Table stories: unreadable names in dark mode** — the demo `user` cell
+  templates referenced a non-existent `--lc-text-primary` token and fell back to
+  a near-black colour; they now use the semantic `--color-text-*` tokens.
+
 ## [2.3.0] - 2026-06-26
 
 ### Added

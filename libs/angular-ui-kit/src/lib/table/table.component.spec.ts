@@ -731,4 +731,157 @@ describe('TableComponent', () => {
     });
   });
 
+  describe('Tree / grouped rows', () => {
+    const treeColumns: TableColumn[] = [
+      { key: 'title', label: 'Title', sortable: true },
+      { key: 'status', label: 'Status' },
+    ];
+
+    // Two roots: one Epic with two children, plus a standalone feature.
+    const treeData = [
+      { id: 'e1', parentId: '', title: 'Epic Alpha', status: 'Entwurf' },
+      { id: 's1', parentId: 'e1', title: 'Child One', status: 'Entwurf' },
+      { id: 's2', parentId: 'e1', title: 'Child Two', status: 'Blockiert' },
+      { id: 'f1', parentId: '', title: 'Standalone Feature', status: 'Planung' },
+    ];
+
+    const setUpTree = (overrides: Record<string, unknown> = {}) => {
+      fixture.componentRef.setInput('columns', treeColumns);
+      fixture.componentRef.setInput('data', treeData);
+      fixture.componentRef.setInput('idKey', 'id');
+      fixture.componentRef.setInput('parentKey', 'parentId');
+      fixture.componentRef.setInput('treeColumn', 'title');
+      for (const [key, value] of Object.entries(overrides)) {
+        fixture.componentRef.setInput(key, value);
+      }
+      fixture.detectChanges();
+    };
+
+    const rowText = () =>
+      fixture.debugElement
+        .queryAll(By.css('tbody tr'))
+        .map((r) => r.query(By.css('td')).nativeElement.textContent.trim());
+
+    it('should set role="treegrid" only when tree mode is enabled', () => {
+      fixture.componentRef.setInput('columns', treeColumns);
+      fixture.componentRef.setInput('data', treeData);
+      fixture.detectChanges();
+      // Flat: no idKey/parentKey → plain table.
+      expect(fixture.debugElement.query(By.css('table')).nativeElement.getAttribute('role')).toBe('table');
+
+      setUpTree();
+      expect(fixture.debugElement.query(By.css('table')).nativeElement.getAttribute('role')).toBe('treegrid');
+    });
+
+    it('should render children indented beneath their parent (expanded by default)', () => {
+      setUpTree();
+      // All four rows visible, children right after their epic.
+      expect(rowText()).toEqual(['Epic Alpha', 'Child One', 'Child Two', 'Standalone Feature']);
+
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      expect(rows[0].nativeElement.getAttribute('aria-level')).toBe('1');
+      expect(rows[1].nativeElement.getAttribute('aria-level')).toBe('2');
+      // Indent guides only on the depth-1 children.
+      expect(rows[0].queryAll(By.css('.lc-table__tree-indent')).length).toBe(0);
+      expect(rows[1].queryAll(By.css('.lc-table__tree-indent')).length).toBe(1);
+    });
+
+    it('should render a chevron only on parent rows and expose aria-expanded', () => {
+      setUpTree();
+      const rows = fixture.debugElement.queryAll(By.css('tbody tr'));
+      expect(rows[0].query(By.css('.lc-table__chevron-btn'))).toBeTruthy(); // Epic
+      expect(rows[1].query(By.css('.lc-table__chevron-btn'))).toBeFalsy(); // Child
+      expect(rows[0].nativeElement.getAttribute('aria-expanded')).toBe('true');
+    });
+
+    it('should collapse descendants when a parent chevron is clicked', () => {
+      setUpTree();
+      const chevron = fixture.debugElement.query(By.css('tbody tr .lc-table__chevron-btn'));
+      chevron.nativeElement.click();
+      fixture.detectChanges();
+
+      expect(rowText()).toEqual(['Epic Alpha', 'Standalone Feature']);
+      const epicRow = fixture.debugElement.queryAll(By.css('tbody tr'))[0];
+      expect(epicRow.nativeElement.getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('should start collapsed when defaultExpanded is false', () => {
+      setUpTree({ defaultExpanded: false });
+      expect(rowText()).toEqual(['Epic Alpha', 'Standalone Feature']);
+    });
+
+    it('should respect a controlled expandedIds list', () => {
+      setUpTree({ expandedIds: [] });
+      expect(rowText()).toEqual(['Epic Alpha', 'Standalone Feature']);
+
+      fixture.componentRef.setInput('expandedIds', ['e1']);
+      fixture.detectChanges();
+      expect(rowText()).toEqual(['Epic Alpha', 'Child One', 'Child Two', 'Standalone Feature']);
+    });
+
+    it('should emit rowToggle and expandedIdsChange on chevron click without rowClick', () => {
+      setUpTree();
+      const toggleSpy = jest.fn();
+      const expandedSpy = jest.fn();
+      const rowClickSpy = jest.fn();
+      component.rowToggle.subscribe(toggleSpy);
+      component.expandedIdsChange.subscribe(expandedSpy);
+      component.rowClick.subscribe(rowClickSpy);
+
+      const chevron = fixture.debugElement.query(By.css('tbody tr .lc-table__chevron-btn'));
+      chevron.nativeElement.click();
+      fixture.detectChanges();
+
+      expect(toggleSpy).toHaveBeenCalledWith(
+        expect.objectContaining({ id: 'e1', expanded: false })
+      );
+      expect(expandedSpy).toHaveBeenCalledWith([]); // no parents expanded anymore
+      expect(rowClickSpy).not.toHaveBeenCalled();
+    });
+
+    it('should keep the tree intact when sorting (sorts siblings, not a flat list)', () => {
+      setUpTree();
+      component.handleSort('title');
+      component.handleSort('title'); // desc
+      fixture.detectChanges();
+
+      // Roots sorted desc (Standalone before Epic); children sorted desc within the epic.
+      expect(rowText()).toEqual(['Standalone Feature', 'Epic Alpha', 'Child Two', 'Child One']);
+    });
+
+    it('should keep the ancestor chain visible when filtering', () => {
+      setUpTree({ filterable: true });
+      component['onFilterChange']('title', 'Child Two');
+      fixture.detectChanges();
+
+      // The match plus its epic ancestor; the unrelated standalone root is hidden.
+      expect(rowText()).toEqual(['Epic Alpha', 'Child Two']);
+    });
+
+    it('should paginate roots without splitting a group across pages', () => {
+      setUpTree({ paginate: true, pageSize: 1 });
+      // Page 1 = first root + its children.
+      expect(rowText()).toEqual(['Epic Alpha', 'Child One', 'Child Two']);
+      expect(component['totalPages']()).toBe(2); // two roots → two pages
+
+      component['goToPage'](1);
+      fixture.detectChanges();
+      expect(rowText()).toEqual(['Standalone Feature']);
+    });
+
+    it('should treat rows with an unknown parent id as roots (orphans)', () => {
+      fixture.componentRef.setInput('columns', treeColumns);
+      fixture.componentRef.setInput('data', [
+        { id: 'a', parentId: 'does-not-exist', title: 'Orphan', status: 'x' },
+      ]);
+      fixture.componentRef.setInput('idKey', 'id');
+      fixture.componentRef.setInput('parentKey', 'parentId');
+      fixture.detectChanges();
+
+      expect(rowText()).toEqual(['Orphan']);
+      const row = fixture.debugElement.query(By.css('tbody tr'));
+      expect(row.nativeElement.getAttribute('aria-level')).toBe('1');
+    });
+  });
+
 });

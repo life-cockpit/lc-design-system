@@ -5,6 +5,7 @@ import {
   output,
   computed,
   signal,
+  linkedSignal,
   ContentChildren,
   QueryList,
 } from '@angular/core';
@@ -105,8 +106,56 @@ export interface SelectionChangeEvent {
   allSelected: boolean;
 }
 
+/** Emitted when a parent (group) row is expanded or collapsed in tree mode. */
+export interface RowToggleEvent {
+  id: string;
+  expanded: boolean;
+  row: Record<string, unknown>;
+}
+
+/**
+ * Configuration that enables hierarchical (tree / grouped) rows. Mirrors the
+ * discrete `idKey` / `parentKey` / `treeColumn` inputs and is exported for
+ * consumers that prefer to pass a single config object around.
+ */
+export interface TableTreeConfig {
+  idKey: string;
+  parentKey: string;
+  treeColumn?: string;
+}
+
 export type TableVariant = 'default' | 'striped' | 'bordered';
 export type TableSize = 'sm' | 'md' | 'lg';
+
+/**
+ * Internal, render-ready view-model for a single visible table row. In flat
+ * mode every row is depth 0 with no tree adornments; in tree mode it carries
+ * the disclosure / indentation / aria metadata for the row.
+ */
+interface DisplayRow {
+  /** The underlying data object. */
+  row: Record<string, unknown>;
+  /**
+   * Absolute index used for selection, inline editing and action callbacks.
+   * Flat mode: the positional absolute index (page offset + relative index),
+   * preserving today's behavior. Tree mode: the row's index into `data()`.
+   */
+  absIndex: number;
+  /** Row id (tree mode only; `null` in flat mode). */
+  id: string | null;
+  /** Tree depth — 0 for roots and for every row in flat mode. */
+  depth: number;
+  /** 1-based depth, surfaced as `aria-level` in tree mode. */
+  level: number;
+  /** Whether this row has visible children (renders a chevron). */
+  hasChildren: boolean;
+  /** Whether this parent row is currently expanded. */
+  expanded: boolean;
+  /** 1-based position within its sibling group (`aria-posinset`). */
+  posInSet: number;
+  /** Size of its sibling group (`aria-setsize`). */
+  setSize: number;
+}
 
 /**
  * Table component for displaying structured data in rows and columns.
@@ -120,6 +169,7 @@ export type TableSize = 'sm' | 'md' | 'lg';
  * - Per-cell class/style callbacks for conditional styling
  * - Custom cell templates via content projection
  * - Composed cells (e.g. avatar + badge + actions)
+ * - Hierarchical "tree" rows (grouped / expandable) via `idKey` + `parentKey`
  * - Responsive horizontal scrolling
  * - Empty state text for no data
  * - Accessible with proper table semantics
@@ -215,6 +265,37 @@ export class TableComponent {
   /** Horizontal alignment of the action buttons (and header label) within the cell */
   actionsAlign = input<TableActionsAlign>('start');
 
+  // -- Tree / grouped rows --
+  /**
+   * Row field holding the unique id. Required (together with {@link parentKey})
+   * to enable hierarchical "tree mode". Absent ⇒ today's flat table.
+   */
+  idKey = input<string | undefined>(undefined);
+
+  /**
+   * Row field referencing the parent row's id. Presence of both `idKey` and
+   * `parentKey` enables tree mode. Rows with an absent/empty or unknown parent
+   * id are treated as roots.
+   */
+  parentKey = input<string | undefined>(undefined);
+
+  /** Column key the chevron + indentation attach to. Default: first column. */
+  treeColumn = input<string | undefined>(undefined);
+
+  /** Initial expand state for all parent rows when uncontrolled. Default: true. */
+  defaultExpanded = input<boolean>(true);
+
+  /**
+   * Controlled set of expanded parent ids. When provided, the table renders
+   * exactly these as expanded; combine with {@link expandedIdsChange} for
+   * `[(expandedIds)]`. When omitted, expansion is uncontrolled and seeded by
+   * {@link defaultExpanded}.
+   */
+  expandedIds = input<string[] | undefined>(undefined);
+
+  /** Indentation per depth level, in px. Default: 20. */
+  indentSize = input<number>(20);
+
   /** Emitted when a sortable column header is clicked */
   readonly sort = output<SortEvent>();
 
@@ -230,14 +311,26 @@ export class TableComponent {
   /** Emitted when a row action button is clicked */
   readonly actionClick = output<ActionClickEvent>();
 
+  /** Emitted when a parent row is expanded/collapsed (tree mode). */
+  readonly rowToggle = output<RowToggleEvent>();
+
+  /** Emitted with the full list of expanded parent ids; enables `[(expandedIds)]`. */
+  readonly expandedIdsChange = output<string[]>();
+
   // -- Internal state --
   protected currentSort = signal<{ column: string; direction: 'asc' | 'desc' } | null>(null);
   protected currentPage = signal(0);
-  protected internalPageSize = signal(10);
+  /**
+   * Effective page size. Seeded from the `pageSize` input (resetting if it
+   * changes) and overridable by the user via the page-size dropdown.
+   */
+  protected internalPageSize = linkedSignal(() => this.pageSize());
   protected selectedRows = signal<Set<number>>(new Set());
   protected columnFilters = signal<Record<string, string>>({});
   protected editingCell = signal<{ rowIndex: number; column: string } | null>(null);
   protected editValue = signal<string>('');
+  /** User expand/collapse overrides keyed by row id (uncontrolled mode). */
+  private readonly expandOverrides = signal<Map<string, boolean>>(new Map());
 
   /**
    * Filtered data (applies column filters)
@@ -259,15 +352,9 @@ export class TableComponent {
     return items;
   });
 
-  /**
-   * Sorted data
-   */
-  protected readonly sortedData = computed(() => {
-    const items = [...this.filteredData()];
-    const sortState = this.currentSort();
-    if (!sortState) return items;
-
-    return items.sort((a, b) => {
+  /** Comparator for the active sort, shared by flat sorting and tree sibling sorting. */
+  private rowComparator(sortState: { column: string; direction: 'asc' | 'desc' }) {
+    return (a: Record<string, unknown>, b: Record<string, unknown>): number => {
       const aVal = a[sortState.column];
       const bVal = b[sortState.column];
       let cmp = 0;
@@ -277,11 +364,21 @@ export class TableComponent {
       else if (typeof aVal === 'number' && typeof bVal === 'number') cmp = aVal - bVal;
       else cmp = String(aVal).localeCompare(String(bVal));
       return sortState.direction === 'asc' ? cmp : -cmp;
-    });
+    };
+  }
+
+  /**
+   * Sorted data
+   */
+  protected readonly sortedData = computed(() => {
+    const items = [...this.filteredData()];
+    const sortState = this.currentSort();
+    if (!sortState) return items;
+    return items.sort(this.rowComparator(sortState));
   });
 
   /**
-   * Paginated data (or all if pagination disabled)
+   * Paginated data (or all if pagination disabled). Flat mode only.
    */
   protected readonly displayData = computed(() => {
     const items = this.sortedData();
@@ -291,21 +388,193 @@ export class TableComponent {
     return items.slice(start, start + ps);
   });
 
+  // -- Tree / grouped rows -----------------------------------------------------
+
+  /** Whether hierarchical tree mode is active. */
+  protected readonly treeMode = computed(() => !!this.idKey() && !!this.parentKey());
+
+  /** Column the chevron + indentation attach to (defaults to the first column). */
+  protected readonly effectiveTreeColumn = computed(
+    () => this.treeColumn() || this.columns()[0]?.key
+  );
+
+  /** Stable map of row object → its index in `data()` (row identity for tree mode). */
+  private readonly dataIndexMap = computed(() => {
+    const map = new Map<Record<string, unknown>, number>();
+    this.data().forEach((row, i) => map.set(row, i));
+    return map;
+  });
+
+  /** Parent → ordered children index built from `idKey`/`parentKey`. */
+  private readonly treeBuild = computed(() => {
+    const idKey = this.idKey();
+    const parentKey = this.parentKey();
+    const byId = new Map<string, Record<string, unknown>>();
+    const childrenOf = new Map<string, Record<string, unknown>[]>();
+    const roots: Record<string, unknown>[] = [];
+    if (!idKey || !parentKey) return { byId, childrenOf, roots };
+
+    const rows = this.data();
+    for (const row of rows) {
+      const id = String(row[idKey] ?? '');
+      if (id) byId.set(id, row);
+    }
+    for (const row of rows) {
+      const parentRaw = row[parentKey];
+      const parentId = parentRaw == null ? '' : String(parentRaw);
+      if (parentId && byId.has(parentId)) {
+        const siblings = childrenOf.get(parentId) ?? [];
+        siblings.push(row);
+        childrenOf.set(parentId, siblings);
+      } else {
+        // No parent, empty parent, or orphaned (unknown parent) ⇒ root.
+        roots.push(row);
+      }
+    }
+    return { byId, childrenOf, roots };
+  });
+
+  /**
+   * Tree restricted to rows that match the active filters together with their
+   * ancestor chain (so the path to a match stays visible).
+   */
+  private readonly treeFiltered = computed(() => {
+    const { byId, childrenOf, roots } = this.treeBuild();
+    const parentKey = this.parentKey();
+    const filters = this.columnFilters();
+    const active =
+      this.filterable() && parentKey && Object.values(filters).some((v) => v.trim());
+    if (!active) return { childrenOf, roots };
+
+    const matches = (row: Record<string, unknown>): boolean =>
+      Object.entries(filters).every(
+        ([key, value]) =>
+          !value.trim() ||
+          String(row[key] ?? '').toLowerCase().includes(value.toLowerCase())
+      );
+
+    // Visible = every matching row plus all of its ancestors.
+    const visible = new Set<Record<string, unknown>>();
+    for (const row of this.data()) {
+      if (!matches(row)) continue;
+      let current: Record<string, unknown> | undefined = row;
+      while (current && !visible.has(current)) {
+        visible.add(current);
+        const parentRaw: unknown = current[parentKey];
+        const parentId = parentRaw == null ? '' : String(parentRaw);
+        current = parentId ? byId.get(parentId) : undefined;
+      }
+    }
+
+    const visibleChildrenOf = new Map<string, Record<string, unknown>[]>();
+    const visibleRoots: Record<string, unknown>[] = [];
+    for (const row of this.data()) {
+      if (!visible.has(row)) continue;
+      const parentRaw = row[parentKey];
+      const parentId = parentRaw == null ? '' : String(parentRaw);
+      const parent = parentId ? byId.get(parentId) : undefined;
+      if (parent && visible.has(parent)) {
+        const siblings = visibleChildrenOf.get(parentId) ?? [];
+        siblings.push(row);
+        visibleChildrenOf.set(parentId, siblings);
+      } else {
+        visibleRoots.push(row);
+      }
+    }
+    return { childrenOf: visibleChildrenOf, roots: visibleRoots };
+  });
+
+  /** Tree with each sibling group sorted by the active sort (structure kept intact). */
+  private readonly treeSorted = computed(() => {
+    const { childrenOf, roots } = this.treeFiltered();
+    const sortState = this.currentSort();
+    if (!sortState) return { childrenOf, roots };
+    const cmp = this.rowComparator(sortState);
+    const sortedChildrenOf = new Map<string, Record<string, unknown>[]>();
+    for (const [parentId, siblings] of childrenOf) {
+      sortedChildrenOf.set(parentId, [...siblings].sort(cmp));
+    }
+    return { childrenOf: sortedChildrenOf, roots: [...roots].sort(cmp) };
+  });
+
+  /** Root rows after filter/sort — the unit of pagination in tree mode. */
+  private readonly treeRoots = computed(() => this.treeSorted().roots);
+
+  /**
+   * Render-ready rows. In flat mode this wraps the existing paginated data; in
+   * tree mode it paginates roots and flattens each visible (expanded) subtree.
+   */
+  protected readonly displayRows = computed<DisplayRow[]>(() => {
+    if (!this.treeMode()) {
+      return this.displayData().map((row, i) => ({
+        row,
+        absIndex: this.getAbsoluteIndex(i),
+        id: null,
+        depth: 0,
+        level: 0,
+        hasChildren: false,
+        expanded: false,
+        posInSet: 0,
+        setSize: 0,
+      }));
+    }
+
+    const idKey = this.idKey() as string;
+    const { childrenOf } = this.treeSorted();
+    let roots = this.treeRoots();
+    if (this.paginate()) {
+      const ps = this.internalPageSize();
+      const start = this.currentPage() * ps;
+      roots = roots.slice(start, start + ps);
+    }
+
+    const dataIndex = this.dataIndexMap();
+    const out: DisplayRow[] = [];
+    const walk = (group: Record<string, unknown>[], depth: number): void => {
+      group.forEach((row, idx) => {
+        const id = String(row[idKey] ?? '');
+        const children = childrenOf.get(id) ?? [];
+        const hasChildren = children.length > 0;
+        const expanded = hasChildren && this.isExpanded(id);
+        out.push({
+          row,
+          absIndex: dataIndex.get(row) ?? -1,
+          id,
+          depth,
+          level: depth + 1,
+          hasChildren,
+          expanded,
+          posInSet: idx + 1,
+          setSize: group.length,
+        });
+        if (expanded) walk(children, depth + 1);
+      });
+    };
+    walk(roots, 0);
+    return out;
+  });
+
   /** Total pages */
   protected readonly totalPages = computed(() => {
     if (!this.paginate()) return 1;
-    return Math.max(1, Math.ceil(this.filteredData().length / this.internalPageSize()));
+    const total = this.treeMode() ? this.treeRoots().length : this.filteredData().length;
+    return Math.max(1, Math.ceil(total / this.internalPageSize()));
   });
 
-  /** Total filtered row count */
-  protected readonly totalRows = computed(() => this.filteredData().length);
+  /**
+   * Pagination row count. Tree mode counts root rows (the paginated unit); flat
+   * mode counts filtered rows.
+   */
+  protected readonly totalRows = computed(() =>
+    this.treeMode() ? this.treeRoots().length : this.filteredData().length
+  );
 
   /** Whether all visible rows are selected */
   protected readonly allSelected = computed(() => {
-    const data = this.displayData();
-    if (data.length === 0) return false;
+    const rows = this.displayRows();
+    if (rows.length === 0) return false;
     const selected = this.selectedRows();
-    return data.every((_, i) => selected.has(this.getAbsoluteIndex(i)));
+    return rows.every((r) => selected.has(r.absIndex));
   });
 
   protected readonly pageSizeSelectOptions = computed(() =>
@@ -378,18 +647,18 @@ export class TableComponent {
   getFormattedCellValue(
     row: Record<string, unknown>,
     column: TableColumn,
-    relativeRowIndex: number
+    rowIndex: number
   ): unknown {
     const value = this.getCellValue(row, column.key);
     if (!column.formatter) return value;
 
-    return column.formatter(value, row, column, this.getAbsoluteIndex(relativeRowIndex));
+    return column.formatter(value, row, column, rowIndex);
   }
 
   getCellClasses(
     row: Record<string, unknown>,
     column: TableColumn,
-    relativeRowIndex: number
+    rowIndex: number
   ): string {
     const classes: string[] = [];
     if (column.cssClass) classes.push(column.cssClass);
@@ -401,7 +670,7 @@ export class TableComponent {
         this.getCellValue(row, column.key),
         row,
         column,
-        this.getAbsoluteIndex(relativeRowIndex)
+        rowIndex
       );
       if (resolved) classes.push(resolved);
     }
@@ -412,7 +681,7 @@ export class TableComponent {
   getCellStyles(
     row: Record<string, unknown>,
     column: TableColumn,
-    relativeRowIndex: number
+    rowIndex: number
   ): Record<string, string> | null {
     if (!column.cellStyle) return null;
 
@@ -421,11 +690,27 @@ export class TableComponent {
         this.getCellValue(row, column.key),
         row,
         column,
-        this.getAbsoluteIndex(relativeRowIndex)
+        rowIndex
       );
     }
 
     return column.cellStyle;
+  }
+
+  /** Whether the given column is the disclosure/indent column in tree mode. */
+  protected isTreeColumn(columnKey: string): boolean {
+    return this.treeMode() && columnKey === this.effectiveTreeColumn();
+  }
+
+  /** Indent levels to render before a row's chevron (one guide per ancestor depth). */
+  protected indentLevels(depth: number): number[] {
+    return Array.from({ length: depth }, (_, i) => i);
+  }
+
+  /** Accessible name for a row's disclosure button (the tree column's value). */
+  protected treeCellLabel(row: Record<string, unknown>): string {
+    const col = this.effectiveTreeColumn();
+    return col ? String(row[col] ?? '') : '';
   }
 
   getCellTemplate(columnKey: string): TableCellDirective | undefined {
@@ -447,17 +732,17 @@ export class TableComponent {
   protected isActionHidden(
     action: TableAction,
     row: Record<string, unknown>,
-    relativeRowIndex: number
+    rowIndex: number
   ): boolean {
-    return action.hidden ? action.hidden(row, this.getAbsoluteIndex(relativeRowIndex)) : false;
+    return action.hidden ? action.hidden(row, rowIndex) : false;
   }
 
   protected isActionDisabled(
     action: TableAction,
     row: Record<string, unknown>,
-    relativeRowIndex: number
+    rowIndex: number
   ): boolean {
-    return action.disabled ? action.disabled(row, this.getAbsoluteIndex(relativeRowIndex)) : false;
+    return action.disabled ? action.disabled(row, rowIndex) : false;
   }
 
   /**
@@ -467,12 +752,53 @@ export class TableComponent {
   protected onActionClick(
     action: TableAction,
     row: Record<string, unknown>,
-    relativeRowIndex: number
+    rowIndex: number
   ): void {
     this.actionClick.emit({
       action: action.key,
       row,
-      rowIndex: this.getAbsoluteIndex(relativeRowIndex),
+      rowIndex,
+    });
+  }
+
+  // -- Tree expand / collapse --------------------------------------------------
+
+  /** Whether the parent row with the given id is currently expanded. */
+  protected isExpanded(id: string): boolean {
+    const controlled = this.expandedIds();
+    if (controlled !== undefined) return controlled.includes(id);
+    const override = this.expandOverrides().get(id);
+    if (override !== undefined) return override;
+    return this.defaultExpanded();
+  }
+
+  /** Chevron click: toggle expand state without triggering the row click. */
+  protected onChevronClick(displayRow: DisplayRow, event: Event): void {
+    event.stopPropagation();
+    if (displayRow.id) this.toggleRow(displayRow.id, displayRow.row);
+  }
+
+  private toggleRow(id: string, row: Record<string, unknown>): void {
+    const expanded = !this.isExpanded(id);
+    this.expandOverrides.update((map) => {
+      const next = new Map(map);
+      next.set(id, expanded);
+      return next;
+    });
+    this.rowToggle.emit({ id, expanded, row });
+    this.expandedIdsChange.emit(this.nextExpandedIds(id, expanded));
+  }
+
+  /** The full list of expanded parent ids after applying a single toggle. */
+  private nextExpandedIds(changedId: string, changedExpanded: boolean): string[] {
+    const controlled = this.expandedIds();
+    const overrides = this.expandOverrides();
+    const parentIds = Array.from(this.treeBuild().childrenOf.keys());
+    return parentIds.filter((pid) => {
+      if (pid === changedId) return changedExpanded;
+      if (controlled !== undefined) return controlled.includes(pid);
+      const override = overrides.get(pid);
+      return override !== undefined ? override : this.defaultExpanded();
     });
   }
 
@@ -512,30 +838,28 @@ export class TableComponent {
   // -- Selection --
   protected toggleSelectAll(): void {
     const selected = new Set(this.selectedRows());
-    const data = this.displayData();
+    const rows = this.displayRows();
     const allSelected = this.allSelected();
 
-    data.forEach((_, i) => {
-      const absIdx = this.getAbsoluteIndex(i);
-      if (allSelected) selected.delete(absIdx);
-      else selected.add(absIdx);
+    rows.forEach((r) => {
+      if (allSelected) selected.delete(r.absIndex);
+      else selected.add(r.absIndex);
     });
 
     this.selectedRows.set(selected);
     this.emitSelectionChange();
   }
 
-  protected toggleRowSelect(relativeIndex: number): void {
-    const absIdx = this.getAbsoluteIndex(relativeIndex);
+  protected toggleRowSelect(absIndex: number): void {
     const selected = new Set(this.selectedRows());
-    if (selected.has(absIdx)) selected.delete(absIdx);
-    else selected.add(absIdx);
+    if (selected.has(absIndex)) selected.delete(absIndex);
+    else selected.add(absIndex);
     this.selectedRows.set(selected);
     this.emitSelectionChange();
   }
 
-  protected isRowSelected(relativeIndex: number): boolean {
-    return this.selectedRows().has(this.getAbsoluteIndex(relativeIndex));
+  protected isRowSelected(absIndex: number): boolean {
+    return this.selectedRows().has(absIndex);
   }
 
   private getAbsoluteIndex(relativeIndex: number): number {
@@ -561,28 +885,27 @@ export class TableComponent {
   }
 
   // -- Inline Editing --
-  protected startEdit(rowIndex: number, column: string, currentValue: unknown): void {
+  protected startEdit(absIndex: number, column: string, currentValue: unknown): void {
     if (!this.editable()) return;
     const col = this.columns().find(c => c.key === column);
     if (col && col.editable === false) return;
-    this.editingCell.set({ rowIndex, column });
+    this.editingCell.set({ rowIndex: absIndex, column });
     this.editValue.set(String(currentValue ?? ''));
   }
 
-  protected isEditing(rowIndex: number, column: string): boolean {
+  protected isEditing(absIndex: number, column: string): boolean {
     const cell = this.editingCell();
-    return cell !== null && cell.rowIndex === rowIndex && cell.column === column;
+    return cell !== null && cell.rowIndex === absIndex && cell.column === column;
   }
 
-  protected commitEdit(rowIndex: number, column: string): void {
-    const absIdx = this.getAbsoluteIndex(rowIndex);
-    const row = this.data()[absIdx];
+  protected commitEdit(absIndex: number, column: string): void {
+    const row = this.data()[absIndex];
     if (!row) return;
     const oldValue = row[column];
     const newValue = this.editValue();
     this.editingCell.set(null);
     if (String(oldValue ?? '') !== newValue) {
-      this.cellEdit.emit({ row, column, oldValue, newValue, rowIndex: absIdx });
+      this.cellEdit.emit({ row, column, oldValue, newValue, rowIndex: absIndex });
     }
   }
 
@@ -590,9 +913,9 @@ export class TableComponent {
     this.editingCell.set(null);
   }
 
-  protected onEditKeydown(event: KeyboardEvent, rowIndex: number, column: string): void {
+  protected onEditKeydown(event: KeyboardEvent, absIndex: number, column: string): void {
     if (event.key === 'Enter') {
-      this.commitEdit(rowIndex, column);
+      this.commitEdit(absIndex, column);
     } else if (event.key === 'Escape') {
       this.cancelEdit();
     }

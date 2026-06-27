@@ -242,6 +242,79 @@
   }
 }
 
+// Tree / grouped rows
+.lc-table__tree-cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+// One indent slot per ancestor depth; carries the vertical guide line.
+.lc-table__tree-indent {
+  flex: 0 0 auto;
+  align-self: stretch;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--color-border);
+  }
+}
+
+// Fixed-width disclosure slot. Reserved even when a row has no children so the
+// tree-column content stays aligned across rows.
+.lc-table__tree-chevron {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lc-table__chevron-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--border-radius-sm);
+  transition: transform 0.2s ease, background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: var(--color-surface-hover);
+    color: var(--color-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 1px;
+  }
+
+  // chevron-right → points down when expanded
+  &--expanded {
+    transform: rotate(90deg);
+  }
+}
+
+.lc-table__tree-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+// Subtle emphasis for parent / group rows.
+.lc-table__row--group .lc-table__tree-content {
+  font-weight: var(--typography-font-weight-semibold);
+}
+
 // Inline editing
 .lc-table__edit-input {
   width: 100%;

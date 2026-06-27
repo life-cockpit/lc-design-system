@@ -1,5 +1,5 @@
 <div [class]="wrapperClasses()">
-  <table [class]="tableClasses()" role="table">
+  <table [class]="tableClasses()" [attr.role]="treeMode() ? 'treegrid' : 'table'">
     <thead>
       <!-- Filter row -->
       @if (filterable()) {
@@ -72,50 +72,72 @@
       </tr>
     </thead>
     <tbody>
-      @if (displayData().length === 0) {
+      @if (displayRows().length === 0) {
         <tr>
           <td [attr.colspan]="columns().length + (selectable() ? 1 : 0) + (hasActions() ? 1 : 0)" class="lc-table__empty">
             {{ emptyText() }}
           </td>
         </tr>
       } @else {
-        @for (row of displayData(); track $index; let i = $index) {
+        @for (dr of displayRows(); track dr.absIndex) {
           <tr
-            [class.lc-table__row--selected]="selectable() && isRowSelected(i)"
-            (click)="onRowClick(row)"
+            [class.lc-table__row--selected]="selectable() && isRowSelected(dr.absIndex)"
+            [class.lc-table__row--group]="dr.hasChildren"
+            [attr.role]="treeMode() ? 'row' : null"
+            [attr.aria-level]="treeMode() ? dr.level : null"
+            [attr.aria-expanded]="treeMode() && dr.hasChildren ? dr.expanded : null"
+            [attr.aria-posinset]="treeMode() ? dr.posInSet : null"
+            [attr.aria-setsize]="treeMode() ? dr.setSize : null"
+            (click)="onRowClick(dr.row)"
           >
             @if (selectable()) {
-              <td class="lc-table__select-cell">
+              <td class="lc-table__select-cell" [attr.role]="treeMode() ? 'gridcell' : null">
                 <input
                   type="checkbox"
                   class="lc-table__checkbox"
-                  [checked]="isRowSelected($index)"
-                  (change)="toggleRowSelect($index)"
+                  [checked]="isRowSelected(dr.absIndex)"
+                  (change)="toggleRowSelect(dr.absIndex)"
                   (click)="$event.stopPropagation()"
-                  [attr.aria-label]="'Select row ' + ($index + 1)"
+                  [attr.aria-label]="'Select row ' + (dr.absIndex + 1)"
                 />
               </td>
             }
             @for (column of columns(); track column.key) {
               <td
-                [class]="getCellClasses(row, column, i)"
-                [ngStyle]="getCellStyles(row, column, i)"
-                (dblclick)="editable() ? startEdit($index, column.key, getCellValue(row, column.key)) : null"
+                [class]="getCellClasses(dr.row, column, dr.absIndex)"
+                [ngStyle]="getCellStyles(dr.row, column, dr.absIndex)"
+                [attr.role]="treeMode() ? 'gridcell' : null"
+                (dblclick)="editable() ? startEdit(dr.absIndex, column.key, getCellValue(dr.row, column.key)) : null"
               >
-                @if (isEditing($index, column.key)) {
-                  <input
-                    type="text"
-                    class="lc-table__edit-input"
-                    [value]="editValue()"
-                    (input)="editValue.set(getInputValue($event))"
-                    (blur)="commitEdit($index, column.key)"
-                    (keydown)="onEditKeydown($event, $index, column.key)"
-                    autofocus
-                  />
-                } @else if (hasCustomTemplate(column.key)) {
-                  <ng-container *ngTemplateOutlet="getCellTemplate(column.key)!.template; context: { $implicit: row }"></ng-container>
+                @if (isTreeColumn(column.key)) {
+                  <span class="lc-table__tree-cell">
+                    @for (lvl of indentLevels(dr.depth); track lvl) {
+                      <span class="lc-table__tree-indent" [style.width.px]="indentSize()"></span>
+                    }
+                    <span class="lc-table__tree-chevron" [style.width.px]="indentSize()">
+                      @if (dr.hasChildren) {
+                        <button
+                          type="button"
+                          class="lc-table__chevron-btn"
+                          [class.lc-table__chevron-btn--expanded]="dr.expanded"
+                          [attr.aria-label]="(dr.expanded ? 'Einklappen: ' : 'Aufklappen: ') + treeCellLabel(dr.row)"
+                          [attr.aria-expanded]="dr.expanded"
+                          (click)="onChevronClick(dr, $event)"
+                        >
+                          <lc-icon name="chevron-right" size="xs" [decorative]="true" />
+                        </button>
+                      }
+                    </span>
+                    <span class="lc-table__tree-content">
+                      <ng-container
+                        *ngTemplateOutlet="cellContent; context: { row: dr.row, column: column, absIndex: dr.absIndex }"
+                      ></ng-container>
+                    </span>
+                  </span>
                 } @else {
-                  {{ getFormattedCellValue(row, column, i) }}
+                  <ng-container
+                    *ngTemplateOutlet="cellContent; context: { row: dr.row, column: column, absIndex: dr.absIndex }"
+                  ></ng-container>
                 }
               </td>
             }
@@ -123,18 +145,19 @@
               <td
                 class="lc-table__actions-cell"
                 [class]="'lc-table__actions-cell--' + actionsAlign()"
+                [attr.role]="treeMode() ? 'gridcell' : null"
                 (click)="$event.stopPropagation()"
               >
                 <div class="lc-table__actions">
                   @for (action of actions(); track action.key) {
-                    @if (!isActionHidden(action, row, i)) {
+                    @if (!isActionHidden(action, dr.row, dr.absIndex)) {
                       <lc-button
                         [variant]="action.variant ?? 'ghost'"
                         size="xs"
                         [iconOnly]="!action.label"
-                        [disabled]="isActionDisabled(action, row, i)"
+                        [disabled]="isActionDisabled(action, dr.row, dr.absIndex)"
                         [ariaLabel]="action.tooltip ?? action.label ?? action.key"
-                        (clicked)="onActionClick(action, row, i)"
+                        (clicked)="onActionClick(action, dr.row, dr.absIndex)"
                       >
                         @if (action.icon) {
                           <lc-icon [name]="action.icon" size="sm" [decorative]="true" />
@@ -154,6 +177,25 @@
     </tbody>
   </table>
 </div>
+
+<!-- Shared cell content (edit input / custom template / formatted value) -->
+<ng-template #cellContent let-row="row" let-column="column" let-absIndex="absIndex">
+  @if (isEditing(absIndex, column.key)) {
+    <input
+      type="text"
+      class="lc-table__edit-input"
+      [value]="editValue()"
+      (input)="editValue.set(getInputValue($event))"
+      (blur)="commitEdit(absIndex, column.key)"
+      (keydown)="onEditKeydown($event, absIndex, column.key)"
+      autofocus
+    />
+  } @else if (hasCustomTemplate(column.key)) {
+    <ng-container *ngTemplateOutlet="getCellTemplate(column.key)!.template; context: { $implicit: row }"></ng-container>
+  } @else {
+    {{ getFormattedCellValue(row, column, absIndex) }}
+  }
+</ng-template>
 
 <!-- Pagination -->
 @if (paginate()) {
