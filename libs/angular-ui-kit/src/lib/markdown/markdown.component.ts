@@ -6,7 +6,9 @@ import {
   computed,
   signal,
   effect,
+  untracked,
   inject,
+  ElementRef,
   OnDestroy,
   SecurityContext,
   ViewEncapsulation,
@@ -31,6 +33,11 @@ export interface MarkdownRendered {
   headings: MarkdownHeading[];
 }
 
+export interface MarkdownChangesHighlighted {
+  /** Number of changed/added blocks highlighted in the current render. */
+  changedBlocks: number;
+}
+
 export interface RenderPart {
   type: 'html' | 'code' | 'mermaid';
   index: number;
@@ -45,10 +52,18 @@ export interface RenderPart {
  * Renders GitHub-Flavored Markdown (GFM) to sanitized HTML with
  * optional syntax highlighting via `<lc-code-block>`.
  *
+ * Optionally highlights *changed* blocks in place: pass the pre-edit markdown as
+ * `previousContent` and set `highlightChanges` — added/edited blocks (diffed at
+ * block / list-item level) gain a left accent bar + subtle tint, can auto-fade
+ * (`changeHighlightFadeMs`) and scroll into view (`scrollToFirstChange`).
+ *
  * @example
  * ```html
  * <lc-markdown [content]="'# Hello World'" />
  * <lc-markdown [src]="'/docs/readme.md'" />
+ * <lc-markdown
+ *   [content]="current" [previousContent]="prev"
+ *   [highlightChanges]="true" [changeHighlightFadeMs]="3000" />
  * ```
  */
 @Component({
@@ -63,7 +78,10 @@ export interface RenderPart {
 export class MarkdownComponent implements OnDestroy {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly http = inject(HttpClient);
+  private readonly host = inject(ElementRef<HTMLElement>);
   private httpSub?: Subscription;
+  private fadeTimer?: ReturnType<typeof setTimeout>;
+  private scrollTimer?: ReturnType<typeof setTimeout>;
   private mermaidApiPromise?: Promise<any>;
   private mermaidInitialized = false;
   private mermaidRenderRun = 0;
@@ -92,11 +110,30 @@ export class MarkdownComponent implements OnDestroy {
   /** Base URL for resolving relative links/images */
   readonly baseUrl = input<string>();
 
+  // -- Change highlighting --
+  /** Enable change highlighting (requires `previousContent` to compute a diff). */
+  readonly highlightChanges = input<boolean>(false);
+
+  /**
+   * The prior Markdown. When it differs from `content`, the changed/added blocks
+   * in `content` are highlighted. The caller passes the pre-edit markdown.
+   */
+  readonly previousContent = input<string>();
+
+  /** Auto-fade the highlight after N ms. 0 / undefined ⇒ persist until content changes. */
+  readonly changeHighlightFadeMs = input<number>();
+
+  /** Scroll the first changed block into view when highlights appear. */
+  readonly scrollToFirstChange = input<boolean>(false);
+
   /** Emitted when a link is clicked */
   readonly linkClick = output<MarkdownLinkClick>();
 
   /** Emitted after rendering with heading TOC */
   readonly rendered = output<MarkdownRendered>();
+
+  /** Emitted after a render that produced change highlights. */
+  readonly changesHighlighted = output<MarkdownChangesHighlighted>();
 
   /** Internal resolved markdown source */
   protected resolvedMarkdown = signal<string>('');
@@ -114,9 +151,42 @@ export class MarkdownComponent implements OnDestroy {
     return this.parseMarkdown(md);
   });
 
+  /**
+   * Rendered HTML after applying change highlights. When highlighting is off (or
+   * there is no differing `previousContent`) this returns the parsed HTML
+   * unchanged, so the non-highlight path is byte-for-byte identical to before.
+   */
+  private readonly highlightResult = computed<{ html: string; count: number }>(() => {
+    const { html } = this.parsed();
+    const prev = this.previousContent();
+    if (
+      !html ||
+      !this.highlightChanges() ||
+      prev == null ||
+      prev === this.resolvedMarkdown()
+    ) {
+      return { html, count: 0 };
+    }
+    return this.applyChangeHighlights(html, prev);
+  });
+
+  /** Number of changed/added blocks highlighted in the current render. */
+  protected readonly changedCount = computed(() => this.highlightResult().count);
+
+  /** Visually-hidden polite summary announced when highlights appear. */
+  protected readonly changeSummary = computed(() => {
+    const n = this.changedCount();
+    if (n <= 0) return '';
+    return `${n} ${n === 1 ? 'Abschnitt' : 'Abschnitte'} geändert`;
+  });
+
+  /** Whether the current highlights have faded out (after `changeHighlightFadeMs`). */
+  protected readonly highlightsFaded = signal(false);
+
   /** Computed render parts (HTML chunks + code blocks interleaved) */
   protected renderParts = computed<RenderPart[]>(() => {
-    const { html, blocks } = this.parsed();
+    const html = this.highlightResult().html;
+    const { blocks } = this.parsed();
     if (!html) return [];
 
     if (this.syntaxHighlight() && blocks.length > 0) {
@@ -135,7 +205,9 @@ export class MarkdownComponent implements OnDestroy {
   });
 
   protected containerClasses = computed(() => {
-    return `lc-markdown lc-markdown--${this.variant()}`;
+    let classes = `lc-markdown lc-markdown--${this.variant()}`;
+    if (this.highlightsFaded()) classes += ' lc-markdown--faded';
+    return classes;
   });
 
   protected mermaidSvgs = signal<Record<number, SafeHtml>>({});
@@ -172,10 +244,19 @@ export class MarkdownComponent implements OnDestroy {
     effect(() => {
       void this.renderMermaidParts(this.renderParts());
     });
+
+    // React to a render that produced change highlights: emit, schedule fade,
+    // and optionally scroll the first changed block into view.
+    effect(() => {
+      const count = this.highlightResult().count;
+      untracked(() => this.onHighlightResult(count));
+    });
   }
 
   ngOnDestroy(): void {
     this.httpSub?.unsubscribe();
+    clearTimeout(this.fadeTimer);
+    clearTimeout(this.scrollTimer);
   }
 
   protected onLinkClick(event: MouseEvent): void {
@@ -184,6 +265,112 @@ export class MarkdownComponent implements OnDestroy {
     if (anchor) {
       this.linkClick.emit({ href: anchor.href, event });
     }
+  }
+
+  // -- Change highlighting -----------------------------------------------------
+
+  /** Side-effects for a render: emit, (re)arm the fade timer, optional scroll. */
+  private onHighlightResult(count: number): void {
+    clearTimeout(this.fadeTimer);
+    clearTimeout(this.scrollTimer);
+    // A fresh render starts un-faded (re-entrant: never reuse stale fade state).
+    this.highlightsFaded.set(false);
+    if (count <= 0) return;
+
+    this.changesHighlighted.emit({ changedBlocks: count });
+
+    const fadeMs = this.changeHighlightFadeMs();
+    if (fadeMs && fadeMs > 0) {
+      this.fadeTimer = setTimeout(() => this.highlightsFaded.set(true), fadeMs);
+    }
+    if (this.scrollToFirstChange()) {
+      // Defer until the highlighted HTML has been written to the DOM.
+      this.scrollTimer = setTimeout(() => this.scrollToFirstChanged(), 0);
+    }
+  }
+
+  private scrollToFirstChanged(): void {
+    if (typeof document === 'undefined') return;
+    const el = this.host.nativeElement.querySelector('.lc-markdown__block--changed');
+    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /**
+   * Wraps the changed/added top-level blocks of `html` with
+   * `.lc-markdown__block--changed`. A block is "changed" when its normalized
+   * text is not present among the blocks of `prevMarkdown`. Lists are diffed
+   * per `<li>` and tables per `<tr>` so a single edited item highlights alone.
+   */
+  private applyChangeHighlights(
+    html: string,
+    prevMarkdown: string
+  ): { html: string; count: number } {
+    if (typeof document === 'undefined') return { html, count: 0 };
+
+    const prevKeys = this.collectBlockKeys(this.parseMarkdown(prevMarkdown).html);
+    const root = this.htmlToElement(html);
+    if (!root) return { html, count: 0 };
+
+    let count = 0;
+    const markIfChanged = (el: Element): void => {
+      const key = this.blockTextKey(el.textContent ?? '');
+      if (!key || prevKeys.has(key)) return;
+      el.classList.add('lc-markdown__block--changed');
+      const sr = document.createElement('span');
+      sr.className = 'lc-markdown__sr-only';
+      sr.textContent = '(geändert) ';
+      el.insertBefore(sr, el.firstChild);
+      count++;
+    };
+
+    this.eachLogicalBlock(root, markIfChanged);
+    return { html: root.innerHTML, count };
+  }
+
+  /** Normalized text set of the logical blocks within an HTML fragment. */
+  private collectBlockKeys(html: string): Set<string> {
+    const keys = new Set<string>();
+    const root = this.htmlToElement(html);
+    if (!root) return keys;
+    this.eachLogicalBlock(root, (el) => {
+      const key = this.blockTextKey(el.textContent ?? '');
+      if (key) keys.add(key);
+    });
+    return keys;
+  }
+
+  /**
+   * Visits each diffable block under `root`: top-level elements, but descending
+   * into `<ul>`/`<ol>` (per `<li>`) and `<table>` (per `<tr>`).
+   */
+  private eachLogicalBlock(root: Element, visit: (el: Element) => void): void {
+    for (const node of Array.from(root.childNodes)) {
+      if (node.nodeType !== 1) continue; // elements only (skips code placeholders)
+      const el = node as Element;
+      const tag = el.tagName;
+      if (tag === 'UL' || tag === 'OL') {
+        for (const li of Array.from(el.children)) {
+          if (li.tagName === 'LI') visit(li);
+        }
+      } else if (tag === 'TABLE') {
+        for (const tr of Array.from(el.querySelectorAll('tr'))) {
+          visit(tr);
+        }
+      } else {
+        visit(el);
+      }
+    }
+  }
+
+  private blockTextKey(text: string): string {
+    return text.replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  private htmlToElement(html: string): HTMLElement | null {
+    if (typeof document === 'undefined') return null;
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div;
   }
 
   private loadFromUrl(url: string): void {

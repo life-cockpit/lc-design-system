@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.5.0] - 2026-06-29
+
+### Added
+
+- **Markdown: change highlighting** (`lc-markdown`) — A live-rendered document can
+  now show *where* it changed, in place. Pass the pre-edit markdown as
+  `previousContent` and set `highlightChanges`; the changed/added blocks in
+  `content` are highlighted with a straight left accent bar + a subtle tint.
+  - **Block-level diff** — `content` and `previousContent` are split into the same
+    rendered blocks (heading, paragraph, blockquote, table row) and diffed by
+    normalized text. Lists are diffed per `<li>`, so a single edited or added item
+    highlights on its own — not the whole list.
+  - **Fade or persist** — `changeHighlightFadeMs` fades the highlight (and its
+    breathing-room padding) cleanly back to a normal block after N ms; unset, the
+    highlight persists until the content changes again.
+  - **`scrollToFirstChange`** brings the first changed block into view.
+  - **Accessible** — each changed block carries a visually-hidden "geändert"
+    label (not colour-only) and a single polite `aria-live` summary announces the
+    changed-block count; `changesHighlighted` emits `{ changedBlocks }`.
+  - **Fully backward compatible** — without the inputs, rendering is byte-for-byte
+    the previous output. See the new *Change Highlighting* Storybook stories.
+
+### Changed
+
+- **Demo stories use generic example content** — the Markdown change-highlighting
+  and Table tree-rows stories now use neutral placeholder data rather than
+  domain-specific examples.
+
 ## [2.4.0] - 2026-06-27
 
 ### Added

@@ -108,4 +108,108 @@ describe('MarkdownComponent', () => {
     const anchor = fixture.nativeElement.querySelector('.lc-markdown__anchor');
     expect(anchor).toBeTruthy();
   });
+
+  describe('Change highlighting', () => {
+    const enableHighlight = (content: string, previousContent: string, extra: Record<string, unknown> = {}) => {
+      fixture.componentRef.setInput('content', content);
+      fixture.componentRef.setInput('previousContent', previousContent);
+      fixture.componentRef.setInput('highlightChanges', true);
+      for (const [k, v] of Object.entries(extra)) fixture.componentRef.setInput(k, v);
+      fixture.detectChanges();
+    };
+    const el = () => fixture.nativeElement as HTMLElement;
+    const changed = () => el().querySelectorAll('.lc-markdown__block--changed');
+
+    it('highlights only the changed/added blocks', () => {
+      enableHighlight('Hallo geändert\n\nUnverändert', 'Hallo Welt\n\nUnverändert');
+      const marks = changed();
+      expect(marks.length).toBe(1);
+      expect(marks[0].tagName).toBe('P');
+      expect(marks[0].textContent).toContain('Hallo geändert');
+    });
+
+    it('highlights a single changed list item, not the whole list', () => {
+      enableHighlight('# Titel\n\n- Apfel\n- Kirsche', '# Titel\n\n- Apfel\n- Birne');
+      const marks = changed();
+      expect(marks.length).toBe(1);
+      expect(marks[0].tagName).toBe('LI');
+      expect(marks[0].textContent).toContain('Kirsche');
+      // The <ul> and the unchanged item are not highlighted.
+      expect(el().querySelector('ul')?.classList.contains('lc-markdown__block--changed')).toBe(false);
+    });
+
+    it('is byte-for-byte unchanged when highlightChanges is false', () => {
+      fixture.componentRef.setInput('content', 'Hallo geändert');
+      fixture.componentRef.setInput('previousContent', 'Hallo Welt');
+      fixture.componentRef.setInput('highlightChanges', false);
+      fixture.detectChanges();
+      expect(changed().length).toBe(0);
+      expect(component.changedCount()).toBe(0);
+    });
+
+    it('produces no highlights when previousContent equals content', () => {
+      enableHighlight('Same text', 'Same text');
+      expect(changed().length).toBe(0);
+      expect(component.changedCount()).toBe(0);
+    });
+
+    it('adds a screen-reader "geändert" affordance to changed blocks', () => {
+      enableHighlight('Neuer Absatz', 'Alter Absatz');
+      const mark = changed()[0];
+      const sr = mark.querySelector('.lc-markdown__sr-only');
+      expect(sr?.textContent).toContain('geändert');
+      // Polite live-region summary is present.
+      const status = el().querySelector('[role="status"][aria-live="polite"]');
+      expect(status?.textContent).toContain('geändert');
+    });
+
+    it('emits changesHighlighted with the changed-block count', () => {
+      const spy = jest.fn();
+      component.changesHighlighted.subscribe(spy);
+      enableHighlight('A neu\n\nB\n\nC neu', 'A\n\nB\n\nC');
+      expect(spy).toHaveBeenCalledWith({ changedBlocks: 2 });
+    });
+
+    it('fades highlights after changeHighlightFadeMs, persists otherwise', () => {
+      jest.useFakeTimers();
+      try {
+        enableHighlight('Neu', 'Alt', { changeHighlightFadeMs: 1000 });
+        expect(el().querySelector('.lc-markdown')?.classList.contains('lc-markdown--faded')).toBe(false);
+        jest.advanceTimersByTime(1000);
+        fixture.detectChanges();
+        expect(el().querySelector('.lc-markdown')?.classList.contains('lc-markdown--faded')).toBe(true);
+        // Block keeps its class; only the visual accent transitions out.
+        expect(changed().length).toBe(1);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('does not fade when changeHighlightFadeMs is unset', () => {
+      jest.useFakeTimers();
+      try {
+        enableHighlight('Neu', 'Alt');
+        jest.advanceTimersByTime(10000);
+        fixture.detectChanges();
+        expect(el().querySelector('.lc-markdown')?.classList.contains('lc-markdown--faded')).toBe(false);
+        expect(changed().length).toBe(1);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it('scrolls the first changed block into view when scrollToFirstChange is set', () => {
+      const scrollSpy = jest.fn();
+      // jsdom does not implement scrollIntoView.
+      Element.prototype.scrollIntoView = scrollSpy;
+      jest.useFakeTimers();
+      try {
+        enableHighlight('Eins neu\n\nZwei neu', 'Eins\n\nZwei', { scrollToFirstChange: true });
+        jest.advanceTimersByTime(0);
+        expect(scrollSpy).toHaveBeenCalled();
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+  });
 });

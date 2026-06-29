@@ -294,3 +294,60 @@
     margin-bottom: 0;
   }
 }
+
+// -- Change highlighting ------------------------------------------------------
+// A changed/added block keeps its normal rendering and gains a straight left
+// accent bar + a background tint. The bar is a separate `::before` element (not
+// a rounded inset shadow), so it stays perfectly vertical instead of bending
+// around the corner radius. Both sit inside the block's existing box, so there
+// is no layout shift and no horizontal overflow. The accent reuses the primary
+// token; the tint is a mix of it, legible in both themes.
+.lc-markdown__block--changed {
+  position: relative;
+  // Breathing room: keep text clear of the accent bar and give the tint some
+  // height so it reads as a calm callout rather than a tight strip.
+  padding: 0.4rem 0.875rem;
+  // Square left corners so the bar reads as a clean vertical line; the right
+  // corners are gently rounded.
+  border-radius: 0 6px 6px 0;
+  // Opaque tint (mixed with the surface, not transparent) so two adjacent
+  // changed blocks merge seamlessly instead of showing a darker overlap seam.
+  background-color: color-mix(in srgb, var(--color-primary) 13%, var(--color-surface));
+  transition: background-color 420ms ease, padding 420ms ease;
+}
+
+.lc-markdown__block--changed::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background-color: var(--color-primary);
+  transition: opacity 420ms ease;
+}
+
+// Faded state: the callout collapses back to a normal block (tint + bar fade
+// out and the breathing-room padding settles away), leaving no visual ghost.
+.lc-markdown--faded .lc-markdown__block--changed {
+  padding: 0;
+  background-color: transparent;
+}
+
+.lc-markdown--faded .lc-markdown__block--changed::before {
+  opacity: 0;
+}
+
+// Visually-hidden helper for the injected "geändert" labels and the polite
+// aria-live summary. Self-contained so it does not depend on global utilities.
+.lc-markdown__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

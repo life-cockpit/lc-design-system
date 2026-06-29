@@ -732,34 +732,33 @@ export const TreeGroupedRows: Story = {
           'Hierarchical rows via `idKey` + `parentKey`. Children are indented beneath their parent ' +
           'and connected by an indent guide; parent rows show an expand/collapse chevron. ' +
           'Sorting sorts siblings within each group (the tree is never flattened), and the chevron ' +
-          'click toggles a group without firing `rowClick`. Models the Factory Pipeline ' +
-          'Epic → Spec hierarchy.',
+          'click toggles a group without firing `rowClick`.',
       },
     },
   },
   render: () => ({
     props: {
       columns: [
-        { key: 'title', label: 'Titel', sortable: true },
+        { key: 'name', label: 'Name', sortable: true },
         { key: 'status', label: 'Status', sortable: true },
-        { key: 'phase', label: 'Phase' },
+        { key: 'value', label: 'Value' },
       ],
-      // parentId points at the Epic's id; roots have an empty parentId.
+      // parentId points at the group row's id; roots have an empty parentId.
       data: [
-        { id: 'epic-1', parentId: '', kind: 'epic', title: 'Sidebar Badges für Factory Pipeline', status: 'Entwurf', phase: 'Spezifikation' },
-        { id: 'spec-1', parentId: 'epic-1', kind: 'feature', title: 'Sidebar Badge UI-Komponente', status: 'Entwurf', phase: 'Spezifikation' },
-        { id: 'spec-2', parentId: 'epic-1', kind: 'feature', title: 'Badge Count API & Realtime-Push', status: 'Entwurf', phase: 'Spezifikation' },
-        { id: 'epic-2', parentId: '', kind: 'epic', title: 'Internationalisierung', status: 'Blockiert', phase: 'Spezifikation' },
-        { id: 'spec-3', parentId: 'epic-2', kind: 'feature', title: 'Übersetzungs-Pipeline', status: 'Blockiert', phase: 'Spezifikation' },
-        { id: 'feat-1', parentId: '', kind: 'feature', title: 'Light Mode für Web-App', status: 'Planung', phase: 'Planung' },
+        { id: 'group-1', parentId: '', kind: 'group', name: 'Group A', status: 'Active', value: '—' },
+        { id: 'item-1', parentId: 'group-1', kind: 'item', name: 'Item A1', status: 'Active', value: '42' },
+        { id: 'item-2', parentId: 'group-1', kind: 'item', name: 'Item A2', status: 'Blocked', value: '17' },
+        { id: 'group-2', parentId: '', kind: 'group', name: 'Group B', status: 'Blocked', value: '—' },
+        { id: 'item-3', parentId: 'group-2', kind: 'item', name: 'Item B1', status: 'Blocked', value: '8' },
+        { id: 'item-4', parentId: '', kind: 'item', name: 'Standalone item', status: 'Pending', value: '3' },
       ],
       statusVariant: (status: unknown) => {
         switch (String(status ?? '')) {
-          case 'Entwurf':
+          case 'Active':
             return 'info';
-          case 'Blockiert':
+          case 'Blocked':
             return 'error';
-          case 'Planung':
+          case 'Pending':
             return 'warning';
           default:
             return 'default';
@@ -772,16 +771,16 @@ export const TreeGroupedRows: Story = {
         [data]="data"
         idKey="id"
         parentKey="parentId"
-        treeColumn="title"
+        treeColumn="name"
         variant="bordered"
         [hoverable]="true"
         size="md"
       >
-        <ng-template lcTableCell="title" let-row>
+        <ng-template lcTableCell="name" let-row>
           <span style="display:inline-flex; align-items:center; gap:8px;">
-            <span>{{ row.title }}</span>
-            <lc-badge [variant]="row.kind === 'epic' ? 'primary' : 'default'" size="sm">
-              {{ row.kind === 'epic' ? 'Epic' : 'Feature' }}
+            <span>{{ row.name }}</span>
+            <lc-badge [variant]="row.kind === 'group' ? 'primary' : 'default'" size="sm">
+              {{ row.kind === 'group' ? 'Group' : 'Item' }}
             </lc-badge>
           </span>
         </ng-template>

@@ -1,4 +1,7 @@
 <div [class]="containerClasses()" (click)="onLinkClick($event)">
+  @if (highlightChanges()) {
+    <div class="lc-markdown__sr-only" role="status" aria-live="polite">{{ changeSummary() }}</div>
+  }
   @for (part of renderParts(); track part.index) {
     @if (part.type === 'html') {
       <div [innerHTML]="part.safeHtml"></div>
