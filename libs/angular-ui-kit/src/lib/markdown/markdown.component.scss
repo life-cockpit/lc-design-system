@@ -105,11 +105,21 @@
     color: var(--color-text-secondary, #6b7280);
   }
 
-  // Tables
+  // Italic — explicit so it stays consistent across themes / resets.
+  em {
+    font-style: italic;
+  }
+
+  // Tables — wrapped so wide tables scroll horizontally instead of breaking layout.
+  &__table-wrap {
+    margin: 1em 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   &__table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1em 0;
     font-size: var(--font-size-sm, 0.875rem);
 
     th, td {
@@ -128,15 +138,53 @@
     }
   }
 
-  // Task list
-  &__task {
-    list-style: none;
-    margin-left: -1.5em;
+  // Column alignment from the table delimiter row.
+  &__cell--left { text-align: left; }
+  &__cell--center { text-align: center; }
+  &__cell--right { text-align: right; }
 
-    input[type='checkbox'] {
-      margin-right: 0.5em;
-      vertical-align: middle;
+  // Task list — the checkbox is a styled span (the sanitizer strips <input>),
+  // with accessible state carried by role/aria on the element.
+  &__task-item {
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5em;
+  }
+
+  &__checkbox {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 1.05em;
+    height: 1.05em;
+    margin-top: 0.18em;
+    border: 1.5px solid var(--color-border-strong, var(--color-border));
+    border-radius: 3px;
+    background-color: var(--color-surface);
+    position: relative;
+  }
+
+  &__checkbox--checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+
+    // Checkmark
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0.32em;
+      top: 0.12em;
+      width: 0.28em;
+      height: 0.55em;
+      border: solid var(--color-on-primary, #fff);
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
     }
+  }
+
+  &__task-label {
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
   // Heading anchor

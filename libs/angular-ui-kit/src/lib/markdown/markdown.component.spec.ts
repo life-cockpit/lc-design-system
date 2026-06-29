@@ -109,6 +109,95 @@ describe('MarkdownComponent', () => {
     expect(anchor).toBeTruthy();
   });
 
+  describe('GFM coverage', () => {
+    const render = (md: string): HTMLElement => {
+      fixture.componentRef.setInput('content', md);
+      fixture.detectChanges();
+      return fixture.nativeElement as HTMLElement;
+    };
+
+    describe('Task lists', () => {
+      it('renders a disabled, accessible checkbox + label, no <input>, no bullet', () => {
+        const el = render('- [ ] open\n- [x] done');
+        const boxes = el.querySelectorAll('.lc-markdown__checkbox');
+        expect(boxes.length).toBe(2);
+        expect(el.querySelectorAll('input').length).toBe(0); // sanitizer strips <input>
+        // accessible state
+        expect(boxes[0].getAttribute('role')).toBe('checkbox');
+        expect(boxes[0].getAttribute('aria-checked')).toBe('false');
+        expect(boxes[0].getAttribute('aria-disabled')).toBe('true');
+        expect(boxes[1].getAttribute('aria-checked')).toBe('true');
+        expect(boxes[1].classList.contains('lc-markdown__checkbox--checked')).toBe(true);
+        // task items carry the marker-suppressing class; labels hold the text
+        const items = el.querySelectorAll('.lc-markdown__task-item');
+        expect(items.length).toBe(2);
+        expect(items[1].querySelector('.lc-markdown__task-label')?.textContent).toContain('done');
+      });
+
+      it('accepts uppercase [X] and keeps plain items as regular bullets', () => {
+        const el = render('- [X] done\n- plain item');
+        expect(el.querySelectorAll('.lc-markdown__checkbox--checked').length).toBe(1);
+        const lis = el.querySelectorAll('li');
+        const plain = Array.from(lis).find((li) => li.textContent?.includes('plain item'));
+        expect(plain?.classList.contains('lc-markdown__task-item')).toBe(false);
+        expect(plain?.querySelector('.lc-markdown__checkbox')).toBeNull();
+      });
+    });
+
+    describe('Tables', () => {
+      it('renders a scroll-wrapped table with scope and column alignment', () => {
+        const el = render('| A | B | C |\n|:--|:-:|--:|\n| 1 | 2 | 3 |');
+        expect(el.querySelector('.lc-markdown__table-wrap')).toBeTruthy();
+        const ths = el.querySelectorAll('th');
+        expect(ths.length).toBe(3);
+        expect(ths[0].getAttribute('scope')).toBe('col');
+        expect(ths[0].classList.contains('lc-markdown__cell--left')).toBe(true);
+        expect(ths[1].classList.contains('lc-markdown__cell--center')).toBe(true);
+        expect(ths[2].classList.contains('lc-markdown__cell--right')).toBe(true);
+        const tds = el.querySelectorAll('tbody td');
+        expect(tds[1].classList.contains('lc-markdown__cell--center')).toBe(true);
+        expect(tds[2].classList.contains('lc-markdown__cell--right')).toBe(true);
+      });
+
+      it('leaves an unaligned table without alignment classes', () => {
+        const el = render('| A | B |\n|---|---|\n| 1 | 2 |');
+        const ths = el.querySelectorAll('th');
+        expect(ths.length).toBe(2);
+        expect(ths[0].className).toBe('');
+      });
+    });
+
+    describe('Autolinks', () => {
+      it('linkifies bare URLs, www, and emails', () => {
+        const el = render('Visit https://example.com or www.test.org or mail a@b.com');
+        const links = el.querySelectorAll('a');
+        expect(links.length).toBe(3);
+        expect(links[0].getAttribute('href')).toBe('https://example.com');
+        expect(links[1].getAttribute('href')).toBe('https://www.test.org');
+        expect(links[2].getAttribute('href')).toBe('mailto:a@b.com');
+      });
+
+      it('respects linkTarget on autolinks', () => {
+        fixture.componentRef.setInput('linkTarget', '_blank');
+        const el = render('See https://example.com');
+        expect(el.querySelector('a')?.getAttribute('target')).toBe('_blank');
+      });
+
+      it('does not linkify inside inline code', () => {
+        const el = render('Use `https://example.com` here');
+        expect(el.querySelectorAll('a').length).toBe(0);
+        expect(el.querySelector('code')?.textContent).toContain('https://example.com');
+      });
+
+      it('does not double-linkify an explicit link', () => {
+        const el = render('[site](https://example.com)');
+        const links = el.querySelectorAll('a');
+        expect(links.length).toBe(1);
+        expect(links[0].textContent).toBe('site');
+      });
+    });
+  });
+
   describe('Change highlighting', () => {
     const enableHighlight = (content: string, previousContent: string, extra: Record<string, unknown> = {}) => {
       fixture.componentRef.setInput('content', content);

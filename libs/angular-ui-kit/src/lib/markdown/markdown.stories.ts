@@ -8,9 +8,28 @@ const meta: Meta<MarkdownComponent> = {
     docs: {
       description: {
         component: `
-The Markdown component renders GitHub-Flavored Markdown (GFM) to sanitized HTML.
-Supports headings, bold, italic, links, images, tables, task lists, strikethrough,
-blockquotes, and fenced code blocks with syntax highlighting via \`<lc-code-block>\`.
+Renders GitHub-Flavored Markdown (GFM) to sanitized HTML with a built-in
+renderer (no \`marked\` / \`markdown-it\` dependency).
+
+**Block elements:** headings \`h1\`–\`h6\` (with optional anchor links via
+\`showHeadingAnchors\`), paragraphs, ordered & unordered lists, **task lists**
+(\`- [ ]\` / \`- [x]\` render an accessible checkbox; plain items keep their
+bullet), blockquotes, horizontal rules, images, **GFM tables** (column
+alignment via \`:--\` / \`:-:\` / \`--:\`, horizontally scrollable when wide), and
+fenced code blocks rendered through \`<lc-code-block>\` (\`syntaxHighlight\`),
+including \`mermaid\` diagrams.
+
+**Inline:** bold, italic, \`~~strikethrough~~\`, inline \`code\`, explicit
+\`[text](url)\` links, and **autolinks** — bare \`http(s)://\`, \`www.\`, and email
+addresses become links (never inside code spans/fences).
+
+**Change highlighting:** pass the pre-edit markdown as \`previousContent\` and set
+\`highlightChanges\` to highlight added/edited blocks in place (block / list-item
+level), with optional \`changeHighlightFadeMs\` fade and \`scrollToFirstChange\`.
+
+**Sources:** raw markdown via \`content\`, or a URL via \`src\`. Output is
+sanitized by default (\`sanitize\`); links honor \`linkTarget\` / \`baseUrl\` and emit
+\`linkClick\`.
         `,
       },
     },
@@ -190,6 +209,40 @@ export const ChangeHighlightingInteractive: Story = {
       </div>
     `,
   }),
+};
+
+export const GfmFeatures: Story = {
+  args: {
+    content: `## Task list
+
+- [x] Completed item
+- [ ] Open item
+- [ ] Another open item
+- Plain bullet (keeps its disc)
+
+## Aligned table
+
+| Left | Center | Right |
+|:-----|:------:|------:|
+| a    | b      | 1     |
+| cc   | dd     | 200   |
+
+## Autolinks
+
+Visit https://example.com or www.example.org, or email someone@example.com —
+bare URLs become links automatically.
+`,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'GFM coverage: task lists render a checkbox + label (no bullet; plain items keep ' +
+          'their disc), pipe tables honor column alignment and scroll horizontally when wide, ' +
+          'and bare URLs / emails are linkified.',
+      },
+    },
+  },
 };
 
 export const MermaidSupport: Story = {

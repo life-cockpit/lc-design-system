@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.6.0] - 2026-06-29
+
+### Fixed
+
+- **Markdown: task-list checkboxes now render** (`lc-markdown`) — task items
+  (`- [ ]` / `- [x]`) previously rendered with no marker at all, because Angular's
+  HTML sanitizer strips `<input>`. The checkbox is now an accessible styled
+  element (`role="checkbox"` with `aria-checked` / `aria-disabled`) that survives
+  sanitization. `[x]` / `[X]` are both accepted, and plain `-` items keep their
+  disc bullet (mixed lists work).
+
+### Added
+
+- **Markdown: GFM table alignment + scroll** (`lc-markdown`) — pipe tables honor
+  per-column alignment from the delimiter row (`:--` left, `:-:` center, `--:`
+  right), expose `scope="col"` on header cells, and scroll horizontally when wide
+  instead of breaking layout.
+- **Markdown: autolinks** (`lc-markdown`) — bare `http(s)://`, `www.`, and email
+  addresses in prose become links (honoring `linkTarget` / `sanitize`), but never
+  inside code spans or fenced code.
+- Explicit `em` italic styling for consistency across themes.
+
+### Docs
+
+- Expanded the `lc-markdown` Storybook description and README entry to cover the
+  full GFM feature set and change highlighting; added a *GFM Features* story.
+
 ## [2.5.0] - 2026-06-29
 
 ### Added

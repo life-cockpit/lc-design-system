@@ -64,7 +64,7 @@ export class MyComponent {}
 | Chat | `lc-chat` | Conversational UI with streaming, custom message templates |
 | Icon | `lc-icon` | SVG icon display |
 | Logo | `lc-logo` | Life Cockpit logo |
-| Markdown | `lc-markdown` | GFM markdown renderer with code block highlighting |
+| Markdown | `lc-markdown` | GFM renderer (tables with alignment, task lists, autolinks, code/mermaid) with in-place change highlighting |
 | Menu | `lc-menu` | Dropdown menu |
 | Typography | `lc-typography` | Text with preset styles |
 

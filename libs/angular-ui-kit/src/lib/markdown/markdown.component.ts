@@ -52,6 +52,12 @@ export interface RenderPart {
  * Renders GitHub-Flavored Markdown (GFM) to sanitized HTML with
  * optional syntax highlighting via `<lc-code-block>`.
  *
+ * Supports headings (+ anchors), paragraphs, ordered/unordered lists, task lists
+ * (`- [ ]` / `- [x]` → accessible checkbox), blockquotes, horizontal rules,
+ * images, GFM tables (column alignment + horizontal scroll), bold/italic/
+ * strikethrough, inline code, fenced code (incl. `mermaid`), explicit links and
+ * autolinks (bare URLs / `www.` / emails, never inside code).
+ *
  * Optionally highlights *changed* blocks in place: pass the pre-edit markdown as
  * `previousContent` and set `highlightChanges` — added/edited blocks (diffed at
  * block / list-item level) gain a left accent bar + subtle tint, can auto-fade
@@ -352,7 +358,8 @@ export class MarkdownComponent implements OnDestroy {
         for (const li of Array.from(el.children)) {
           if (li.tagName === 'LI') visit(li);
         }
-      } else if (tag === 'TABLE') {
+      } else if (tag === 'TABLE' || el.querySelector('table')) {
+        // Tables (incl. the scroll wrapper div) diff per row.
         for (const tr of Array.from(el.querySelectorAll('tr'))) {
           visit(tr);
         }
@@ -504,29 +511,26 @@ export class MarkdownComponent implements OnDestroy {
     // 6. Tables (GFM)
     processed = this.parseTables(processed);
 
-    // 7. Task lists
+    // 7. Task lists. Angular's HTML sanitizer strips <input>, so the checkbox is
+    // rendered as a styled <span role="checkbox"> (which survives sanitization and
+    // carries accessible checked/disabled state) rather than a form control.
     processed = processed.replace(
-      /^[-*]\s+\[x\]\s+(.*)$/gm,
-      '<li class="lc-markdown__task"><input type="checkbox" checked disabled> $1</li>'
+      /^[-*]\s+\[[xX]\]\s+(.*)$/gm,
+      '<li class="lc-markdown__task-item">' +
+        '<span class="lc-markdown__checkbox lc-markdown__checkbox--checked" role="checkbox" aria-checked="true" aria-disabled="true"></span>' +
+        '<span class="lc-markdown__task-label">$1</span></li>'
     );
     processed = processed.replace(
       /^[-*]\s+\[ \]\s+(.*)$/gm,
-      '<li class="lc-markdown__task"><input type="checkbox" disabled> $1</li>'
+      '<li class="lc-markdown__task-item">' +
+        '<span class="lc-markdown__checkbox" role="checkbox" aria-checked="false" aria-disabled="true"></span>' +
+        '<span class="lc-markdown__task-label">$1</span></li>'
     );
 
     // 8. Unordered lists
     processed = processed.replace(
       /^[-*]\s+(.*)$/gm,
       '<li>$1</li>'
-    );
-    processed = processed.replace(
-      /(<li>[\s\S]*?<\/li>)/g,
-      (match) => {
-        if (!match.includes('lc-markdown__task')) {
-          return match;
-        }
-        return match;
-      }
     );
     // Wrap consecutive <li> in <ul>
     processed = processed.replace(
@@ -577,6 +581,11 @@ export class MarkdownComponent implements OnDestroy {
       }
     );
 
+    // 14b. Autolinks — linkify bare URLs / www / emails in plain text. Runs after
+    // explicit links and inline code so it can skip anything already inside an
+    // <a> or <code> (and never touches tag attributes).
+    processed = this.autolink(processed, linkTarget);
+
     // 15. Paragraphs — wrap standalone lines
     processed = processed
       .split('\n\n')
@@ -590,6 +599,7 @@ export class MarkdownComponent implements OnDestroy {
           trimmed.startsWith('<blockquote') ||
           trimmed.startsWith('<hr') ||
           trimmed.startsWith('<table') ||
+          trimmed.startsWith('<div') ||
           trimmed.startsWith('<!--CODE_BLOCK')
         ) {
           return trimmed;
@@ -618,29 +628,53 @@ export class MarkdownComponent implements OnDestroy {
   private parseTables(text: string): string {
     return text.replace(
       /^(\|.+\|)\n(\|[-| :]+\|)\n((?:\|.+\|\n?)*)/gm,
-      (_match, header: string, _separator: string, body: string) => {
-        const headers = header
-          .split('|')
-          .filter((c: string) => c.trim())
-          .map((c: string) => `<th>${c.trim()}</th>`)
+      (_match, header: string, separator: string, body: string) => {
+        // Per-column alignment from the delimiter row: :--- left, :--: center,
+        // ---: right. Surfaced as classes (the sanitizer strips inline `style`).
+        const aligns = this.splitTableRow(separator).map((cell) => {
+          const left = cell.startsWith(':');
+          const right = cell.endsWith(':');
+          if (left && right) return 'center';
+          if (right) return 'right';
+          if (left) return 'left';
+          return '';
+        });
+        const alignClass = (col: number): string =>
+          aligns[col] ? ` class="lc-markdown__cell--${aligns[col]}"` : '';
+
+        const headers = this.splitTableRow(header)
+          .map((cell, i) => `<th scope="col"${alignClass(i)}>${cell.trim()}</th>`)
           .join('');
 
         const rows = body
           .trim()
           .split('\n')
           .map((row: string) => {
-            const cells = row
-              .split('|')
-              .filter((c: string) => c.trim())
-              .map((c: string) => `<td>${c.trim()}</td>`)
+            const cells = this.splitTableRow(row)
+              .map((cell, i) => `<td${alignClass(i)}>${cell.trim()}</td>`)
               .join('');
             return `<tr>${cells}</tr>`;
           })
           .join('');
 
-        return `<table class="lc-markdown__table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+        // Wrapped so wide tables scroll horizontally instead of breaking layout.
+        return (
+          `<div class="lc-markdown__table-wrap">` +
+          `<table class="lc-markdown__table"><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>` +
+          `</div>`
+        );
       }
     );
+  }
+
+  /** Splits a pipe-table row into trimmed cells, dropping the leading/trailing edges. */
+  private splitTableRow(row: string): string[] {
+    return row
+      .trim()
+      .replace(/^\|/, '')
+      .replace(/\|$/, '')
+      .split('|')
+      .map((cell) => cell.trim());
   }
 
   private escapeHtml(text: string): string {
@@ -648,6 +682,40 @@ export class MarkdownComponent implements OnDestroy {
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  /**
+   * Linkifies bare URLs (`http(s)://…`, `www.…`) and email addresses in text,
+   * leaving anything inside an existing `<a>` or `<code>` (and all tag
+   * attributes) untouched. The HTML is tokenized into tags vs. text so only
+   * top-level text runs are linkified.
+   */
+  private autolink(html: string, linkTarget: string): string {
+    const url = /(?:https?:\/\/|www\.)[^\s<]*[^\s<.,:;!?)\]}'"]/;
+    const email = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
+    const pattern = new RegExp(`${url.source}|${email.source}`, 'g');
+
+    let depth = 0; // inside <a> or <code>
+    return html
+      .split(/(<[^>]+>)/g)
+      .map((segment) => {
+        if (segment.startsWith('<')) {
+          if (/^<(a|code)[\s>]/i.test(segment)) depth++;
+          else if (/^<\/(a|code)>/i.test(segment)) depth = Math.max(0, depth - 1);
+          return segment;
+        }
+        if (depth > 0 || !segment) return segment;
+        return segment.replace(pattern, (token) => {
+          const isEmail = token.includes('@') && !/^(?:https?:\/\/|www\.)/.test(token);
+          const href = isEmail
+            ? `mailto:${token}`
+            : token.startsWith('www.')
+              ? `https://${token}`
+              : token;
+          return `<a href="${href}" target="${linkTarget}" rel="noopener">${token}</a>`;
+        });
+      })
+      .join('');
   }
 
   protected mermaidSvgFor(index: number): SafeHtml | null {
